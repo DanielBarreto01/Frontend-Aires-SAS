@@ -1,13 +1,15 @@
 import { Route, BrowserRouter as Router, Routes,Navigate } from 'react-router-dom';
 import Login from '../components/login/login'; 
-//import 'bootstrap/dist/css/bootstrap.min.css';
+import AdminDashboard from '../components/home/AdminDashboard';
+
 
 function AppRouter() {
     return (
         <Router>
             <Routes>
                 <Route path="/login" element={<Login />} />
-                <Route path="*" element={<Navigate to="/login" />} />
+                <Route path="/admin" element={<AdminDashboard />} />
+                <Route path="*" element={<Navigate to="/admin" />} />
             </Routes>
         </Router>
     );
