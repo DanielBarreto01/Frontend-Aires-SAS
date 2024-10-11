@@ -1,3 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600&display=swap');
+body{
+  font-family: 'Poppins', sans-serif;
+  background: #fcf4fb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100vh;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+.login-container{
+  background-color: #fff;
+  position: relative;
+  overflow: hidden;
+  width: 60vw;  
+  height: 105%;
+  min-height: 105%;
+  max-width: 100%;
+}
+
+.login-logo{
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  background-color: black;
+  display: flex;
+  height: 100%;
+  
+  border-radius: 0 30px 30px 0;
+  overflow: hidden;
+}
+
+.login-logo img {
+  max-width: 120%;
+  height: auto;
+}
+
+
+.login-form {
+  background-color: #fff;
+  padding: 20px;  
+  margin-left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: right;
+  margin-left: 0%;
+}
+
+.login-form h2 {
+  margin-bottom: 40px;
+  font-size: 2em;
+  font-weight: 900; 
+  text-shadow: 10px 10px 10px rgba(0, 0, 0, 0.3);
+  color: #000000; 
+  
+}
+
+.form-group input{
+  margin-bottom: 19px;
+  border-radius: 8px;
+  border: 1px solid #aa8b8b;
+  width: 100%;
+  height: 26px;
+  font-size: 0.66em; 
+}
+
+.button-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center; 
+}
+
+.login-btn {
+  background-color: #aa8b8b;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  height: 120%;
+  width: 70%;
+  align-items: center;
+  font-size: 0.8em; 
+}
+
+.forgot-password {
+  margin-top: 50px;
+  display: block;
+  margin-top: 10px;
+  text-align: center;
+  color: #007bff;
+}
+.cont-1{
+  height: 20%;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+}
+/*
 body {
     margin: 0;
     font-family: Arial, sans-serif;
@@ -85,4 +186,4 @@ body {
   .forgot-password:hover {
     color: #333;
   }
-  
+  */
