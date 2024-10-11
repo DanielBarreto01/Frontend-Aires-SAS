@@ -31,23 +31,26 @@
 .profile-header {
     border-bottom: 1px solid #404040;
     padding: 20px 0; /* Ajustar el padding para evitar superposición */
-    text-align: center; /* Centrar el contenido */
+    display: flex; /* Asegura que los elementos hijos se alineen horizontalmente */
+    align-items: center; /* Centra los elementos verticalmente */
 }
 
 /* Imagen con contorno circular */
 .profile-img {
-    width: 80px;
-    height: 80px;
+    width: 40px; /* Reducir el ancho de la imagen */
+    height: 40px; /* Reducir la altura de la imagen */
     border-radius: 50%; /* Hace la imagen circular */
     object-fit: cover; /* Asegura que la imagen se ajuste al contorno */
-    border: 2px solid #fff; /* Contorno blanco alrededor de la imagen */
+    border: 1px solid #fff; /* Reducir el contorno blanco alrededor de la imagen */
+    margin-right: 15px; /* Añadir margen a la derecha de la imagen */
+    background-color: #ffffff;
 }
 
 /* Título y subtítulo */
 .profile-title {
     color: #ffffff;
     font-weight: bold;
-    margin: 10px 0 0 0; /* Espaciado entre imagen y título */
+    margin: 0; /* Sin márgenes adicionales */
 }
 
 .profile-subtitle {
@@ -55,3 +58,4 @@
     font-size: 0.9rem; /* Tamaño más pequeño para el subtítulo */
     margin: 0; /* Sin márgenes adicionales */
 }
+

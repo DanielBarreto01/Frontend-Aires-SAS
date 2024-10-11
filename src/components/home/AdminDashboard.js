@@ -2,6 +2,7 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUsers, faCalendarDays, faHome } from '@fortawesome/free-solid-svg-icons';
 import { Nav } from 'react-bootstrap';
+import logo from "../../assets/logo.png"
 import './AdminDashboard.css';
 
 function AdminDashboard() {
@@ -9,12 +10,14 @@ function AdminDashboard() {
         <div className="container-fluid" style={{ height: '100vh' }}>
             <div className="row h-100">
                 <div className="col-auto col-lg-3 border-end p-0 menu" style={{ height: '100vh', width: '250px' }}>
-                    <div className="d-flex flex-column h-100 gap-2">
-                        <div className="profile-header">
-                            <img src="https://via.placeholder.com/80" alt="Profile" className="profile-img" />
-                            <h5 className="mt-2 profile-title">P&A Aires Acondicionado</h5>
+                <div className="profile-header d-flex align-items-center">
+                        <img src={logo} alt="Profile" className="profile-img" />
+                        <div className="title-profile">
+                            <h5 className="profile-title">P&A Aires Acondicionados</h5>
                             <p className="profile-subtitle">Control de mantenimietos</p>
                         </div>
+                    </div>
+                    <div className="d-flex flex-column h-100 gap-2">
                         <div className="flex-grow-1 py-2">
                             <Nav className="flex-column">
                                 <Nav.Link className="nav-item" href="#">
@@ -42,6 +45,13 @@ function AdminDashboard() {
                                     Control Mantenimientos
                                 </Nav.Link>
                             </Nav>
+                        </div>
+                    </div>
+                    <div className="profile-header d-flex align-items-center">
+                        <img src={logo} alt="Profile" className="profile-img" />
+                        <div className="title-profile">
+                            <h5 className="profile-title">"nombre init"</h5>
+                            <p className="profile-subtitle">"correo o us"</p>
                         </div>
                     </div>
                 </div>
