@@ -1,0 +1,57 @@
+/* Ensure the menu takes the full height and has a dark background */
+.menu {
+    background-color: #171717;
+    padding: 20px;
+}
+
+/* Apply styles to the navigation items */
+.nav-item {
+    display: block; /* Ensure the nav items behave as block-level elements */
+    margin-bottom: 15px; /* Space between each item */
+    color: #ffffff !important; /* Make the text white for better contrast */
+    padding: 10px 15px; /* Add padding around the links */
+    text-decoration: none; /* Remove underline from links */
+    border-radius: 5px; /* Optionally, add some rounding for better style */
+    background-color: #1e1e1e; /* Background color for items */
+    font-weight: bold; /* Make text bold */
+}
+
+/* Hover effect to make the nav items interactive */
+.nav-item:hover {
+    background-color: #606060; /* Darken background on hover */
+    cursor: pointer;
+}
+
+/* Style the FontAwesome icons to have consistent margins */
+.nav-item .faUsers, .nav-item .faCalendarDays {
+    margin-right: 0px;
+}
+
+/* Estilo para el área del perfil */
+.profile-header {
+    border-bottom: 1px solid #404040;
+    padding: 20px 0; /* Ajustar el padding para evitar superposición */
+    text-align: center; /* Centrar el contenido */
+}
+
+/* Imagen con contorno circular */
+.profile-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%; /* Hace la imagen circular */
+    object-fit: cover; /* Asegura que la imagen se ajuste al contorno */
+    border: 2px solid #fff; /* Contorno blanco alrededor de la imagen */
+}
+
+/* Título y subtítulo */
+.profile-title {
+    color: #ffffff;
+    font-weight: bold;
+    margin: 10px 0 0 0; /* Espaciado entre imagen y título */
+}
+
+.profile-subtitle {
+    color: #b0b0b0;
+    font-size: 0.9rem; /* Tamaño más pequeño para el subtítulo */
+    margin: 0; /* Sin márgenes adicionales */
+}
