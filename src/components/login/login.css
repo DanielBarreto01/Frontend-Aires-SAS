@@ -1,21 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600&display=swap');
-body{
-  font-family: 'Poppins', sans-serif;
-  background: #fcf4fb;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  height: 100vh;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-}
 .login-container{
+  display: flex;
   background-color: #fff;
-  position: relative;
+  position: center;
   overflow: hidden;
   width: 60vw;  
-  height: 105%;
-  min-height: 105%;
+  margin-top: 3%;
+  height: 38w;
+  margin-left: 20%;
   max-width: 100%;
 }
 
@@ -27,17 +19,22 @@ body{
   background: #ffffff;
   background-color: black;
   display: flex;
-  height: 100%;
-  
-  border-radius: 0 30px 30px 0;
   overflow: hidden;
+  height: 38vw;
+  border-radius: 0 30px 30px 0;
 }
 
 .login-logo img {
-  max-width: 120%;
+  max-width: 100%;
   height: auto;
+ 
+ 
 }
-
+.responsive-logo {
+  width: 100%;
+  height: 100%;
+ 
+}
 
 .login-form {
   background-color: #fff;
@@ -64,11 +61,14 @@ body{
   border: 0.01px solid #aa8b8b;
   width: 100%;
   height: 35px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 0.66em; 
 }
 
 .button-container {
   margin-top: 20px;
+  height: 8%;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   display: flex;
   justify-content: center; 
 }
@@ -78,7 +78,7 @@ body{
   color: #fff;
   border: none;
   border-radius: 8px;
-  height: 140%;
+  height: 200%;
   width: 70%;
   align-items: center;
   font-size: 0.8em; 
@@ -91,12 +91,45 @@ body{
   text-align: center;
   color: #007bff;
 }
+.resett-password{
+  margin-top: 30px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: #0066FF;
+}
 .cont-1{
   height: 20%;
 }
 
 .forgot-password:hover {
   text-decoration: underline;
+}
+
+@media only screen and (max-width: 767px) {
+  .responsive-logo {
+    width: 70px; /* Ajusta el ancho según sea necesario */
+    height: 20%; /* Mantiene la proporción de la imagen */
+    border-radius: 0px, 20px, 0px, 20px;
+    
+  }
+  .login-logo{
+    height: 20%;
+    border-radius: 0%;
+    
+  }
+  
+  .login-container{
+    margin-left: 10%;
+    margin-top: 40%;
+    width: 80%;
+    border-radius: 20px 20px 20px 20px;
+  }
+  .login-form h2 {
+    text-align: center;
+  }
+  * {
+    font-family: 'Poppins', sans-serif;
+  }
+
 }
 /*
 body {
