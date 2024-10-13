@@ -6,9 +6,11 @@ import { jwtDecode } from 'jwt-decode';
 import logo from "../../assets/logo.png";
 import adminLogo from "../../assets/admin.png";
 import './AdminDashboard.css';
+import axios from 'axios';
 
 function AdminDashboard() {
     const [userData, setUserData] = useState({ name: '', lastName: '', email: '' });
+    const [logout, setLogout] = useState(false);
 
     useEffect(() => {
         const token = localStorage.getItem('authToken');
@@ -21,6 +23,28 @@ function AdminDashboard() {
             });
         }
     }, []);
+
+    useEffect(() => {
+        const handleLogout = async () => {
+          try {
+            const response = await axios.get(`${process.env.REACT_APP_BCKEND}/users/logout`, {
+              headers: {
+                'Authorization': `Bearer ${localStorage.getItem('authToken')}` // Si necesitas enviar el token de autenticación
+              }
+            });
+            console.log('Logout successful:', response.data);
+            // Aquí puedes manejar la redirección o limpieza del estado después del logout
+            localStorage.removeItem('authToken'); // Eliminar el token de localStorage
+            window.location.href = '/login'; // Redirigir a la página de login
+          } catch (error) {
+            console.error('Error during logout:', error);
+          }
+        };
+    
+        if (logout) {
+          handleLogout();
+        }
+      }, [logout]);
 
     return (
         <div className="container-fluid" style={{ height: '100vh' }}>
@@ -74,9 +98,9 @@ function AdminDashboard() {
                                 <FontAwesomeIcon icon={faGear} style={{ marginRight: '10px' }} />
                                 Configuracion
                             </Nav.Link>
-                            <Nav.Link className="nav-item" href="#">
+                            <Nav.Link className="nav-item" href="#" onClick={() => setLogout(true)}>
                                 <FontAwesomeIcon icon={faRightFromBracket} style={{ marginRight: '10px' }} />
-                                Cerar Sesión
+                                Cerrar Sesión
                             </Nav.Link>
                         </Nav>
                     </div>
