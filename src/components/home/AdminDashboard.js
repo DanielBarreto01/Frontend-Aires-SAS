@@ -1,16 +1,32 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUsers, faCalendarDays, faHome } from '@fortawesome/free-solid-svg-icons';
+import { faUsers, faCalendarDays, faHome, faGear, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { Nav } from 'react-bootstrap';
-import logo from "../../assets/logo.png"
+import { jwtDecode } from 'jwt-decode';
+import logo from "../../assets/logo.png";
+import adminLogo from "../../assets/admin.png";
 import './AdminDashboard.css';
 
 function AdminDashboard() {
+    const [userData, setUserData] = useState({ name: '', lastName: '', email: '' });
+
+    useEffect(() => {
+        const token = localStorage.getItem('authToken');
+        if (token) {
+            const decodedToken = jwtDecode(token);
+            setUserData({
+                name: decodedToken.name,
+                lastName: decodedToken.lastName,
+                email: decodedToken.email
+            });
+        }
+    }, []);
+
     return (
         <div className="container-fluid" style={{ height: '100vh' }}>
             <div className="row h-100">
-                <div className="col-auto col-lg-3 border-end p-0 menu" style={{ height: '100vh', width: '250px' }}>
-                <div className="profile-header d-flex align-items-center">
+                <div className="col-auto col-lg-3 border-end p-0 menu">
+                    <div className="profile-header d-flex align-items-center">
                         <img src={logo} alt="Profile" className="profile-img" />
                         <div className="title-profile">
                             <h5 className="profile-title">P&A Aires Acondicionados</h5>
@@ -46,13 +62,23 @@ function AdminDashboard() {
                                 </Nav.Link>
                             </Nav>
                         </div>
-                    </div>
-                    <div className="profile-header d-flex align-items-center">
-                        <img src={logo} alt="Profile" className="profile-img" />
-                        <div className="title-profile">
-                            <h5 className="profile-title">"nombre init"</h5>
-                            <p className="profile-subtitle">"correo o us"</p>
+                        <div className="profile-header-user d-flex align-items-center">
+                            <img src={adminLogo} alt="Admin" className="profile-img-user" />
+                            <div className="title-profile">
+                                <h5 className="profile-title-user">{userData.name} {userData.lastName}</h5>
+                                <p className="profile-subtitle-user">{userData.email}</p>
+                            </div>
                         </div>
+                        <Nav className="flex-column">
+                            <Nav.Link className="nav-item" href="#">
+                                <FontAwesomeIcon icon={faGear} style={{ marginRight: '10px' }} />
+                                Configuracion
+                            </Nav.Link>
+                            <Nav.Link className="nav-item" href="#">
+                                <FontAwesomeIcon icon={faRightFromBracket} style={{ marginRight: '10px' }} />
+                                Cerar Sesión
+                            </Nav.Link>
+                        </Nav>
                     </div>
                 </div>
             </div>
