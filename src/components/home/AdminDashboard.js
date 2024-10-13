@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUsers, faCalendarDays, faHome, faGear, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
-import { Nav ,Dropdown} from 'react-bootstrap';
+import { Nav } from 'react-bootstrap';
 import {jwtDecode} from 'jwt-decode';
 import logo from "../../assets/logo.png";
 import adminLogo from "../../assets/admin.png";
@@ -51,12 +51,12 @@ function AdminDashboard() {
     return (
         <div className="container-fluid" style={{ height: '100vh' }}>
             <div className="row h-100">
-                <div className="col-lg-3 border-end bg-gray-100 p-0 menu">
-                    <div className="profile-header d-flex align-items-center border-bottom px-5" style={{ height: '70px' }}>
+                <div className="col-auto col-lg-3 border-end p-0 menu">
+                    <div className="profile-header d-flex align-items-center">
                         <img src={logo} alt="Profile" className="profile-img" />
                         <div className="title-profile">
                             <h5 className="profile-title">P&A Aires Acondicionados</h5>
-                            <p className="profile-subtitle">Control de mantenimientos</p>
+                            <p className="profile-subtitle">Control de mantenimietos</p>
                         </div>
                     </div>
                     <div className="d-flex flex-column h-100 gap-2">
@@ -88,7 +88,7 @@ function AdminDashboard() {
                                 </Nav.Link>
                             </Nav>
                         </div>
-                        <div className="profile-header-user d-flex align-items-center border-bottom px-5" style={{ height: '70px' }}>
+                        <div className="profile-header-user d-flex align-items-center">
                             <img src={adminLogo} alt="Admin" className="profile-img-user" />
                             <div className="title-profile">
                                 <h5 className="profile-title-user">{userData.name} {userData.lastName}</h5>
@@ -98,7 +98,7 @@ function AdminDashboard() {
                         <Nav className="flex-column">
                             <Nav.Link className="nav-item" href="#">
                                 <FontAwesomeIcon icon={faGear} style={{ marginRight: '10px' }} />
-                                Configuración
+                                Configuracion
                             </Nav.Link>
                             <Nav.Link className="nav-item" href="#" onClick={() => setLogout(true)}>
                                 <FontAwesomeIcon icon={faRightFromBracket} style={{ marginRight: '10px' }} />
@@ -108,10 +108,8 @@ function AdminDashboard() {
                     </div>
                 </div>
                 <div className="col-lg-9">
-                
                     {selectedComponent === 'Usuarios' && <ListUsers />}
                     {/* Aquí puedes agregar más condiciones para otros componentes */}
-                    
                 </div>
             </div>
         </div>
