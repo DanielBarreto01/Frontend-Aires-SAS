@@ -2,17 +2,19 @@ import React, { useEffect, useState } from 'react';
 import DataTable from 'react-data-table-component';
 import { Button, Dropdown, DropdownButton } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faList } from '@fortawesome/free-solid-svg-icons'; // Importa el icono 'list'
+import { library } from '@fortawesome/fontawesome-svg-core';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import "../TableStyle.css";
+
+library.add(faList);
 
 function ListUsers() {
     const [searchValue, setSearchValue] = useState('');
     const [data, setData] = useState([]);
     const [selectedOption, setSelectedOption] = useState("Acción 1");
    
-
-
     const fetchData = async () => {
         const backendUrl = process.env.REACT_APP_BCKEND;
         if (!backendUrl) {
@@ -186,67 +188,4 @@ function ListUsers() {
     );
 }
 export default ListUsers;
-    // <div className="General-Table flex flex-col items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-950" style={{ marginTop: '20px' }}>
-    //     <div className="max-w-6xl w-full space-y-6 p-6 bg-white rounded-lg shadow-md dark:bg-gray-800">
 
-
-    //         <div className="heder-comp col-lx-0 d-flex align-items-center m-2">
-    //             <FontAwesomeIcon icon="fa-solid fa-list" size="2x" className="me-4 " />  <h3>Usuarios</h3>
-    //             <Row>
-    //                 <Col xs={7}></Col>
-    //                 <Col xs={5}>
-    //                     <div >
-    //                         <form>
-    //                             <i class="bi bi-search position-absolute start-0 top-50 translate-middle-y text-secondary"></i>
-    //                             <input class="form-control bg-white shadow-none pl-5"
-    //                                 placeholder="Buscar Turno por id turno, id usuario ,dependencia"
-    //                                 type="search"
-    //                                 value={searchValue}
-    //                                 onChange={e => setSearchValue(e.target.value)}
-                                    
-    //                             />
-    //                         </form>
-    //                     </div>
-    //                 </Col>
-    //             </Row>
-    //             <Button className = "button-Create"variant="primary">Agregar Usuario</Button>
-    //         </div>
-
-    //         <div className="mb-4">
-               
-    //         </div>
-
-    //         <div className="space-y-4">
-    //             <div class="table-container border shadow-sm rounded">
-    //                 <Table>
-    //                     <thead className="table-info">
-    //                         <tr>
-    //                             <th scope="col">Usuario</th>
-    //                             <th scope="col">Nombre</th>
-    //                             <th scope="col">Documento</th>
-    //                             <th>Teléfono</th>
-    //                             <th>Correo</th>
-    //                         </tr>
-    //                     </thead>
-    //                     <tbody>
-    //                         {data.filter(item => {
-    //                             return item.name.toString().includes(searchValue) ||
-    //                                 item.lastName.toString().includes(searchValue) ||
-    //                                 item.numberIdentification.includes(searchValue);
-    //                         }).map((item, index) => (
-    //                             <tr key={index}>
-    //                                 <th scope="row"></th>
-    //                                 <td>{`${item.name} ${item.lastName}`}</td>
-    //                                 <td>{item.numberIdentification}</td>
-    //                                 <td>{item.phoneNumber}</td>
-    //                                 <td>{item.email}</td>
-    //                             </tr>
-    //                         ))}
-
-    //                     </tbody>
-    //                 </Table>
-    //             </div>
-
-    //         </div>
-    //     </div>
-    // </div>
