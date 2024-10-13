@@ -1,6 +1,7 @@
 import { Route, Routes,Navigate } from 'react-router-dom';
 import Login from '../components/login/login'; 
 import AdminDashboard from '../components/home/AdminDashboard';
+import ListUsers from '../components/listUsers/ListUsers';
 
 
 function AppRouter() {
@@ -8,7 +9,9 @@ function AppRouter() {
             <Routes>
                 <Route path="/login" element={<Login/>} />
                 <Route path="/admin" element={<AdminDashboard />} />
-                <Route path="*" element={<Navigate to="/login" />} />
+                <Route path="/users" element={<ListUsers />} />
+                <Route path="*" element={<Navigate to="/users" />} />
+                
             </Routes>
     );
 }
