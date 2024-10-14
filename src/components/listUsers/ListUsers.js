@@ -134,23 +134,19 @@ function ListUsers() {
         <div > 
         {/* className="justify-content-center aling-items-center d-flex shadow-lg" */}
             <div className="superior row justify-content-right aling-items-right d-flex shadow-lg ">
-                <div className='heder-comp col-md-2'> 
-                    <FontAwesomeIcon icon="fa-solid fa-list" size="2x" className="title-div" />  <h2>Usuarios</h2>
-                    <div className=" items-left align-items-left ">
-                    <form>
-                        <input className="form-control items-right" 
-                            placeholder="Buscar por: Nombre, Documento, Teléfono o Correo"
-                            type="search"
-                           
-                            onChange={handleChange}
-                            />
-                    </form>
-                </div>
-                
-                    
-                </div>
-                
-                <div className="filter-bu col-md-5 items-left align-items-left mb-4">
+                <div className='heder-comp'> 
+                    <div className='title'><h2>Clientes</h2></div>
+                    <div className="items-right align-items-right ">
+                        <form>
+                            <input className="form-control items-right" 
+                                placeholder="Buscar por: Nombre, Documento, Teléfono o Correo"
+                                type="search"                    
+                                onChange={handleChange}
+                                />
+                        </form>
+                    </div>
+                </div>           
+                <div className="filter-bu items-left align-items-left mb-4">
                     <Button className = "button-Create"variant="primary">Agregar Usuario</Button>
                     <div className = "desplegable">
                         <DropdownButton title={selectedOption} onSelect={handleSelect}>
