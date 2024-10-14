@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import { Spinner } from 'react-bootstrap';
 import { AuthContext } from './AuthContext'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './login.css';
@@ -11,20 +12,20 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [navigation, setNavigation] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    console.log("jodd")
+    setLoading(true); // Inicia la carga
     try {
-      console.log("entra")
       const token = await handleLogin(userName, password);
       localStorage.setItem('authToken', token); // Almacenar el token en localStorage
       setError(''); // Limpiar el error si todo va bien
       setNavigation(<Navigate to="/admin" />); 
-      console.log(token)
     } catch (err) {
-      console.log("No entra")
       setError(err.message);
+    } finally {
+      setLoading(false); // Detiene la carga independientemente de si hubo un error o no
     }
   };
   
@@ -57,10 +58,12 @@ const Login = () => {
                 required 
               />
             </div>
+            {error && <div className="alert alert-danger">{error}</div>} {/* Mostrar el error aquí */}
+
             <div className="button-container">
-             <button type="submit" className="login-btn">Login</button>
-              {navigation}
-            </div>
+              <button type="submit" className="login-btn">Login</button>
+            {navigation}
+          </div>
             <div className = "resett-password">
               <small><a href="/forgot-password" className="forgot-password">¿Olvidaste tu contraseña?</a></small>
             </div>
@@ -69,6 +72,11 @@ const Login = () => {
         </div>
         <div className = "row"></div>
       </div>
+      {loading && ( // Si está cargando, muestra el overlay y el spinner
+        <div className="loading-overlay">
+          <Spinner animation="border" size="lg" /> {/* Tamaño grande para mayor visibilidad */}
+        </div>
+      )}
     </div>
   );
 };
