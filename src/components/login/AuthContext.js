@@ -17,6 +17,7 @@ export const AuthProvider = ({ children }) => {
             return response.data.token; // Retorna el token si la solicitud es exitosa
         } catch (error) {
             // Manejo de errores para que se pueda capturar en Login
+        
             if (error.response) {
                 if (error.response.status === 403) {
                     throw new Error('Credenciales incorrectas. Por favor, intenta nuevamente.');

@@ -10,7 +10,7 @@ function AppRouter() {
                 <Route path="/login" element={<Login/>} />
                 <Route path="/admin" element={<AdminDashboard />} />
                 <Route path="/users" element={<ListUsers />} />
-                <Route path="*" element={<Navigate to="/admin" />} />
+                <Route path="*" element={<Navigate to="/login" />} />
                 
             </Routes>
     );
