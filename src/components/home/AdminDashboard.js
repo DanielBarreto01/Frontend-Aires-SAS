@@ -28,9 +28,9 @@ function AdminDashboard() {
                 email: decodedToken.email
             });
             setIsTokenChecked(true);
-        }else{
-            window.location.href = '/login';        
-        }
+        }//else{
+        //     window.location.href = '/login';        
+        // }
     }, []);
 
     useEffect(() => {
@@ -76,10 +76,9 @@ function AdminDashboard() {
         setShowLogoutModal(false);  // Ocultar el modal sin hacer logout
     };
 
-    if (!isTokenChecked) {
-        console.log('Verificando token...');
-        return null;  // Retorna null para no mostrar nada hasta que se verifique el token
-    }  // Retorna null para no mostrar nada hasta que se verifique el token
+    // if (!isTokenChecked) {   
+    //     return null;  
+    // }  
         
     return (     
         <div className="container-fluid" style={{ height: '100vh' }}>
