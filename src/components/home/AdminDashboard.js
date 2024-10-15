@@ -16,16 +16,20 @@ function AdminDashboard() {
     const [selectedComponent, setSelectedComponent] = useState(null);
     const [showLogoutModal, setShowLogoutModal] = useState(false);
     const [loading, setLoading] = useState(false);  // Estado de carga
+    const [isTokenChecked, setIsTokenChecked] = useState(false);
 
-    useEffect(() => {
+    useEffect(() => {  // Mostrar el spinner
         const token = localStorage.getItem('authToken');
-        if (token) {
+        if (token !== null) {
             const decodedToken = jwtDecode(token);
             setUserData({
                 name: decodedToken.name,
                 lastName: decodedToken.lastName,
                 email: decodedToken.email
             });
+            setIsTokenChecked(true);
+        }else{
+            window.location.href = '/login';        
         }
     }, []);
 
@@ -72,7 +76,12 @@ function AdminDashboard() {
         setShowLogoutModal(false);  // Ocultar el modal sin hacer logout
     };
 
-    return (
+    if (!isTokenChecked) {
+        console.log('Verificando token...');
+        return null;  // Retorna null para no mostrar nada hasta que se verifique el token
+    }  // Retorna null para no mostrar nada hasta que se verifique el token
+        
+    return (     
         <div className="container-fluid" style={{ height: '100vh' }}>
             <div className="row h-100">
                 <div className="col-auto col-lg-3 border-end p-0 menu">

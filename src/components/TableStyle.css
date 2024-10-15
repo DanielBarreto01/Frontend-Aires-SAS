@@ -4,16 +4,18 @@
     overflow: hidden;
 }
 .heder-comp{
-    width: 60%;
+    width: 30%;
     margin-left: 10px;
     align-items: right;
     background-color: #ffffff;
     /* background-color: blue; */
    
 }
-.title-div{
-    background-color: black;
-    width: 29%;
+.filter-bu{
+    width: 69%;
+    margin-top: 6px;
+    align-items: right;
+    background-color: rgb(255, 255, 255);
 }
 
 h2{
@@ -22,55 +24,55 @@ h2{
 }
 
 .form-control {
-    width: 40%;
-    margin-top: -40px;
-    /* Ajusta el ancho máximo del input */
-    margin-left: 50%;
-   
+    
+    max-width: 46%;  /* Asegura que el botón no crezca más allá del 100% del contenedor padre */
+    flex-grow: 1; /* Permite que el botón crezca */
+    flex-shrink: 1; /* Permite que el botón se encoja si es necesario */
+    flex-basis: auto ;
+    min-width: 0px ;
+    align-items: right ;
 } 
 
 .table-container{
     margin-left: 1%;
-    margin-right: 1vh;
+    margin-right: 10px;
     border-radius: 20px;
     overflow: hidden; 
 }
-.filter-bu{
-    width: 39%;
-    margin-top: 6px;
-    align-items: right;
-   
-    background-color: rgb(255, 255, 255);
-    /* background-color: red; */
-}
-.button-Create{
-    float: right;
-   
-}
+ /* background-color: red; */
 .button-Create{
     background-color: #aa8b8b;
+    margin-top: -38px;
+    float: right;
     border: none;
-    align-items: left;
-   margin-left: 40px;
-
+    margin-right: 20px;
+    
 }
 
 .desplegable .dropdown-toggle{
+    margin-top: -38px;
+    margin-right: 180px;
     background-color: #ffffff;
     color: #000000 ;
     border: solid 0.5px #d4cece;
     float: right;
 }
 
+.dropdown-item-light {
+    font-weight: lighter; /* Peso de la fuente más ligero */
+    color: rgba(110, 124, 116, 0.767); /* Color de la fuente más claro */
+}
+
 
 @media only screen and (max-width: 767px) {
     .General-Table{
-        width: 96%;
+        width: 100%;
+        overflow: hidden !important;
     }
     .heder-comp{
-      width: 95vw; /* Ajusta el ancho según sea necesario */
-      align-items: left; /* Alinea los elementos a la izquierda */
-     justify-content: left; 
+        width: 95%; /* Ajusta el ancho según sea necesario */
+        align-items: left; /* Alinea los elementos a la izquierda */
+        justify-content: left; 
       
     }
     .table-container{
@@ -78,26 +80,51 @@ h2{
         margin-left: 2%;
     }
     .form-control {
-        width: 60vw;
-        margin-top: -37px;
-        /* Ajusta el ancho máximo del input */
-        margin-left: 16vh;
-       
+        height: 37px !important; /* Asegura que el botón no crezca más allá del 100% del contenedor padre */
+        width: 31vw  !important;
+        max-width: 60vw !important; /* Asegura que el botón no crezca más allá del 100% del contenedor padre */
+        margin-left: 8px !important;
     } 
+
     .filter-bu{
-        width:95vw;
+        width: 100% ;
         align-items: center;
         margin-top: 15px;
     }
     .button-Create{
+        height: 36px;
+        margin-right: 5px;
+        margin-left: 0px !important;
+        font-size: 12px;
         background-color: #aa8b8b;
         border: none;
     }
-    
-    
-   
+    .desplegable .dropdown-toggle{
+        margin-right: 32vw !important;
+        font-size: 12px;
+        height: 36px;
+    }
 
+    h2{
+        font-family: Arial, sans-serif; /* Cambia la fuente a Arial */
+        font-weight: 900; /* Hace que el texto sea muy grueso */
+        text-align: center;
+    }
+    
 }
+
+.loading-overlay {
+    position: fixed; /* Fija el overlay */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco con opacidad */
+    display: flex; /* Utiliza flexbox para centrar el contenido */
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    z-index: 1000; /* Asegúrate de que esté por encima de otros elementos */
+  }
 
 /* .General-Table .btn-primary:hover {
     background-color: #5A6268;
