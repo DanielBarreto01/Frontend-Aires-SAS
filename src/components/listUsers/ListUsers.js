@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import DataTable from 'react-data-table-component';
 import { Button, Dropdown, DropdownButton, Spinner } from 'react-bootstrap';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faList } from '@fortawesome/free-solid-svg-icons'; // Importa el icono 'list'
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -8,7 +9,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import "../TableStyle.css";
 
-library.add(faList);
+
 
 function ListUsers() {
     const [data, setData] = useState([]);
@@ -128,27 +129,35 @@ function ListUsers() {
         {/* className="justify-content-center aling-items-center d-flex shadow-lg" */}
             <div className="superior row justify-content-right aling-items-right d-flex shadow-lg ">
                 <div className='heder-comp'> 
-                    <div className='title'><h2>Clientes</h2></div>
+                    <div className='title'><h2>Usuarios</h2></div>
                 </div>           
-                <div className="filter-bu items-left align-items-left mb-4">
-                    <div className="items-right align-items-right ">
-                        <form>
+                <div className="filter-bu  mb-4">
+                   
+                   
+                    <form style={{ display: 'flex', width: '100%' }}>
+                        <div className='input-container'>
+                            <FontAwesomeIcon icon={faSearch} className="icon" style={{ marginLeft: '10px' }} />
                             <input className="form-control items-right" 
                                 placeholder="Buscar por: Nombre, Documento, Teléfono o Correo"
                                 type="search"                    
                                 onChange={handleChange}
+                                style={{ border: 'none' }}
                                 />
-                        </form>
-                    </div>
-                    <Button className = "button-Create"variant="primary">Agregar Usuario</Button>
+                
+                        </div>
+                           
+                            
+                    </form>
                     <div className = "desplegable">
-                        <DropdownButton title={selectedOption} onSelect={handleSelect}>
+                        <DropdownButton title={selectedOption} onSelect={handleSelect} className='selec-option'>
                             <Dropdown.Item eventKey="Seleccione un rol" className="dropdown-item-light">Seleccione un rol</Dropdown.Item>
                             <Dropdown.Item eventKey="Administrador">Administrador</Dropdown.Item>
                             <Dropdown.Item eventKey="Tecnico interno">Tecnico interno</Dropdown.Item>
                             <Dropdown.Item eventKey="Tecnico externo">Tecnico externo</Dropdown.Item>
                         </DropdownButton>
                     </div>
+                    <Button className = "button-Create"variant="primary">Agregar usuario</Button>
+
                 </div> 
                
             </div>
