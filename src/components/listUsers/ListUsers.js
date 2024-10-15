@@ -20,7 +20,7 @@ function ListUsers() {
 
     useEffect(() => {
         setTimeout(() => {
-              // Mostrar el spinner
+           setLoading(false);
             const token = localStorage.getItem('authToken');
             console.log("token", token);
             if (token !== null) {
@@ -28,10 +28,10 @@ function ListUsers() {
                 setIsTokenChecked(true);
                 setLoading(true);
                
-            }else{
-                setLoading(false);
-                window.location.href = '/login';        
-            }
+            }//else{
+            //     setLoading(false);
+            //     window.location.href = '/login';        
+            // }
                    
         }, 200);
         return () => clearTimeout();
@@ -118,9 +118,9 @@ function ListUsers() {
                                             record.phoneNumber.toString().includes(e.target.value) ||
                                             record.email.toLowerCase().includes(e.target.value.toLowerCase())}));
     }
-    if(isTokenChecked === false){
-        return null;
-    }
+    // if(isTokenChecked === false){
+    //     return null;
+    // }
 
     return (  
     <div className="General-Table flex flex-col items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-950 mt-2">
