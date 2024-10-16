@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUsers, faCalendarDays, faHome, faGear, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
-import { Nav, Spinner } from 'react-bootstrap';  // Asegúrate de que el Spinner esté importado
-import {jwtDecode} from 'jwt-decode';
+import { faUsers, faCalendarDays, faHome, faGear, faRightFromBracket, faBars } from '@fortawesome/free-solid-svg-icons';
+import { Nav, Spinner, Navbar } from 'react-bootstrap';  // Asegúrate de que el Spinner esté importado
+import { jwtDecode } from 'jwt-decode';
 import logo from "../../assets/logo.png";
 import adminLogo from "../../assets/admin.png";
 import './AdminDashboard.css';
@@ -17,6 +17,7 @@ function AdminDashboard() {
     const [showLogoutModal, setShowLogoutModal] = useState(false);
     const [loading, setLoading] = useState(false);  // Estado de carga
     const [isTokenChecked, setIsTokenChecked] = useState(false);
+    const [menuOpen, setMenuOpen] = useState(false);
 
     useEffect(() => {  // Mostrar el spinner
         const token = localStorage.getItem('authToken');
@@ -32,6 +33,9 @@ function AdminDashboard() {
             localStorage.removeItem('authToken'); 
             window.location.href = '/login';        
         }
+        }//else{
+        //window.location.href = '/login';        
+        //
     }, []);
 
     useEffect(() => {
@@ -82,90 +86,138 @@ function AdminDashboard() {
     }  
         
     return (     
+    // if (!isTokenChecked) {   
+    //     return null;  
+    // }  
+
+    return (
         <div className="container-fluid" style={{ height: '100vh' }}>
-            <div className="row h-100">
-                <div className="col-auto col-lg-3 border-end p-0 menu">
-                    <div className="profile-header d-flex align-items-center">
-                        <img src={logo} alt="Profile" className="profile-img" />
-                        <div className="title-profile">
-                            <h5 className="profile-title">P&A Aires Acondicionados</h5>
-                            <p className="profile-subtitle">Control de mantenimientos</p>
-                        </div>
-                    </div>
-                    <div className="d-flex flex-column h-100 gap-2">
-                        <div className="flex-grow-1 py-2">
-                            <Nav className="flex-column">
-                                <Nav.Link className="nav-item" href="#" onClick={() => setSelectedComponent('Home')}>
-                                    <FontAwesomeIcon icon={faHome} style={{ marginRight: '10px' }} />
-                                    Home
-                                </Nav.Link>
-                                <Nav.Link className="nav-item" href="#" onClick={() => setSelectedComponent('Usuarios')}>
-                                    <FontAwesomeIcon icon={faUsers} style={{ marginRight: '10px' }} />
-                                    Usuarios
-                                </Nav.Link>
-                                <Nav.Link className="nav-item" href="#">
-                                    <FontAwesomeIcon icon={faCalendarDays} style={{ marginRight: '10px' }} />
-                                    Equipos
-                                </Nav.Link>
-                                <Nav.Link className="nav-item" href="#">
-                                    <FontAwesomeIcon icon={faCalendarDays} style={{ marginRight: '10px' }} />
-                                    Clientes
-                                </Nav.Link>
-                                <Nav.Link className="nav-item" href="#">
-                                    <FontAwesomeIcon icon={faCalendarDays} style={{ marginRight: '10px' }} />
-                                    Mantenimientos
-                                </Nav.Link>
-                                <Nav.Link className="nav-item" href="#">
-                                    <FontAwesomeIcon icon={faCalendarDays} style={{ marginRight: '10px' }} />
-                                    Control Mantenimientos
-                                </Nav.Link>
-                            </Nav>
-                        </div>
-                        <div className="profile-header-user d-flex align-items-center">
-                            <img src={adminLogo} alt="Admin" className="profile-img-user" />
-                            <div className="title-profile">
-                                <h5 className="profile-title-user">{userData.name} {userData.lastName}</h5>
-                                <p className="profile-subtitle-user">{userData.email}</p>
-                            </div>
-                        </div>
-                        <Nav className="flex-column">
-                            <Nav.Link className="nav-item" href="#">
-                                <FontAwesomeIcon icon={faGear} style={{ marginRight: '10px' }} />
-                                Configuración
-                            </Nav.Link>
-                            <Nav.Link className="nav-item" href="#" onClick={handleLogoutClick}>
-                                <FontAwesomeIcon icon={faRightFromBracket} style={{ marginRight: '10px' }} />
-                                Cerrar Sesión
-                            </Nav.Link>
-                        </Nav>
-                    </div>
+        {/* Navbar para pantallas pequeñas */}
+        <Navbar bg="light" expand="lg" className="border-bottom d-lg-none">
+          <Navbar.Brand href="#">
+            <img src={logo} alt="Profile" className="profile-img" />
+            P&A Aires Acondicionados
+          </Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" onClick={() => setMenuOpen(!menuOpen)}>
+            <FontAwesomeIcon icon={faBars} />
+          </Navbar.Toggle>
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="me-auto">
+              <Nav.Link href="#" onClick={() => setSelectedComponent('Home')}>
+                <FontAwesomeIcon icon={faHome} style={{ marginRight: '10px' }} />
+                Home
+              </Nav.Link>
+              <Nav.Link href="#" onClick={() => setSelectedComponent('Usuarios')}>
+                <FontAwesomeIcon icon={faUsers} style={{ marginRight: '10px' }} />
+                Usuarios
+              </Nav.Link>
+              <Nav.Link href="#">
+                <FontAwesomeIcon icon={faCalendarDays} style={{ marginRight: '10px' }} />
+                Equipos
+              </Nav.Link>
+              <Nav.Link href="#">
+                <FontAwesomeIcon icon={faCalendarDays} style={{ marginRight: '10px' }} />
+                Clientes
+              </Nav.Link>
+              <Nav.Link href="#">
+                <FontAwesomeIcon icon={faCalendarDays} style={{ marginRight: '10px' }} />
+                Mantenimientos
+              </Nav.Link>
+              <Nav.Link href="#">
+                <FontAwesomeIcon icon={faCalendarDays} style={{ marginRight: '10px' }} />
+                Control Mantenimientos
+              </Nav.Link>
+            </Nav>
+          </Navbar.Collapse>
+        </Navbar>
+  
+        <div className="row h-100">
+          {/* Sidebar para pantallas grandes */}
+          <div className={`col-auto col-lg-3 border-end p-0 menu d-none d-lg-block`}>
+            <div className="d-flex flex-column h-100 gap-2">
+              <div className="profile-header d-flex align-items-center">
+                <img src={logo} alt="Profile" className="profile-img" />
+                <div className="title-profile">
+                  <h5 className="profile-title">P&A Aires Acondicionados</h5>
+                  <p className="profile-subtitle">Control de mantenimientos</p>
                 </div>
-                <div className="col-lg-9">
-                    {selectedComponent === 'Usuarios' && <ListUsers />}
+              </div>
+  
+              <Nav className="flex-column">
+                <Nav.Link className="nav-item" href="#" onClick={() => setSelectedComponent('Home')}>
+                  <FontAwesomeIcon icon={faHome} style={{ marginRight: '10px' }} />
+                  Home
+                </Nav.Link>
+                <Nav.Link className="nav-item" href="#" onClick={() => setSelectedComponent('Usuarios')}>
+                  <FontAwesomeIcon icon={faUsers} style={{ marginRight: '10px' }} />
+                  Usuarios
+                </Nav.Link>
+                <Nav.Link className="nav-item" href="#">
+                  <FontAwesomeIcon icon={faCalendarDays} style={{ marginRight: '10px' }} />
+                  Equipos
+                </Nav.Link>
+                <Nav.Link className="nav-item" href="#">
+                  <FontAwesomeIcon icon={faCalendarDays} style={{ marginRight: '10px' }} />
+                  Clientes
+                </Nav.Link>
+                <Nav.Link className="nav-item" href="#">
+                  <FontAwesomeIcon icon={faCalendarDays} style={{ marginRight: '10px' }} />
+                  Mantenimientos
+                </Nav.Link>
+                <Nav.Link className="nav-item" href="#">
+                  <FontAwesomeIcon icon={faCalendarDays} style={{ marginRight: '10px' }} />
+                  Control Mantenimientos
+                </Nav.Link>
+              </Nav>
+  
+              <div className="profile-header-user d-flex align-items-center">
+                <img src={adminLogo} alt="Admin" className="profile-img-user" />
+                <div className="title-profile">
+                  <h5 className="profile-title-user">{userData.name} {userData.lastName}</h5>
+                  <p className="profile-subtitle-user">{userData.email}</p>
                 </div>
-
-                {/* Modal de confirmación de cierre de sesión */}
-                <ConfirmationModal
-                    show={showLogoutModal}
-                    onHide={handleCancelLogout}
-                    onConfirm={handleConfirmLogout}
-                    title="Cierre de Sesión"
-                    bodyText="¿Estás seguro de que deseas cerrar sesión?"
-                    confirmText={loading ? <Spinner animation="border" size="sm" /> : "Sí"} // Mostrar spinner si está cargando
-                    cancelText="No"
-                />
-
-                {/* Spinner global que se muestra mientras el logout está en proceso */}
-                {loading && (
-                    <div className="loading-overlay">
-                        <Spinner animation="border" role="status">
-                            <span className="visually-hidden">Cargando...</span>
-                        </Spinner>
-                    </div>
-                )}
+              </div>
+  
+              <Nav className="flex-column">
+                <Nav.Link className="nav-item" href="#">
+                  <FontAwesomeIcon icon={faGear} style={{ marginRight: '10px' }} />
+                  Configuración
+                </Nav.Link>
+                <Nav.Link className="nav-item" href="#" onClick={handleLogoutClick}>
+                  <FontAwesomeIcon icon={faRightFromBracket} style={{ marginRight: '10px' }} />
+                  Cerrar Sesión
+                </Nav.Link>
+              </Nav>
             </div>
+          </div>
+  
+          {/* Contenido principal */}
+          <div className="col-lg-9">
+            {selectedComponent === 'Usuarios' && <ListUsers />}
+          </div>
+  
+          {/* Modal de confirmación de cierre de sesión */}
+          <ConfirmationModal
+            show={showLogoutModal}
+            onHide={handleCancelLogout}
+            onConfirm={handleConfirmLogout}
+            title="Cierre de Sesión"
+            bodyText="¿Estás seguro de que deseas cerrar sesión?"
+            confirmText={loading ? <Spinner animation="border" size="sm" /> : "Sí"}
+            cancelText="No"
+          />
+  
+          {/* Spinner global que se muestra mientras el logout está en proceso */}
+          {loading && (
+            <div className="loading-overlay">
+              <Spinner animation="border" role="status">
+                <span className="visually-hidden">Cargando...</span>
+              </Spinner>
+            </div>
+          )}
         </div>
+      </div>
     );
-}
+  };
 
 export default AdminDashboard;
