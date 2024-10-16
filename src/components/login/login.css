@@ -53,6 +53,7 @@
   font-weight: 900; 
   text-shadow: 10px 10px 10px rgba(0, 0, 0, 0.3);
   color: #000000; 
+  text-align: left !important;  
   
 }
 .form-group{
@@ -108,9 +109,7 @@
 .forgot-password:hover {
   text-decoration: underline;
 }
-h2{
-  text-align: left !important;
-}
+
 
 @media only screen and (max-width: 767px) {
   .responsive-logo {
