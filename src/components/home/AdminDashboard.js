@@ -169,7 +169,7 @@ function AdminDashboard() {
                   Control Mantenimientos
                 </Nav.Link>
               </Nav>
-  
+              <div className="mt-auto">
               <div className="profile-header-user d-flex align-items-center">
                 <img src={adminLogo} alt="Admin" className="profile-img-user" />
                 <div className="title-profile">
@@ -177,7 +177,7 @@ function AdminDashboard() {
                   <p className="profile-subtitle-user">{userData.email}</p>
                 </div>
               </div>
-  
+
               <Nav className="flex-column">
                 <Nav.Link className="nav-item" href="#">
                   <FontAwesomeIcon icon={faGear} style={{ marginRight: '10px' }} />
@@ -188,6 +188,7 @@ function AdminDashboard() {
                   Cerrar Sesión
                 </Nav.Link>
               </Nav>
+              </div>
             </div>
           </div>
   
