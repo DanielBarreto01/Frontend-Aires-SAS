@@ -21,7 +21,7 @@ function AdminDashboard() {
 
     useEffect(() => {  // Mostrar el spinner
         const token = localStorage.getItem('authToken');
-        if (token !== null) {
+        if (token !== null && jwtDecode(token).exp*1000 >  Date.now()) {
             const decodedToken = jwtDecode(token);
             setUserData({
                 name: decodedToken.name,
@@ -29,9 +29,13 @@ function AdminDashboard() {
                 email: decodedToken.email
             });
             setIsTokenChecked(true);
+        }else{
+            localStorage.removeItem('authToken'); 
+            window.location.href = '/login';        
+        }
         }//else{
         //window.location.href = '/login';        
-        /// }
+        //
     }, []);
 
     useEffect(() => {
@@ -77,6 +81,11 @@ function AdminDashboard() {
         setShowLogoutModal(false);  // Ocultar el modal sin hacer logout
     };
 
+    if (!isTokenChecked) {   
+        return null;  
+    }  
+        
+    return (     
     // if (!isTokenChecked) {   
     //     return null;  
     // }  
