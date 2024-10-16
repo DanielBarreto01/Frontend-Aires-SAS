@@ -1,0 +1,35 @@
+/* Aplica margen inferior a cada campo */
+.formu{
+    margin: 20px;
+}
+.form-group {
+    margin-top: 20px !important; /* Forzar espacio entre los campos */
+    font-size: 20px;
+    border: 1px solid #000000;
+}
+  
+  /* Asegura que los campos "Nombre" y "Apellido" estén alineados y tengan espacio entre sí */
+.form-row {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 10px; /* Espacio horizontal entre Nombre y Apellido */
+}
+  
+  /* Alinear botones con espacio entre ellos */
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    margin-top: 20px; /* Espacio por encima de los botones */
+}
+  
+  /* Añadir padding general para evitar que los campos se vean pegados a los bordes */
+
+
+h2{
+   
+    font-weight: 790; /* Hace que el texto sea muy grueso */
+    text-align: center !important;
+}
+
+  

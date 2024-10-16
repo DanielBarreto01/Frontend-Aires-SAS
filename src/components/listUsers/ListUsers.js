@@ -3,10 +3,9 @@ import DataTable from 'react-data-table-component';
 import { Button, Dropdown, DropdownButton, Spinner } from 'react-bootstrap';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faList } from '@fortawesome/free-solid-svg-icons'; // Importa el icono 'list'
-import { library } from '@fortawesome/fontawesome-svg-core';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
+import {jwtDecode} from 'jwt-decode';
 import "../TableStyle.css";
 
 
@@ -14,7 +13,8 @@ import "../TableStyle.css";
 function ListUsers() {
     const [data, setData] = useState([]);
     const [selectedOption, setSelectedOption] = useState("Seleccione un rol");
-    const[loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(true);
+ 
     const [records, setRecords] = useState([]);
     let url = "/users/getUsers";  
     const [isTokenChecked, setIsTokenChecked] = useState(false);
@@ -23,17 +23,16 @@ function ListUsers() {
         setTimeout(() => {
            setLoading(false);
             const token = localStorage.getItem('authToken');
-            console.log("token", token);
-            if (token !== null) {
+            if (token !== null && jwtDecode(token).exp*1000 >  Date.now()) {
                 fetchData();  
                 setIsTokenChecked(true);
                 setLoading(true);
                
-            }//else{
-            //     setLoading(false);
-            //     window.location.href = '/login';        
-            // }
-                   
+            }else{
+                localStorage.removeItem('authToken'); 
+                setLoading(false);
+                window.location.href = '/login';        
+            }           
         }, 200);
         return () => clearTimeout();
        
@@ -119,9 +118,6 @@ function ListUsers() {
                                             record.phoneNumber.toString().includes(e.target.value) ||
                                             record.email.toLowerCase().includes(e.target.value.toLowerCase())}));
     }
-    // if(isTokenChecked === false){
-    //     return null;
-    // }
 
     return (  
     <div className="General-Table flex flex-col items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-950 mt-2">
