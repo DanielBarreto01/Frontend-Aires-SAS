@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUsers, faCalendarDays, faHome, faGear, faRightFromBracket, faBars } from '@fortawesome/free-solid-svg-icons';
+import { faUsers, faCalendarDays, faHome, faGear, faRightFromBracket, faBars, faFileLines,faScrewdriverWrench, faHardDrive,faBuildingUser} from '@fortawesome/free-solid-svg-icons';
 import { Nav, Spinner, Navbar } from 'react-bootstrap';  // Asegúrate de que el Spinner esté importado
 import { jwtDecode } from 'jwt-decode';
 import logo from "../../assets/logo.png";
@@ -29,7 +29,10 @@ function AdminDashboard() {
                 email: decodedToken.email
             });
             setIsTokenChecked(true);
-        }//else{
+
+          }// }else{
+
+
         //     localStorage.removeItem('authToken'); 
         //     window.location.href = '/login';        
         // }
@@ -85,7 +88,6 @@ function AdminDashboard() {
     //     return null;  
     // }  
         
-  
     // if (!isTokenChecked) {   
     //     return null;  
     // }  
@@ -153,7 +155,7 @@ function AdminDashboard() {
                   Usuarios
                 </Nav.Link>
                 <Nav.Link className="nav-item" href="#">
-                  <FontAwesomeIcon icon={faCalendarDays} style={{ marginRight: '10px' }} />
+                  <FontAwesomeIcon icon={faBuildingUser} style={{ marginRight: '10px' }} />
                   Equipos
                 </Nav.Link>
                 <Nav.Link className="nav-item" href="#">
@@ -161,15 +163,16 @@ function AdminDashboard() {
                   Clientes
                 </Nav.Link>
                 <Nav.Link className="nav-item" href="#">
-                  <FontAwesomeIcon icon={faCalendarDays} style={{ marginRight: '10px' }} />
+                  <FontAwesomeIcon icon={faScrewdriverWrench} style={{ marginRight: '10px' }} />
                   Mantenimientos
                 </Nav.Link>
                 <Nav.Link className="nav-item" href="#">
-                  <FontAwesomeIcon icon={faCalendarDays} style={{ marginRight: '10px' }} />
+                  <FontAwesomeIcon icon={faFileLines} style={{ marginRight: '10px' }} />
                   Control Mantenimientos
                 </Nav.Link>
               </Nav>
-  
+        
+              <div className="mt-auto">
               <div className="profile-header-user d-flex align-items-center">
                 <img src={adminLogo} alt="Admin" className="profile-img-user" />
                 <div className="title-profile">
@@ -177,7 +180,7 @@ function AdminDashboard() {
                   <p className="profile-subtitle-user">{userData.email}</p>
                 </div>
               </div>
-  
+
               <Nav className="flex-column">
                 <Nav.Link className="nav-item" href="#">
                   <FontAwesomeIcon icon={faGear} style={{ marginRight: '10px' }} />
@@ -188,6 +191,7 @@ function AdminDashboard() {
                   Cerrar Sesión
                 </Nav.Link>
               </Nav>
+              </div>
             </div>
           </div>
   

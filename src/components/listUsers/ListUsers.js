@@ -28,7 +28,10 @@ function ListUsers() {
                 setIsTokenChecked(true);
                 setLoading(true);
                
-            }//else{
+
+            }// }else{
+
+
             //     localStorage.removeItem('authToken'); 
             //     setLoading(false);
             //     window.location.href = '/login';        
@@ -141,7 +144,7 @@ function ListUsers() {
                                 placeholder="Buscar por: Nombre, Documento, Teléfono o Correo"
                                 type="search"                    
                                 onChange={handleChange}
-                                style={{ border: 'none' }}
+                                style={{ border: 'none', marginLeft: '-12px',  marginRight: '2px'  }}
                                 />
                 
                         </div>
@@ -149,7 +152,7 @@ function ListUsers() {
                             
                     </form>
                     <div className = "desplegable">
-                        <DropdownButton title={selectedOption} onSelect={handleSelect} className='selec-option'>
+                        <DropdownButton title={selectedOption} onSelect={handleSelect} className='selec-option' style={{ fontSize:'5px'}}>
                             <Dropdown.Item eventKey="Seleccione un rol" className="dropdown-item-light">Seleccione un rol</Dropdown.Item>
                             <Dropdown.Item eventKey="Administrador">Administrador</Dropdown.Item>
                             <Dropdown.Item eventKey="Tecnico interno">Tecnico interno</Dropdown.Item>
@@ -164,8 +167,8 @@ function ListUsers() {
            
            
           
-            <div className="space-y-4">
-                <div className="table-container border shadow-sm rounded">
+            <div className="space-y-4"style={{ backgroundColor: '#fff' }}>
+                <div className="table-container">
                   <DataTable
                     columns={columns}
                     data = {records}

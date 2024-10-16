@@ -6,27 +6,37 @@
 
 
 .heder-comp{
+    margin-top: 6px;
     display: flex; /* Cambia a flexbox */
     align-items: center; /* Alinea verticalmente los elementos */
    /* Distribuye los elementos horizontalmente */
     width: 40%;
+    height: 38px;
+    justify-content: flex-start;
     margin-bottom: 20px;
-    
+
     background-color: #ffffff;
+}
+.title{
+    height: 100%;
+    background-color: #ffffff;
+    margin-left: 5px !important;
 }
 .filter-bu{
     display: flex; /* Cambia a flexbox para alinear los elementos en una fila */
     align-items: center;
+ 
     justify-content: flex-end; /* Alinea verticalmente los elementos */
     width: 60%; /* Asegúrate de que ocupe todo el ancho */
     margin-top: 6px;
     background-color: rgb(255, 255, 255);
+    color: #7B7B7B
     
 }
 
 h2{
-    font-family: Arial, sans-serif; /* Cambia la fuente a Arial */
-    font-weight: 900; /* Hace que el texto sea muy grueso */
+    font-family: Arial, sans-serif !important; /* Cambia la fuente a Arial */
+    font-weight: 900 !important; /* Hace que el texto sea muy grueso */
 }
 
 .form-control {
@@ -52,17 +62,17 @@ h2{
 
 
 .table-container{
-    margin-left: 1%;
-    margin-right: 10px;
-    border-radius: 20px;
+    border-radius: 20px !important;
     overflow: hidden; 
+    background-color: #ffffff;
+    border: 1px solid #7B7B7B;
 }
  /* background-color: red; */
 .button-Create{
     border-radius: 9px;
-    background-color: #aa8b8b;
+    background-color: #7B7B7D;
     min-width: 150px;
-    height: 38px;
+    height: 100% !important;
     font-size: auto;
     margin-left: 20px;
     border: none;
@@ -75,7 +85,7 @@ h2{
    border-radius: 9px;
     margin-left: -4px;
     background-color: #ffffff;
-    color: #000000 ;
+    color: #7B7B7D ;
     border: solid 1px #000000;
     float: right;
 }
@@ -127,20 +137,28 @@ h2{
         font-size: 12px; /* El campo de búsqueda ocupa todo el ancho disponible */
         margin-bottom: 10px; /* Añade espacio debajo del campo de búsqueda */
     }
-    .selec-option{
-        font-size: 10px !important;
-    }
+
     .desplegable{
         margin-right: -13px;
+    }
+    .desplegable .dropdown-toggle{
+        font-size: 12px !important;
+        height: 38px;
     }
 
     .button-Create { 
         width: 10px !important;
-        height: 35px;
+        height: 100%;
+        min-width: 80px;
         margin-right: 5px;
-        font-size: 11px;
+        font-size: 12px;
+        line-height: 1;
  
        /* Menú desplegable y botón también ocupan todo el ancho */
+    }
+    .table-container{
+        margin-left: 2% !important;
+        margin-right: 2% !important;
     }
 
     h2{
