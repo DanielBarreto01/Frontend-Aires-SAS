@@ -55,6 +55,10 @@
   color: #000000; 
   
 }
+.form-group{
+  height: 37px;
+  border: none !important;
+}
 
 .form-group input{
   margin-bottom: 19px;
@@ -103,6 +107,9 @@
 
 .forgot-password:hover {
   text-decoration: underline;
+}
+h2{
+  text-align: left !important;
 }
 
 @media only screen and (max-width: 767px) {

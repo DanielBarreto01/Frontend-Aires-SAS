@@ -29,11 +29,11 @@ function AdminDashboard() {
                 email: decodedToken.email
             });
             setIsTokenChecked(true);
-        }else{
-            localStorage.removeItem('authToken'); 
-            window.location.href = '/login';        
-        }
-        }//else{
+          }// }else{
+        //     localStorage.removeItem('authToken'); 
+        //     window.location.href = '/login';        
+        // }
+        //else{
         //window.location.href = '/login';        
         //
     }, []);
@@ -81,11 +81,11 @@ function AdminDashboard() {
         setShowLogoutModal(false);  // Ocultar el modal sin hacer logout
     };
 
-    if (!isTokenChecked) {   
-        return null;  
-    }  
+    // if (!isTokenChecked) {   
+    //     return null;  
+    // }  
         
-    return (     
+   
     // if (!isTokenChecked) {   
     //     return null;  
     // }  

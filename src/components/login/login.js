@@ -39,7 +39,7 @@ const Login = () => {
       <div className="col-md-6 login-form" >
         <div className = "row cont-1"></div>
         <div className = "formualrio row" id = "formualrio">
-        <h2>Bienvenido</h2>
+          <h2>Bienvenido</h2>
           <form onSubmit={onSubmit}>
             <div className="form-group">
               <input 
