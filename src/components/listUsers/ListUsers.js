@@ -23,12 +23,15 @@ function ListUsers() {
         setTimeout(() => {
            setLoading(false);
             const token = localStorage.getItem('authToken');
-            if (token !== null && jwtDecode(token).exp*1000 >  Date.now()) {
+            if (token !== null ) { // && jwtDecode(token).exp*1000 >  Date.now()
                 fetchData();  
                 setIsTokenChecked(true);
                 setLoading(true);
                
+
             }// }else{
+
+
             //     localStorage.removeItem('authToken'); 
             //     setLoading(false);
             //     window.location.href = '/login';        
@@ -118,6 +121,10 @@ function ListUsers() {
                                             record.phoneNumber.toString().includes(e.target.value) ||
                                             record.email.toLowerCase().includes(e.target.value.toLowerCase())}));
     }
+
+    // if (!isTokenChecked) {   
+    //     return null;  
+    // }  
 
     return (  
     <div className="General-Table flex flex-col items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-950 mt-2">
