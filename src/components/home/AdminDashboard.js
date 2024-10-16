@@ -169,12 +169,14 @@ function AdminDashboard() {
                   Control Mantenimientos
                 </Nav.Link>
               </Nav>
-  
-              <div className="profile-header-user d-flex align-items-center">
-                <img src={adminLogo} alt="Admin" className="profile-img-user" />
-                <div className="title-profile">
-                  <h5 className="profile-title-user">{userData.name} {userData.lastName}</h5>
-                  <p className="profile-subtitle-user">{userData.email}</p>
+
+              <div className='mt-auto'>
+                <div className="profile-header-user d-flex align-items-center">
+                  <img src={adminLogo} alt="Admin" className="profile-img-user" />
+                  <div className="title-profile">
+                    <h5 className="profile-title-user">{userData.name} {userData.lastName}</h5>
+                    <p className="profile-subtitle-user">{userData.email}</p>
+                  </div>
                 </div>
               </div>
   
