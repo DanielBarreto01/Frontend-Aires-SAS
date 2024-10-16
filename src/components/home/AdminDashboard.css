@@ -25,6 +25,7 @@
     background-color: #1e1e1e; /* Background color for items */
     font-size: 0.7em;
     margin-right: 5px;
+    font-size: 14px
 }
 
 /* Hover effect to make the nav items interactive */
@@ -35,6 +36,10 @@
 
 /* Style the FontAwesome icons to have consistent margins */
 .nav-item .faUsers, .nav-item .faCalendarDays {
+    margin-right: 0px;
+  
+}
+.nav-item .fa {
     margin-right: 0px;
 }
 
@@ -128,4 +133,6 @@
     align-items: center;
     z-index: 9999;  /* Asegúrate de que esté por encima del contenido */
 }
-
+.p{
+    font-size: 14px;
+}
