@@ -89,39 +89,39 @@ function AdminDashboard() {
   return (
     <div className="container-fluid" style={{ height: '100vh' }}>
       {/* Navbar para pantallas pequeñas */}
-      <Navbar bg="light" expand="lg" className="border-bottom d-lg-none">
-      <div className="d-flex justify-content-between w-100 align-items-center ps-2">
-        <Navbar.Toggle aria-controls="basic-navbar-nav" onClick={() => setMenuOpen(!menuOpen)} >
-          <FontAwesomeIcon icon={faBars} />
-        </Navbar.Toggle>
-        <Navbar.Brand href="#" className="w-100 text-center">
-          <img src={logo} alt="Profile" className="profile-img" />
-          P&A Aires Acondicionados
-        </Navbar.Brand>
+      <Navbar bg="light" expand="lg" className="border-bottom d-lg-none custom-navbar ps-2">
+        <div className="d-flex justify-content-between w-100 align-items-center ">
+          <Navbar.Toggle aria-controls="basic-navbar-nav" onClick={() => setMenuOpen(!menuOpen)} >
+            <FontAwesomeIcon icon={faBars} style={{ color: 'white' }} />
+          </Navbar.Toggle>
+          <Navbar.Brand href="#" className="w-100 text-center custom-navbar-brand no-padding-margin ">
+            <img src={logo} alt="Profile" className="profile-img" />
+            P&A Aires Acondicionados
+          </Navbar.Brand>
         </div>
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto ps-3">
-            <Nav.Link href="#" onClick={() => setSelectedComponent('Home')}>
+        <Navbar.Collapse id="basic-navbar-nav ">
+          <Nav className="me-auto">
+            <Nav.Link href="#" className="nav-item" onClick={() => setSelectedComponent('Home')}>
               <FontAwesomeIcon icon={faHome} style={{ marginRight: '10px' }} />
               Home
             </Nav.Link>
-            <Nav.Link href="#" onClick={() => setSelectedComponent('Usuarios')}>
+            <Nav.Link href="#" className="nav-item" onClick={() => setSelectedComponent('Usuarios')}>
               <FontAwesomeIcon icon={faUsers} style={{ marginRight: '10px' }} />
               Usuarios
             </Nav.Link>
-            <Nav.Link href="#">
+            <Nav.Link href="#" className="nav-item">
               <FontAwesomeIcon icon={faHardDrive} style={{ marginRight: '10px' }} />
               Equipos
             </Nav.Link>
-            <Nav.Link href="#">
+            <Nav.Link href="#" className="nav-item">
               <FontAwesomeIcon icon={faBuildingUser} style={{ marginRight: '10px' }} />
               Clientes
             </Nav.Link>
-            <Nav.Link href="#">
+            <Nav.Link href="#" className="nav-item">
               <FontAwesomeIcon icon={faScrewdriverWrench} style={{ marginRight: '10px' }} />
               Mantenimientos
             </Nav.Link>
-            <Nav.Link href="#">
+            <Nav.Link href="#" className="nav-item">
               <FontAwesomeIcon icon={faFileLines} style={{ marginRight: '10px' }} />
               Control Mantenimientos
             </Nav.Link>
@@ -192,7 +192,7 @@ function AdminDashboard() {
         </div>
 
         {/* Contenido principal */}
-        <div id="modal-container" className="col-lg-9 position-relative " >
+        <div id="modal-container" className="col-lg-9 position-relative p-0" >
           {selectedComponent === 'Usuarios' && <ListUsers />}
         </div>
 

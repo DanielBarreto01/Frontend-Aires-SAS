@@ -43,6 +43,22 @@
     margin-right: 0px;
 }
 
+.custom-navbar {
+    background-color: #1e1e1e !important;
+    color: white !important;
+  }
+
+  .custom-navbar-brand {
+    color: white !important;
+  }
+
+  .no-padding-margin {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  
+
 /* Estilo para el área del perfil */
 .profile-header {
     border-bottom: 1px solid #404040;
