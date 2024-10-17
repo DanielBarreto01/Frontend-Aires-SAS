@@ -1,10 +1,15 @@
 /* Aplica margen inferior a cada campo */
+
+.content{
+  height: 100%;
+  overflow: hidden;
+}
 .register-container{
   display: flex;
   background-color: #ffffff;
   position: center;
   width: 50vw;  
-  margin-top: 5vh;
+  margin-top: 6vh;
   height: 38w;
   margin-left: 18%;
   max-width: 100%;
@@ -186,6 +191,23 @@ h2{
   left: 5px;
   font-size: 12px;
   color: #383535;
+}
+
+/*     toast css*/
+.custom-toast {
+  border-radius: 10px;
+  background-color: #f44336; /* Color de fondo (rojo) */
+  color: white; /* Color del texto */
+}
+
+.toast-header {
+  background-color: #d32f2f; /* Color de fondo del header */
+  color: white; /* Color del texto */
+}
+
+.toast-body {
+  background-color: #ffebee; /* Color de fondo del cuerpo */
+  color: #d32f2f; /* Color del texto */
 }
 
 /* .floating-label input:focus {
