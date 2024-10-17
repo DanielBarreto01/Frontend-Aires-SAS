@@ -78,13 +78,10 @@ function AdminDashboard() {
     setShowLogoutModal(false);  // Ocultar el modal sin hacer logout
   };
 
-  // if (!isTokenChecked) {   
-  //     return null;  
-  // }  
+  if (!isTokenChecked) {   
+      return null;  
+  }  
 
-  // if (!isTokenChecked) {   
-  //     return null;  
-  // }  
 
   return (
     <div className="container-fluid" style={{ height: '100vh' }}>

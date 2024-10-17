@@ -1,0 +1,52 @@
+.custom-toast {
+    border-radius: 20px;
+    /* Ajusta este valor según lo que prefieras */
+    overflow: hidden;
+    /* Asegura que los bordes no se corten */
+}
+
+.custom-toast .toast-header {
+    text-align: left;
+
+}
+
+.custom-toast .toast-body {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+
+.toast-header-success {
+    background-color: #28a745;
+    /* Verde para éxito */
+    color: white;
+    text-align: left;
+    border-radius: 40px;
+}
+
+/* Cuerpo para el Toast de éxito (verde claro) */
+.toast-body-success {
+    background-color: #d4edda;
+    /* Verde claro para el cuerpo */
+    color: #414943;
+}
+
+/* Encabezado para el Toast de error (rojo) */
+.toast-header-error {
+    background-color: #dc3545;
+    /* Rojo para error */
+    color: white;
+}
+
+/* Cuerpo para el Toast de error (rojo claro) */
+.toast-body-error {
+    background-color: #f8d7da;
+    /* Rojo claro para el cuerpo */
+    color: #5a5454;
+}
+
+/* Si necesitas ajustar la apariencia del texto */
+.custom-toast .toast-body {
+    font-size: 16px;
+    /* Ejemplo: cambiar el tamaño de la fuente */
+}
