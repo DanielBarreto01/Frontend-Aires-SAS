@@ -1,0 +1,9 @@
+.custom-button {
+    background-color: #7B7B7B; /* Color personalizado */
+    color: white; /* Texto blanco */
+    border: none; /* Sin bordes */
+}
+
+.custom-button:hover {
+    background-color: #7B7B7B; /* Color al pasar el ratón */
+}
