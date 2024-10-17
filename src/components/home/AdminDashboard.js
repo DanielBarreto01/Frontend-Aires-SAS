@@ -21,7 +21,7 @@ function AdminDashboard() {
 
     useEffect(() => {  // Mostrar el spinner
         const token = localStorage.getItem('authToken');
-        if (token !== null && jwtDecode(token).exp*1000 >  Date.now()) {
+        if (token !== null ) {//&& jwtDecode(token).exp*1000 >  Date.now()
             const decodedToken = jwtDecode(token);
             setUserData({
                 name: decodedToken.name,
@@ -29,7 +29,10 @@ function AdminDashboard() {
                 email: decodedToken.email
             });
             setIsTokenChecked(true);
+
           }// }else{
+
+
         //     localStorage.removeItem('authToken'); 
         //     window.location.href = '/login';        
         // }
@@ -85,7 +88,6 @@ function AdminDashboard() {
     //     return null;  
     // }  
         
-   
     // if (!isTokenChecked) {   
     //     return null;  
     // }  
