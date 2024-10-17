@@ -7,6 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import {jwtDecode} from 'jwt-decode';
 import "../TableStyle.css";
+import RegisterUser from '../registerUser/RegisterUser';
 
 
 
@@ -14,7 +15,7 @@ function ListUsers() {
     const [data, setData] = useState([]);
     const [selectedOption, setSelectedOption] = useState("Seleccione un rol");
     const [loading, setLoading] = useState(true);
- 
+    const [isNewComponentVisible, setIsNewComponentVisible] = useState(false);
     const [records, setRecords] = useState([]);
     let url = "/users/getUsers";  
     const [isTokenChecked, setIsTokenChecked] = useState(false);
@@ -40,6 +41,10 @@ function ListUsers() {
         return () => clearTimeout();
        
     }, []);
+
+    const handleButtonClick = () => {
+        setIsNewComponentVisible(prevState => !prevState); // Cambia el estado para mostrar el nuevo componente
+    };
 
     const fetchData = async () => {
         const backendUrl = process.env.REACT_APP_BCKEND;
@@ -127,69 +132,71 @@ function ListUsers() {
     // }  
 
     return (  
-    <div className="General-Table flex flex-col items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-950 mt-2">
-        <div > 
-        {/* className="justify-content-center aling-items-center d-flex shadow-lg" */}
-            <div className="superior row justify-content-right aling-items-right d-flex shadow-lg ">
-                <div className='heder-comp'> 
-                    <div className='title'><h2>Usuarios</h2></div>
-                </div>           
-                <div className="filter-bu  mb-4">
-                   
-                   
-                    <form style={{ display: 'flex', width: '100%' }}>
-                        <div className='input-container'>
-                            <FontAwesomeIcon icon={faSearch} className="icon" style={{ marginLeft: '10px' }} />
-                            <input className="form-control items-right" 
-                                placeholder="Buscar por: Nombre, Documento, Teléfono o Correo"
-                                type="search"                    
-                                onChange={handleChange}
-                                style={{ border: 'none', marginLeft: '-12px',  marginRight: '2px'  }}
-                                />
-                
-                        </div>
+        isNewComponentVisible ? (
+            <RegisterUser />) : (
+            <div className="General-Table flex flex-col items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-950 mt-2">
+                <div > 
+                {/* className="justify-content-center aling-items-center d-flex shadow-lg" */}
+                    <div className="superior row justify-content-right aling-items-right d-flex shadow-lg ">
+                        <div className='heder-comp'> 
+                            <div className='title'><h2>Usuarios</h2></div>
+                        </div>           
+                        <div className="filter-bu  mb-4">
+                        
+                        
+                            <form style={{ display: 'flex', width: '100%' }}>
+                                <div className='input-container'>
+                                    <FontAwesomeIcon icon={faSearch} className="icon" style={{ marginLeft: '10px' }} />
+                                    <input className="form-control items-right" 
+                                        placeholder="Buscar por: Nombre, Documento, Teléfono o Correo"
+                                        type="search"                    
+                                        onChange={handleChange}
+                                        style={{ border: 'none', marginLeft: '-12px',  marginRight: '2px'  }}
+                                        />
+                        
+                                </div>
+                                
+                                    
+                            </form>
+                            <div className = "desplegable">
+                                <DropdownButton title={selectedOption} onSelect={handleSelect} className='selec-option' style={{ fontSize:'5px'}}>
+                                    <Dropdown.Item eventKey="Seleccione un rol" className="dropdown-item-light">Seleccione un rol</Dropdown.Item>
+                                    <Dropdown.Item eventKey="Administrador">Administrador</Dropdown.Item>
+                                    <Dropdown.Item eventKey="Tecnico interno">Tecnico interno</Dropdown.Item>
+                                    <Dropdown.Item eventKey="Tecnico externo">Tecnico externo</Dropdown.Item>
+                                </DropdownButton>
+                            </div>
+                            <Button className = "button-Create"variant="primary" onClick={handleButtonClick}>Agregar usuario</Button>
                            
-                            
-                    </form>
-                    <div className = "desplegable">
-                        <DropdownButton title={selectedOption} onSelect={handleSelect} className='selec-option' style={{ fontSize:'5px'}}>
-                            <Dropdown.Item eventKey="Seleccione un rol" className="dropdown-item-light">Seleccione un rol</Dropdown.Item>
-                            <Dropdown.Item eventKey="Administrador">Administrador</Dropdown.Item>
-                            <Dropdown.Item eventKey="Tecnico interno">Tecnico interno</Dropdown.Item>
-                            <Dropdown.Item eventKey="Tecnico externo">Tecnico externo</Dropdown.Item>
-                        </DropdownButton>
+                        </div> 
+                    
                     </div>
-                    <Button className = "button-Create"variant="primary">Agregar usuario</Button>
-
-                </div> 
-               
-            </div>
-           
-           
-          
-            <div className="space-y-4"style={{ backgroundColor: '#fff' }}>
-                <div className="table-container">
-                  <DataTable
-                    columns={columns}
-                    data = {records}
-                    pagination
-                    paginationPerPage={6}
-                    fixedHeader
-                    persistTableHead
-                    fixedHeaderScrollHeight = "70vh"
-                    progressPending={loading}
-                    progressComponent={( // Si está cargando, muestra el overlay y el spinner
-                        <div className="loading-overlay">
-                          <Spinner animation="border" size="lg" /> 
+                
+                
+                
+                    <div className="space-y-4"style={{ backgroundColor: '#fff' }}>
+                        <div className="table-container">
+                        <DataTable
+                            columns={columns}
+                            data = {records}
+                            pagination
+                            paginationPerPage={6}
+                            fixedHeader
+                            persistTableHead
+                            fixedHeaderScrollHeight = "70vh"
+                            progressPending={loading}
+                            progressComponent={( // Si está cargando, muestra el overlay y el spinner
+                                <div className="loading-overlay">
+                                <Spinner animation="border" size="lg" /> 
+                                </div>
+                            )}
+                        />              
                         </div>
-                      )}
-                  />              
+
+                    </div>
                 </div>
-
             </div>
-        </div>
-    </div>
-
+        )
     );
 }
 export default ListUsers;
