@@ -90,15 +90,17 @@ function AdminDashboard() {
     <div className="container-fluid" style={{ height: '100vh' }}>
       {/* Navbar para pantallas pequeñas */}
       <Navbar bg="light" expand="lg" className="border-bottom d-lg-none">
-        <Navbar.Toggle aria-controls="basic-navbar-nav" onClick={() => setMenuOpen(!menuOpen)}>
+      <div className="d-flex justify-content-between w-100 align-items-center ps-2">
+        <Navbar.Toggle aria-controls="basic-navbar-nav" onClick={() => setMenuOpen(!menuOpen)} >
           <FontAwesomeIcon icon={faBars} />
         </Navbar.Toggle>
-        <Navbar.Brand href="#">
+        <Navbar.Brand href="#" className="w-100 text-center">
           <img src={logo} alt="Profile" className="profile-img" />
           P&A Aires Acondicionados
         </Navbar.Brand>
+        </div>
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
+          <Nav className="me-auto ps-3">
             <Nav.Link href="#" onClick={() => setSelectedComponent('Home')}>
               <FontAwesomeIcon icon={faHome} style={{ marginRight: '10px' }} />
               Home
