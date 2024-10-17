@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState} from 'react';
 import './RegisterUser.css';
-import { Form, Button, Row, Col, Spinner, Toast, ToastContainer } from 'react-bootstrap';
+import CustomToast from '../toastMessage/CustomToast';
+import {jwtDecode} from 'jwt-decode';
+import { Form, Button, Row, Col, Spinner } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import ListUsers from '../listUsers/ListUsers';
@@ -16,8 +18,7 @@ function RegisterUser() {
     const [showToast, setShowToast] = useState(false);     // Estado para mostrar/ocultar el Toast
     const [toastMessage, setToastMessage] = useState('');  // Estado para el mensaje del Toast
     const [toastType, setToastType] = useState('');
-
-
+    const [isTokenChecked, setIsTokenChecked] = useState(true);
     const [formData, setFormData] = useState({
         name: '',
         lastName: '',
@@ -26,8 +27,22 @@ function RegisterUser() {
         email: '',
         phoneNumber: '',
         address: '',
-        roles: [] // Aquí guardamos múltiples roles seleccionados
+        roles: []
     });
+
+    useEffect(() => {
+        console.log('entra al useeffect');
+        setTimeout(() => {
+            const token = localStorage.getItem('authToken');
+            if (token === null && jwtDecode(token).exp*1000 <  Date.now()) { // && jwtDecode(token).exp*1000 >  Date.now()
+                localStorage.removeItem('authToken'); 
+                setIsTokenChecked(false);
+                console.log('entra al token ', token);
+                window.location.href = '/login';  
+            }         
+        }, 200);
+        return () => clearTimeout();    
+    }, []);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -37,9 +52,9 @@ function RegisterUser() {
         });
     };
 
-    const handleButtonClick = () => {
-        setIsNewComponentVisible(prevState => !prevState);
-    };
+    // const handleButtonClick = () => {
+    //     setIsNewComponentVisible(prevState => !prevState);
+    // };
 
     const handleCancel = () => {
         setModalType('cancel');  // Definimos el tipo de acción como cancelar
@@ -51,30 +66,17 @@ function RegisterUser() {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log('Form Data:', formData);
-        // Verificar si el formulario es válido antes de mostrar el modal
-        // const form = e.target;
-        // if (form.checkValidity() === false) {
-        //     // Si el formulario no es válido, mostramos las validaciones del navegador y no mostramos el modal
-        //     form.reportValidity();  // Esto mostrará los mensajes de validación personalizados
-        //     return;  // Salimos de la función sin mostrar el modal
-        // }
-        // else{
         setModalType('register');
         setShowModal(true);
-        // }
-
-        // Si el formulario es válido, entonces mostramos el modal
-
     };
 
     const handleConfirmAction = () => {
         setShowModal(false);  // Cerramos el modal primero
+        setLoading(true);
         setTimeout(() => {
-            setLoading(true);  // Iniciamos el spinner después de un breve retraso
             if (modalType === 'cancel') {
                 // Acción de cancelar
                 setTimeout(() => {
-                    // Limpiamos el formulario y mostramos ListUsers
                     setFormData({
                         name: '',
                         lastName: '',
@@ -83,27 +85,28 @@ function RegisterUser() {
                         email: '',
                         phoneNumber: '',
                         address: '',
-                        roles: [],
+                        roles: []
                     });
                     setLoading(false);  // Detenemos el spinner
                     setIsNewComponentVisible(true);  // Mostramos el componente ListUsers
-                }, 2000); // Simulamos una espera de 2 segundos
+                }, 200); // Simulamos una espera de 2 segundos
             } else if (modalType === 'register') {
+
                 const config = {
                     headers: {
+                        "Content-Type": "application/json",
                         'Authorization': `Bearer ${localStorage.getItem('authToken')}`
                     }
                 };
-                console.log('Registrando usuario:', formData);
                 // Acción de registrar - enviar datos al backend
-                axios.post(`${process.env.REACT_APP_BCKEND}/users/create`, config, formData)
+                axios.post(`${process.env.REACT_APP_BCKEND}/users/create`, formData, config,)
                     .then(response => {
-                        console.log('User registered successfully:', response.data);
-                        // Aquí asumimos que el servidor devuelve un mensaje en response.data.message
-                        setToastMessage(response.data.message || 'Usuario registrado con éxito');
+                        setLoading(true)
+                        setToastMessage(response.data || 'Usuario registrado con éxito');
                         setToastType('success'); // Tipo de mensaje (éxito)
+                        console.log('desactivar botones', loading);
                         setShowToast(true);  // Mostramos el Toast
-                        console.log('User registered successfully:', response.data);
+
                         setFormData({
                             name: '',
                             lastName: '',
@@ -114,29 +117,51 @@ function RegisterUser() {
                             address: '',
                             roles: [],
                         });
-                        setLoading(false);  // Detenemos el spinner
-                        setIsNewComponentVisible(true);  // Mostramos el componente ListUsers
+                        setLoading(false);
+                        setTimeout(() => {
+                            setIsNewComponentVisible(true);  // Mostramos el componente ListUsers
+
+                        }, 3000);  // Cambiar desp// Retardo adicional para que el Toast sea visible (3.5 segundos en este caso)
+                        setLoading(true);
+
                     })
                     .catch(error => {
                         console.error('Error registering user:', error);
-                        setToastMessage('Error al registrar el usuario. Inténtalo de nuevo.');
-                        setToastType('danger'); // Tipo de mensaje (error)
-                        setShowToast(true);  // Mostramos el Toast
-                        setLoading(false);
-                        console.error('Error registering user:', error);
-                        setLoading(false);  // Detenemos el spinner si hay un error
+                        // Verificar si error.response existe
+                        if (!error.response) {
+                            // Esto significa que no hubo respuesta del servidor (posiblemente desconectado o problemas de red)
+                            setToastMessage('No se puede conectar al servidor. Verifica tu conexión o intenta más tarde.');
+                            setToastType('danger');
+                        } else {
+                            // Si el error tiene respuesta, manejar los errores del backend
+                            const errorMessage =
+                                error.response.data && error.response.data
+                                    ? error.response.data
+                                    : 'Error al registrar el usuario. Inténtalo de nuevo.';
+                            setToastMessage(errorMessage);  // Mostrar el mensaje de error del backend
+                            setToastType('danger');  // Tipo de mensaje (error)
+                        }
+                        // Mostrar el toast y detener el spinner
+                        setShowToast(true);
+                        setLoading(false); // Detenemos el spinner si hay un error
                     });
             }
-        }, 500); // Retardo de 500 ms para mostrar el spinner después de cerrar el modal
+        }, 200); // Retardo de 500 ms para mostrar el spinner después de cerrar el modal
     };
 
     const handleCloseModal = () => {
         setShowModal(false); // Cerrar el modal sin realizar acción
     };
+
+    
+    if (!isTokenChecked) {   
+        return null;  
+    }  
+
     return (
         isNewComponentVisible ? (
             <ListUsers />) : (
-            <div className = "content">
+            <div className="content">
                 <div className="col-md-4 register-container row justify-content-center  d-flex " >
                     <div className='formu'>
                         <h2>Registro de Usuario</h2>
@@ -298,10 +323,10 @@ function RegisterUser() {
                                 </div>
                             </Form.Group>
                             <div className="button-group">
-                                <Button variant="primary" type="submit" className='button-register' onClick={handleRegister}>
+                                <Button variant="primary" type="submit" className='button-register' disabled={loading} onClick={handleRegister} >
                                     Registrar Usuario
                                 </Button>
-                                <Button variant="secondary" className='button-no-register' onClick={handleCancel}   >
+                                <Button variant="secondary" className='button-no-register' disabled={loading} onClick={handleCancel} >
                                     Cancelar Registro
                                 </Button>
                             </div>
@@ -316,6 +341,7 @@ function RegisterUser() {
                                 : "¿Estás seguro de que deseas registrar este usuario?"}
                             confirmText={modalType === 'cancel' ? "Sí, cancelar" : "Sí, registrar"}
                             cancelText="No"
+                            containerId="modal-container"
                         />
                     </div>
                     {loading && (
@@ -325,28 +351,14 @@ function RegisterUser() {
                             </Spinner>
                         </div>
                     )}
-                    
+
                 </div>
-                <ToastContainer
-                        position="top-end"
-                        className="p-3"
-                        style={{ zIndex: 1050 }}
-                    >
-                        <Toast
-                            show={showToast}
-                            onClose={() => setShowToast(false)}
-                            bg="danger"  // Cambia el color de fondo, por ejemplo 'danger' es rojo
-                            // delay={3000}
-                            //autohide
-                            className="custom-toast"
-                        >
-                            <Toast.Header>
-                                <strong className="me-auto">Error</strong>
-                                <small>Just now</small>
-                            </Toast.Header>
-                            <Toast.Body>¡Hubo un error al registrar el usuario!</Toast.Body>
-                        </Toast>
-                    </ToastContainer>
+                <CustomToast
+                    showToast={showToast}
+                    setShowToast={setShowToast}
+                    toastMessage={toastMessage}
+                    toastType={toastType}
+                />
             </div>
 
         )

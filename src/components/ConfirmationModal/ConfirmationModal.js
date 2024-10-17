@@ -29,7 +29,7 @@ function ConfirmationModal({ show, onHide, onConfirm, title, bodyText, confirmTe
                 <Button className="custom-button" onClick={onHide}>
                     {cancelText}
                 </Button>
-                <Button variant="primary" onClick={onConfirm}>
+                <Button className ='button-secudary'  onClick={onConfirm}>
                     {confirmText}
                 </Button>
             </Modal.Footer>

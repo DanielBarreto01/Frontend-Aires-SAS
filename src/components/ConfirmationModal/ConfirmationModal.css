@@ -1,9 +1,16 @@
 .custom-button {
-    background-color: #7B7B7B; /* Color personalizado */
+    background-color: #000000; /* Color personalizado */
     color: white; /* Texto blanco */
     border: none; /* Sin bordes */
 }
 
 .custom-button:hover {
-    background-color: #7B7B7B; /* Color al pasar el ratón */
+    background-color: #362020; /* Color al pasar el ratón */
+}
+.button-secudary {
+    background-color: #7B7B7B;
+    border: none;
+}
+.button-secudary:hover{
+    background-color: #6b4a4a;
 }
