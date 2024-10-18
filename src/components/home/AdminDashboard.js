@@ -7,7 +7,7 @@ import logo from "../../assets/logo.png";
 import adminLogo from "../../assets/admin.png";
 import './AdminDashboard.css';
 import axios from 'axios';
-import ListUsers from "../listUsers/ListUsers";
+import ListUsers from "../user/listUsers/ListUsers";
 import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
 
 function AdminDashboard() {
@@ -21,7 +21,7 @@ function AdminDashboard() {
 
   useEffect(() => {  // Mostrar el spinner
     const token = localStorage.getItem('authToken');
-    if (token !== null) { //&& jwtDecode(token).exp*1000 >  Date.now()
+    if (token !== null && jwtDecode(token).exp*1000 >  Date.now()) { //&& jwtDecode(token).exp*1000 >  Date.now()
       const decodedToken = jwtDecode(token);
       setUserData({
         name: decodedToken.name,

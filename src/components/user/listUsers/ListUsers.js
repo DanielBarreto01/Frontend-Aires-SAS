@@ -4,10 +4,11 @@ import { Button, Dropdown, DropdownButton, Spinner } from 'react-bootstrap';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import UserDetails from '../userProfile/UserProfile';
 import axios from 'axios';
 import {jwtDecode} from 'jwt-decode';
-import "../TableStyle.css";
-import RegisterUser from '../RegisterUser';
+import "../../TableStyle.css";
+import RegisterUser from '../registerUser/RegisterUser';
 
 
 
@@ -20,25 +21,25 @@ function ListUsers() {
     const [selectedUser, setSelectedUser] = useState(null);
     let url = "/users/getUsers";  
     const [isTokenChecked, setIsTokenChecked] = useState(false);
+    const [isUserDetailsVisible, setIsUserDetailsVisible] = useState(false); 
     
 
     useEffect(() => {
         setTimeout(() => {
            setLoading(false);
             const token = localStorage.getItem('authToken');
-            if (token !== null ) { // && jwtDecode(token).exp*1000 >  Date.now()
+            console.log("token", token);
+            if (token !== null && jwtDecode(token).exp*1000 >  Date.now()) { // && jwtDecode(token).exp*1000 >  Date.now()
                 fetchData();  
                 setIsTokenChecked(true);
                 setLoading(true);
                
 
-            }// }else{
-
-
-            //     localStorage.removeItem('authToken'); 
-            //     setLoading(false);
-            //     window.location.href = '/login';        
-            // }           
+            }else{
+                localStorage.removeItem('authToken'); 
+                setLoading(false);
+                window.location.href = '/login';        
+            }           
         }, 200);
         return () => clearTimeout();
        
@@ -144,17 +145,22 @@ function ListUsers() {
 
 
     const handleRowClick = (row) => {
-        setSelectedUser(row);
-        console.log(row);  // Guarda la información de la fila seleccionada
+            setLoading(true);
+            setSelectedUser(row);
+            console.log(row);  // Guarda la información de la fila seleccionada
+            setIsUserDetailsVisible(true);
     };
 
-    // if (!isTokenChecked) {   
-    //     return null;  
-    // }  
+    if (!isTokenChecked) {   
+        return null;  
+    }  
 
     return (  
-        isNewComponentVisible ? (
-            <RegisterUser />) : (
+        isUserDetailsVisible ? (
+            <UserDetails user={selectedUser} /> // Componente para mostrar los detalles del usuario seleccionado
+        ) : isNewComponentVisible ? (
+            <RegisterUser />
+        ) : (
             <div className="General-Table flex flex-col items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-950 mt-2">
                 <div > 
                 {/* className="justify-content-center aling-items-center d-flex shadow-lg" */}
