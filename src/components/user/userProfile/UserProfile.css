@@ -1,27 +1,35 @@
 /* Aplica margen inferior a cada campo */
-
-.content{
-  height: 100%;
+.principal{
+  height: 100%!important;
+  display: flex; /* Cambia a flexbox para alinear los elementos en una fila */
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
 }
-.register-container{
+
+.userProfileCon{
   display: flex;
   background-color: #ffffff;
   position: center;
-  width: 50vw;  
-  margin-top: 6vh;
-  height: 38w;
-  margin-left: 18%;
+  align-items: center;
+  justify-content: center;
+
+  height: 100% !important;
+
   max-width: 100%;
   overflow: hidden;
-  position: relative;
+
 }
 
 .nameUser, .lastNameUser, .typeIdentification, .numberIdentification, .email, .phoneNumber,
- .address, .roles{
+ .address, .roles, .userStatusPro{
     margin-bottom: 18px;
     border: 1px solid #a39f9f !important;
     border-radius: 9px;
+    
+}
+.address{
+    margin-top: 18px;
 }
 
 .nameUser .form-control,
@@ -31,7 +39,8 @@
 .phoneNumber .form-control,
 .address .form-control,
 .typeIdentification .form-control,
-.roles .form-control {
+.roles .form-control,
+.userStatusPro .form-control {
     font-size: 13px !important;
     height: 33px;
     color: #7B7B7B !important;
@@ -90,8 +99,10 @@ textarea:focus {
 h2{
    
     font-weight: 790; /* Hace que el texto sea muy grueso */
-    text-align: center !important;
+    text-align: left !important;
     margin-bottom: 30px;
+    padding: none !important;
+    height: 20px;
 }
 
 .button-register{
@@ -103,6 +114,30 @@ h2{
   background-color: #7B7B7B;
   border-radius: 11px;
 }
+
+.imageUser{
+  height: 18% !important;
+}
+
+/* Estilos para el contenedor */
+.imageUser {
+  width: 100%; /* Tamaño fijo del contenedor */
+  height: 1000%; /* Tamaño fijo del contenedor */
+  border: 1px solid #ccc; /* Opcional: un borde para visualizar el contenedor */
+  display: flex;
+  justify-content: center; /* Centra la imagen horizontalmente */
+  align-items: center; /* Centra la imagen verticalmente */
+  overflow: hidden; /* Oculta la parte de la imagen que sobresale del contenedor */
+  margin-top: 10px;
+}
+
+/* Estilos para la imagen */
+.imagePreview {
+  width: 100%; /* La imagen ocupa el 100% del ancho del contenedor */
+  height: 100%; /* La imagen ocupa el 100% del alto del contenedor */
+  object-fit: contain;  /* Asegura que la imagen se ajuste al contenedor sin distorsionarse */
+}
+
 
 
 @media only screen and (max-width: 767px) {

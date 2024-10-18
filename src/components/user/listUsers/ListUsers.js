@@ -4,9 +4,10 @@ import { Button, Dropdown, DropdownButton, Spinner } from 'react-bootstrap';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import UserDetails from '../userProfile/UserProfile';
 import axios from 'axios';
 import {jwtDecode} from 'jwt-decode';
-import "../TableStyle.css";
+import "../../TableStyle.css";
 import RegisterUser from '../registerUser/RegisterUser';
 
 
@@ -17,26 +18,28 @@ function ListUsers() {
     const [loading, setLoading] = useState(true);
     const [isNewComponentVisible, setIsNewComponentVisible] = useState(false);
     const [records, setRecords] = useState([]);
+    const [selectedUser, setSelectedUser] = useState(null);
     let url = "/users/getUsers";  
     const [isTokenChecked, setIsTokenChecked] = useState(false);
+    const [isUserDetailsVisible, setIsUserDetailsVisible] = useState(false); 
+    
 
     useEffect(() => {
         setTimeout(() => {
            setLoading(false);
             const token = localStorage.getItem('authToken');
-            if (token !== null ) { // && jwtDecode(token).exp*1000 >  Date.now()
+            console.log("token", token);
+            if (token !== null && jwtDecode(token).exp*1000 >  Date.now()) { // && jwtDecode(token).exp*1000 >  Date.now()
                 fetchData();  
                 setIsTokenChecked(true);
                 setLoading(true);
                
 
-            }// }else{
-
-
-            //     localStorage.removeItem('authToken'); 
-            //     setLoading(false);
-            //     window.location.href = '/login';        
-            // }           
+            }else{
+                localStorage.removeItem('authToken'); 
+                setLoading(false);
+                window.location.href = '/login';        
+            }           
         }, 200);
         return () => clearTimeout();
        
@@ -128,13 +131,36 @@ function ListUsers() {
                                             record.email.toLowerCase().includes(e.target.value.toLowerCase())}));
     }
 
-    // if (!isTokenChecked) {   
-    //     return null;  
-    // }  
+    const conditionalRowStyles = [
+        {
+            when: row => true, // Aplica siempre
+            style: {
+                '&:hover': {
+                    backgroundColor: '#f0f0f0',  // Color de fondo al pasar el mouse
+                    cursor: 'pointer',           // Cambia el cursor a pointer
+                },
+            },
+        },
+    ];
+
+
+    const handleRowClick = (row) => {
+            setLoading(true);
+            setSelectedUser(row);
+            console.log(row);  // Guarda la información de la fila seleccionada
+            setIsUserDetailsVisible(true);
+    };
+
+    if (!isTokenChecked) {   
+        return null;  
+    }  
 
     return (  
-        isNewComponentVisible ? (
-            <RegisterUser />) : (
+        isUserDetailsVisible ? (
+            <UserDetails user={selectedUser} /> // Componente para mostrar los detalles del usuario seleccionado
+        ) : isNewComponentVisible ? (
+            <RegisterUser />
+        ) : (
             <div className="General-Table flex flex-col items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-950 mt-2">
                 <div > 
                 {/* className="justify-content-center aling-items-center d-flex shadow-lg" */}
@@ -186,6 +212,8 @@ function ListUsers() {
                             persistTableHead
                             fixedHeaderScrollHeight = "70vh"
                             progressPending={loading}
+                            onRowClicked = {handleRowClick}
+                            conditionalRowStyles={conditionalRowStyles}
                             progressComponent={( // Si está cargando, muestra el overlay y el spinner
                                 <div className="loading-overlay">
                                 <Spinner animation="border" size="lg" /> 
