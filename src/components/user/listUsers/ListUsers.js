@@ -7,7 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import {jwtDecode} from 'jwt-decode';
 import "../TableStyle.css";
-import RegisterUser from '../registerUser/RegisterUser';
+import RegisterUser from '../RegisterUser';
 
 
 
@@ -17,8 +17,10 @@ function ListUsers() {
     const [loading, setLoading] = useState(true);
     const [isNewComponentVisible, setIsNewComponentVisible] = useState(false);
     const [records, setRecords] = useState([]);
+    const [selectedUser, setSelectedUser] = useState(null);
     let url = "/users/getUsers";  
     const [isTokenChecked, setIsTokenChecked] = useState(false);
+    
 
     useEffect(() => {
         setTimeout(() => {
@@ -128,6 +130,24 @@ function ListUsers() {
                                             record.email.toLowerCase().includes(e.target.value.toLowerCase())}));
     }
 
+    const conditionalRowStyles = [
+        {
+            when: row => true, // Aplica siempre
+            style: {
+                '&:hover': {
+                    backgroundColor: '#f0f0f0',  // Color de fondo al pasar el mouse
+                    cursor: 'pointer',           // Cambia el cursor a pointer
+                },
+            },
+        },
+    ];
+
+
+    const handleRowClick = (row) => {
+        setSelectedUser(row);
+        console.log(row);  // Guarda la información de la fila seleccionada
+    };
+
     // if (!isTokenChecked) {   
     //     return null;  
     // }  
@@ -186,6 +206,8 @@ function ListUsers() {
                             persistTableHead
                             fixedHeaderScrollHeight = "70vh"
                             progressPending={loading}
+                            onRowClicked = {handleRowClick}
+                            conditionalRowStyles={conditionalRowStyles}
                             progressComponent={( // Si está cargando, muestra el overlay y el spinner
                                 <div className="loading-overlay">
                                 <Spinner animation="border" size="lg" /> 
