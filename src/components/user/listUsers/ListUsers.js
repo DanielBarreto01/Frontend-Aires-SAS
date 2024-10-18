@@ -97,6 +97,11 @@ function ListUsers() {
             name:"Correo",
             selector: row => row.email,
             sortable: true
+        }, 
+        {
+            name:"Estado",
+            selector: row => row.userStatus === true ? "Activo" : "Inactivo",
+            sortable: true
         }
     ]
 
