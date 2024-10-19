@@ -22,6 +22,11 @@ function ListUsers() {
     let url = "/users/getUsers";  
     const [isTokenChecked, setIsTokenChecked] = useState(false);
     const [isUserDetailsVisible, setIsUserDetailsVisible] = useState(false); 
+    const roleMap = {
+        "ADMIN": "Administrador",
+        "INTERNAL_TECHNICIAN": "Técnico interno",
+        "EXTERNAL_TECHNICIAN": "Técnico externo"
+    };
     
 
     useEffect(() => {
@@ -84,32 +89,44 @@ function ListUsers() {
                 style={{ width: '45px', height: '45px', objectFit: 'cover', borderRadius:'80px'}} // Ajusta el tamaño según sea necesario
               />
             ),
-          },
+            center :true.toString()
+        },
         {
             name:"Nombre",
             selector: row => `${row.name} ${row.lastName}`,
-            sortable: true
+            sortable: true,
+            center :true.toString()
         },
 
         {
             name:"Documento",
             selector: row => row.numberIdentification,
-            sortable: true
+            sortable: true,
+            center :true.toString()
         },
         {
             name:"Teléfono",
             selector: row => row.phoneNumber,
-            sortable: true
+            sortable: true,
+            center :true.toString()
         },
         {
             name:"Correo",
             selector: row => row.email,
-            sortable: true
+            sortable: true,
+            center :true.toString()
         }, 
         {
             name:"Estado",
             selector: row => row.userStatus === true ? "Activo" : "Inactivo",
-            sortable: true
+            sortable: true,
+            center :true.toString()
+        },
+        {
+            name:"Tipo de usuario",
+            selector: row => row.roles.map(role => role.name).map(role => roleMap[role] || role),
+            sortable: true,
+            center :true.toString()
         }
     ]
 

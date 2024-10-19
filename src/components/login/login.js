@@ -6,6 +6,7 @@ import './login.css';
 import logo from './fondo_icon.png';
 import { Navigate } from 'react-router-dom';
 import CustomToast from '../toastMessage/CustomToast';
+import {jwtDecode} from 'jwt-decode';
 
 const Login = () => {
   const { handleLogin } = useContext(AuthContext);
@@ -25,7 +26,14 @@ const Login = () => {
       const token = await handleLogin(userName, password);
       localStorage.setItem('authToken', token); // Almacenar el token en localStorage
       setError(''); // Limpiar el error si todo va bien
-      setNavigation(<Navigate to="/admin" />);
+      console.log((jwtDecode(localStorage.getItem('authToken')).userStatus) ,  "validacion de usuario")
+      if(jwtDecode(localStorage.getItem('authToken')).userStatus) {
+        setNavigation(<Navigate to="/admin" />);
+      } 
+      setShowToast(true);
+      setToastMessage("Acceso denegado comunique con el administrador");
+      setToastType('error');
+      setError("Acceso denegado comunique con el administrador");
     } catch (err) {
       console.log(err.status)
       setShowToast(true);
