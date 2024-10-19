@@ -1,16 +1,18 @@
-.custom-button {
+.button-secudary {
     background-color: #000000; /* Color personalizado */
     color: white; /* Texto blanco */
     border: none; /* Sin bordes */
+    width: 10%;
 }
 
-.custom-button:hover {
+.button-secudary:hover {
     background-color: #362020; /* Color al pasar el ratón */
 }
-.button-secudary {
+.custom-button {
     background-color: #7B7B7B;
     border: none;
+    width: 10%;
 }
-.button-secudary:hover{
+.custom-button:hover{
     background-color: #6b4a4a;
 }

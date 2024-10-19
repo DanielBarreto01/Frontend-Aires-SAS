@@ -26,59 +26,9 @@ function UserProfileForm({ formData,
         <div className='formu'>
             <h2>Información Usuario</h2>
             <Form onSubmit={handleSubmit}>
-                <Row>
-                    <Col xs={12} sm={6}>
-                        {/* Usamos el componente ImageDropzone aquí */}
-                        <ImageDropzone
-                            getRootProps={getRootProps}
-                            getInputProps={getInputProps}
-                            isDragActive={isDragActive}
-                            image={image}
-                            defaultImage={formData.pathImage} 
-                        />
-
-                        {/* Dirección */}
-                        <div className="floating-label">
-                            <Form.Group controlId="address" className="address">
-                                <Form.Control
-                                    type="text"
-                                    name="address"
-                                    value={formData.address}
-                                    onChange={handleInputChange}
-                                    placeholder=" "
-                                    required
-                                    maxLength={50}
-                                />
-                                <Form.Label>Dirección</Form.Label>
-                            </Form.Group>
-                        </div>
-                        {/* Roles */}
-                        <Form.Group controlId="roles" className="roles">
-                            <div className="icon-container">
-                                <Form.Control
-                                    as="select"
-                                    name="roles"
-                                    value={formData.roles[0] || ''}
-                                    onChange={(e) => {
-                                        const selectedRole = e.target.value;
-                                        setFormData({
-                                            ...formData,
-                                            roles: selectedRole ? [selectedRole] : [""]
-                                        });
-                                    }}
-                                    required
-                                    style={{ border: 'none' }}
-                                >
-                                    <option value="" disabled>Selecione un rol</option>
-                                    <option value="ADMIN">Administrador</option>
-                                    <option value="INTERNAL_TECHNICIAN">Tecnico interno</option>
-                                    <option value="EXTERNAL_TECHNICIAN">Tecnico externo</option>
-                                </Form.Control>
-                                <FontAwesomeIcon icon={faChevronDown} className="icon" />
-                            </div>
-                        </Form.Group>
-                    </Col>
-                    <Col xs={12} sm={6}>
+                <Row className="flex-row-reverse flex-sm-row">
+                    
+                    <Col xs={12} sm={6} className="order-1 order-sm-2">
                         <Row>
                             <Col xs={12} sm={6}>
                                 <div className="floating-label">
@@ -145,13 +95,21 @@ function UserProfileForm({ formData,
                         <div className="floating-label">
                             <Form.Group controlId="numberIdentification" className="numberIdentification">
                                 <Form.Control
-                                    type="text"
+                                    type="number"
                                     name="numberIdentification"
                                     value={formData.numberIdentification}
                                     onChange={handleInputChange}
                                     placeholder=""
                                     required
                                     maxLength={20}
+                                    onInput={(e) => {
+                                        // Limita el input a 10 dígitos
+                                        e.target.value = e.target.value.slice(0, 20);
+                                        e.target.setCustomValidity('');
+                                        if (e.target.value.length < 4) {
+                                            e.target.setCustomValidity('Por favor, ingresa un numero de identificación valido.');
+                                        }
+                                    }}
                                 />
                                 <Form.Label>Número de identificación</Form.Label>
                             </Form.Group>
@@ -177,7 +135,7 @@ function UserProfileForm({ formData,
                         <div className="floating-label">
                             <Form.Group controlId="phoneNumber" className="phoneNumber">
                                 <Form.Control
-                                    type="tel"
+                                    type="number"
                                     name="phoneNumber"
                                     value={formData.phoneNumber}
                                     onChange={handleInputChange}
@@ -185,9 +143,15 @@ function UserProfileForm({ formData,
                                     required
                                     pattern="^[0-9]{10}$"
                                     inputMode="numeric"
-                                    maxLength={10}
-                                    onInvalid={(e) => e.target.setCustomValidity('Por favor, ingresa un número de teléfono válido.')}
-                                    onInput={(e) => e.target.setCustomValidity('')}
+                                    onInput={(e) => {
+                                        // Limita el input a 10 dígitos
+                                        e.target.value = e.target.value.slice(0, 10);
+                                        e.target.setCustomValidity('');
+                                        if (e.target.value.length < 10) {
+                                            e.target.setCustomValidity('Por favor, ingresa un número de teléfono de 10 dígitos.');
+                                        }
+                                    }}
+                                   
                                 />
                                 <Form.Label>Número de teléfono</Form.Label>
                             </Form.Group>
@@ -219,6 +183,60 @@ function UserProfileForm({ formData,
                             </div>
                         </Form.Group>
                     </Col>
+                    <Col xs={12} sm={6} className="order-2 order-sm-1">
+                        {/* Usamos el componente ImageDropzone aquí */}
+                        <div className="image-coponent order-3 order-sm-1">
+                            <ImageDropzone
+                                getRootProps={getRootProps}
+                                getInputProps={getInputProps}
+                                isDragActive={isDragActive}
+                                image={image}
+                                defaultImage={formData.pathImage || ''}
+
+                            />
+                        </div>
+                    
+                        {/* Dirección */}
+                        <div className="floating-label order-2 order-sm-1">
+                            <Form.Group controlId="address" className="address">
+                                <Form.Control
+                                    type="text"
+                                    name="address"
+                                    value={formData.address}
+                                    onChange={handleInputChange}
+                                    placeholder=" "
+                                    required
+                                    maxLength={50}
+                                />
+                                <Form.Label>Dirección</Form.Label>
+                            </Form.Group>
+                        </div>
+                        {/* Roles */}
+                        <Form.Group controlId="roles" className="roles order-3 order-sm-2">
+                            <div className="icon-container">
+                                <Form.Control
+                                    as="select"
+                                    name="roles"
+                                    value={formData.roles[0] || ''}
+                                    onChange={(e) => {
+                                        const selectedRole = e.target.value;
+                                        setFormData({
+                                            ...formData,
+                                            roles: selectedRole ? [selectedRole] : [""]
+                                        });
+                                    }}
+                                    required
+                                    style={{ border: 'none' }}
+                                >
+                                    <option value="" disabled>Selecione un rol</option>
+                                    <option value="ADMIN">Administrador</option>
+                                    <option value="INTERNAL_TECHNICIAN">Tecnico interno</option>
+                                    <option value="EXTERNAL_TECHNICIAN">Tecnico externo</option>
+                                </Form.Control>
+                                <FontAwesomeIcon icon={faChevronDown} className="icon" />
+                            </div>
+                        </Form.Group>
+                    </Col>
 
                 </Row>
 
@@ -227,7 +245,7 @@ function UserProfileForm({ formData,
                         Actualizar Usuario
                     </Button>
                     <Button variant="secondary" className='button-no-register' disabled={loading} onClick={handleCancel} >
-                        Cancelar Registro
+                        Cancelar actualización
                     </Button>
                 </div>
             </Form>
@@ -236,12 +254,12 @@ function UserProfileForm({ formData,
                 show={showModal}
                 onHide={handleCloseModal}
                 onConfirm={handleConfirmAction}
-                title={modalType === 'cancel' ? "Cancelar registro" : "Confirmar registro"}
+                title={modalType === 'cancel' ? "Cancelar actialización" : "Confirmar Actulización"}
                 bodyText={modalType === 'cancel'
-                    ? "¿Estás seguro de que deseas cancelar el registro? Se perderán todos los datos."
-                    : "¿Estás seguro de que deseas registrar este usuario?"}
-                confirmText={modalType === 'cancel' ? "Sí, cancelar" : "Sí, registrar"}
-                cancelText="No"
+                    ? "¿Deseas cancelar la actualización de la información del usuario? Las modificaciones realizadas no se guardarán."
+                    : "¿Estás seguro de que deseas actualizar la información?"}
+                confirmText = 'Si'//{modalType === 'cancel' ? "Sí, cancelar" : "Sí, actualizar"}
+                cancelText = 'No'//{modalType === 'cancel' ? "No, no cancelar" : "No, no actualizar"}
                 containerId="modal-container"
             />
             {loading && (

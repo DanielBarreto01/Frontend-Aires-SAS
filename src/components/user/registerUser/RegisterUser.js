@@ -3,7 +3,7 @@ import styles from './RegisterUser.css';
 import CustomToast from '../../toastMessage/CustomToast';
 import RegisterUserForm from './RegisterUserForm';
 import { jwtDecode } from 'jwt-decode';
-import { Form, Button, Row, Col, Spinner } from 'react-bootstrap';
+import { useDropzone } from 'react-dropzone';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import ListUsers from '../listUsers/ListUsers';
@@ -19,7 +19,10 @@ function RegisterUser() {
     const [showToast, setShowToast] = useState(false);     // Estado para mostrar/ocultar el Toast
     const [toastMessage, setToastMessage] = useState('');  // Estado para el mensaje del Toast
     const [toastType, setToastType] = useState('');
+    const [fileUser, setFileUser] = useState(null); 
+    const [image, setImage] = useState(null);
     const [isTokenChecked, setIsTokenChecked] = useState(true);
+    const [selectedImage, setSelectedImage] = useState(null);
     const [formData, setFormData] = useState({
         name: '',
         lastName: '',
@@ -56,6 +59,18 @@ function RegisterUser() {
     // const handleButtonClick = () => {
     //     setIsNewComponentVisible(prevState => !prevState);
     // };
+
+    const { getRootProps, getInputProps, isDragActive } = useDropzone({
+        accept: 'image/*',
+        onDrop: (acceptedFiles) => {
+            const file = acceptedFiles[0];
+            console.log('nombre de la imgen subida', file);
+            const previewUrl = URL.createObjectURL(file);
+            setFileUser(file);
+            setImage(previewUrl); // Actualizar el estado con la imagen seleccionada
+        }
+    })
+
 
     const handleCancel = () => {
         setModalType('cancel');  // Definimos el tipo de acción como cancelar
@@ -172,8 +187,7 @@ function RegisterUser() {
                             setFormData={setFormData}
                             handleInputChange={handleInputChange}
                             handleSubmit={handleSubmit}
-                            // handleImageChange={handleImageChange}
-                            // selectedImage={selectedImage}
+                            selectedImage={selectedImage}
                             loading={loading}
                             handleCancel={handleCancel}
                             handleRegister={handleRegister}
@@ -181,6 +195,10 @@ function RegisterUser() {
                             handleCloseModal={handleCloseModal}
                             handleConfirmAction={handleConfirmAction}
                             modalType={modalType}
+                            getRootProps={getRootProps}
+                            getInputProps={getInputProps}
+                            isDragActive={isDragActive}
+                            image={image}
                         />
                     </div>
                 </div>

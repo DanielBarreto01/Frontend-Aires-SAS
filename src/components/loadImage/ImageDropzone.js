@@ -1,7 +1,6 @@
 import React from 'react';
 import './ImageDropzone.css';
 
-
 const ImageDropzone = ({ getRootProps, getInputProps, isDragActive, image, defaultImage }) => {
     // Si no hay imagen cargada, usa la imagen por defecto
     const displayImage = image || defaultImage;

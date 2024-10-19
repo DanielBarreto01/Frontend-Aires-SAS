@@ -26,12 +26,13 @@ function ConfirmationModal({ show, onHide, onConfirm, title, bodyText, confirmTe
                 {bodyText}
             </Modal.Body>
             <Modal.Footer className="d-flex justify-content-center">
+                <Button className='button-secudary' onClick={onConfirm}>
+                    {confirmText}
+                </Button>
                 <Button className="custom-button" onClick={onHide}>
                     {cancelText}
                 </Button>
-                <Button className ='button-secudary'  onClick={onConfirm}>
-                    {confirmText}
-                </Button>
+
             </Modal.Footer>
         </Modal>
     );
