@@ -31,9 +31,9 @@ const Login = () => {
         setNavigation(<Navigate to="/admin" />);
       } 
       setShowToast(true);
-      setToastMessage("Acceso denegado comunique con el administrador");
+      setToastMessage("Acceso denegado comuniquese con el administrador");
       setToastType('error');
-      setError("Acceso denegado comunique con el administrador");
+      setError("Acceso denegado comuniquese con el administrador");
     } catch (err) {
       console.log(err.status)
       setShowToast(true);

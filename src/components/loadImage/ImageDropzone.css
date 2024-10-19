@@ -1,22 +1,25 @@
 .image-dropzone {
     position: relative;
-    width: 100%;  /* Ancho fijo del contenedor */
-    height: 61%; /* Alto fijo del contenedor */
+    width: 100% !important;  /* Ancho fijo del contenedor */
+    height: 100% !important; /* Alto fijo del contenedor */
     border: 2px dashed #cccccc;
     padding: 20px;
     text-align: center;
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 2; 
 }
 
 .image-dropzone .overlay-text {
     position: absolute;
+    height: auto;
+    width: auto;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     color: white;
-    font-size: 18px;
+    font-size: 15px;
     background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
     padding: 10px;
     border-radius: 5px;
@@ -31,4 +34,27 @@
     position: absolute;
     top: 0;
     left: 0;
+   /* Opacidad de la imagen */
+    z-index: 1;
+}
+
+@media only screen and (max-width: 767px) {
+    
+    .image-dropzone .overlay-text {
+        position: absolute;
+        height: 80%;
+        top: 55%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        font-size: 12px;
+        background-color: rgba(0, 0, 0, 0.5); 
+        padding: 1px;
+        border-radius: 5px;
+        text-align: center;
+        z-index: 1;
+    }
+    .border-bottom{
+        margin-left: 5px;
+    }
 }

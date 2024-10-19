@@ -43,28 +43,32 @@ function UserProfile({ user }) {
     });
 
     useEffect(() => {
-        console.log('entra al useeffect', user);
         setTimeout(() => {
-            setFormData(null);
-            setFormData({
-                name: user.name || '',
-                lastName: user.lastName || '',
-                typeIdentification: user.typeIdentification || '',
-                numberIdentification: user.numberIdentification || '',
-                email: user.email || '',
-                phoneNumber: user.phoneNumber.toString() || '',
-                address: user.address || '',
-                pathImage: user.pathImage || '',
-                userStatus: user.userStatus,
-                roles: user.roles.map(role => role.name) || ['']
-            });
-            const token = localStorage.getItem('authToken');
-            if (token === null && jwtDecode(token).exp * 1000 < Date.now()) { // && jwtDecode(token).exp*1000 >  Date.now()
-                localStorage.removeItem('authToken');
-                setIsTokenChecked(false);
-                console.log('entra al token ', token);
-                window.location.href = '/login';
+            try {
+                //setFormData(null);
+                setFormData({
+                    name: user.name || '',
+                    lastName: user.lastName || '',
+                    typeIdentification: user.typeIdentification || '',
+                    numberIdentification: user.numberIdentification || '',
+                    email: user.email || '',
+                    phoneNumber: user.phoneNumber.toString() || '',
+                    address: user.address || '',
+                    pathImage: user.pathImage || '',
+                    userStatus: user.userStatus,
+                    roles: user.roles.map(role => role.name) || ['']
+                });
+                
+                if (localStorage.getItem('authToken') === null && jwtDecode(localStorage.getItem('authToken')).exp * 1000 < Date.now()) { // && jwtDecode(token).exp*1000 >  Date.now()
+                    localStorage.removeItem('authToken');
+                    setIsTokenChecked(false);
+                    // console.log('entra al token ', token);
+                    window.location.href = '/login';
+                }
+            } catch (error) {
+                console.error('Error checking token:', error);
             }
+           
         }, 200);
         return () => clearTimeout();
     }, []);
@@ -125,7 +129,7 @@ function UserProfile({ user }) {
                     roles: formData.roles
                 };
                 console.log('Image URL subida:', await getDownloadURL(storageRef));
-            } else {
+            } else{
                 usersData = formData;
             }
 
@@ -235,7 +239,7 @@ function UserProfile({ user }) {
     return (
         isNewComponentVisible ? (
             <ListUsers />) : (
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', overflow: "hidden" }}>
                 <div className={`principal ${styles}`}>
                     <div className="userProfileCon col-md-12 row justify-content-center d-flex">
 

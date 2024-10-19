@@ -3,11 +3,88 @@ import { Form, Button, Row, Col, Image, Spinner } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import ConfirmationModal from "../../ConfirmationModal/ConfirmationModal";
-function RegisterUserForm({ formData, setFormData, handleInputChange, handleSubmit, handleImageChange, selectedImage, loading, handleCancel, handleRegister, showModal, handleCloseModal, handleConfirmAction, modalType }) {
+import ImageDropzone from '../../loadImage/ImageDropzone';
+
+function RegisterUserForm({ formData,
+    setFormData,
+    handleInputChange,
+    handleSubmit,
+    getRootProps,
+    getInputProps,
+    isDragActive,
+    image,
+    loading,
+    handleCancel,
+    handleRegister,
+    showModal,
+    handleCloseModal,
+    handleConfirmAction,
+    modalType }) {
+
     return (
         <div className='formu'>
             <Form onSubmit={handleSubmit}>
                 <Row>
+
+                
+                        <Col xs={12} sm={6} className='image-container'>
+
+                        </Col>
+                        <Col xs={12} sm={6} className='image-container'>
+                            {/* Usamos el componente ImageDropzone aquí */}
+                            <div className="image-coponent order-3 order-sm-1">
+                                <ImageDropzone
+                                    getRootProps={getRootProps}
+                                    getInputProps={getInputProps}
+                                    isDragActive={isDragActive}
+                                    image={image}
+                                    defaultImage={formData.pathImage || ''}
+
+                                />
+                            </div>
+
+                            {/* Dirección */}
+                            <div className="floating-label order-2 order-sm-1">
+                                <Form.Group controlId="address" className="address">
+                                    <Form.Control
+                                        type="text"
+                                        name="address"
+                                        value={formData.address}
+                                        onChange={handleInputChange}
+                                        placeholder=" "
+                                        required
+                                        maxLength={50}
+                                    />
+                                    <Form.Label>Dirección</Form.Label>
+                                </Form.Group>
+                            </div>
+                            {/* Roles */}
+                            <Form.Group controlId="roles" className="roles order-3 order-sm-2">
+                                <div className="icon-container">
+                                    <Form.Control
+                                        as="select"
+                                        name="roles"
+                                        value={formData.roles[0] || ''}
+                                        onChange={(e) => {
+                                            const selectedRole = e.target.value;
+                                            setFormData({
+                                                ...formData,
+                                                roles: selectedRole ? [selectedRole] : [""]
+                                            });
+                                        }}
+                                        required
+                                        style={{ border: 'none' }}
+                                    >
+                                        <option value="" disabled>Selecione un rol</option>
+                                        <option value="ADMIN">Administrador</option>
+                                        <option value="INTERNAL_TECHNICIAN">Tecnico interno</option>
+                                        <option value="EXTERNAL_TECHNICIAN">Tecnico externo</option>
+                                    </Form.Control>
+                                    <FontAwesomeIcon icon={faChevronDown} className="icon" />
+                                </div>
+                            </Form.Group>
+                        </Col>
+                 
                     <Col xs={12} sm={6}>
                         <div className="floating-label">
                             <Form.Group controlId="name" className='nameUser'>
