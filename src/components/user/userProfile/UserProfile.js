@@ -8,9 +8,6 @@ import { getFirestore, collection, addDoc } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import UserProfileForm from './UserProfileForm';
 import ListUsers from '../listUsers/ListUsers';
-import userImage from './user.png';
-import ConfirmationModal from "../../ConfirmationModal/ConfirmationModal";
-
 import axios from 'axios';
 
 
@@ -72,18 +69,6 @@ function UserProfile({ user }) {
         return () => clearTimeout();
     }, []);
 
-    // carga de archivos
-    // const handleImageDrop = (acceptedFiles) => {
-    //     const file = acceptedFiles[0];
-    //     const reader = new FileReader();
-    //     reader.onloadend = () => {
-    //         setImage(reader.result); // Cargar la imagen seleccionada por el usuario
-    //     };
-    //     if (file) {
-    //         reader.readAsDataURL(file);
-    //     }
-    // };
-
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         accept: 'image/*',
         onDrop: (acceptedFiles) => {
@@ -102,10 +87,6 @@ function UserProfile({ user }) {
             [name]: name === 'email' ? value.replace(/\s/g, '') : value,
         });
     };
-
-    // const handleButtonClick = () => {
-    //     setIsNewComponentVisible(prevState => !prevState);
-    // };
 
     const handleCancel = () => {
         setModalType('cancel');  // Definimos el tipo de acción como cancelar
