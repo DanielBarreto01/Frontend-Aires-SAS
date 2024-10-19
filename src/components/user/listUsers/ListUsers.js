@@ -75,8 +75,16 @@ function ListUsers() {
    
     const columns =[
         {
-            name:"Usuario"
-        },
+            name: 'Usuario',
+            selector: row => row.pathImage, // Suponiendo que 'image' es el campo que contiene la URL de la imagen
+            cell: row => (
+              <img
+                src={row.pathImage} // Suponiendo que 'image' es el campo que contiene la URL de la imagen
+                alt="imagen"
+                style={{ width: '45px', height: '45px', objectFit: 'cover', borderRadius:'80px'}} // Ajusta el tamaño según sea necesario
+              />
+            ),
+          },
         {
             name:"Nombre",
             selector: row => `${row.name} ${row.lastName}`,

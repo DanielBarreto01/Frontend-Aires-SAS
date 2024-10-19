@@ -30,6 +30,7 @@ function UserProfile({ user }) {
     const [imageUrl, setImageUrl] = useState('');
     const dbApp = getFirestore(appFirebase);
     const storageApp = getStorage(appFirebase);
+    let usersData = null;
 
     const [formData, setFormData] = useState({
         name: '',
@@ -47,6 +48,7 @@ function UserProfile({ user }) {
     useEffect(() => {
         console.log('entra al useeffect', user);
         setTimeout(() => {
+            setFormData(null);
             setFormData({
                 name: user.name || '',
                 lastName: user.lastName || '',
@@ -71,22 +73,16 @@ function UserProfile({ user }) {
     }, []);
 
     // carga de archivos
-    const handleImageDrop = (acceptedFiles) => {
-        const file = acceptedFiles[0];
-        const reader = new FileReader();
-        reader.onloadend = () => {
-            setImage(reader.result); // Cargar la imagen seleccionada por el usuario
-        };
-        if (file) {
-            reader.readAsDataURL(file);
-        }
-    };
-
-
-
-
-
-
+    // const handleImageDrop = (acceptedFiles) => {
+    //     const file = acceptedFiles[0];
+    //     const reader = new FileReader();
+    //     reader.onloadend = () => {
+    //         setImage(reader.result); // Cargar la imagen seleccionada por el usuario
+    //     };
+    //     if (file) {
+    //         reader.readAsDataURL(file);
+    //     }
+    // };
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         accept: 'image/*',
@@ -131,28 +127,31 @@ function UserProfile({ user }) {
         try {
             
         
-            console.log('Uploading imagen eviar... runta', sendImage);
-            console.log('imagens selecionada', image);
-            const newImage = new File([""],sendImage);
-            console.log('Uploading... runta', newImage.target);
-            const storageRef = ref(storageApp, `images/${sendImage.name}`);
-            await uploadBytes(storageRef, sendImage).then((res) => {
+            console.log('Uploading imagen eviar... runta', fileUser);
+            console.log('imagens selecionada', fileUser);
+           // const newImage = new File([""],sendImage);
+            console.log('Uploading... runta', fileUser.target);
+            const storageRef = ref(storageApp, `images/${fileUser.name}`);
+            await uploadBytes(storageRef, fileUser).then((res) => {
                 console.log('respuesta', res)
             });
             console.log('Image uploaded successfully');
            // setImageUrl(await getDownloadURL(storageRef))
-           setFormData({
-            name: formData.name,
-            lastName: formData.lastName,
-            typeIdentification: formData.typeIdentification,
-            numberIdentification: formData.numberIdentification,
-            email: formData.email,
-            phoneNumber: formData.phoneNumber.toString(),
-            address: formData.address,
-            pathImage: await getDownloadURL(storageRef),
-            userStatus : formData.userStatus,
-            roles: formData.roles
-        });
+           const url = await getDownloadURL(storageRef);
+            setImage(null);
+            setFileUser(null);
+            usersData = {
+                name: formData.name,
+                lastName: formData.lastName,
+                typeIdentification: formData.typeIdentification,
+                numberIdentification: formData.numberIdentification,
+                email: formData.email,
+                phoneNumber: formData.phoneNumber.toString(),
+                address: formData.address,
+                pathImage: url,
+                userStatus : formData.userStatus,
+                roles: formData.roles
+            };
          
             console.log('Image URL subida:', await getDownloadURL(storageRef));
            // setFormData({  pathImage: imageUrl });
@@ -170,16 +169,7 @@ function UserProfile({ user }) {
             if (modalType === 'cancel') {
                 // Acción de cancelar
                 setTimeout(() => {
-                    setFormData({
-                        name: '',
-                        lastName: '',
-                        typeIdentification: '',
-                        numberIdentification: '',
-                        email: '',
-                        phoneNumber: '',
-                        address: '',
-                        roles: ['']
-                    });
+                    setFormData(null);
                     setLoading(false);  // Detenemos el spinner
                     setIsNewComponentVisible(true);  // Mostramos el componente ListUsers
                 }, 200); // Simulamos una espera de 2 segundos
@@ -201,17 +191,20 @@ function UserProfile({ user }) {
 
                 await uploadImage(fileUser);
                 console.log('Form Data con imagen:', formData);
-                setLoading(false);
+               
                 
 
-                console.log('informacion un imagen guardada', formData);
-                axios.patch(`${process.env.REACT_APP_BCKEND}/users/userUpdate`, formData, config,)
+                axios.patch(`${process.env.REACT_APP_BCKEND}/users/userUpdate/${user.id}`, usersData, config,)
                     .then(response => {
                         setLoading(true)
                         setToastMessage(response.data || 'Usuario registrado con éxito');
                         setToastType('success'); // Tipo de mensaje (éxito)
                         console.log('desactivar botones', loading);
                         setShowToast(true);  // Mostramos el Toast
+                        setFormData(null);  // Limpiar el formulario
+                        setFileUser(null);
+                        setImage(null);
+                        setImageUrl(null)
                         setFormData({
                             name: '',
                             lastName: '',
@@ -220,15 +213,18 @@ function UserProfile({ user }) {
                             email: '',
                             phoneNumber: '',
                             address: '',
-                            roles: [],
+                            pathImage: '',
+                            userStatus: true,
+                            roles: ['']
                         });
+                        console.log(formData);
                         
-                        setLoading(false);
+                       
                         setTimeout(() => {
                             setIsNewComponentVisible(true);  // Mostramos el componente ListUsers
-
+                            setLoading(false);
                         }, 3000);  // Cambiar desp// Retardo adicional para que el Toast sea visible (3.5 segundos en este caso)
-                        setLoading(true);
+                        
 
                     })
                     .catch(error => {

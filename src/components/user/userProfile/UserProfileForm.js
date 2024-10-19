@@ -224,7 +224,7 @@ function UserProfileForm({ formData,
 
                 <div className="button-group">
                     <Button variant="primary" type="submit" className='button-register' disabled={loading} onClick={handleRegister} >
-                        Registrar Usuario
+                        Actualizar Usuario
                     </Button>
                     <Button variant="secondary" className='button-no-register' disabled={loading} onClick={handleCancel} >
                         Cancelar Registro
