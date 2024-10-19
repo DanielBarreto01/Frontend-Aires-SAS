@@ -58,7 +58,7 @@ function UserProfile({ user }) {
                 phoneNumber: user.phoneNumber.toString() || '',
                 address: user.address || '',
                 pathImage: user.pathImage || '',
-                userStatus : user.userStatus,
+                userStatus: user.userStatus,
                 roles: user.roles.map(role => role.name) || ['']
             });
             const token = localStorage.getItem('authToken');
@@ -121,42 +121,37 @@ function UserProfile({ user }) {
         setShowModal(true);
     };
 
-    const uploadImage = async (sendImage) => {
-        console.log('Uploading image...', sendImage);
-       
+    const uploadImage = async () => {
         try {
-            
-        
-            console.log('Uploading imagen eviar... runta', fileUser);
-            console.log('imagens selecionada', fileUser);
-           // const newImage = new File([""],sendImage);
-            console.log('Uploading... runta', fileUser.target);
-            const storageRef = ref(storageApp, `images/${fileUser.name}`);
-            await uploadBytes(storageRef, fileUser).then((res) => {
-                console.log('respuesta', res)
-            });
-            console.log('Image uploaded successfully');
-           // setImageUrl(await getDownloadURL(storageRef))
-           const url = await getDownloadURL(storageRef);
-            setImage(null);
-            setFileUser(null);
-            usersData = {
-                name: formData.name,
-                lastName: formData.lastName,
-                typeIdentification: formData.typeIdentification,
-                numberIdentification: formData.numberIdentification,
-                email: formData.email,
-                phoneNumber: formData.phoneNumber.toString(),
-                address: formData.address,
-                pathImage: url,
-                userStatus : formData.userStatus,
-                roles: formData.roles
-            };
-         
-            console.log('Image URL subida:', await getDownloadURL(storageRef));
-           // setFormData({  pathImage: imageUrl });
+            if (fileUser !== null) {
+                const storageRef = ref(storageApp, `images/${fileUser.name}`);
+                await uploadBytes(storageRef, fileUser).then((res) => {
+                    console.log('respuesta', res)
+                });
+                console.log('Image uploaded successfully');
+                // setImageUrl(await getDownloadURL(storageRef))
+                const url = await getDownloadURL(storageRef);
+                usersData = {
+                    name: formData.name,
+                    lastName: formData.lastName,
+                    typeIdentification: formData.typeIdentification,
+                    numberIdentification: formData.numberIdentification,
+                    email: formData.email,
+                    phoneNumber: formData.phoneNumber.toString(),
+                    address: formData.address,
+                    pathImage: url,
+                    userStatus: formData.userStatus,
+                    roles: formData.roles
+                };
+                console.log('Image URL subida:', await getDownloadURL(storageRef));
+            } else {
+                usersData = formData;
+            }
+
+           
+            // setFormData({  pathImage: imageUrl });
             // Maneja el éxito de la carga de la imagen
-            
+
         } catch (error) {
             console.error('Error uploading image:', error);
             // Maneja el error de la carga de la imagen
@@ -166,88 +161,84 @@ function UserProfile({ user }) {
     const handleConfirmAction = async () => {
         setShowModal(false);  // Cerramos el modal primero
         setLoading(true);
-            if (modalType === 'cancel') {
-                // Acción de cancelar
-                setTimeout(() => {
-                    setFormData(null);
-                    setLoading(false);  // Detenemos el spinner
-                    setIsNewComponentVisible(true);  // Mostramos el componente ListUsers
-                }, 200); // Simulamos una espera de 2 segundos
-            } else if (modalType === 'register') {
+        if (modalType === 'cancel') {
+            // Acción de cancelar
+            setTimeout(() => {
+                setFormData(null);
+                setLoading(false);  // Detenemos el spinner
+                setIsNewComponentVisible(true);  // Mostramos el componente ListUsers
+            }, 200); // Simulamos una espera de 2 segundos
+        } else if (modalType === 'register') {
 
-                const config = {
-                    headers: {
-                        "Content-Type": "application/json",
-                        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-                    }
-                };
-                // Acción de registrar - enviar datos al backend
-                console.log('Form Data:', formData);
-                console.log('Image:', image);
-                
-                
-               
-                console.log('Imagen nueva:', image);
+            const config = {
+                headers: {
+                    "Content-Type": "application/json",
+                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                }
+            };
+            // Acción de registrar - enviar datos al backend
+            console.log('Form Data:', formData);
+            console.log('Image:', image);
 
-                await uploadImage(fileUser);
-                console.log('Form Data con imagen:', formData);
-               
-                
 
-                axios.patch(`${process.env.REACT_APP_BCKEND}/users/userUpdate/${user.id}`, usersData, config,)
-                    .then(response => {
-                        setLoading(true)
-                        setToastMessage(response.data || 'Usuario registrado con éxito');
-                        setToastType('success'); // Tipo de mensaje (éxito)
-                        console.log('desactivar botones', loading);
-                        setShowToast(true);  // Mostramos el Toast
-                        setFormData(null);  // Limpiar el formulario
-                        setFileUser(null);
-                        setImage(null);
-                        setImageUrl(null)
-                        setFormData({
-                            name: '',
-                            lastName: '',
-                            typeIdentification: '',
-                            numberIdentification: '',
-                            email: '',
-                            phoneNumber: '',
-                            address: '',
-                            pathImage: '',
-                            userStatus: true,
-                            roles: ['']
-                        });
-                        console.log(formData);
-                        
-                       
-                        setTimeout(() => {
-                            setIsNewComponentVisible(true);  // Mostramos el componente ListUsers
-                            setLoading(false);
-                        }, 3000);  // Cambiar desp// Retardo adicional para que el Toast sea visible (3.5 segundos en este caso)
-                        
 
-                    })
-                    .catch(error => {
-                        console.error('Error registering user:', error);
-                        // Verificar si error.response existe
-                        if (!error.response) {
-                            // Esto significa que no hubo respuesta del servidor (posiblemente desconectado o problemas de red)
-                            setToastMessage('No se puede conectar al servidor. Verifica tu conexión o intenta más tarde.');
-                            setToastType('danger');
-                        } else {
-                            // Si el error tiene respuesta, manejar los errores del backend
-                            const errorMessage =
-                                error.response.data && error.response.data
-                                    ? error.response.data
-                                    : 'Error al registrar el usuario. Inténtalo e nuevo.';
-                            setToastMessage(errorMessage);  // Mostrar el mensaje de error del backend
-                            setToastType('danger');  // Tipo de mensaje (error)
-                        }
-                        // Mostrar el toast y detener el spinner
-                        setShowToast(true);
-                        setLoading(false); // Detenemos el spinner si hay un error
+            console.log('Imagen nueva:', image);
+
+            await uploadImage(fileUser);
+            console.log('Form Data con imagen:', formData);
+
+
+
+            axios.patch(`${process.env.REACT_APP_BCKEND}/users/userUpdate/${user.id}`, usersData, config,)
+                .then(response => {
+                    setLoading(true)
+                    setToastMessage(response.data || 'Usuario registrado con éxito');
+                    setToastType('success'); // Tipo de mensaje (éxito)
+                    console.log('desactivar botones', loading);
+                    setShowToast(true);  // Mostramos el Toast
+                    setFormData({
+                        name: '',
+                        lastName: '',
+                        typeIdentification: '',
+                        numberIdentification: '',
+                        email: '',
+                        phoneNumber: '',
+                        address: '',
+                        pathImage: '',
+                        userStatus: true,
+                        roles: ['']
                     });
-            }
+                    console.log(formData);
+
+
+                    setTimeout(() => {
+                        setIsNewComponentVisible(true);  // Mostramos el componente ListUsers
+                        setLoading(false);
+                    }, 3000);  // Cambiar desp// Retardo adicional para que el Toast sea visible (3.5 segundos en este caso)
+
+
+                })
+                .catch(error => {
+                    console.error('Error registering user:', error);
+                    // Verificar si error.response existe
+                    if (!error.response) {
+                        // Esto significa que no hubo respuesta del servidor (posiblemente desconectado o problemas de red)
+                        setToastMessage('No se puede conectar al servidor. Verifica tu conexión o intenta más tarde.');
+                        setToastType('danger');
+                    } else {
+                        // Si el error tiene respuesta, manejar los errores del backend
+                        const errorMessage =
+                            error.response.data && error.response.data
+                                ? error.response.data
+                                : 'Error al registrar el usuario. Inténtalo e nuevo.';
+                        setToastMessage(errorMessage);  // Mostrar el mensaje de error del backend
+                        setToastType('danger');  // Tipo de mensaje (error)
+                    }
+                    // Mostrar el toast y detener el spinner
+                    setShowToast(true);
+                    setLoading(false); // Detenemos el spinner si hay un error
+                });
+        }
         // Retardo de 500 ms para mostrar el spinner después de cerrar el modal
     };
 
