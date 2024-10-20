@@ -1,10 +1,10 @@
 .General-Table {
     background-color: #ffffff;
-    width: 100%;
+    width: 98%;
     overflow: hidden;
+    margin-left: 1%;
+    margin-right: 1%;
 }
-
-
 .heder-comp{
     margin-top: 6px;
     display: flex; /* Cambia a flexbox */
