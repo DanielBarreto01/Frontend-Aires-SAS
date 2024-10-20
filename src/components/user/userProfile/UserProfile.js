@@ -24,11 +24,29 @@ function UserProfile({ user }) {
     const [selectedImage, setSelectedImage] = useState(null);
     const [image, setImage] = useState(null);
     const [fileUser, setFileUser] = useState(null); // Para mostrar el progreso de la carga
-    const [imageUrl, setImageUrl] = useState('');
+    const [isEditingFormulary, setIsEditingFormulary] = useState(false);
     const dbApp = getFirestore(appFirebase);
     const storageApp = getStorage(appFirebase);
     let usersData = null;
 
+    
+
+    const loadformData =() => {
+        const dataUser ={
+            name: user.name || '',
+            lastName: user.lastName || '',
+            typeIdentification: user.typeIdentification || '',
+            numberIdentification: user.numberIdentification || '',
+            email: user.email || '',
+            phoneNumber: user.phoneNumber.toString() || '',
+            address: user.address || '',
+            pathImage: user.pathImage || '',
+            userStatus: user.userStatus,
+            roles: user.roles.map(role => role.name) || ['']
+        }
+        return dataUser;
+    }
+    
     const [formData, setFormData] = useState({
         name: '',
         lastName: '',
@@ -46,19 +64,7 @@ function UserProfile({ user }) {
         setTimeout(() => {
             try {
                 //setFormData(null);
-                setFormData({
-                    name: user.name || '',
-                    lastName: user.lastName || '',
-                    typeIdentification: user.typeIdentification || '',
-                    numberIdentification: user.numberIdentification || '',
-                    email: user.email || '',
-                    phoneNumber: user.phoneNumber.toString() || '',
-                    address: user.address || '',
-                    pathImage: user.pathImage || '',
-                    userStatus: user.userStatus,
-                    roles: user.roles.map(role => role.name) || ['']
-                });
-                
+               setFormData(loadformData());
                 if (localStorage.getItem('authToken') === null && jwtDecode(localStorage.getItem('authToken')).exp * 1000 < Date.now()) { // && jwtDecode(token).exp*1000 >  Date.now()
                     localStorage.removeItem('authToken');
                     setIsTokenChecked(false);
@@ -93,10 +99,22 @@ function UserProfile({ user }) {
     };
 
     const handleCancel = () => {
-        setModalType('cancel');  // Definimos el tipo de acción como cancelar
-        setShowModal(true);      // Mostramos el modal
+        setIsEditingFormulary(false);
+        if (JSON.stringify(loadformData()) !== JSON.stringify(formData) || image !== null) {
+            setModalType('cancel');
+            setModalType('cancel'); 
+            setShowModal(true);
+        }  else{
+            setIsEditingFormulary(false);
+        }
     };
-    const handleRegister = () => {
+    const handleEditClick = (event) => {
+        event.preventDefault();
+        setIsEditingFormulary(true);
+    }
+    const handleShowListUsers = () => {
+        setIsNewComponentVisible(true);
+     // Definimos el tipo de acción como registrar
     };
 
     const handleSubmit = (e) => {
@@ -149,9 +167,15 @@ function UserProfile({ user }) {
         if (modalType === 'cancel') {
             // Acción de cancelar
             setTimeout(() => {
-                setFormData(null);
+                setLoading(false);
+                const fate = formData;
+               // const u = loadformData();
+                setFormData(loadformData());
+                setIsEditingFormulary(false);
+                
+                setImage(formData.pathImage); 
                 setLoading(false);  // Detenemos el spinner
-                setIsNewComponentVisible(true);  // Mostramos el componente ListUsers
+                //  setIsNewComponentVisible(true);  // Mostramos el componente ListUsers
             }, 200); // Simulamos una espera de 2 segundos
         } else if (modalType === 'register') {
 
@@ -251,7 +275,7 @@ function UserProfile({ user }) {
                             selectedImage={selectedImage}
                             loading={loading}
                             handleCancel={handleCancel}
-                            handleRegister={handleRegister}
+                            handleShowListUsers={handleShowListUsers}
                             showModal={showModal}
                             handleCloseModal={handleCloseModal}
                             handleConfirmAction={handleConfirmAction}
@@ -260,6 +284,9 @@ function UserProfile({ user }) {
                             getInputProps={getInputProps}
                             isDragActive={isDragActive}
                             image={image}
+                            setImage={setImage}
+                            isEditing={isEditingFormulary}
+                            handleEditClick={handleEditClick}
 
                         />
                     </div>

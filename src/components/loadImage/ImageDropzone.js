@@ -1,13 +1,13 @@
 import React from 'react';
 import './ImageDropzone.css';
 
-const ImageDropzone = ({ getRootProps, getInputProps, isDragActive, image, defaultImage }) => {
+const ImageDropzone = ({ getRootProps, getInputProps, isDragActive, image, defaultImage, disabled }) => {
     // Si no hay imagen cargada, usa la imagen por defecto
     const displayImage = image || defaultImage;
 
     return (
-        <div {...getRootProps()} className="image-dropzone">
-            <input {...getInputProps()} />
+        <div {...getRootProps()}  className={`image-dropzone ${disabled ? 'disabled' : ''}`}>
+            <input {...getInputProps()} disabled={disabled} />
 
             {/* Muestra la imagen cargada o la imagen por defecto */}
             {displayImage && (
