@@ -192,9 +192,7 @@ function ListUsers() {
         ) : isNewComponentVisible ? (
             <RegisterUser />
         ) : (
-<<<<<<<<< Temporary merge branch 1
             
-        
             <div className="General-Table flex flex-col items-center justify-center min-h-screen ">
                 <div > 
                 {/* className="justify-content-center aling-items-center d-flex shadow-lg" */}
