@@ -1,9 +1,10 @@
 .General-Table {
     background-color: #ffffff;
-    width: 98%;
+    width: auto;
+    height: auto;
     overflow: hidden;
-    margin-left: 1%;
-    margin-right: 1%;
+    padding: 8px !important;
+ 
 }
 .heder-comp{
     margin-top: 6px;
@@ -20,12 +21,10 @@
 .title{
     height: 100%;
     background-color: #ffffff;
-    margin-left: 5px !important;
 }
-.filter-bu{
+.filter-search{
     display: flex; /* Cambia a flexbox para alinear los elementos en una fila */
     align-items: center;
- 
     justify-content: flex-end; /* Alinea verticalmente los elementos */
     width: 60%; /* Asegúrate de que ocupe todo el ancho */
     margin-top: 6px;
@@ -56,7 +55,7 @@ h2{
     width: 100%; /* Asegura que el contenedor ocupe todo el ancho disponible */
     border: 1px solid #000000; 
     border-radius: 9px;
-    margin-right: 9px;
+
 }
 
 
@@ -83,7 +82,7 @@ h2{
 
 .desplegable .dropdown-toggle{
    border-radius: 9px;
-    margin-left: -4px;
+ 
     background-color: #ffffff;
     color: #7B7B7D ;
     border: solid 1px #000000;
@@ -101,15 +100,16 @@ h2{
     color: #aaa; /* Color del icono */
 }
 
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 995px) {
     .General-Table{
-        width: 100%;
+        /* width: 96% ;
+        margin-right: 10%; */
+        padding: 20px !important;
         overflow: hidden !important;
     }
 
     .input-container {
-        margin-left: 8px;
-       height: 38px;
+        height: 38px;
     }
 
     .icon {    
@@ -119,13 +119,13 @@ h2{
     }
 
     .heder-comp{
-        margin-top: 10px;
-        width: 100%; /* Ajusta el ancho según sea necesario */
+        /* margin-top: 10px;*/
+        width: 100%;  
         align-items: center; /* Alinea los elementos a la izquierda */
         justify-content: center; 
       
     }
-    .filter-bu {
+    .filter-search {
         width: 100%;
         align-items: center; /* Asegura que los elementos se ajusten al 100% del ancho */
     }
@@ -138,9 +138,6 @@ h2{
         margin-bottom: 10px; /* Añade espacio debajo del campo de búsqueda */
     }
 
-    .desplegable{
-        margin-right: -13px;
-    }
     .desplegable .dropdown-toggle{
         font-size: 12px !important;
         height: 38px;
@@ -150,16 +147,12 @@ h2{
         width: 10px !important;
         height: 100%;
         min-width: 80px;
-        margin-right: 5px;
         font-size: 12px;
         line-height: 1;
  
        /* Menú desplegable y botón también ocupan todo el ancho */
     }
-    .table-container{
-        margin-left: 2% !important;
-        margin-right: 2% !important;
-    }
+   
 
     h2{
         font-family: Arial, sans-serif; /* Cambia la fuente a Arial */

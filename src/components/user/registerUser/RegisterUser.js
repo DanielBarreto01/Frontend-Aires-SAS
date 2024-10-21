@@ -180,7 +180,7 @@ function RegisterUser() {
             <ListUsers />) : (
             <div>
                 <div className={`principal ${styles}`}>
-                    <div className={"col-md-6 row justify-content-center d-flex"}>
+                    <div className={"col-md-6 row justify-content-center "}>
                         <h2>Registro de Usuario</h2>
                         <RegisterUserForm
                             formData={formData}
