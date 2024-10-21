@@ -8,7 +8,6 @@
     height: 100%;
 }
 
-
 /* Ajustar el contenedor que crece para el contenido */
 .flex-grow-1 {
     flex-grow: 1;
@@ -58,13 +57,29 @@
     margin: 0 !important;
   }
 
-
-
   
 
+/* Estilo para el área del perfil */
+.profile-header {
+    border-bottom: 1px solid #404040;
+    padding: 20px 0; /* Ajustar el padding para evitar superposición */
+    display: flex; /* Asegura que los elementos hijos se alineen horizontalmente */
+    align-items: center; /* Centra los elementos verticalmente */
+    background-color: #1e1e1e; /* Añadir fondo para hacer que sea visible */
+}
 
+/* Imagen con contorno circular */
+.profile-img {
+    width: 30px; /* Reducir el ancho de la imagen */
+    height: 30px; /* Reducir la altura de la imagen */
+    border-radius: 50%; /* Hace la imagen circular */
+    object-fit: cover; /* Asegura que la imagen se ajuste al contorno */
+    border: 1px solid #fff; /* Reducir el contorno blanco alrededor de la imagen */
+    margin-right: 15px; /* Añadir margen a la derecha de la imagen */
+    background-color: #ffffff;
+    margin-left: 10px;
 
-
+}
 
 /* Título y subtítulo */
 .profile-title {
@@ -83,7 +98,17 @@
 
 
 
-
+/* Estilo para el ususraio*/
+.profile-header-user {
+    border: 1px solid #404040; /* Añadir borde alrededor del contenedor */
+    padding: 10px 20px; /* Ajustar el padding para evitar superposición */
+    display: flex; /* Asegura que los elementos hijos se alineen horizontalmente */
+    align-items: center; /* Centra los elementos verticalmente */
+    background-color: #ffffff; /* Añadir fondo para hacer que sea visible */
+    margin: 0 10px; /* Añadir margen a la derecha e izquierda */
+    border-radius: 5px; /* Añadir bordes redondeados */
+    width: calc(100% - 20px); /* Hacer el contenedor más pequeño */
+}
 
 /* Imagen con contorno circular */
 .profile-img-user {
@@ -136,89 +161,3 @@
     }
 }
 
-
-
-/* ///////////////////////////////////////////// MENU LATERAL //////////////////////////////////////////// */
-
-
-
-.container-fluid {
-    height: 100vh; /* Altura del contenedor igual a la altura de la ventana */
-    overflow: hidden;
-}
-
-.row {
-    flex-wrap: nowrap; /* Evita que los elementos hijos se envuelvan en una nueva fila */
-}
-
-.menuU {
-    background-color: black; /* Si necesitas un fondo específico para el menú */
-    height: 100%; /* Asegura que el Nav ocupe todo el alto */
-    width: 100%; /* Asegura que el Nav ocupe todo el ancho */
-    justify-content: space-between; 
-    flex-direction: column; /* Alinea los elementos en una columna */
-    justify-content: space-between;
-    
-}
-
-.menuU .nav-item-custom {
-    background-color: black; 
-    color: white; 
-}
-
-.menuU .nav-item-custom:hover {
-    background-color: darkgray; 
-    color: white; 
-}
-.icon-margin {
-      margin-right: 10px;
-}
-
-
-/* titulo empresa  */
-.profile-header {
-    /* border-bottom: 1px solid #404040; */
-    padding: 20px 0; /* Ajustar el padding para evitar superposición */
-    display: flex; /* Asegura que los elementos hijos se alineen horizontalmente */
-    align-items: center; /* Centra los elementos verticalmente */
-    margin: 4px 0px 10px;
-}
-
-/* Imagen con contorno circular */
-.profile-img {
-    width: 40px; /* Reducir el ancho de la imagen */
-    height: 40px; /* Reducir la altura de la imagen */
-    border-radius: 50%; /* Hace la imagen circular */
-    object-fit: cover; /* Asegura que la imagen se ajuste al contorno */
-    border: 1px solid #fff; /* Reducir el contorno blanco alrededor de la imagen */
-    margin-right: 15px; /* Añadir margen a la derecha de la imagen */
-    background-color: #ffffff;
-    margin-left: 10px;
-
-}
-
-
-/* perfil*/
-.profile-header-user {
-    display: flex; /* Asegura que los elementos hijos se alineen horizontalmente */
-    margin: 240px 10px 0px;  /*arriba,derecha e izquierdaabajo */
-    padding: 10px 6px;
-    background-color: #ffffff; /* Añadir fondo para hacer que sea visible */
-    border-radius: 5px; /* Añadir bordes redondeados */  
-}
-
-.separator-line {
-    height: 2px; /* Altura de la línea */
-    background-color: white; /* Color de la línea */
-    margin: 35px auto 0px; /* Espacio arriba y abajo de la línea, centrada horizontalmente */
-    width: calc(100% - 40px)
-  
-  }
-
-  .separator-linet {
-    height: 2px; /* Altura de la línea */
-    background-color: white; /* Color de la línea */
-    margin: 25px auto 18px; /* Espacio arriba y abajo de la línea, centrada horizontalmente */
-    width: calc(100% - 40px)
-  
-  }

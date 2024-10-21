@@ -15,6 +15,8 @@ function AppRouter() {
                 <Route path="/register" element={<RegisterUser />} />
                 <Route path="/profile" element={<UserProfile />} />
                 <Route path="*" element={<Navigate to="/register" />} />
+               
+                
             </Routes>
     );
 }
