@@ -1,14 +1,19 @@
 /* Aplica margen inferior a cada campo */
 .principal{
-  height: 100vh!important;
-  width: 75vw;
+  height: 100% !important;
+  width: 100%;
   display: flex; /* Cambia a flexbox para alinear los elementos en una fila */
   align-items: center;
   justify-content: center;
   overflow: hidden;
 }
 
-.userProfileCon{
+.form container{
+  width: 100%;
+  height: 100%;
+}
+
+/* .userProfileCon{
   display: flex;
   background-color: #ffffff;
   position: center;
@@ -18,7 +23,8 @@
   max-width: 100%;
   overflow: hidden;
 
-}
+} */
+
 .title-component h2{
   text-align: left !important;
   align-items: right !important;
@@ -33,6 +39,7 @@
     margin-bottom: 18px;
     border: 1px solid #a39f9f !important;
     border-radius: 9px;
+    height: 35px;
     
 }
 .address{
@@ -49,7 +56,7 @@
 .roles .form-control,
 .userStatusPro .form-control {
     font-size: 13px !important;
-    height: 33px;
+    height: 28px;
     color: #7B7B7B !important;
     margin-left: 2px;
 }
@@ -172,16 +179,16 @@ h2{
 
 
 
-@media only screen and (max-width: 767px) {
-
+@media only screen and (max-width: 700px) {
+/* 
   .principal{
-    height: 100vh!important;
-    display: flex; /* Cambia a flexbox para alinear los elementos en una fila */
+    height: 100%!important;
+    display: flex; 
     align-items: center;
     justify-content: center;
     overflow: hidden;
   }
-  
+   */
   .userProfileCon{
  
     display: flex;

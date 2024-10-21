@@ -46,7 +46,7 @@ function UserProfileForm({ formData,
     // };
 
     return (
-        <div className='formu'>
+        <div className='form-container'>
             <div className='title-component'><h2>Información Usuario</h2></div>
             <Form onSubmit={handleSubmit}>
                 <Row className="flex-row-reverse flex-sm-row">

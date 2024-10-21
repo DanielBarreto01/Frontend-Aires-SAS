@@ -191,24 +191,24 @@ function ListUsers() {
         ) : isNewComponentVisible ? (
             <RegisterUser />
         ) : (
-            <div className="General-Table flex flex-col items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-950 mt-2">
+            <div className="General-Table flex flex-col items-center justify-center min-h-screen ">
                 <div > 
                 {/* className="justify-content-center aling-items-center d-flex shadow-lg" */}
-                    <div className="superior row justify-content-right aling-items-right d-flex shadow-lg ">
+                    <div className="superior row justify-content-right aling-items-right d-flex ">
                         <div className='heder-comp'> 
                             <div className='title'><h2>Usuarios</h2></div>
                         </div>           
-                        <div className="filter-bu  mb-4">
+                        <div className="filter-search  mb-4">
                         
                         
-                            <form style={{ display: 'flex', width: '100%' }}>
+                            <form style={{ width:'100%', margin:'0px 5px 0px 0px'}}>
                                 <div className='input-container'>
                                     <FontAwesomeIcon icon={faSearch} className="icon" style={{ marginLeft: '10px' }} />
                                     <input className="form-control items-right" 
                                         placeholder="Buscar por: Nombre, Documento, Teléfono o Correo"
                                         type="search"                    
                                         onChange={handleChange}
-                                        style={{ border: 'none', marginLeft: '-12px',  marginRight: '2px'  }}
+                                        style={{ border: 'none', marginLeft: '-12px',  marginRight: '1px'  }}
                                         />
                         
                                 </div>

@@ -173,21 +173,6 @@ function RegisterUserForm({ formData,
                         </div>
 
                         {/* Dirección */}
-                        <div className="floating-label order-2 order-sm-1">
-                            <Form.Group controlId="address" className="address">
-                                <Form.Control
-                                    type="text"
-                                    name="address"
-                                    value={formData.address}
-                                    onChange={handleInputChange}
-                                    placeholder=" "
-                                    required
-                                    maxLength={50}
-                                />
-                                <Form.Label>Dirección</Form.Label>
-                            </Form.Group>
-                        </div>
-                        {/* Roles */}
                         <Form.Group controlId="roles" className="roles order-3 order-sm-2">
                             <div className="icon-container">
                                 <Form.Control
