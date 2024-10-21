@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Form, Button, Row, Col, Spinner } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
@@ -6,28 +6,51 @@ import ConfirmationModal from "../../ConfirmationModal/ConfirmationModal";
 import ImageDropzone from '../../loadImage/ImageDropzone';
 
 
-function UserProfileForm({ formData, 
-    setFormData, 
-    handleInputChange, 
-    handleSubmit, 
-    getRootProps, 
-    getInputProps, 
-    isDragActive, 
-    image, 
-    loading, 
-    handleCancel, 
-    handleRegister, 
-    showModal, 
-    handleCloseModal, 
-    handleConfirmAction, 
-    modalType}) {
+function UserProfileForm({ formData,
+    setFormData,
+    handleInputChange,
+    handleSubmit,
+    getRootProps,
+    getInputProps,
+    isDragActive,
+    image,
+    loading,
+    handleCancel,
+    handleShowListUsers,
+    showModal,
+    handleCloseModal,
+    handleConfirmAction,
+    isEditing,
+    handleEditClick,
+    modalType }) {
+
+  
+
+    // Función para manejar el clic en "Editar"
+    // const handleEditClick = (event) => {
+    //     event.preventDefault();
+    //     //setOriginalData(formData);
+    //     //setOriginalImage(image);
+    //     //setIsEditing(true);
+    // };
+
+    // Función para manejar el clic en "Cancelar edición"
+    // const handleCancelEdit = (event) => {
+    //     event.preventDefault();
+    //     //setFormData(originalData); // Evitar la propagación del evento
+        
+    //     //setImage(originalImage);
+       
+    //     setIsEditing(false);
+    //     //handleCancel(); // Opcional, si quieres restaurar el formulario original.
+    // };
 
     return (
-        <div className='formu'>
-            <h2>Información Usuario</h2>
+        <div className='form-container'>
+            <div className='title-component'><h2>Información Usuario</h2></div>
             <Form onSubmit={handleSubmit}>
                 <Row className="flex-row-reverse flex-sm-row">
-                    
+
                     <Col xs={12} sm={6} className="order-1 order-sm-2">
                         <Row>
                             <Col xs={12} sm={6}>
@@ -44,6 +67,8 @@ function UserProfileForm({ formData,
                                             maxLength={30}
                                             onInvalid={(e) => e.target.setCustomValidity('Por favor, ingresa un nombre valido. No se permiten caracteres especiales ni números.')}
                                             onInput={(e) => e.target.setCustomValidity('')}
+                                            disabled={!isEditing}
+                                            className={!isEditing ? 'input-disabled' : ''}
                                         />
                                         <Form.Label>Nombres</Form.Label>
                                     </Form.Group>
@@ -64,6 +89,8 @@ function UserProfileForm({ formData,
                                             maxLength={30}
                                             onInvalid={(e) => e.target.setCustomValidity('Por favor, ingresa un apellido valido. No se permiten caracteres especiales ni números.')}
                                             onInput={(e) => e.target.setCustomValidity('')}
+                                            disabled={!isEditing}
+                                            className={!isEditing ? 'input-disabled' : ''}
                                         />
                                         <Form.Label>Apellidos</Form.Label>
                                     </Form.Group>
@@ -80,6 +107,8 @@ function UserProfileForm({ formData,
                                     value={formData.typeIdentification}
                                     onChange={handleInputChange}
                                     required
+                                    disabled={!isEditing}
+                                    className={!isEditing ? 'input-disabled' : ''}
                                     style={{ border: 'none' }}
                                 >
                                     <option value="" disabled>Tipo de identificación</option>
@@ -110,6 +139,8 @@ function UserProfileForm({ formData,
                                             e.target.setCustomValidity('Por favor, ingresa un numero de identificación valido.');
                                         }
                                     }}
+                                    disabled={!isEditing}
+                                    className={!isEditing ? 'input-disabled' : ''}
                                 />
                                 <Form.Label>Número de identificación</Form.Label>
                             </Form.Group>
@@ -126,6 +157,8 @@ function UserProfileForm({ formData,
                                     placeholder=""
                                     required
                                     maxLength={70}
+                                    disabled={!isEditing}
+                                    className={!isEditing ? 'input-disabled' : ''}
                                 />
                                 <Form.Label>Correo electrónico</Form.Label>
                             </Form.Group>
@@ -151,13 +184,15 @@ function UserProfileForm({ formData,
                                             e.target.setCustomValidity('Por favor, ingresa un número de teléfono de 10 dígitos.');
                                         }
                                     }}
-                                   
+                                    disabled={!isEditing}
+                                    className={!isEditing ? 'input-disabled' : ''}
+
                                 />
                                 <Form.Label>Número de teléfono</Form.Label>
                             </Form.Group>
                         </div>
 
-                        
+
                         <Form.Group controlId="userStatusPro" className="userStatusPro">
                             <div className="icon-container">
                                 <Form.Control
@@ -167,12 +202,14 @@ function UserProfileForm({ formData,
                                     onChange={(e) => {
                                         const { value } = e.target;
                                         setFormData({
-                                          ...formData,
-                                          userStatus: value === 'AC',  // Si es 'AC', asigna true; si es 'IN', asigna false
+                                            ...formData,
+                                            userStatus: value === 'AC',  // Si es 'AC', asigna true; si es 'IN', asigna false
                                         });
-                                      }}
+                                    }}
                                     required
+                                    disabled={!isEditing}
                                     style={{ border: 'none' }}
+                                    className={!isEditing ? 'input-disabled' : ''}
                                 >
                                     <option value="" disabled>Estado</option>
                                     <option value="AC">Activo</option>
@@ -192,10 +229,11 @@ function UserProfileForm({ formData,
                                 isDragActive={isDragActive}
                                 image={image}
                                 defaultImage={formData.pathImage || ''}
+                                disabled={!isEditing}
 
                             />
                         </div>
-                    
+
                         {/* Dirección */}
                         <div className="floating-label order-2 order-sm-1">
                             <Form.Group controlId="address" className="address">
@@ -207,6 +245,8 @@ function UserProfileForm({ formData,
                                     placeholder=" "
                                     required
                                     maxLength={50}
+                                    disabled={!isEditing}
+                                    className={!isEditing ? 'input-disabled' : ''}
                                 />
                                 <Form.Label>Dirección</Form.Label>
                             </Form.Group>
@@ -226,6 +266,8 @@ function UserProfileForm({ formData,
                                         });
                                     }}
                                     required
+                                    disabled={!isEditing}
+                                    className={!isEditing ? 'input-disabled' : ''}
                                     style={{ border: 'none' }}
                                 >
                                     <option value="" disabled>Selecione un rol</option>
@@ -237,17 +279,48 @@ function UserProfileForm({ formData,
                             </div>
                         </Form.Group>
                     </Col>
-
                 </Row>
+                <Row>
+                <Col xs={12} sm={6}> </Col>
 
-                <div className="button-group">
+                <Col xs={12} sm={6} className="d-flex justify-content-center">
+
+                    {isEditing ? (
+                        <>
+                            <div className="button-group">
+                                <Button variant="primary" type="submit" className='button-confirmation' disabled={loading} >
+                                    Guardar cambios
+                                </Button>
+                                <Button variant="secondary" className='button-cancel' onClick={handleCancel}>
+                                    Cancelar edición
+                                </Button>
+                            </div>
+
+                        </>
+                    ) : (
+                        <>
+
+                            <div className="button-group">
+                                <Button variant="primary" type="button" className='button-confirmation' onClick={handleEditClick}>
+                                    Editar
+                                </Button>
+                                <Button variant="secondary" type="button" className='button-cancel' onClick={handleShowListUsers} > 
+                                    Regresar
+                                </Button>
+                            </div>
+
+                        </>
+                    )}
+                </Col>
+                </Row>
+                {/* <div className="button-group">
                     <Button variant="primary" type="submit" className='button-register' disabled={loading} onClick={handleRegister} >
                         Actualizar Usuario
                     </Button>
                     <Button variant="secondary" className='button-no-register' disabled={loading} onClick={handleCancel} >
                         Cancelar actualización
                     </Button>
-                </div>
+                </div> */}
             </Form>
 
             <ConfirmationModal
@@ -258,8 +331,8 @@ function UserProfileForm({ formData,
                 bodyText={modalType === 'cancel'
                     ? "¿Deseas cancelar la actualización de la información del usuario? Las modificaciones realizadas no se guardarán."
                     : "¿Estás seguro de que deseas actualizar la información?"}
-                confirmText = 'Si'//{modalType === 'cancel' ? "Sí, cancelar" : "Sí, actualizar"}
-                cancelText = 'No'//{modalType === 'cancel' ? "No, no cancelar" : "No, no actualizar"}
+                confirmText='Si'//{modalType === 'cancel' ? "Sí, cancelar" : "Sí, actualizar"}
+                cancelText='No'//{modalType === 'cancel' ? "No, no cancelar" : "No, no actualizar"}
                 containerId="modal-container"
             />
             {loading && (

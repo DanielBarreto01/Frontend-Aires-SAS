@@ -1,11 +1,12 @@
 /* Aplica margen inferior a cada campo */
 
 .content {
-  height: 100vh;
+  height: 100%;
+  width: 100%;
   display: flex; /* Cambia a flexbox para alinear los elementos en una fila */
   align-items: center;
-
-  justify-content: center;
+ justify-content: flex-start;
+  overflow: hidden;
 
 }
 
@@ -13,13 +14,10 @@
   display: flex;
   background-color: #ffffff;
   position: center;
-  width: 50vw;
-  margin-top: 6vh;
-  height: 38w;
-  margin-left: 18%;
-  max-width: 100%;
+ 
   overflow: hidden;
-  position: relative;
+
+ 
 }
 
 .nameUser,
