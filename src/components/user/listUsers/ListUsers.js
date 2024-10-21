@@ -186,17 +186,20 @@ function ListUsers() {
     }  
 
     return (  
+
         isUserDetailsVisible ? (
             <UserDetails user={selectedUser} /> // Componente para mostrar los detalles del usuario seleccionado
         ) : isNewComponentVisible ? (
             <RegisterUser />
         ) : (
             <div className="General-Table flex flex-col items-center justify-center min-h-screen ">
+            
+            <div className="General-Table flex flex-col items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-950 mt-2">
                 <div > 
                 {/* className="justify-content-center aling-items-center d-flex shadow-lg" */}
                     <div className="superior row justify-content-right aling-items-right d-flex ">
                         <div className='heder-comp'> 
-                            <div className='title'><h2>Usuarios</h2></div>
+                            <div className='title'><h2>Usuarios ddd</h2></div>
                         </div>           
                         <div className="filter-search  mb-4">
                         
@@ -212,9 +215,9 @@ function ListUsers() {
                                         />
                         
                                 </div>
-                                
-                                    
                             </form>
+
+
                             <div className = "desplegable">
                                 <DropdownButton title={selectedOption} onSelect={handleSelect} className='selec-option' style={{ fontSize:'5px'}}>
                                     <Dropdown.Item eventKey="Seleccione un rol" className="dropdown-item-light">Seleccione un rol</Dropdown.Item>
