@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import styles from './RegisterUser.css';
+import './RegisterUser.css';
 import CustomToast from '../../toastMessage/CustomToast';
 import RegisterUserForm from './RegisterUserForm';
 import { jwtDecode } from 'jwt-decode';
 import { useDropzone } from 'react-dropzone';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import appFirebase from '../../FirebaseConfig.js';
 import ListUsers from '../listUsers/ListUsers';
-import ConfirmationModal from "../../ConfirmationModal/ConfirmationModal";
 import axios from 'axios';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 //import { toast } from 'sonner'
 function RegisterUser() {
@@ -19,10 +18,11 @@ function RegisterUser() {
     const [showToast, setShowToast] = useState(false);     // Estado para mostrar/ocultar el Toast
     const [toastMessage, setToastMessage] = useState('');  // Estado para el mensaje del Toast
     const [toastType, setToastType] = useState('');
-    const [fileUser, setFileUser] = useState(null); 
+    const [fileUser, setFileUser] = useState(null);
     const [image, setImage] = useState(null);
     const [isTokenChecked, setIsTokenChecked] = useState(true);
     const [selectedImage, setSelectedImage] = useState(null);
+    const storageApp = getStorage(appFirebase);
     const [formData, setFormData] = useState({
         name: '',
         lastName: '',
@@ -31,7 +31,8 @@ function RegisterUser() {
         email: '',
         phoneNumber: '',
         address: '',
-        roles: []
+        pathImage: '',
+        roles: ['']
     });
 
     useEffect(() => {
@@ -86,13 +87,92 @@ function RegisterUser() {
         setShowModal(true);
     };
 
-    const handleConfirmAction = () => {
+
+    const uploadImage = async () => {
+        try {
+            if (fileUser !== null) {
+                const storageRef = ref(storageApp, `images/${fileUser.name}`);
+                await uploadBytes(storageRef, fileUser).then((res) => {
+                    console.log('respuesta', res)
+                });
+                console.log('Image uploaded successfully');
+                // setImageUrl(await getDownloadURL(storageRef))
+                const url = await getDownloadURL(storageRef);
+                setFormData(prevFormData => ({
+                    ...prevFormData,
+                    pathImage: url
+                }));
+                // usersData = {
+                //     name: formData.name,
+                //     lastName: formData.lastName,
+                //     typeIdentification: formData.typeIdentification,
+                //     numberIdentification: formData.numberIdentification,
+                //     email: formData.email,
+                //     phoneNumber: formData.phoneNumber.toString(),
+                //     address: formData.address,
+                //     pathImage: url,
+                //     userStatus: formData.userStatus,
+                //     roles: formData.roles
+                // };
+                console.log('Image URL subida:', await getDownloadURL(storageRef));
+              
+            } else {
+                console.log('No image selected');   
+                setFormData(prevFormData => ({
+                    ...prevFormData,
+                    pathImage: 'https://console.firebase.google.com/u/0/project/aires-acondiconados/storage/aires-acondiconados.appspot.com/files/~2Fimages?hl=es&fb_gclid=CjwKCAjw68K4BhAuEiwAylp3koMpctpJsF-PhKWsZ5HJkdsfNkKJ6Rrv9NjSgMczcogls7te3vebKBoCx6QQAvD_BwE'
+                }));
+                // usersData = formData;
+            }
+
+
+            // setFormData({  pathImage: imageUrl });
+            // Maneja el éxito de la carga de la imagen
+
+        } catch (error) {
+            console.error('Error uploading image:', error);
+            // Maneja el error de la carga de la imagen
+        }
+    };
+
+    const handleConfirmAction = async () => {
         setShowModal(false);  // Cerramos el modal primero
         setLoading(true);
-        setTimeout(() => {
-            if (modalType === 'cancel') {
-                // Acción de cancelar
-                setTimeout(() => {
+        if (modalType === 'cancel') {
+            // Acción de cancelar
+            setTimeout(() => {
+                setFormData({
+                    name: '',
+                    lastName: '',
+                    typeIdentification: '',
+                    numberIdentification: '',
+                    email: '',
+                    phoneNumber: '',
+                    address: '',
+                    pathImage: '',
+                    roles: ['']
+                });
+                setLoading(false);  // Detenemos el spinner
+                setIsNewComponentVisible(true);  // Mostramos el componente ListUsers
+            }, 200); // Simulamos una espera de 2 segundos
+        } else if (modalType === 'register') {
+            const config = {
+                headers: {
+                    "Content-Type": "application/json",
+                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                }
+            };
+            await uploadImage();
+            console.log('Form Data con imagen:', formData);
+            // Acción de registrar - enviar datos al backend
+            console.log('Registrando usuario:', formData);
+            axios.post(`${process.env.REACT_APP_BCKEND}/users/create`, formData, config,)
+                .then(response => {
+                    setLoading(true)
+                    setToastMessage(response.data || 'Usuario registrado con éxito');
+                    setToastType('success'); // Tipo de mensaje (éxito)
+                    console.log('desactivar botones', loading);
+                    setShowToast(true);  // Mostramos el Toast
                     setFormData({
                         name: '',
                         lastName: '',
@@ -101,69 +181,39 @@ function RegisterUser() {
                         email: '',
                         phoneNumber: '',
                         address: '',
-                        roles: []
+                        pathImage: '',
+                        roles: [''],
                     });
-                    setLoading(false);  // Detenemos el spinner
-                    setIsNewComponentVisible(true);  // Mostramos el componente ListUsers
-                }, 200); // Simulamos una espera de 2 segundos
-            } else if (modalType === 'register') {
+                    setLoading(false);
+                    setTimeout(() => {
+                        setIsNewComponentVisible(true);  // Mostramos el componente ListUsers
 
-                const config = {
-                    headers: {
-                        "Content-Type": "application/json",
-                        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                    }, 3000);  // Cambiar desp// Retardo adicional para que el Toast sea visible (3.5 segundos en este caso)
+                    setLoading(true);
+
+                })
+                .catch(error => {
+                    console.error('Error registering user:', error);
+                    // Verificar si error.response existe
+                    if (!error.response) {
+                        // Esto significa que no hubo respuesta del servidor (posiblemente desconectado o problemas de red)
+                        setToastMessage('No se puede conectar al servidor. Verifica tu conexión o intenta más tarde.');
+                        setToastType('danger');
+                    } else {
+                        // Si el error tiene respuesta, manejar los errores del backend
+                        const errorMessage =
+                            error.response.data && error.response.data
+                                ? error.response.data
+                                : 'Error al registrar el usuario. Inténtalo de nuevo.';
+                        setToastMessage(errorMessage);  // Mostrar el mensaje de error del backend
+                        setToastType('danger');  // Tipo de mensaje (error)
                     }
-                };
-                // Acción de registrar - enviar datos al backend
-                console.log('Registrando usuario:', formData);
-                axios.post(`${process.env.REACT_APP_BCKEND}/users/create`, formData, config,)
-                    .then(response => {
-                        setLoading(true)
-                        setToastMessage(response.data || 'Usuario registrado con éxito');
-                        setToastType('success'); // Tipo de mensaje (éxito)
-                        console.log('desactivar botones', loading);
-                        setShowToast(true);  // Mostramos el Toast
-
-                        setFormData({
-                            name: '',
-                            lastName: '',
-                            typeIdentification: '',
-                            numberIdentification: '',
-                            email: '',
-                            phoneNumber: '',
-                            address: '',
-                            roles: [],
-                        });
-                        setLoading(false);
-                        setTimeout(() => {
-                            setIsNewComponentVisible(true);  // Mostramos el componente ListUsers
-
-                        }, 3000);  // Cambiar desp// Retardo adicional para que el Toast sea visible (3.5 segundos en este caso)
-                        setLoading(true);
-
-                    })
-                    .catch(error => {
-                        console.error('Error registering user:', error);
-                        // Verificar si error.response existe
-                        if (!error.response) {
-                            // Esto significa que no hubo respuesta del servidor (posiblemente desconectado o problemas de red)
-                            setToastMessage('No se puede conectar al servidor. Verifica tu conexión o intenta más tarde.');
-                            setToastType('danger');
-                        } else {
-                            // Si el error tiene respuesta, manejar los errores del backend
-                            const errorMessage =
-                                error.response.data && error.response.data
-                                    ? error.response.data
-                                    : 'Error al registrar el usuario. Inténtalo de nuevo.';
-                            setToastMessage(errorMessage);  // Mostrar el mensaje de error del backend
-                            setToastType('danger');  // Tipo de mensaje (error)
-                        }
-                        // Mostrar el toast y detener el spinner
-                        setShowToast(true);
-                        setLoading(false); // Detenemos el spinner si hay un error
-                    });
-            }
-        }, 200); // Retardo de 500 ms para mostrar el spinner después de cerrar el modal
+                    // Mostrar el toast y detener el spinner
+                    setShowToast(true);
+                    setLoading(false); // Detenemos el spinner si hay un error
+                });
+        }
+        // Retardo de 500 ms para mostrar el spinner después de cerrar el modal
     };
 
     const handleCloseModal = () => {
@@ -178,29 +228,27 @@ function RegisterUser() {
     return (
         isNewComponentVisible ? (
             <ListUsers />) : (
-            <div>
-                <div className={`principal ${styles}`}>
-                    <div className={"col-md-6 row justify-content-center "}>
-                        <h2>Registro de Usuario</h2>
-                        <RegisterUserForm
-                            formData={formData}
-                            setFormData={setFormData}
-                            handleInputChange={handleInputChange}
-                            handleSubmit={handleSubmit}
-                            selectedImage={selectedImage}
-                            loading={loading}
-                            handleCancel={handleCancel}
-                            handleRegister={handleRegister}
-                            showModal={showModal}
-                            handleCloseModal={handleCloseModal}
-                            handleConfirmAction={handleConfirmAction}
-                            modalType={modalType}
-                            getRootProps={getRootProps}
-                            getInputProps={getInputProps}
-                            isDragActive={isDragActive}
-                            image={image}
-                        />
-                    </div>
+            <div className="principal">
+                <div className={"col-md-6 row justify-content-center "}>
+                    <h2>Registro de Usuario</h2>
+                    <RegisterUserForm
+                        formData={formData}
+                        setFormData={setFormData}
+                        handleInputChange={handleInputChange}
+                        handleSubmit={handleSubmit}
+                        selectedImage={selectedImage}
+                        loading={loading}
+                        handleCancel={handleCancel}
+                        handleRegister={handleRegister}
+                        showModal={showModal}
+                        handleCloseModal={handleCloseModal}
+                        handleConfirmAction={handleConfirmAction}
+                        modalType={modalType}
+                        getRootProps={getRootProps}
+                        getInputProps={getInputProps}
+                        isDragActive={isDragActive}
+                        image={image}
+                    />
                 </div>
                 <CustomToast
                     showToast={showToast}

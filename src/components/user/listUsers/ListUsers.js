@@ -180,6 +180,11 @@ function ListUsers() {
             console.log(row);  // Guarda la información de la fila seleccionada
             setIsUserDetailsVisible(true);
     };
+    const customPaginationOptions = {
+        rowsPerPageText: 'Filas por página',  // Texto para "Rows per page"
+        rangeSeparatorText: 'de',             // Texto separador entre los rangos de páginas
+        noRowsPerPage: false, 
+    };
 
     if (!isTokenChecked) {   
         return null;  
@@ -191,7 +196,7 @@ function ListUsers() {
         ) : isNewComponentVisible ? (
             <RegisterUser />
         ) : (
-            <div className="General-Table flex flex-col items-center justify-center min-h-screen ">
+            <div className="General-Table grid grid-col items-center justify-center  ">
                 <div > 
                 {/* className="justify-content-center aling-items-center d-flex shadow-lg" */}
                     <div className="superior row justify-content-right aling-items-right d-flex ">
@@ -236,6 +241,7 @@ function ListUsers() {
                         <DataTable
                             columns={columns}
                             data = {records}
+                            responsive={true} 
                             pagination
                             paginationPerPage={6}
                             fixedHeader
@@ -243,12 +249,15 @@ function ListUsers() {
                             fixedHeaderScrollHeight = "70vh"
                             progressPending={loading}
                             onRowClicked = {handleRowClick}
+                            paginationComponentOptions={customPaginationOptions}
+                            noDataComponent="No hay datos para mostrar"  
                             conditionalRowStyles={conditionalRowStyles}
                             progressComponent={( // Si está cargando, muestra el overlay y el spinner
                                 <div className="loading-overlay">
                                 <Spinner animation="border" size="lg" /> 
                                 </div>
                             )}
+                           
                         />              
                         </div>
 

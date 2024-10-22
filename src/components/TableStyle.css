@@ -65,6 +65,7 @@ h2{
 .table-container{
     border-radius: 20px !important;
     overflow: hidden; 
+    width: auto;
     background-color: #ffffff;
     border: 1px solid #7B7B7B;
 }
@@ -102,7 +103,7 @@ h2{
     color: #aaa; /* Color del icono */
 }
 
-@media only screen and (max-width: 995px) {
+@media only screen and (max-width: 750px) {
     .General-Table{
         /* width: 96% ;
         margin-right: 10%; */

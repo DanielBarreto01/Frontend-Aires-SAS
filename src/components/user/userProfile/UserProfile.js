@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import styles from './UserProfile.css';
+import './UserProfile.css';
 import CustomToast from '../../toastMessage/CustomToast';
 import { jwtDecode } from 'jwt-decode';
 import { useDropzone } from 'react-dropzone';
@@ -25,7 +25,6 @@ function UserProfile({ user }) {
     const [image, setImage] = useState(null);
     const [fileUser, setFileUser] = useState(null); // Para mostrar el progreso de la carga
     const [isEditingFormulary, setIsEditingFormulary] = useState(false);
-    const dbApp = getFirestore(appFirebase);
     const storageApp = getStorage(appFirebase);
     let usersData = null;
 
@@ -99,15 +98,29 @@ function UserProfile({ user }) {
     };
 
     const handleCancel = () => {
-        setIsEditingFormulary(false);
-        if (JSON.stringify(loadformData()) !== JSON.stringify(formData) || image !== null) {
-            setModalType('cancel');
-            setModalType('cancel'); 
-            setShowModal(true);
-        }  else{
+        try {
+            //let forUser = formData;
+            console.log('image format', image);
+            if (JSON.stringify(loadformData()) !== JSON.stringify(formData) || (image !== null && image !== loadformData().pathImage)) {
+                // if (JSON.stringify(loadformData()) !== JSON.stringify(formData) || image !== null) {
+                setShowModal(true);
+                setModalType('cancel');
+
+                //forUser = loadformData();   
+                // setFormData(loadformData());
+                // console.log('forUser', forUser);
+                //  setModalType('cancel');
+                //  setShowModal(true);
+            } else {
+                setIsEditingFormulary(false);
+            }
+        } catch (error) {
+            console.error('Error canceling:', error);
             setIsEditingFormulary(false);
         }
+
     };
+
     const handleEditClick = (event) => {
         event.preventDefault();
         setIsEditingFormulary(true);
@@ -162,23 +175,31 @@ function UserProfile({ user }) {
     };
 
     const handleConfirmAction = async () => {
+       
         setShowModal(false);  // Cerramos el modal primero
-        setLoading(true);
+        
         if (modalType === 'cancel') {
+            
             // Acción de cancelar
-            setTimeout(() => {
-                setLoading(false);
-                const fate = formData;
-               // const u = loadformData();
-                setFormData(loadformData());
-                setIsEditingFormulary(false);
+            setFormData((prevState) => {
+                setImage((prevStat) => {
+                    setIsEditingFormulary(false);
+                    return formData.pathImage
+                });
+                return loadformData();
+             });
+            //     setLoading(false);
+            //     setImage(formData.pathImage); 
+            //    // const u = loadformData();
+            //     setFormData(loadformData());
+            //     setIsEditingFormulary(false);
                 
-                setImage(formData.pathImage); 
-                setLoading(false);  // Detenemos el spinner
+                
+            //     setLoading(false);  // Detenemos el spinner
                 //  setIsNewComponentVisible(true);  // Mostramos el componente ListUsers
-            }, 200); // Simulamos una espera de 2 segundos
+            // Simulamos una espera de 2 segundos
         } else if (modalType === 'register') {
-
+            setLoading(true);
             const config = {
                 headers: {
                     "Content-Type": "application/json",
@@ -263,42 +284,37 @@ function UserProfile({ user }) {
     return (
         isNewComponentVisible ? (
             <ListUsers />) : (
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', overflow: "hidden" }}>
-                <div className={`principal ${styles}`}>
-                    <div className="userProfileCon col-md-12 row justify-content-center d-flex">
-
-                        <UserProfileForm
-                            formData={formData}
-                            setFormData={setFormData}
-                            handleInputChange={handleInputChange}
-                            handleSubmit={handleSubmit}
-                            selectedImage={selectedImage}
-                            loading={loading}
-                            handleCancel={handleCancel}
-                            handleShowListUsers={handleShowListUsers}
-                            showModal={showModal}
-                            handleCloseModal={handleCloseModal}
-                            handleConfirmAction={handleConfirmAction}
-                            modalType={modalType}
-                            getRootProps={getRootProps}
-                            getInputProps={getInputProps}
-                            isDragActive={isDragActive}
-                            image={image}
-                            setImage={setImage}
-                            isEditing={isEditingFormulary}
-                            handleEditClick={handleEditClick}
-
-                        />
-                    </div>
+            <div className="principal">
+                <div className="userProfileCon col-md-12 justify-content-center">
+                    <UserProfileForm
+                        formData={formData}
+                        setFormData={setFormData}
+                        handleInputChange={handleInputChange}
+                        handleSubmit={handleSubmit}
+                        selectedImage={selectedImage}
+                        loading={loading}
+                        handleCancel={handleCancel}
+                        handleShowListUsers={handleShowListUsers}
+                        showModal={showModal}
+                        handleCloseModal={handleCloseModal}
+                        handleConfirmAction={handleConfirmAction}
+                        modalType={modalType}
+                        getRootProps={getRootProps}
+                        getInputProps={getInputProps}
+                        isDragActive={isDragActive}
+                        image={image}
+                        setImage={setImage}
+                        isEditing={isEditingFormulary}
+                        handleEditClick={handleEditClick}
+                    />
                 </div>
                 <CustomToast
-                    showToast={showToast}
-                    setShowToast={setShowToast}
-                    toastMessage={toastMessage}
-                    toastType={toastType}
+                showToast={showToast}
+                setShowToast={setShowToast}
+                toastMessage={toastMessage}
+                toastType={toastType}
                 />
             </div>
-
         )
 
     );

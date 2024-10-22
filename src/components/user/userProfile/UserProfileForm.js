@@ -24,7 +24,7 @@ function UserProfileForm({ formData,
     handleEditClick,
     modalType }) {
 
-  
+
 
     // Función para manejar el clic en "Editar"
     // const handleEditClick = (event) => {
@@ -38,24 +38,24 @@ function UserProfileForm({ formData,
     // const handleCancelEdit = (event) => {
     //     event.preventDefault();
     //     //setFormData(originalData); // Evitar la propagación del evento
-        
+
     //     //setImage(originalImage);
-       
+
     //     setIsEditing(false);
     //     //handleCancel(); // Opcional, si quieres restaurar el formulario original.
     // };
 
     return (
-        <div className='form-container'>
+        <div className='form-containerPro'>
             <div className='title-component'><h2>Información Usuario</h2></div>
             <Form onSubmit={handleSubmit}>
                 <Row className="flex-row-reverse flex-sm-row">
 
-                    <Col xs={12} sm={6} className="order-1 order-sm-2">
+                    <Col xs={12} sm={6} className="order-1 order-sm-2" >
                         <Row>
-                            <Col xs={12} sm={6}>
-                                <div className="floating-label">
-                                    <Form.Group controlId="name" className='nameUser'>
+                            <Col xs={12} sm={6} >
+                                <div className="floating-labelPro">
+                                    <Form.Group controlId="nameUserPro" className='nameUserPro'>
                                         <Form.Control
                                             type="text"
                                             name="name"
@@ -76,8 +76,8 @@ function UserProfileForm({ formData,
                             </Col>
 
                             <Col xs={12} sm={6}>
-                                <div className="floating-label">
-                                    <Form.Group controlId="lastName" className='lastNameUser' >
+                                <div className="floating-labelPro">
+                                    <Form.Group controlId="lastNamePro" className='lastNameUserPro' >
                                         <Form.Control
                                             type="text"
                                             name="lastName"
@@ -99,8 +99,8 @@ function UserProfileForm({ formData,
                         </Row>
 
                         {/* Tipo de Identificación */}
-                        <Form.Group controlId="typeIdentification" className="typeIdentification">
-                            <div className="icon-container">
+                        <Form.Group controlId="typeIdentificationPro" className="typeIdentificationPro">
+                            <div className="icon-containerPro">
                                 <Form.Control
                                     as="select"
                                     name="typeIdentification"
@@ -116,13 +116,13 @@ function UserProfileForm({ formData,
                                     <option value="CE">Cédula de extranjería</option>
                                     <option value="PA">Pasaporte</option>
                                 </Form.Control>
-                                <FontAwesomeIcon icon={faChevronDown} className="icon" />
+                                <FontAwesomeIcon icon={faChevronDown} className="iconPro" />
                             </div>
                         </Form.Group>
 
                         {/* Número de Identificación */}
-                        <div className="floating-label">
-                            <Form.Group controlId="numberIdentification" className="numberIdentification">
+                        <div className="floating-labelPro">
+                            <Form.Group controlId="numberIdentificationPro" className="numberIdentificationPro">
                                 <Form.Control
                                     type="number"
                                     name="numberIdentification"
@@ -147,8 +147,8 @@ function UserProfileForm({ formData,
                         </div>
 
                         {/* Email */}
-                        <div className="floating-label">
-                            <Form.Group controlId="email" className="email" style={{ outline: '0px' }} >
+                        <div className="floating-labelPro">
+                            <Form.Group controlId="emailPro" className="emailPro" style={{ outline: '0px' }} >
                                 <Form.Control
                                     type="email"
                                     name="email"
@@ -165,8 +165,8 @@ function UserProfileForm({ formData,
                         </div>
 
                         {/* Teléfono */}
-                        <div className="floating-label">
-                            <Form.Group controlId="phoneNumber" className="phoneNumber">
+                        <div className="floating-labelPro">
+                            <Form.Group controlId="phoneNumberPro" className="phoneNumberPro">
                                 <Form.Control
                                     type="number"
                                     name="phoneNumber"
@@ -193,11 +193,11 @@ function UserProfileForm({ formData,
                         </div>
 
 
-                        <Form.Group controlId="userStatusPro" className="userStatusPro">
-                            <div className="icon-container">
+                        <Form.Group controlId="userStatusPro" className="userStatusPro order-3 order-sm-2">
+                            <div className="icon-containerPro">
                                 <Form.Control
                                     as="select"
-                                    name="userStatusPro"
+                                    name="userStatus"
                                     value={formData.userStatus === true ? 'AC' : 'IN'}
                                     onChange={(e) => {
                                         const { value } = e.target;
@@ -216,13 +216,13 @@ function UserProfileForm({ formData,
                                     <option value="IN">Inactivo</option>
 
                                 </Form.Control>
-                                <FontAwesomeIcon icon={faChevronDown} className="icon" />
+                                <FontAwesomeIcon icon={faChevronDown} className="iconPro" />
                             </div>
                         </Form.Group>
                     </Col>
                     <Col xs={12} sm={6} className="order-2 order-sm-1">
                         {/* Usamos el componente ImageDropzone aquí */}
-                        <div className="image-coponent order-3 order-sm-1">
+                        <div className="image-coponentPro order-3 order-sm-1">
                             <ImageDropzone
                                 getRootProps={getRootProps}
                                 getInputProps={getInputProps}
@@ -235,8 +235,8 @@ function UserProfileForm({ formData,
                         </div>
 
                         {/* Dirección */}
-                        <div className="floating-label order-2 order-sm-1">
-                            <Form.Group controlId="address" className="address">
+                        <div className="floating-labelPro order-2 order-sm-1">
+                            <Form.Group controlId="addressPro" className="addressPro">
                                 <Form.Control
                                     type="text"
                                     name="address"
@@ -252,8 +252,8 @@ function UserProfileForm({ formData,
                             </Form.Group>
                         </div>
                         {/* Roles */}
-                        <Form.Group controlId="roles" className="roles order-3 order-sm-2">
-                            <div className="icon-container">
+                        <Form.Group controlId="rolesPro" className="rolesPro order-3 order-sm-2">
+                            <div className="icon-containerPro">
                                 <Form.Control
                                     as="select"
                                     name="roles"
@@ -275,43 +275,42 @@ function UserProfileForm({ formData,
                                     <option value="INTERNAL_TECHNICIAN">Tecnico interno</option>
                                     <option value="EXTERNAL_TECHNICIAN">Tecnico externo</option>
                                 </Form.Control>
-                                <FontAwesomeIcon icon={faChevronDown} className="icon" />
+                                <FontAwesomeIcon icon={faChevronDown} className="iconPro" />
                             </div>
                         </Form.Group>
                     </Col>
                 </Row>
                 <Row>
-                <Col xs={12} sm={6}> </Col>
+                    <Col xs={12} sm={6}> </Col>
 
-                <Col xs={12} sm={6} className="d-flex justify-content-center">
+                    <Col xs={12} sm={6} className="d-flex justify-content-center">
 
-                    {isEditing ? (
-                        <>
-                            <div className="button-group">
-                                <Button variant="primary" type="submit" className='button-confirmation' disabled={loading} >
-                                    Guardar cambios
-                                </Button>
-                                <Button variant="secondary" className='button-cancel' onClick={handleCancel}>
-                                    Cancelar edición
-                                </Button>
-                            </div>
+                        {isEditing ? (
+                            <>
+                                <div className="button-group">
+                                    <Button variant="primary" type="submit" className='button-confirmation' disabled={loading} >
+                                        Guardar cambios
+                                    </Button>
+                                    <Button variant="secondary" className='button-cancel' onClick={handleCancel}>
+                                        Cancelar edición
+                                    </Button>
+                                </div>
 
-                        </>
-                    ) : (
-                        <>
+                            </>
+                        ) : (
+                            <>
+                                <div className="button-group">
+                                    <Button variant="primary" type="button" className='button-confirmation' onClick={handleEditClick}>
+                                        Editar
+                                    </Button>
+                                    <Button variant="secondary" type="button" className='button-cancel' onClick={handleShowListUsers} >
+                                        Regresar
+                                    </Button>
+                                </div>
 
-                            <div className="button-group">
-                                <Button variant="primary" type="button" className='button-confirmation' onClick={handleEditClick}>
-                                    Editar
-                                </Button>
-                                <Button variant="secondary" type="button" className='button-cancel' onClick={handleShowListUsers} > 
-                                    Regresar
-                                </Button>
-                            </div>
-
-                        </>
-                    )}
-                </Col>
+                            </>
+                        )}
+                    </Col>
                 </Row>
                 {/* <div className="button-group">
                     <Button variant="primary" type="submit" className='button-register' disabled={loading} onClick={handleRegister} >

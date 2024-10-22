@@ -25,7 +25,7 @@ function RegisterUserForm({ formData,
         <div className='formu'>
             <Form onSubmit={handleSubmit}>
                 <Row className="flex-row-reverse flex-sm-row">
-                    <Col xs={12} sm={6} className='order-1 order-sm-2'>
+                    <Col xs={12} sm={6} className='order-1 order-sm-2 display-grid'>
                         <Row>
                             <Col xs={12} sm={6}>
                                 <div className="floating-label">
@@ -167,7 +167,7 @@ function RegisterUserForm({ formData,
                                 getInputProps={getInputProps}
                                 isDragActive={isDragActive}
                                 image={image}
-                                defaultImage={formData.pathImage || ''}
+                                defaultImage={''}
 
                             />
                         </div>
