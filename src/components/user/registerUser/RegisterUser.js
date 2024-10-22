@@ -38,6 +38,7 @@ function RegisterUser() {
     useEffect(() => {
         console.log('entra al useeffect');
         setTimeout(() => {
+            try{
             const token = localStorage.getItem('authToken');
             if (token === null && jwtDecode(token).exp * 1000 < Date.now()) { // && jwtDecode(token).exp*1000 >  Date.now()
                 localStorage.removeItem('authToken');
@@ -45,6 +46,11 @@ function RegisterUser() {
                 console.log('entra al token ', token);
                 window.location.href = '/login';
             }
+        }catch(error){
+            console.log('error', error);
+            setIsTokenChecked(false);
+            window.location.href = '/login';
+        }
         }, 200);
         return () => clearTimeout();
     }, []);
@@ -89,6 +95,7 @@ function RegisterUser() {
 
 
     const uploadImage = async () => {
+        let dataUser = formData;
         try {
             if (fileUser !== null) {
                 const storageRef = ref(storageApp, `images/${fileUser.name}`);
@@ -98,10 +105,10 @@ function RegisterUser() {
                 console.log('Image uploaded successfully');
                 // setImageUrl(await getDownloadURL(storageRef))
                 const url = await getDownloadURL(storageRef);
-                setFormData(prevFormData => ({
-                    ...prevFormData,
+                dataUser= {
+                    ...dataUser,  // Copia el resto de las propiedades
                     pathImage: url
-                }));
+                }
                 // usersData = {
                 //     name: formData.name,
                 //     lastName: formData.lastName,
@@ -118,10 +125,10 @@ function RegisterUser() {
               
             } else {
                 console.log('No image selected');   
-                setFormData(prevFormData => ({
-                    ...prevFormData,
+                dataUser= {
+                    ...dataUser,
                     pathImage: 'https://console.firebase.google.com/u/0/project/aires-acondiconados/storage/aires-acondiconados.appspot.com/files/~2Fimages?hl=es&fb_gclid=CjwKCAjw68K4BhAuEiwAylp3koMpctpJsF-PhKWsZ5HJkdsfNkKJ6Rrv9NjSgMczcogls7te3vebKBoCx6QQAvD_BwE'
-                }));
+                }
                 // usersData = formData;
             }
 
@@ -133,6 +140,7 @@ function RegisterUser() {
             console.error('Error uploading image:', error);
             // Maneja el error de la carga de la imagen
         }
+        return dataUser;
     };
 
     const handleConfirmAction = async () => {
@@ -162,11 +170,11 @@ function RegisterUser() {
                     'Authorization': `Bearer ${localStorage.getItem('authToken')}`
                 }
             };
-            await uploadImage();
+            const dataUser = await uploadImage();
             console.log('Form Data con imagen:', formData);
             // Acción de registrar - enviar datos al backend
             console.log('Registrando usuario:', formData);
-            axios.post(`${process.env.REACT_APP_BCKEND}/users/create`, formData, config,)
+            axios.post(`${process.env.REACT_APP_BCKEND}/users/create`, dataUser, config,)
                 .then(response => {
                     setLoading(true)
                     setToastMessage(response.data || 'Usuario registrado con éxito');

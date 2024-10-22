@@ -94,13 +94,21 @@ function RegisterUserForm({ formData,
                             <Form.Group controlId="numberIdentification" className="numberIdentification">
                                 {/* <Form.Label>Number Identification</Form.Label> */}
                                 <Form.Control
-                                    type="text"
+                                    type="number"
                                     name="numberIdentification"
                                     value={formData.numberIdentification}
                                     onChange={handleInputChange}
                                     placeholder=""
                                     required
                                     maxLength={20}
+                                    onInput={(e) => {
+                                        // Limita el input a 10 dígitos
+                                        e.target.value = e.target.value.slice(0, 20);
+                                        e.target.setCustomValidity('');
+                                        if (e.target.value.length < 4) {
+                                            e.target.setCustomValidity('Por favor, ingresa un numero de identificación valido.');
+                                        }
+                                    }}
                                 />
                                 <Form.Label>Número de identificación</Form.Label>
                             </Form.Group>
@@ -126,7 +134,7 @@ function RegisterUserForm({ formData,
                             <Form.Group controlId="phoneNumber" className="phoneNumber">
                                 {/* <Form.Label>Phone Number</Form.Label> */}
                                 <Form.Control
-                                    type="tel"
+                                    type="number"
                                     name="phoneNumber"
                                     value={formData.phoneNumber}
                                     onChange={handleInputChange}
@@ -134,9 +142,16 @@ function RegisterUserForm({ formData,
                                     required
                                     pattern="^[0-9]{10}$"
                                     inputMode="numeric"
+                                    onInput={(e) => {
+                                        // Limita el input a 10 dígitos
+                                        e.target.value = e.target.value.slice(0, 10);
+                                        e.target.setCustomValidity('');
+                                        if (e.target.value.length < 10) {
+                                            e.target.setCustomValidity('Por favor, ingresa un número de teléfono de 10 dígitos.');
+                                        }
+                                    }}
                                     maxLength={10}
-                                    onInvalid={(e) => e.target.setCustomValidity('Por favor, ingresa un número de teléfono válido.')}
-                                    onInput={(e) => e.target.setCustomValidity('')}
+                                    onInvalid={(e) => e.target.setCustomValidity('Por favor, ingresa un número de teléfono válido.')}                           
                                 />
                                 <Form.Label>Número de teléfono</Form.Label>
                             </Form.Group>
@@ -217,7 +232,7 @@ function RegisterUserForm({ formData,
                 bodyText={modalType === 'cancel'
                     ? "¿Estás seguro de que deseas cancelar el registro? Se perderán todos los datos."
                     : "¿Estás seguro de que deseas registrar este usuario?"}
-                confirmText={modalType === 'cancel' ? "Sí, cancelar" : "Sí, registrar"}
+                confirmText={modalType === 'cancel' ? "Sí" : "Sí"}
                 cancelText="No"
                 containerId="modal-container"
             />
