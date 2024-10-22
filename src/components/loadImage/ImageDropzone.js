@@ -5,8 +5,37 @@ const ImageDropzone = ({ getRootProps, getInputProps, isDragActive, image, defau
     // Si no hay imagen cargada, usa la imagen por defecto
     const displayImage = image || defaultImage;
 
+    // Añadimos una lógica para prevenir la acción si está deshabilitado
+    const rootProps = getRootProps({
+        onClick: (event) => disabled && event.preventDefault(),  // Evita el clic cuando está deshabilitado
+        onDrop: (event) => {
+            if (disabled) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+        },    // Evita el drop cuando está deshabilitado
+        onDragOver: (event) => {
+            if (disabled) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+        }, // Evita el arrastre cuando está deshabilitado
+        onDragEnter: (event) => {
+            if (disabled) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+        }, // Evita que se active el drag cuando está deshabilitado
+        onDragLeave: (event) => {
+            if (disabled) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+        }, // Evita que se active el drag cuando está deshabilitado
+    });
+
     return (
-        <div {...getRootProps()}  className={`image-dropzone ${disabled ? 'disabled' : ''}`}>
+        <div {...rootProps} className={`image-dropzone ${disabled ? 'disabled' : ''}`}>
             <input {...getInputProps()} disabled={disabled} />
 
             {/* Muestra la imagen cargada o la imagen por defecto */}

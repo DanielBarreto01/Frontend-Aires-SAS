@@ -6,9 +6,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import UserDetails from '../userProfile/UserProfile';
 import axios from 'axios';
+import {faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { jwtDecode } from 'jwt-decode';
 import "../../TableStyle.css";
 import RegisterUser from '../registerUser/RegisterUser';
+import { Form, Row, Col } from 'react-bootstrap';
 
 
 
@@ -226,15 +228,33 @@ function ListUsers() {
                 <div className='col-6 col-sm-3 col-md-2' >
 
 
-                    <div className="desplegable">
+                    {/* <div className="desplegable">
                         <DropdownButton title={selectedOption} onSelect={handleSelect}>
                             <Dropdown.Item eventKey="Seleccione un rol" className="dropdown-item-light">Seleccionee un rol</Dropdown.Item>
                             <Dropdown.Item eventKey="Administrador">Administrador</Dropdown.Item>
                             <Dropdown.Item eventKey="Tecnico interno">Tecnico interno</Dropdown.Item>
                             <Dropdown.Item eventKey="Tecnico externo">Tecnico externo</Dropdown.Item>
                         </DropdownButton>
-                    </div>
-
+                    </div> */}
+                    <Form>
+                    <Form.Group controlId="rolesPro" className="rolesPro order-3 order-sm-2">
+                            <div className="icon-containerPro">
+                                <Form.Control
+                                    as="select"
+                                    name="roles"
+                                    value= "Seleccione un rol" 
+                                    required
+                                    style={{ border: 'none' }}
+                                >
+                                    <option value="Seleccione un rol">Seleccione un rol</option>
+                                    <option value="Administrador">Administrador</option>
+                                    <option value="Tecnico interno">Tecnico interno</option>
+                                    <option value="Tecnico externo">Tecnico externo</option>
+                                </Form.Control>
+                                <FontAwesomeIcon icon={faChevronDown} className="iconPro" />
+                            </div>
+                        </Form.Group>
+                    </Form>
 
                 </div>
 
@@ -259,6 +279,7 @@ function ListUsers() {
                                 progressPending={loading}
                                 onRowClicked={handleRowClick}
                                 conditionalRowStyles={conditionalRowStyles}
+                                paginationComponentOptions={customPaginationOptions}
                                 progressComponent={(
                                     <div className="loading-overlay">
                                         <Spinner animation="border" size="lg" />
