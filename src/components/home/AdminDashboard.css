@@ -147,8 +147,17 @@
     overflow: hidden;
 }
 
-.row {
-    /* flex-wrap: nowrap; Evita que los elementos hijos se envuelvan en una nueva fila */
+.custom-row {
+    display: flex; /* Asegúrate de que sea un contenedor flex */
+     flex-wrap: nowrap;
+   /* overflow-x: auto; /* Permite el desplazamiento horizontal si es necesario */
+    height: 100%; /* Asegúrate de que ocupe toda la altura */   
+}
+
+
+.custom-col { /* responsable de desplazamiento contededor principal donde se renderiza los contenidos  */
+    flex-grow: 1;
+    overflow: hidden;
 }
 
 .menuU {
@@ -157,7 +166,7 @@
     width: 100%; /* Asegura que el Nav ocupe todo el ancho */
     justify-content: space-between; 
     flex-direction: column; /* Alinea los elementos en una columna */
-
+    margin-right: 10px;
     
 }
 
@@ -182,6 +191,7 @@
     display: flex; /* Asegura que los elementos hijos se alineen horizontalmente */
     align-items: center; /* Centra los elementos verticalmente */
     margin: 4px 0px 10px;
+    
 }
 
 /* Imagen con contorno circular */
@@ -230,3 +240,29 @@
   .menuU.hidden {
     transform: translateX(-100%); /* Desliza el menú hacia la izquierda cuando está oculto */
   }
+
+  /* ///// */
+
+  .top-bar{
+       background-color: black;
+       padding: 0px; 
+       margin: 0px;
+       border: none;
+  }
+
+  .col.custom-col {
+    position: relative; /* Asegura que el overlay se posicione correctamente donde va a estar el overlay */
+  }
+  
+
+  @media (max-width: 767px) { /* Aplica solo para pantallas menores a 576px */
+    .content-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.7); /* Fondo más oscuro */
+      z-index: 2;
+    }
+  } 
