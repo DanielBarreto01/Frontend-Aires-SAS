@@ -8,22 +8,8 @@
 }
 
 
-.heder-comp{
-    margin-top: 6px;
-    display: flex; /* Cambia a flexbox */
-    align-items: center; /* Alinea verticalmente los elementos */
-   /* Distribuye los elementos horizontalmente */
-    width: 40%;
-    height: 38px;
-    justify-content: flex-start;
-    margin-bottom: 20px;
 
-    background-color: #ffffff;
-}
-.title{
-    height: 100%;
-    background-color: #ffffff;
-}
+
 .filter-search{
     display: flex; /* Cambia a flexbox para alinear los elementos en una fila */
     align-items: center;
@@ -40,67 +26,10 @@ h2{
     font-weight: 900 !important; /* Hace que el texto sea muy grueso */
 }
 
-.form-control {
-    flex-grow: 1; 
-    outline: none;
-    border: 'none' !important;
-    outline: 'none' !important;
-    outline: none !important; /* Elimina el outline predeterminado */
-    box-shadow: 0 0 0px rgba(81, 203, 238, 1) !important; /* Agrega un efecto de sombra */
-    border: 0px transparent rgba(81, 203, 238, 1) !important;  
-}
-
-.input-container {
-    display: flex; /* Cambia a flexbox */
-    align-items: center;
-    position: relative; /* Posiciona los elementos relativos entre sí */
-    width: 100%; /* Asegura que el contenedor ocupe todo el ancho disponible */
-    border: 1px solid #000000; 
-    border-radius: 9px;
-
-}
 
 
 
-.table-container{
-    border-radius: 20px !important;
-    overflow: hidden; 
-    background-color: #ffffff;
-    border: 1px solid #7B7B7B;
-}
- /* background-color: red; */
-.button-Create{
-    border-radius: 9px;
-    background-color: #7B7B7D;
-    min-width: 150px;
-    height: 100% !important;
-    font-size: auto;
-    margin-left: 20px;
-    border: none;
-    height: auto;
-   
-    
-}
 
-.desplegable .dropdown-toggle{
-   border-radius: 9px;
- 
-    background-color: #ffffff;
-    color: #7B7B7D ;
-    border: solid 1px #000000;
-    float: right;
-}
-
-.dropdown-item-light {
-    font-weight: lighter; /* Peso de la fuente más ligero */
-    color: rgba(110, 124, 116, 0.767); /* Color de la fuente más claro */
-}
-
-.icon {    
-    left: 10px;
-    top: 50%;
-    color: #aaa; /* Color del icono */
-}
 
 @media only screen and (max-width: 995px) {
     .General-Table{
@@ -108,10 +37,6 @@ h2{
         margin-right: 10%; */
         padding: 20px !important;
         overflow: hidden !important;
-    }
-
-    .input-container {
-        height: 38px;
     }
 
     .icon {    
@@ -126,11 +51,7 @@ h2{
         align-items: center; /* Alinea los elementos a la izquierda */
         justify-content: center; 
       
-    }
-    .filter-search {
-        width: 100%;
-        align-items: center; /* Asegura que los elementos se ajusten al 100% del ancho */
-    }
+
 
     .form-control {
         margin-top: 10px;
@@ -140,20 +61,9 @@ h2{
         margin-bottom: 10px; /* Añade espacio debajo del campo de búsqueda */
     }
 
-    .desplegable .dropdown-toggle{
-        font-size: 12px !important;
-        height: 38px;
-    }
 
-    .button-Create { 
-        width: 10px !important;
-        height: 100%;
-        min-width: 80px;
-        font-size: 12px;
-        line-height: 1;
- 
-       /* Menú desplegable y botón también ocupan todo el ancho */
-    }
+
+
    
 
     h2{
@@ -176,3 +86,104 @@ h2{
     align-items: center; /* Centra verticalmente */
     z-index: 1000; /* Asegúrate de que esté por encima de otros elementos */
 }
+
+
+/*
+.input-container {
+    height: 38px;
+}*/
+
+/*/////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+
+.heder-comp{
+    margin-top: 6px;
+    display: flex; /* Cambia a flexbox */
+    align-items: center; /* Alinea verticalmente los elementos */
+   /* Distribuye los elementos horizontalmente */
+    width: 40%;
+    height: 39px;
+    justify-content: flex-start;
+    margin-bottom: 20px;
+    background-color: #4c0000;
+}
+
+
+}
+
+/* no va  */
+.filter-search {
+    width: 100%;
+    align-items: center; /* Asegura que los elementos se ajusten al 100% del ancho */
+}
+
+
+.title1 {
+    padding: 10px 0 0 30px; 
+}
+
+.input-container {
+    display: flex; /* Cambia a flexbox */
+    align-items: center;
+    border: 1px solid #000000; 
+    border-radius: 9px;
+    margin-top: 10px;
+  
+
+}
+
+
+.icon {    
+    top: 50%;
+    color: #aaa;
+    margin-left: 10px;
+}
+
+.form-control {
+    flex-grow: 1; 
+    outline: none;
+    border: 'none' !important;
+    outline: 'none' !important;
+    outline: none !important; /* Elimina el outline predeterminado */
+    box-shadow: 0 0 0px rgba(81, 203, 238, 1) !important; /* Agrega un efecto de sombra */
+    border: 0px transparent rgba(81, 203, 238, 1) !important;  
+}
+
+.input-style {
+    border: none;
+    margin-left: -12px; 
+    margin-right: 1px; 
+}
+
+
+.desplegable .dropdown-toggle{
+     background-color: #ffffff;
+     color: #7B7B7D ;
+     border-radius: 9px;
+     border: solid 1px #000000;
+     margin-top: 10px;
+   
+ }
+
+ .desplegable .dropdown-toggle{
+    font-size: 12px !important;
+    height: 38px;
+   
+}
+
+.button-Create{
+    border-radius: 9px;
+    background-color: #7B7B7D;
+    font-size: 15px;
+    border: none;
+    margin-top: 10px;
+}
+
+.table-container{
+    border-radius: 20px !important;
+    overflow: hidden; 
+    background-color: #ffffff;
+    border: 1px solid #7B7B7B;
+}
+ 
+
