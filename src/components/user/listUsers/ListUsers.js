@@ -185,12 +185,13 @@ function ListUsers() {
     const customPaginationOptions = {
         rowsPerPageText: 'Filas por página',  // Texto para "Rows per page"
         rangeSeparatorText: 'de',             // Texto separador entre los rangos de páginas
-        noRowsPerPage: false, 
+        noRowsPerPage: false,
     };
 
     if (!isTokenChecked) {
         return null;
     }
+
 
     return (
 
@@ -199,74 +200,10 @@ function ListUsers() {
         ) : isNewComponentVisible ? (
             <RegisterUser />
         ) : (
-            <div className="General-Table grid grid-col items-center justify-center  ">
-                <div > 
-                {/* className="justify-content-center aling-items-center d-flex shadow-lg" */}
-                    <div className="superior row justify-content-right aling-items-right d-flex ">
-                        <div className='heder-comp'> 
-                            <div className='title'><h2>Usuarios</h2></div>
-                        </div>           
-                        <div className="filter-search  mb-4">
-                        
-                        
-                            <form style={{ width:'100%', margin:'0px 5px 0px 0px'}}>
-                                <div className='input-container'>
-                                    <FontAwesomeIcon icon={faSearch} className="icon" style={{ marginLeft: '10px' }} />
-                                    <input className="form-control items-right" 
-                                        placeholder="Buscar por: Nombre, Documento, Teléfono o Correo"
-                                        type="search"                    
-                                        onChange={handleChange}
-                                        style={{ border: 'none', marginLeft: '-12px',  marginRight: '1px'  }}
-                                        />
-                        
-                                </div>
-                                
-                                    
-                            </form>
-                            <div className = "desplegable">
-                                <DropdownButton title={selectedOption} onSelect={handleSelect} className='selec-option' style={{ fontSize:'5px'}}>
-                                    <Dropdown.Item eventKey="Seleccione un rol" className="dropdown-item-light">Seleccione un rol</Dropdown.Item>
-                                    <Dropdown.Item eventKey="Administrador">Administrador</Dropdown.Item>
-                                    <Dropdown.Item eventKey="Tecnico interno">Tecnico interno</Dropdown.Item>
-                                    <Dropdown.Item eventKey="Tecnico externo">Tecnico externo</Dropdown.Item>
-                                </DropdownButton>
-                            </div>
-                            <Button className = "button-Create"variant="primary" onClick={handleButtonClick}>Agregar usuario</Button>
-                           
-                        </div> 
-                    
-                    </div>
-                
-                
-                
-                    <div className="space-y-4"style={{ backgroundColor: '#fff' }}>
-                        <div className="table-container">
-                        <DataTable
-                            columns={columns}
-                            data = {records}
-                            responsive={true} 
-                            pagination
-                            paginationPerPage={6}
-                            fixedHeader
-                            persistTableHead
-                            fixedHeaderScrollHeight = "70vh"
-                            progressPending={loading}
-                            onRowClicked = {handleRowClick}
-                            paginationComponentOptions={customPaginationOptions}
-                            noDataComponent="No hay datos para mostrar"  
-                            conditionalRowStyles={conditionalRowStyles}
-                            progressComponent={( // Si está cargando, muestra el overlay y el spinner
-                                <div className="loading-overlay">
-                                <Spinner animation="border" size="lg" /> 
-                                </div>
-                            )}
-                           
-                        />              
-=======
 
-           <div className='row'>
+            <div className='row'>
 
-        
+
                 <div className='col-12 col-md-4 title1'>
                     <h2 className="text-start">Usuarios</h2>
                 </div>
@@ -287,9 +224,9 @@ function ListUsers() {
                 </div>
 
                 <div className='col-6 col-sm-3 col-md-2' >
-                 
 
-                    <div className="desplegable"> 
+
+                    <div className="desplegable">
                         <DropdownButton title={selectedOption} onSelect={handleSelect}>
                             <Dropdown.Item eventKey="Seleccione un rol" className="dropdown-item-light">Seleccionee un rol</Dropdown.Item>
                             <Dropdown.Item eventKey="Administrador">Administrador</Dropdown.Item>
@@ -297,61 +234,50 @@ function ListUsers() {
                             <Dropdown.Item eventKey="Tecnico externo">Tecnico externo</Dropdown.Item>
                         </DropdownButton>
                     </div>
-                   
+
 
                 </div>
 
                 <div className='col-12 col-sm-3 col-md-2' >
-                    <Button className = "button-Create" onClick={handleButtonClick}>Agregar usuario</Button>
+                    <Button className="button-Create" onClick={handleButtonClick}>Agregar usuario</Button>
 
                 </div>
 
-                
 
-                <div className='col-12'> 
+
+                <div className='col-12'>
                     <div className="space-y-4">
-                          <div className="table-container">
-                          <DataTable
-                              columns={columns}
-                              data = {records}
-                              pagination
-                              paginationPerPage={6}
-                              fixedHeader
-                              persistTableHead
-                              fixedHeaderScrollHeight = "70vh"
-                              progressPending={loading}
-                              onRowClicked = {handleRowClick}
-                              conditionalRowStyles={conditionalRowStyles}
-                              progressComponent={( 
-                                  <div className="loading-overlay">
-                                  <Spinner animation="border" size="lg" /> 
-                                  </div>
-                              )}
-                          />              
-                          </div>
-  
-                      </div>
+                        <div className="table-container">
+                            <DataTable
+                                columns={columns}
+                                data={records}
+                                pagination
+                                paginationPerPage={6}
+                                fixedHeader
+                                persistTableHead
+                                fixedHeaderScrollHeight="70vh"
+                                progressPending={loading}
+                                onRowClicked={handleRowClick}
+                                conditionalRowStyles={conditionalRowStyles}
+                                progressComponent={(
+                                    <div className="loading-overlay">
+                                        <Spinner animation="border" size="lg" />
+                                    </div>
+                                )}
+                            />
+                        </div>
+
+                    </div>
                 </div>
 
 
 
 
-                    
+
             </div>
-            
+
 
         )
-
-
-
-
-
-
-
-
-
-
-
 
         /*isUserDetailsVisible ? (
            
