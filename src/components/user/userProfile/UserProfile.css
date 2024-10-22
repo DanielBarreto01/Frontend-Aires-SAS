@@ -1,16 +1,22 @@
 /* Aplica margen inferior a cada campo */
-.principal{
+.principal {
   height: 100% !important;
-  width: 100%;
-  display: flex; /* Cambia a flexbox para alinear los elementos en una fila */
+  display : flex;
+  width: auto !important;
   align-items: center;
   justify-content: center;
+  padding: 0px;
   overflow: hidden;
+   /* Asegura que el contenido no se pegue a los bordes */
+  box-sizing: border-box;
 }
 
-.form container{
-  width: 100%;
-  height: 100%;
+.form-containerPro{
+  max-width: 99%;
+  width: 100% !important;
+  height: auto;
+  padding: 0px;
+ 
 }
 
 /* .userProfileCon{
@@ -25,7 +31,7 @@
 
 } */
 
-.title-component h2{
+.title-component h2 {
   text-align: left !important;
   align-items: right !important;
   width: 100% !important;
@@ -34,263 +40,335 @@
 }
 
 
-.nameUser, .lastNameUser, .typeIdentification, .numberIdentification, .email, .phoneNumber,
- .address, .roles, .userStatusPro{
-    margin-bottom: 18px;
-    border: 1px solid #a39f9f !important;
-    border-radius: 9px;
-    height: 35px;
-    
-}
-.address{
-    margin-top: 18px;
+.nameUserPro,
+.lastNameUserPro,
+.typeIdentificationPro,
+.numberIdentificationPro,
+.emailPro,
+.phoneNumberPro,
+.addressPro,
+.rolesPro,
+.userStatusPro {
+  /* margin-bottom: 18px; */
+  border: 1px solid #a39f9f !important;
+  margin-bottom: 19px;
+  border-radius: 9px;
+  height: 35px;
+  width: 100% !important;
+  background-color: rgb(255, 255, 255);
 }
 
-.nameUser .form-control,
-.lastNameUser .form-control,
-.numberIdentification .form-control,
-.email .form-control,
-.phoneNumber .form-control,
-.address .form-control,
-.typeIdentification .form-control,
-.roles .form-control,
+.addressPro {
+  margin-top: 18px;
+}
+
+.nameUserPro .form-control,
+.lastNameUserPro .form-control,
+.numberIdentificationPro .form-control,
+.emailPro .form-control,
+.phoneNumberPro .form-control,
+.addressPro .form-control {
+  height: 100% !important;
+  color: #7B7B7B !important;
+  margin: 0px 0px 0px 0px;
+  background-color: #ffffff;
+
+
+}
+
+.typeIdentificationPro .form-control,
+.rolesPro .form-control,
 .userStatusPro .form-control {
-    font-size: 13px !important;
-    height: 28px;
-    color: #7B7B7B !important;
-    margin-left: 2px;
+  height: 100% !important;
+  font-size: 0.8em;
+  margin: 0px 0px 0px 2px !important;
 }
 
-input:focus, 
-select:focus, 
+input:focus,
+select:focus,
 textarea:focus {
-  outline: none !important; /* Elimina el borde azul con prioridad */
-  box-shadow: none !important; /* Elimina el efecto de sombra */
-  border: 1px soloid #a39f9f !important; /* Puedes personalizar el borde si lo deseas */
+  outline: none !important;
+  /* Elimina el borde azul con prioridad */
+  box-shadow: none !important;
+  /* Elimina el efecto de sombra */
+  border: 1px soloid #a39f9f !important;
+  /* Puedes personalizar el borde si lo deseas */
 }
 
-.image-coponent{
-  height:61%;
+.image-coponentPro {
+  height: 61%;
 }
 
-.icon-container {
-    display: flex; /* Cambia a flexbox */
-    align-items: center;
-    position: relative !important; /* Posiciona los elementos relativos entre sí */
-    width: 100%; /* Asegura que el contenedor ocupe todo el ancho disponible */
-    
-    border-radius: 9px;
-    margin-right: 9px;
+.icon-containerPro {
+  display: flex;
+  /* Cambia a flexbox */
+  align-items: center;
+  position: relative !important;
+  /* Posiciona los elementos relativos entre sí */
+  width: 100%;
+  /* Asegura que el contenedor ocupe todo el ancho disponible */
+
+  border-radius: 9px;
+  margin-right: 9px;
 }
 
-.icon{
-    margin-right: 15px;
+.iconPro {
+  margin-right: 15px;
 }
 
 
-  /* Asegura que los campos "Nombre" y "Apellido" estén alineados y tengan espacio entre sí */
+/* Asegura que los campos "Nombre" y "Apellido" estén alineados y tengan espacio entre sí */
 .form-row {
-    display: flex;
-    flex-wrap: nowrap;
-    gap: 10px; /* Espacio horizontal entre Nombre y Apellido */
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 10px;
+  /* Espacio horizontal entre Nombre y Apellido */
 }
-  
-  /* Alinear botones con espacio entre ellos */
+
+/* Alinear botones con espacio entre ellos */
 .button-group {
-    width: 100%;
-    display: flex;
-    justify-content: center !important;
-    gap: 50px;
-    margin-top: 20px; /* Espacio por encima de los botones */
-    
+  width: 100%;
+  display: flex;
+  justify-content: center !important;
+  gap: 50px;
+  margin-top: 20px;
+  /* Espacio por encima de los botones */
+
 }
 
-  
-  /* Añadir padding general para evitar que los campos se vean pegados a los bordes */
+
+/* Añadir padding general para evitar que los campos se vean pegados a los bordes */
 
 
-h2{
-   
-    font-weight: 790; /* Hace que el texto sea muy grueso */
-    text-align: left !important;
-    margin-bottom: 30px;
-    padding: none !important;
-    height: 20px;
+h2 {
+
+  font-weight: 790;
+  /* Hace que el texto sea muy grueso */
+  text-align: left !important;
+  margin-bottom: 30px;
+  padding: none !important;
+  height: 20px;
 }
 
-.button-confirmation{
+.button-confirmation {
   background-color: #000000;
   border-radius: 11px;
   font-size: 15px;
-  width: 35%;
+  width: 45%;
   border: none;
 }
 
-.button-cancel{
+.button-cancel {
   background-color: #7B7B7B;
   border-radius: 11px;
   font-size: 15px;
-  width: 35%;
+  width: 45%;
 }
 
-.button-confirmation:hover{
+.button-confirmation:hover {
   background-color: #353333;
 }
 
 
-.imageUser{
-  height: 68% !important;
-}
 
 /* Estilos para el contenedor */
 
 
 /* Estilos para la imagen */
-.imagePreview {
-  width: 100%; /* La imagen ocupa el 100% del ancho del contenedor */
-  height: 100%; /* La imagen ocupa el 100% del alto del contenedor */
-  object-fit: contain;  /* Asegura que la imagen se ajuste al contenedor sin distorsionarse */
-}
 
-.phoneNumber input[type="text"] , .numberIdentification input[type="text"]{
+/* quita los botones de aumentar y dismuir en los campos numericos*/
+.phoneNumberPro input[type="text"],
+.numberIdentificationPro input[type="text"] {
   -webkit-appearance: none;
   -moz-appearance: textfield;
   appearance: none;
   padding-right: 0;
 }
 
+.numberIdentificationPro input::-webkit-outer-spin-button,
+.numberIdentificationPro input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.phoneNumberPro input::-webkit-outer-spin-button,
+.phoneNumberPro input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/*Color y comportmiento del mouse cuano estan desactivados los campos*/
 .input-disabled {
-  background-color: #f7f7f7 !important; /* Color de fondo para campos inactivos */
-  color: #a0a0a0; /* Color del texto para campos inactivos */
-  border: 1px solid #dcdcdc; /* Color del borde para campos inactivos */
-  cursor: not-allowed; /* Cambia el cursor para indicar que no se puede interactuar */
-}
-
-.numberIdentification input::-webkit-outer-spin-button,
-.numberIdentification input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-.phoneNumber input::-webkit-outer-spin-button,
-.phoneNumber input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+  background-color: #f7f7f7 !important;
+  /* Color de fondo para campos inactivos */
+  color: #a0a0a0;
+  /* Color del texto para campos inactivos */
+  border: 1px solid #dcdcdc;
+  /* Color del borde para campos inactivos */
+  cursor: not-allowed;
+  /* Cambia el cursor para indicar que no se puede interactuar */
 }
 
 
 
-@media only screen and (max-width: 700px) {
-/* 
-  .principal{
-    height: 100%!important;
-    display: flex; 
+
+
+
+@media only screen and (max-width: 800px) {
+  .form-containerPro {
+    max-width: 99%;
+    width: 100% !important;
+    height: 100% !important;
+    padding: 0px;
+
+  }
+  .nameUserPro,
+  .lastNameUserPro,
+  .typeIdentificationPro,
+  .numberIdentificationPro,
+  .emailPro,
+  .phoneNumberPro,
+  .addressPro,
+  .rolesPro,
+  .userStatusPro {
+    /* margin-bottom: 18px; */
+    border: 1px solid #a39f9f !important;
+    margin-bottom: 13px;
+    border-radius: 9px;
+    height: 35px;
+    background-color: rgb(255, 255, 255);
+  }
+  .rolesPro{
+    margin-bottom: 70px;
+  }
+
+  .button-group {
+    width: 100%;
+    display: flex;
+    justify-content: center !important;
+    gap: 40px;
+   
+    /* Espacio por encima de los botones */
+  
+  }
+  /* aca */
+  .principal {
+    height: 100% !important;
+    width: 100% !important;
+    display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
   }
-   */
-  .userProfileCon{
- 
+
+  .userProfileCon {
+
     display: flex;
     background-color: #ffffff;
     position: center;
     align-items: center;
     justify-content: center;
+    width: 100% !important;
     height: 98% !important;
-    max-width: 100%;
+
     overflow: hidden;
-  
+
   }
-  .formu{
-    margin: 2px !important;
+
+  .formu {
+    /* margin: 2px !important; */
     overflow: hidden;
   }
-  .nameUser, .lastNameUser, .typeIdentification, .numberIdentification, .email, .phoneNumber, .userStatusPro, .roles{
+
+  /* .nameUser, .lastNameUser, .typeIdentification, .numberIdentification, .email, .phoneNumber, .userStatusPro, .roles{
     margin-bottom: 0px;
     height: 31px;
     border: 1px solid #a39f9f !important;
     border-radius: 9px;
     font-size: 8px !important; 
-  }
-  .address{
+  } */
+  .address {
     height: 31px;
     margin-top: 10px;
   }
-  .userStatusPro{
-    margin-bottom: 10px;
-  }
 
-  
+
+
   .nameUser .form-control,
   .lastNameUser .form-control,
   .numberIdentification .form-control,
   .email .form-control,
   .phoneNumber .form-control,
   .address .form-control {
+    margin-top: 20px;
     border: 0px !important;
-    height: 2px !important;
-    font-size: 10px !important;
-  }
-  .typeIdentification .form-control, .roles .form-control, .userStatusPro .form-control{
-    padding: 0px 0px 0px 12px !important;
-    margin-top: 4px;
     height: 100% !important;
-  
+    margin: 0px !important;
   }
-  .image-coponent{
+
+  
+
+  .image-coponent {
     height: 50%;
   }
 
-  .button-register{
+  .button-register {
     font-size: 14px;
-    
+
   }
-  
-  .button-no-register{
+
+  .button-no-register {
     font-size: 14px;
   }
-  
+
   .button-group {
     display: flex;
     justify-content: center;
     gap: 20px;
-    margin-top: 24px !important; /* Espacio por encima de los botones */
+    margin-top: 24px !important;
+    /* Espacio por encima de los botones */
   }
 }
 
-/*      desplazamiento texto en los campos*/
-.floating-label {
+/*    css para el dezplazamiento de los labels en los campos en qe sescribe*/
+.floating-labelPro {
   position: relative;
 
 }
 
-.floating-label input {
+.floating-labelPro input {
   width: 99%;
-  padding: 2px 10px 0px 10px; /* Padding superior para hacer espacio a la etiqueta */
+  padding: 2px 10px 0px 10px;
+  /* Padding superior para hacer espacio a la etiqueta */
   font-size: 13px;
   border: 0px solid transparent;
   border-radius: 10px;
   outline: none;
   transition: border-color 0.3s ease;
-  background-color: transparent; /* Fondo transparente para evitar solapamiento */
+  background-color: transparent;
+  /* Fondo transparente para evitar solapamiento */
 }
 
-.floating-label label {
+.floating-labelPro label {
   position: absolute;
-  top: 7px; /* La posición inicial de la etiqueta */
+  top: 7px;
+  /* La posición inicial de la etiqueta */
   left: 10px;
   font-size: 13px;
   margin-right: 20px;
   color: #7B7B7B;
-  pointer-events: none; /* Desactiva la interacción con el label */
+  pointer-events: none;
+  /* Desactiva la interacción con el label */
   transition: 0.2s ease all;
-  background-color: white; /* Fondo blanco para evitar solapamientos visuales */
+  background-color: white;
+  /* Fondo blanco para evitar solapamientos visuales */
   padding: 0 5px;
 }
 
-.floating-label input:focus + label,
-.floating-label input:not(:placeholder-shown) + label {
-  top: -8px;  /* Mueve la etiqueta hacia arriba cuando se escribe o está enfocado */
+.floating-labelPro input:focus+label,
+.floating-labelPro input:not(:placeholder-shown)+label {
+  top: -8px;
+  /* Mueve la etiqueta hacia arriba cuando se escribe o está enfocado */
   left: 5px;
   font-size: 12px;
   color: #383535;
@@ -301,15 +379,16 @@ h2{
 }
 
 
-/* Si necesitas ajustar la apariencia del texto */
-
 /* .floating-label input:focus {
    border-color: #ece9e9; 
 } */
 
+/*Configuracion del color que pone en el navegador al hacer autorrellenado de los campos*/
 input:-webkit-autofill {
-  -webkit-box-shadow: 0 0 0 30px white inset !important; /* Fondo blanco */
-  -webkit-text-fill-color: #858080 !important; /* Color del texto */
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+  /* Fondo blanco */
+  -webkit-text-fill-color: #858080 !important;
+  /* Color del texto */
 }
 
 input:-webkit-autofill:focus {

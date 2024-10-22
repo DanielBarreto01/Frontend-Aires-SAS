@@ -3,9 +3,9 @@
 .content {
   height: 100%;
   width: 100%;
-  display: flex; /* Cambia a flexbox para alinear los elementos en una fila */
+  display: flex;
   align-items: center;
- justify-content: flex-start;
+  justify-content: flex-start;
   overflow: hidden;
 
 }
@@ -14,7 +14,6 @@
   display: flex;
   background-color: #ffffff;
   position: center;
- 
   overflow: hidden;
 
  
@@ -56,6 +55,9 @@ textarea:focus {
   /* Elimina el efecto de sombra */
   border: 1px soloid #a39f9f !important;
   /* Puedes personalizar el borde si lo deseas */
+}
+.image-coponent{
+  height: 84%;
 }
 
 .icon-container {
@@ -125,6 +127,26 @@ h2 {
   border-radius: 11px;
 }
 
+/* quita los botones de aumentar y dismuir en los campos numericos*/
+.phoneNumber input[type="text"],
+.numberIdentification input[type="text"] {
+  -webkit-appearance: none;
+  -moz-appearance: textfield;
+  appearance: none;
+  padding-right: 0;
+}
+
+.numberIdentification input::-webkit-outer-spin-button,
+.numberIdentification input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.phoneNumber input::-webkit-outer-spin-button,
+.phoneNumber input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 
 @media only screen and (max-width: 767px) {
 
@@ -178,7 +200,7 @@ h2 {
 
 }
 
-/*      desplazamiento texto en los campos*/
+/*  desplazamiento de los labels en los campos de texto*/
 .floating-label {
   position: relative;
 
@@ -190,7 +212,6 @@ h2 {
   /* Padding superior para hacer espacio a la etiqueta */
   font-size: 13px;
   border: 0px solid transparent;
-
   border-radius: 10px;
   outline: none;
   transition: border-color 0.3s ease;
@@ -227,7 +248,7 @@ h2 {
 /* .floating-label input:focus {
    border-color: #ece9e9; 
 } */
-
+/* Cambio de color de los campos que hace el auterrellenado del navegador*/
 input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 30px white inset !important;
   /* Fondo blanco */

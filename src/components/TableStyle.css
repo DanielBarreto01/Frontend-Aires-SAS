@@ -28,10 +28,43 @@ h2{
 
 
 
+.input-container {
+    display: flex; /* Cambia a flexbox */
+    align-items: center;
+    position: relative; /* Posiciona los elementos relativos entre sí */
+    width: 100%; /* Asegura que el contenedor ocupe todo el ancho disponible */
+    border: 1px solid #000000; 
+    border-radius: 9px;
+
+}
 
 
 
-@media only screen and (max-width: 995px) {
+.table-container{
+    border-radius: 20px !important;
+    overflow: hidden; 
+    width: auto;
+    background-color: #ffffff;
+    border: 1px solid #7B7B7B;
+}
+ /* background-color: red; */
+.button-Create{
+    border-radius: 9px;
+    background-color: #7B7B7D;
+    min-width: 150px;
+    height: 100% !important;
+    font-size: auto;
+    margin-left: 20px;
+    border: none;
+    height: auto;
+   
+    
+}
+
+
+
+
+@media only screen and (max-width: 750px) {
     .General-Table{
         /* width: 96% ;
         margin-right: 10%; */
