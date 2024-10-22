@@ -17,19 +17,18 @@ function AdminDashboard() {
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [loading, setLoading] = useState(false);  // Estado de carga
   const [isTokenChecked, setIsTokenChecked] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
   const [showSidebar, setShowSidebar] = useState(true);
 
 
-   // Estado para controlar la visibilidad del menú
-   const [isMenuVisible, setMenuVisible] = useState(true);
+  // Estado para controlar la visibilidad del menú
+  const [isMenuVisible, setMenuVisible] = useState(true);
 
- 
+
 
 
   useEffect(() => {  // Mostrar el spinner
     const token = localStorage.getItem('authToken');
-    if (token !== null && jwtDecode(token).exp*1000 >  Date.now()) { //&& jwtDecode(token).exp*1000 >  Date.now()
+    if (token !== null && jwtDecode(token).exp * 1000 > Date.now()) { //&& jwtDecode(token).exp*1000 >  Date.now()
       const decodedToken = jwtDecode(token);
       setUserData({
         name: decodedToken.name,
@@ -87,49 +86,48 @@ function AdminDashboard() {
     setShowLogoutModal(false);  // Ocultar el modal sin hacer logout
   };
 
-  const handleToggleSidebar = () => {
-    setShowSidebar(!showSidebar);
+
+
+
+
+  // Función para alternar la visibilidad
+  const toggleMenu = () => {
+    setMenuVisible(!isMenuVisible);
   };
 
+  if (!isTokenChecked) {
+    return null;
+  }
 
 
-    // Función para alternar la visibilidad
-    const toggleMenu = () => {
-      setMenuVisible(!isMenuVisible);
-    };
 
-  if (!isTokenChecked) {   
-      return null;  
-  } 
-  
-  
-
+  {/* <div className={`col-2 ${isMenuVisible ? '' : 'd-none'}`} style={{ minWidth: '265px', padding: 0, backgroundColor: 'yellow' }}> */ }
 
   return (
-    
-    <div className="container-fluid">
+
+    <div className="container-fluid ">
 
 
-    <div className="row h-100">
-     {/* Menú lateral */}
-    <div className={`col-2 ${isMenuVisible ? '' : 'd-none'}`} style={{ minWidth: '265px', padding: 0 }}>
-    {/* <div className="col-2" style={{minWidth: '265px',  padding: 0, }}> */}
-      <Nav className=" menuU h-100">
+      <div className="row custom-row" >
+        {/* Menú lateral */}
 
-        <Nav.Link  className="profile-header" style={{padding:0}} >
-            <img src={logo} alt="Profile" className="profile-img" />
-            <div className="title-profile">
-              <h5 className="profile-title">P&A Aires Acondicionados</h5>
-              <p className="profile-subtitle">Control de mantenimientos</p>
-            </div> 
-        </Nav.Link>
+        <div className={`col-2 ${isMenuVisible ? '' : 'd-none'}`} style={{ minWidth: '265px', padding: 0, }}>
 
-        <Nav.Link  className="nav-item-custom" onClick={() => setSelectedComponent('Home')}>
-              <FontAwesomeIcon className="icon-margin" icon={faHome}   />
+          <Nav className=" menuU h-100">
+            <Nav.Link className="profile-header" style={{ padding: 0 }} >
+              <img src={logo} alt="Profile" className="profile-img" />
+              <div className="title-profile">
+                <h5 className="profile-title">P&A Aires Acondicionados</h5>
+                <p className="profile-subtitle">Control de mantenimientos</p>
+              </div>
+            </Nav.Link>
+
+            <Nav.Link className="nav-item-custom" onClick={() => setSelectedComponent('Home')}>
+              <FontAwesomeIcon className="icon-margin" icon={faHome} />
               Home
-        </Nav.Link>
+            </Nav.Link>
 
-        <Nav.Link  className="nav-item-custom"  onClick={() => setSelectedComponent('Usuarios')}>
+            <Nav.Link className="nav-item-custom" onClick={() => setSelectedComponent('Usuarios')}>
               <FontAwesomeIcon className="icon-margin" icon={faUsers} />
               Usuarios
             </Nav.Link>
@@ -137,16 +135,16 @@ function AdminDashboard() {
               <FontAwesomeIcon className="icon-margin" icon={faHardDrive} />
               Equipos
             </Nav.Link>
-            <Nav.Link  className="nav-item-custom">
+            <Nav.Link className="nav-item-custom">
               <FontAwesomeIcon className="icon-margin" icon={faBuildingUser} />
               Clientes
             </Nav.Link>
-            <Nav.Link  className="nav-item-custom">
+            <Nav.Link className="nav-item-custom">
               <FontAwesomeIcon className="icon-margin" icon={faScrewdriverWrench} />
               Mantenimientos
             </Nav.Link>
-            <Nav.Link  className="nav-item-custom">
-              <FontAwesomeIcon className="icon-margin" icon={faFileLines}  />
+            <Nav.Link className="nav-item-custom">
+              <FontAwesomeIcon className="icon-margin" icon={faFileLines} />
               Control Mantenimientos
             </Nav.Link>
 
@@ -162,128 +160,40 @@ function AdminDashboard() {
 
             <div className="separator-linet" />
 
-            <Nav.Link  className="nav-item-custom">
-              <FontAwesomeIcon className="icon-margin"  icon={faGear} />
-               Configuración
+            <Nav.Link className="nav-item-custom">
+              <FontAwesomeIcon className="icon-margin" icon={faGear} />
+              Configuración
             </Nav.Link>
 
-            <Nav.Link  className="nav-item-custom"  onClick={handleLogoutClick}>
-              <FontAwesomeIcon className="icon-margin"  icon={faRightFromBracket} />
+            <Nav.Link className="nav-item-custom" onClick={handleLogoutClick}>
+              <FontAwesomeIcon className="icon-margin" icon={faRightFromBracket} />
               Cerrar Sesión
-            </Nav.Link>
-        </Nav>
-       
-      </div>
-
-  
-      <div className="col" >
-
-
-        <button onClick={toggleMenu} style={{ margin: '10px' }}>
-          <FontAwesomeIcon className="icon-margin" icon={faBars}  />
-        </button>
-        {selectedComponent === 'Usuarios' && <ListUsers />}  
-       
-      </div>
-
-
-    </div>
-
-    {/* Modal de confirmación de cierre de sesión */}
-      <ConfirmationModal
-        show={showLogoutModal}
-        onHide={handleCancelLogout}
-        onConfirm={handleConfirmLogout}
-        title="Cierre de Sesión"
-        bodyText="¿Estás seguro de que deseas cerrar sesión?"
-        confirmText={loading ? <Spinner animation="border" size="sm" /> : "Sí"}
-        cancelText="No"
-        containerId="modal-container"
-      />
-
-
-  </div>
-
-
-
-
-
-
-
-  /*<div className="container-fluid" style={{ height: '100vh' }}>
-   
-   
-    <div className="row h-100">
-    Sidebar para pantallas grandes
-
-      <div className={`col-auto col-lg-3 border-end p-0 menu d-none d-lg-block`}>
-        <div className="d-flex flex-column h-100 gap-2">
-          <div className="profile-header d-flex align-items-center">
-            <img src={logo} alt="Profile" className="profile-img" />
-            <div className="title-profile">
-              <h5 className="profile-title">P&A Aires Acondicionados</h5>
-              <p className="profile-subtitle">Control de mantenimientos</p>
-            </div>
-          </div>
-
-          <Nav className="flex-column">
-            <Nav.Link className="nav-item" href="#" onClick={() => setSelectedComponent('Home')}>
-              <FontAwesomeIcon icon={faHome} style={{ marginRight: '10px' }} />
-              Home
-            </Nav.Link>
-            <Nav.Link className="nav-item" href="#" onClick={() => setSelectedComponent('Usuarios')}>
-              <FontAwesomeIcon icon={faUsers} style={{ marginRight: '10px' }} />
-              Usuarios
-            </Nav.Link>
-            <Nav.Link className="nav-item" href="#">
-              <FontAwesomeIcon icon={faHardDrive} style={{ marginRight: '10px' }} />
-              Equipos
-            </Nav.Link>
-            <Nav.Link className="nav-item" href="#">
-              <FontAwesomeIcon icon={faBuildingUser} style={{ marginRight: '10px' }} />
-              Clientes
-            </Nav.Link>
-            <Nav.Link className="nav-item" href="#">
-              <FontAwesomeIcon icon={faScrewdriverWrench} style={{ marginRight: '10px' }} />
-              Mantenimientos
-            </Nav.Link>
-            <Nav.Link className="nav-item" href="#">
-              <FontAwesomeIcon icon={faFileLines} style={{ marginRight: '10px' }} />
-              Control Mantenimientos
             </Nav.Link>
           </Nav>
 
-          <div className="mt-auto">
-            <div className="profile-header-user d-flex align-items-center">
-              <img src={userData.pathImage} alt="Admin" className="profile-img-user" />
-              <div className="title-profile">
-                <h5 className="profile-title-user">{userData.name} {userData.lastName}</h5>
-                <p className="profile-subtitle-user">{userData.email}</p>
-              </div>
+        </div>
+
+
+        {/* Contenido principal */}
+
+
+        <div className="col custom-col">
+          <div className="row">
+            <div className="top-bar d-md-none">
+              <button onClick={toggleMenu} style={{ margin: '10px' }}>
+                <FontAwesomeIcon className="icon-margin" icon={faBars} />
+              </button>
             </div>
 
-            <Nav className="flex-column">
-              <Nav.Link className="nav-item" href="#">
-                <FontAwesomeIcon icon={faGear} style={{ marginRight: '10px' }} />
-                Configuración
-              </Nav.Link>
-              <Nav.Link className="nav-item" href="#" onClick={handleLogoutClick}>
-                <FontAwesomeIcon icon={faRightFromBracket} style={{ marginRight: '10px' }} />
-                Cerrar Sesión
-              </Nav.Link>
-            </Nav>
+            {selectedComponent === 'Usuarios' && <ListUsers />}
+            {isMenuVisible && <div className="content-overlay" onClick={toggleMenu}></div>}
           </div>
         </div>
       </div>
 
 
 
-      Contenido principal 
-      <div id="modal-container" className="col-lg-9 position-relative p-0" >
-        {selectedComponent === 'Usuarios' && <ListUsers />}
-      </div>
-
-       Modal de confirmación de cierre de sesión
+      {/* Modal de confirmación de cierre de sesión */}
       <ConfirmationModal
         show={showLogoutModal}
         onHide={handleCancelLogout}
@@ -295,7 +205,8 @@ function AdminDashboard() {
         containerId="modal-container"
       />
 
-    Spinner global que se muestra mientras el logout está en proceso 
+
+      {/* Spinner global que se muestra mientras el logout está en proceso  */}
       {loading && (
         <div className="loading-overlay">
           <Spinner animation="border" role="status">
@@ -303,53 +214,10 @@ function AdminDashboard() {
           </Spinner>
         </div>
       )}
+
+
     </div>
-
-    <Navbar bg="light" expand="lg" className="border-bottom d-lg-none custom-navbar ps-2">
-      <div className="d-flex justify-content-between w-100 align-items-center ">
-        <Navbar.Toggle aria-controls="basic-navbar-nav" onClick={() => setMenuOpen(!menuOpen)} >
-          <FontAwesomeIcon icon={faBars} style={{ color: 'white' }} />
-        </Navbar.Toggle>
-        <Navbar.Brand href="#" className="w-100 text-center custom-navbar-brand no-padding-margin ">
-          <img src={logo} alt="Profile" className="profile-img" />
-          P&A Aires Acondicionados
-        </Navbar.Brand>
-      </div>
-      <Navbar.Collapse id="basic-navbar-nav ">
-        <Nav className="me-auto">
-          <Nav.Link href="#" className="nav-item" onClick={() => setSelectedComponent('Home')}>
-            <FontAwesomeIcon icon={faHome} style={{ marginRight: '10px' }} />
-            Home
-          </Nav.Link>
-          <Nav.Link href="#" className="nav-item" onClick={() => setSelectedComponent('Usuarios')}>
-            <FontAwesomeIcon icon={faUsers} style={{ marginRight: '10px' }} />
-            Usuarios
-          </Nav.Link>
-          <Nav.Link href="#" className="nav-item">
-            <FontAwesomeIcon icon={faHardDrive} style={{ marginRight: '10px' }} />
-            Equipos
-          </Nav.Link>
-          <Nav.Link href="#" className="nav-item">
-            <FontAwesomeIcon icon={faBuildingUser} style={{ marginRight: '10px' }} />
-            Clientes
-          </Nav.Link>
-          <Nav.Link href="#" className="nav-item">
-            <FontAwesomeIcon icon={faScrewdriverWrench} style={{ marginRight: '10px' }} />
-            Mantenimientos
-          </Nav.Link>
-          <Nav.Link href="#" className="nav-item">
-            <FontAwesomeIcon icon={faFileLines} style={{ marginRight: '10px' }} />
-            Control Mantenimientos
-          </Nav.Link>
-        </Nav>
-      </Navbar.Collapse>
-    </Navbar>
-
-
-
-
-  </div>*/
-);
+  );
 };
 
 export default AdminDashboard;
