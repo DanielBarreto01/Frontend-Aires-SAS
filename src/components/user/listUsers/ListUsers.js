@@ -139,15 +139,31 @@ function ListUsers() {
     //     return () => clearTimeout();
     // },[]);
 
-    const handleSelect = (eventKey) => {
+    // const handleSelect = (eventKey) => {
+    //     setLoading(true);
+    //     setSelectedOption(eventKey);
+    //     console.log("eventKey", eventKey);
+    //     setTimeout(() => {
+    //         if (eventKey === "Seleccione un rol") {
+    //             url = "/users/getUsers";
+    //         } else {
+    //             url = `/users/ShowUserRoles/${eventKey}`;
+    //         }
+    //         fetchData();
+    //     }, 200);
+    //     return () => clearTimeout();
+    // };
+
+
+    const handleRoleChange = (event) => {
         setLoading(true);
-        setSelectedOption(eventKey);
-        console.log("eventKey", eventKey);
+        setSelectedOption(event.target.value);
+        console.log("eventKey", event.target.value);
         setTimeout(() => {
-            if (eventKey === "Seleccione un rol") {
+            if (event.target.value === "Seleccione un rol") {
                 url = "/users/getUsers";
             } else {
-                url = `/users/ShowUserRoles/${eventKey}`;
+                url = `/users/ShowUserRoles/${event.target.value}`;
             }
             fetchData();
         }, 200);
@@ -242,7 +258,8 @@ function ListUsers() {
                                 <Form.Control
                                     as="select"
                                     name="roles"
-                                    value= "Seleccione un rol" 
+                                    value={selectedOption} // Valor actual del select
+                                    onChange={handleRoleChange}
                                     required
                                     style={{ border: 'none' }}
                                 >
