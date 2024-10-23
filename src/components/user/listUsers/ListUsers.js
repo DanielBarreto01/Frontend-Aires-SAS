@@ -33,20 +33,25 @@ function ListUsers() {
 
     useEffect(() => {
         setTimeout(() => {
-            setLoading(false);
-            const token = localStorage.getItem('authToken');
-            console.log("token", token);
-            if (token !== null && jwtDecode(token).exp * 1000 > Date.now()) { // && jwtDecode(token).exp*1000 >  Date.now()
-                fetchData();
-                setIsTokenChecked(true);
-                setLoading(true);
-
-
-            } else {
-                localStorage.removeItem('authToken');
+            try {
                 setLoading(false);
+                const token = localStorage.getItem('authToken');
+                console.log("token", token);
+                if (token !== null && jwtDecode(token).exp * 1000 > Date.now()) { // && jwtDecode(token).exp*1000 >  Date.now()
+                    fetchData();
+                    setIsTokenChecked(true);
+                    setLoading(true);
+                } else {
+                    localStorage.removeItem('authToken');
+                    setLoading(false);
+                    window.location.href = '/login';
+                }
+            } catch (error) {
+                console.error('Error al verificar el token:', error);
+                localStorage.removeItem('authToken');
                 window.location.href = '/login';
             }
+           
         }, 200);
         return () => clearTimeout();
 
@@ -218,17 +223,14 @@ function ListUsers() {
         ) : isNewComponentVisible ? (
             <RegisterUser />
         ) : (
-
             <div className='row'>
-
-
                 <div className='col-12 col-md-4 title1'>
                     <h2 className="text-start">Usuarios</h2>
                 </div>
 
                 <div className='col-6 col-sm-6 col-md-4 ' >
                     <form >
-                        <div className='input-container '>
+                        <div className='input-container'>
                             <FontAwesomeIcon icon={faSearch} className="icon" />
                             <input className="form-control input-style "
                                 placeholder="Buscar por: Nombre, Documento, Teléfono o Correo"
@@ -253,8 +255,8 @@ function ListUsers() {
                         </DropdownButton>
                     </div> */}
                     <Form>
-                    <Form.Group controlId="rolesPro" className="rolesPro order-3 order-sm-2">
-                            <div className="icon-containerPro">
+                    <Form.Group controlId="rolesPro" className="dropdown">
+                            <div className="dropdown-container">
                                 <Form.Control
                                     as="select"
                                     name="roles"
@@ -268,7 +270,7 @@ function ListUsers() {
                                     <option value="Tecnico interno">Tecnico interno</option>
                                     <option value="Tecnico externo">Tecnico externo</option>
                                 </Form.Control>
-                                <FontAwesomeIcon icon={faChevronDown} className="iconPro" />
+                                <FontAwesomeIcon icon={faChevronDown} className="dropdown-icon" />
                             </div>
                         </Form.Group>
                     </Form>

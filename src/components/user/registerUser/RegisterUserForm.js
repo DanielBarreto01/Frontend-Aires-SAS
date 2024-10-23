@@ -1,5 +1,6 @@
 import React from 'react';
 import { Form, Button, Row, Col, Image, Spinner } from 'react-bootstrap';
+import './RegisterUser.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import ConfirmationModal from "../../ConfirmationModal/ConfirmationModal";
@@ -23,6 +24,7 @@ function RegisterUserForm({ formData,
 
     return (
         <div className='formu'>
+            <div className='title-register'><h2>Registro de Usuario</h2></div>
             <Form onSubmit={handleSubmit}>
                 <Row className="flex-row-reverse flex-sm-row">
                     <Col xs={12} sm={6} className='order-1 order-sm-2 display-grid'>
