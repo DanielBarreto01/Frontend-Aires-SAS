@@ -237,8 +237,7 @@ function RegisterUser() {
         isNewComponentVisible ? (
             <ListUsers />) : (
             <div className="principal">
-                <div className={"col-md-6 row justify-content-center "}>
-                    <h2>Registro de Usuario</h2>
+                <div className='container'>
                     <RegisterUserForm
                         formData={formData}
                         setFormData={setFormData}

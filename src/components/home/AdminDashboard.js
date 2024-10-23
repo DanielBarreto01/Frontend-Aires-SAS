@@ -23,24 +23,28 @@ function AdminDashboard() {
   // Estado para controlar la visibilidad del menú
   const [isMenuVisible, setMenuVisible] = useState(true);
 
-
-
-
   useEffect(() => {  // Mostrar el spinner
-    const token = localStorage.getItem('authToken');
-    if (token !== null && jwtDecode(token).exp * 1000 > Date.now()) { //&& jwtDecode(token).exp*1000 >  Date.now()
-      const decodedToken = jwtDecode(token);
-      setUserData({
-        name: decodedToken.name,
-        lastName: decodedToken.lastName,
-        email: decodedToken.email,
-        pathImage: decodedToken.pathImage
-      });
-      setIsTokenChecked(true);
-    } else {
+    try {
+      const token = localStorage.getItem('authToken');
+      if (token !== null && jwtDecode(token).exp * 1000 > Date.now()) { //&& jwtDecode(token).exp*1000 >  Date.now()
+        const decodedToken = jwtDecode(token);
+        setUserData({
+          name: decodedToken.name,
+          lastName: decodedToken.lastName,
+          email: decodedToken.email,
+          pathImage: decodedToken.pathImage
+        });
+        setIsTokenChecked(true);
+      } else {
+        localStorage.removeItem('authToken');
+        window.location.href = '/login';
+      }
+    } catch (error) {
+      console.error('Error al verificar el token:', error);
       localStorage.removeItem('authToken');
       window.location.href = '/login';
     }
+   
   }, []);
 
   useEffect(() => {

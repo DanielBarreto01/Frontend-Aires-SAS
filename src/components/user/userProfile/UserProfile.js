@@ -4,7 +4,6 @@ import CustomToast from '../../toastMessage/CustomToast';
 import { jwtDecode } from 'jwt-decode';
 import { useDropzone } from 'react-dropzone';
 import appFirebase from '../../FirebaseConfig.js';
-import { getFirestore, collection, addDoc } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import UserProfileForm from './UserProfileForm';
 import ListUsers from '../listUsers/ListUsers';
@@ -67,7 +66,6 @@ function UserProfile({ user }) {
                 if (localStorage.getItem('authToken') === null && jwtDecode(localStorage.getItem('authToken')).exp * 1000 < Date.now()) { // && jwtDecode(token).exp*1000 >  Date.now()
                     localStorage.removeItem('authToken');
                     setIsTokenChecked(false);
-                    // console.log('entra al token ', token);
                     window.location.href = '/login';
                 }
             } catch (error) {
@@ -207,18 +205,9 @@ function UserProfile({ user }) {
                 }
             };
             // Acción de registrar - enviar datos al backend
-            console.log('Form Data:', formData);
-            console.log('Image:', image);
-
-
-
-            console.log('Imagen nueva:', image);
 
             await uploadImage(fileUser);
             console.log('Form Data con imagen:', formData);
-
-
-
             axios.patch(`${process.env.REACT_APP_BCKEND}/users/userUpdate/${user.id}`, usersData, config,)
                 .then(response => {
                     setLoading(true)
@@ -285,7 +274,7 @@ function UserProfile({ user }) {
         isNewComponentVisible ? (
             <ListUsers />) : (
             <div className="principal">
-                <div className="userProfileCon col-md-12 justify-content-center">
+                <div className="userProfileCon">
                     <UserProfileForm
                         formData={formData}
                         setFormData={setFormData}

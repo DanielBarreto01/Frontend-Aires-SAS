@@ -48,7 +48,7 @@ h2{
     border: 1px solid #7B7B7B;
 }
  /* background-color: red; */
-.button-Create{
+/* .button-Create{
     border-radius: 9px;
     background-color: #7B7B7D;
     min-width: 150px;
@@ -59,7 +59,7 @@ h2{
     height: auto;
    
     
-}
+} */
 
 
 
@@ -189,27 +189,43 @@ h2{
 }
 
 
-.desplegable .dropdown-toggle{
+.dropdown{
      background-color: #ffffff;
      color: #7B7B7D ;
      border-radius: 9px;
      border: solid 1px #000000;
      margin-top: 10px;
+     width: 100%;
+    
+  /* Cambia a flexbox */
+  
    
  }
+ .dropdown-container{
+    display: flex;
+    border: 0px;
+    align-items: center;
+    position: relative !important;
+    margin-right: 7px;
+    margin-left: 1px;
+ }
 
- .desplegable .dropdown-toggle{
-    font-size: 12px !important;
-    height: 38px;
-   
-}
+
+
 
 .button-Create{
     border-radius: 9px;
     background-color: #7B7B7D;
-    font-size: 15px;
+    
     border: none;
     margin-top: 10px;
+   
+    white-space: normal; /* Permitir que el texto se divida en varias líneas */
+    overflow: hidden; /* Esconder cualquier texto que desborde */
+    text-overflow: ellipsis; /* Mostrar puntos suspensivos si el texto es demasiado largo */
+    display: inline-block;
+    height: 38px;
+    width: 100%;
 }
 
 .table-container{
