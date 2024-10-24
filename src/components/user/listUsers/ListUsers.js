@@ -24,6 +24,7 @@ function ListUsers() {
     let url = "/users/getUsers";
     const [isTokenChecked, setIsTokenChecked] = useState(false);
     const [isUserDetailsVisible, setIsUserDetailsVisible] = useState(false);
+    const [search, setSearch] = useState("name");
     const roleMap = {
         "ADMIN": "Administrador",
         "INTERNAL_TECHNICIAN": "Técnico interno",
@@ -175,14 +176,30 @@ function ListUsers() {
         return () => clearTimeout();
     };
 
+    const handleSearchInput = (event) =>{
+        setSearch(event.target.value);
+    }
+
     const handleChange = (e) => {
         setRecords(data.filter(record => {
-            return record.name.toLowerCase().includes(e.target.value.toLowerCase()) ||
-                `${record.name} ${record.lastName}`.toLowerCase().includes(e.target.value.toLowerCase()) ||
+            if (search === "name") {
+                return `${record.name} ${record.lastName}`.toLowerCase().includes(e.target.value.toLowerCase()) ||
                 record.lastName.toLowerCase().includes(e.target.value.toLowerCase()) ||
-                record.numberIdentification.includes(e.target.value) ||
-                record.phoneNumber.toString().includes(e.target.value) ||
-                record.email.toLowerCase().includes(e.target.value.toLowerCase())
+                record.name.toLowerCase().includes(e.target.value.toLowerCase());
+            } else if (search === "document") {
+                return record.numberIdentification.includes(e.target.value);
+            } else if (search === "phone") {
+                return record.phoneNumber.toString().includes(e.target.value);
+            }else if (search === "email") {
+                return record.email.toLowerCase().includes(e.target.value.toLowerCase());
+            }
+            return null;
+            // return record.name.toLowerCase().includes(e.target.value.toLowerCase()) ||
+            //     `${record.name} ${record.lastName}`.toLowerCase().includes(e.target.value.toLowerCase()) ||
+            //     record.lastName.toLowerCase().includes(e.target.value.toLowerCase()) ||
+            //     record.numberIdentification.includes(e.target.value) ||
+            //     record.phoneNumber.toString().includes(e.target.value) ||
+            //     record.email.toLowerCase().includes(e.target.value.toLowerCase())
         }));
     }
 
@@ -232,7 +249,7 @@ function ListUsers() {
                     <form >
                         <div className='input-container'>
                             <FontAwesomeIcon icon={faSearch} className="icon" />
-                            <input className="form-control input-style "
+                            <input className="form-control input-style"
                                 placeholder="Buscar por: Nombre, Documento, Teléfono o Correo"
                                 type="search"
                                 onChange={handleChange}
@@ -273,6 +290,24 @@ function ListUsers() {
                                 <FontAwesomeIcon icon={faChevronDown} className="dropdown-icon" />
                             </div>
                         </Form.Group>
+                        <Form.Group controlId="search" className="dropdownSearch">
+                            <div className="dropdown-container">
+                                <Form.Control
+                                    as="select"
+                                    name="search"
+                                    value={search} // Valor actual del select
+                                    onChange={handleSearchInput}
+                                    required
+                                    style={{ border: 'none' }}
+                                >
+                                    <option value="name">Nombre</option>
+                                    <option value="document">Documento</option>
+                                    <option value="phone">Telefono</option>
+                                    <option value="email">Correo</option>
+                                </Form.Control>
+                                <FontAwesomeIcon icon={faChevronDown} className="dropdown-icon" />
+                            </div>
+                        </Form.Group>
                     </Form>
 
                 </div>
@@ -291,14 +326,15 @@ function ListUsers() {
                                 columns={columns}
                                 data={records}
                                 pagination
-                                paginationPerPage={6}
+                                paginationPerPage={10}
                                 fixedHeader
                                 persistTableHead
-                                fixedHeaderScrollHeight="70vh"
+                                fixedHeaderScrollHeight="80vh"
                                 progressPending={loading}
                                 onRowClicked={handleRowClick}
                                 conditionalRowStyles={conditionalRowStyles}
                                 paginationComponentOptions={customPaginationOptions}
+                                noDataComponent="No hay datos disponibles"
                                 progressComponent={(
                                     <div className="loading-overlay">
                                         <Spinner animation="border" size="lg" />
