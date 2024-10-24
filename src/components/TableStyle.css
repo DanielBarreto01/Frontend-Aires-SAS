@@ -182,11 +182,14 @@ h2{
     border: 0px transparent rgba(81, 203, 238, 1) !important;  
 }
 
+
 .input-style {
     border: none;
     margin-left: -12px; 
     margin-right: 1px; 
+    
 }
+
 
 
 .dropdown{

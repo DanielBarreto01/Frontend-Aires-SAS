@@ -127,7 +127,7 @@ function RegisterUser() {
                 console.log('No image selected');   
                 dataUser= {
                     ...dataUser,
-                    pathImage: 'https://console.firebase.google.com/u/0/project/aires-acondiconados/storage/aires-acondiconados.appspot.com/files/~2Fimages?hl=es&fb_gclid=CjwKCAjw68K4BhAuEiwAylp3koMpctpJsF-PhKWsZ5HJkdsfNkKJ6Rrv9NjSgMczcogls7te3vebKBoCx6QQAvD_BwE'
+                    pathImage: 'https://firebasestorage.googleapis.com/v0/b/aires-acondiconados.appspot.com/o/images%2Fuser.png?alt=media&token=6428ebe4-d22c-4954-99fa-8e51de3172d0'
                 }
                 // usersData = formData;
             }
@@ -171,7 +171,7 @@ function RegisterUser() {
                 }
             };
             const dataUser = await uploadImage();
-            console.log('Form Data con imagen:', formData);
+            console.log('Form Data con imagen:', dataUser);
             // Acción de registrar - enviar datos al backend
             console.log('Registrando usuario:', formData);
             axios.post(`${process.env.REACT_APP_BCKEND}/users/create`, dataUser, config,)
