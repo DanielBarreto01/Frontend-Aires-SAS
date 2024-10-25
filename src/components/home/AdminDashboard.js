@@ -114,62 +114,68 @@ function AdminDashboard() {
         <div className={`col-2 ${isMenuVisible ? '' : 'd-none'}`} style={{ minWidth: '265px', padding: 0, }}>
 
           <Nav className=" menuU h-100">
-            <Nav.Link className="profile-header" style={{ padding: 0 }} >
-              <img src={logo} alt="Profile" className="profile-img" />
-              <div className="title-profile">
-                <h5 className="profile-title">P&A Aires Acondicionados</h5>
-                <p className="profile-subtitle">Control de mantenimientos</p>
-              </div>
-            </Nav.Link>
 
-            <Nav.Link className="nav-item-custom" onClick={() => setSelectedComponent('Home')}>
-              <FontAwesomeIcon className="icon-margin" icon={faHome} />
-              Home
-            </Nav.Link>
+            <div className="section-1">
+              <Nav.Link className="profile-header" style={{ padding: 0 }} >
+                <img src={logo} alt="Profile" className="profile-img" />
+                <div className="title-profile">
+                  <h5 className="profile-title">P&A Aires Acondicionados</h5>
+                  <p className="profile-subtitle">Control de mantenimientos</p>
+                </div>
+              </Nav.Link>
 
-            <Nav.Link className="nav-item-custom" onClick={() => setSelectedComponent('Usuarios')}>
-              <FontAwesomeIcon className="icon-margin" icon={faUsers} />
-              Usuarios
-            </Nav.Link>
-            <Nav.Link className="nav-item-custom" >
-              <FontAwesomeIcon className="icon-margin" icon={faHardDrive} />
-              Equipos
-            </Nav.Link>
-            <Nav.Link className="nav-item-custom">
-              <FontAwesomeIcon className="icon-margin" icon={faBuildingUser} />
-              Clientes
-            </Nav.Link>
-            <Nav.Link className="nav-item-custom">
-              <FontAwesomeIcon className="icon-margin" icon={faScrewdriverWrench} />
-              Mantenimientos
-            </Nav.Link>
-            <Nav.Link className="nav-item-custom">
-              <FontAwesomeIcon className="icon-margin" icon={faFileLines} />
-              Control Mantenimientos
-            </Nav.Link>
+              <Nav.Link className="nav-item-custom" onClick={() => setSelectedComponent('Home')}>
+                <FontAwesomeIcon className="icon-margin" icon={faHome} />
+                Home
+              </Nav.Link>
 
-            <div className="separator-line" />
+              <Nav.Link className="nav-item-custom" onClick={() => setSelectedComponent('Usuarios')}>
+                <FontAwesomeIcon className="icon-margin" icon={faUsers} />
+                Usuarios
+              </Nav.Link>
+              <Nav.Link className="nav-item-custom" >
+                <FontAwesomeIcon className="icon-margin" icon={faHardDrive} />
+                Equipos
+              </Nav.Link>
+              <Nav.Link className="nav-item-custom">
+                <FontAwesomeIcon className="icon-margin" icon={faBuildingUser} />
+                Clientes
+              </Nav.Link>
+              <Nav.Link className="nav-item-custom">
+                <FontAwesomeIcon className="icon-margin" icon={faScrewdriverWrench} />
+                Mantenimientos
+              </Nav.Link>
+              <Nav.Link className="nav-item-custom">
+                <FontAwesomeIcon className="icon-margin" icon={faFileLines} />
+                Control Mantenimientos
+              </Nav.Link>
+              <div className="separator-line" />
+            </div>
 
-            <Nav.Link className='profile-header-user'>
-              <img src={userData.pathImage} alt="Admin" className="profile-img-user" />
-              <div className="title-profile">
-                <h5 className="profile-title-user">{userData.name} {userData.lastName}</h5>
-                <p className="profile-subtitle-user">{userData.email}</p>
-              </div>
-            </Nav.Link>
+            <div className="section-2">
+              <div className="separator-line" />
+              <Nav.Link className='profile-header-user'>
+                <img src={userData.pathImage} alt="Admin" className="profile-img-user" />
+                <div className="title-profile">
+                  <h5 className="profile-title-user">{userData.name} {userData.lastName}</h5>
+                  <p className="profile-subtitle-user">{userData.email}</p>
+                </div>
+              </Nav.Link>
+            </div>
 
-            <div className="separator-linet" />
+            <div className="section-3">
+              <Nav.Link className="nav-item-custom">
+                <FontAwesomeIcon className="icon-margin" icon={faGear} />
+                Configuración
+              </Nav.Link>
 
-            <Nav.Link className="nav-item-custom">
-              <FontAwesomeIcon className="icon-margin" icon={faGear} />
-              Configuración
-            </Nav.Link>
-
-            <Nav.Link className="nav-item-custom" onClick={handleLogoutClick}>
-              <FontAwesomeIcon className="icon-margin" icon={faRightFromBracket} />
-              Cerrar Sesión
-            </Nav.Link>
+              <Nav.Link className="nav-item-custom" onClick={handleLogoutClick}>
+                <FontAwesomeIcon className="icon-margin" icon={faRightFromBracket} />
+                Cerrar Sesión
+              </Nav.Link>
+            </div>
           </Nav>
+
 
         </div>
 
