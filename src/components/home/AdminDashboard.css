@@ -100,7 +100,7 @@
 
 /* Título y subtítulo */
 .profile-title-user {
-    color: #000000;
+    color: #ffffff;
     font-weight: bold;
     margin: 0; /* Sin márgenes adicionales */
     font-size: 0.9em;
@@ -164,7 +164,7 @@
     background-color: black; /* Si necesitas un fondo específico para el menú */
     height: 100%; /* Asegura que el Nav ocupe todo el alto */
     width: 100%; /* Asegura que el Nav ocupe todo el ancho */
-    justify-content: space-between; 
+    /* justify-content: space-between;  */
     flex-direction: column; /* Alinea los elementos en una columna */
     margin-right: 10px;
     
@@ -211,10 +211,10 @@
 /* perfil*/
 .profile-header-user {
     display: flex; /* Asegura que los elementos hijos se alineen horizontalmente */
-    margin: 240px 10px 0px;  /*arriba,derecha e izquierdaabajo */
-    padding: 10px 6px;
-    background-color: #ffffff; /* Añadir fondo para hacer que sea visible */
-    border-radius: 5px; /* Añadir bordes redondeados */  
+    /* background-color: #d92121; Añadir fondo para hacer que sea visible */
+    border-radius: 5px; /* Añadir bordes redondeados */ 
+    align-items: center; /* Centra verticalmente la imagen y el texto */
+    justify-content: center; /* Centra horizontalmente en el contenedor */    
 }
 
 .separator-line {
@@ -249,6 +249,15 @@
        margin: 0px;
        border: none;
   }
+
+  .menu-button {
+    color: white; /* Color del ícono en blanco */
+    background-color: transparent; /* Fondo transparente */
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+  }
+  
 
   .col.custom-col {
     position: relative; /* Asegura que el overlay se posicione correctamente donde va a estar el overlay */

@@ -44,7 +44,7 @@ function AdminDashboard() {
       localStorage.removeItem('authToken');
       window.location.href = '/login';
     }
-   
+
   }, []);
 
   useEffect(() => {
@@ -152,7 +152,7 @@ function AdminDashboard() {
               Control Mantenimientos
             </Nav.Link>
 
-            <div className="separator-line" />
+            {/* <div className="separator-line" />
 
             <Nav.Link className='profile-header-user'>
               <img src={userData.pathImage} alt="Admin" className="profile-img-user" />
@@ -172,7 +172,7 @@ function AdminDashboard() {
             <Nav.Link className="nav-item-custom" onClick={handleLogoutClick}>
               <FontAwesomeIcon className="icon-margin" icon={faRightFromBracket} />
               Cerrar Sesión
-            </Nav.Link>
+            </Nav.Link> */}
           </Nav>
 
         </div>
@@ -182,17 +182,35 @@ function AdminDashboard() {
 
 
         <div className="col custom-col">
-          <div className="row">
-            <div className="top-bar d-md-none">
-              <button onClick={toggleMenu} style={{ margin: '10px' }}>
-                <FontAwesomeIcon className="icon-margin" icon={faBars} />
-              </button>
+
+          <div className=" row ">
+
+            <div className="top-bar row " >
+
+              <div className='col-auto'>
+                <button className="menu-button" onClick={toggleMenu} style={{ margin: '10px' }}>
+                  <FontAwesomeIcon className="icon-margin" icon={faBars} />
+                </button>
+              </div>
+
+              <div className="col" ></div>
+
+
+              <div className='profile-header-user col-auto'>
+                <img src={userData.pathImage} alt="Admin" className="profile-img-user" />
+                <div className="title-profile">
+                  <h5 className="profile-title-user">{userData.name} {userData.lastName}</h5>
+                  {/* <p className="profile-subtitle-user">{userData.email}</p> */}
+                </div>
+              </div>
+
             </div>
 
             {selectedComponent === 'Usuarios' && <ListUsers />}
             {isMenuVisible && <div className="content-overlay" onClick={toggleMenu}></div>}
           </div>
         </div>
+
       </div>
 
 
