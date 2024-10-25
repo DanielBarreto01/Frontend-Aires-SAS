@@ -185,7 +185,7 @@ function AdminDashboard() {
 
           <div className=" row ">
 
-            <div className="top-bar row " >
+            <div className="top-bar custom-row " >
 
               <div className='col-auto'>
                 <button className="menu-button" onClick={toggleMenu} style={{ margin: '10px' }}>
