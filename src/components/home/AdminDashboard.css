@@ -149,7 +149,7 @@
 
 .custom-row {
     display: flex; /* Asegúrate de que sea un contenedor flex */
-     flex-wrap: nowrap;
+    flex-wrap: nowrap; /* Asegura que no haya wraps (cambio de línea) */
    /* overflow-x: auto; /* Permite el desplazamiento horizontal si es necesario */
     height: 100%; /* Asegúrate de que ocupe toda la altura */   
 }
@@ -161,16 +161,17 @@
 }
 
 .menuU {
-    background-color: black; /* Si necesitas un fondo específico para el menú */
-    height: 100%; /* Asegura que el Nav ocupe todo el alto */
-    width: 100%; /* Asegura que el Nav ocupe todo el ancho */
-    justify-content: space-between; 
-    flex-direction: column; /* Alinea los elementos en una columna */
-    margin-right: 10px;
-    
+    display: flex;
+    flex-direction: column; /* Alinea todos los elementos verticalmente */
+    /* justify-content: flex-start; Alinea los elementos al inicio */
+    height: 100%;
+    background-color: black;
+    justify-content: space-between;  
+    overflow-x: hidden;
 }
 
 .menuU .nav-item-custom {
+    margin: 10px 0; /* Espaciado entre los items de navegación */
     background-color: black; 
     color: white; 
 }
@@ -194,6 +195,8 @@
     
 }
 
+
+
 /* Imagen con contorno circular */
 .profile-img {
     width: 40px; /* Reducir el ancho de la imagen */
@@ -204,38 +207,42 @@
     margin-right: 15px; /* Añadir margen a la derecha de la imagen */
     background-color: #ffffff;
     margin-left: 10px;
-
 }
 
 
 /* perfil*/
 .profile-header-user {
-    display: flex; /* Asegura que los elementos hijos se alineen horizontalmente */
-    margin: 240px 10px 0px;  /*arriba,derecha e izquierdaabajo */
-    padding: 10px 6px;
-    background-color: #ffffff; /* Añadir fondo para hacer que sea visible */
-    border-radius: 5px; /* Añadir bordes redondeados */  
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #ffffff; /* Fondo negro */
+    color: #ffffff; /* Color de letra blanco */
+    border-radius: 5px;
+    margin: 0px 10px 0px 10px;
 }
 
 .separator-line {
-    height: 2px; /* Altura de la línea */
-    background-color: white; /* Color de la línea */
-    margin: 35px auto 0px; /* Espacio arriba y abajo de la línea, centrada horizontalmente */
+    height: 2px;
+    background-color: white;
+    margin: 20px 0;
+    width: calc(100% - 40px); /* Línea centrada y más corta */
+    align-self: center; /* Centra la línea dentro del contenedor */
+}
+
+  /* .separator-linet {
+    height: 2px; 
+    background-color: white; 
+    margin: 25px auto 18px; 
     width: calc(100% - 40px)
   
-  }
+  } */
 
-  .separator-linet {
-    height: 2px; /* Altura de la línea */
-    background-color: white; /* Color de la línea */
-    margin: 25px auto 18px; /* Espacio arriba y abajo de la línea, centrada horizontalmente */
-    width: calc(100% - 40px)
-  
-  }
+  /* Perfil y opciones en la parte inferior */
+.menuU .bottom-section {
+    margin-top: auto; /* Empuja estos elementos al fondo */
+}
 
-  .content-full-width {
-    width: 100%;
-  }
+
 
   .menuU.hidden {
     transform: translateX(-100%); /* Desliza el menú hacia la izquierda cuando está oculto */

@@ -23,28 +23,24 @@ function AdminDashboard() {
   // Estado para controlar la visibilidad del menú
   const [isMenuVisible, setMenuVisible] = useState(true);
 
+
+
+
   useEffect(() => {  // Mostrar el spinner
-    try {
-      const token = localStorage.getItem('authToken');
-      if (token !== null && jwtDecode(token).exp * 1000 > Date.now()) { //&& jwtDecode(token).exp*1000 >  Date.now()
-        const decodedToken = jwtDecode(token);
-        setUserData({
-          name: decodedToken.name,
-          lastName: decodedToken.lastName,
-          email: decodedToken.email,
-          pathImage: decodedToken.pathImage
-        });
-        setIsTokenChecked(true);
-      } else {
-        localStorage.removeItem('authToken');
-        window.location.href = '/login';
-      }
-    } catch (error) {
-      console.error('Error al verificar el token:', error);
+    const token = localStorage.getItem('authToken');
+    if (token !== null && jwtDecode(token).exp * 1000 > Date.now()) { //&& jwtDecode(token).exp*1000 >  Date.now()
+      const decodedToken = jwtDecode(token);
+      setUserData({
+        name: decodedToken.name,
+        lastName: decodedToken.lastName,
+        email: decodedToken.email,
+        pathImage: decodedToken.pathImage
+      });
+      setIsTokenChecked(true);
+    } else {
       localStorage.removeItem('authToken');
       window.location.href = '/login';
     }
-   
   }, []);
 
   useEffect(() => {
@@ -181,8 +177,12 @@ function AdminDashboard() {
         {/* Contenido principal */}
 
 
+
         <div className="col custom-col">
+
+
           <div className="row">
+
             <div className="top-bar d-md-none">
               <button onClick={toggleMenu} style={{ margin: '10px' }}>
                 <FontAwesomeIcon className="icon-margin" icon={faBars} />
