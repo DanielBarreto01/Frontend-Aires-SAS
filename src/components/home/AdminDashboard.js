@@ -189,8 +189,8 @@ function AdminDashboard() {
 
           <div className="row">
 
-            <div className="top-bar d-md-none">
-              <button onClick={toggleMenu} style={{ margin: '10px' }}>
+            <div className=" top-bar d-md-none">
+              <button className=" menu-button" onClick={toggleMenu} style={{ margin: '10px' }}>
                 <FontAwesomeIcon className="icon-margin" icon={faBars} />
               </button>
             </div>

@@ -327,6 +327,15 @@
     border: none;
 }
 
+
+.menu-button {
+    color: white; /* Color del ícono en blanco */
+    background-color: transparent; /* Fondo transparente */
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+  }
+
 .col.custom-col {
     position: relative;
     /* Asegura que el overlay se posicione correctamente donde va a estar el overlay */
