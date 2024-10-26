@@ -174,7 +174,7 @@ function RegisterUser() {
             console.log('Form Data con imagen:', dataUser);
             // Acción de registrar - enviar datos al backend
             console.log('Registrando usuario:', formData);
-            axios.post('/users/create', dataUser, config)
+            axios.post(`${process.env.REACT_APP_BCKEND}/users/create`, dataUser, config,)
                 .then(response => {
                     setLoading(true)
                     setToastMessage(response.data || 'Usuario registrado con éxito');
