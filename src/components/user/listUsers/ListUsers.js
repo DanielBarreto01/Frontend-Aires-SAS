@@ -63,7 +63,7 @@ function ListUsers() {
     };
 
     const fetchData = async () => {
-        const backendUrl = process.env.REACT_APP_BCKEND;
+    
         try {
             const config = {
                 headers: {
@@ -72,7 +72,7 @@ function ListUsers() {
                 }
 
             };
-            const response = await axios.get(`${backendUrl}${url}`, config);
+            const response = await axios.get(url, config);
             setData(response.data);
             setRecords(response.data);
             setTimeout(() => {

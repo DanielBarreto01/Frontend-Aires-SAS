@@ -208,7 +208,7 @@ function UserProfile({ user }) {
 
             await uploadImage(fileUser);
             console.log('Form Data con imagen:', formData);
-            axios.patch(`${process.env.REACT_APP_BCKEND}/users/userUpdate/${user.id}`, usersData, config,)
+            axios.patch(`/users/userUpdate/${user.id}`, usersData, config)
                 .then(response => {
                     setLoading(true)
                     setToastMessage(response.data || 'Usuario registrado con éxito');
