@@ -69,7 +69,6 @@ function ListUsers() {
                     "Content-Type": "application/json",
                     'Authorization': `Bearer ${localStorage.getItem('authToken')}`
                 }
-
             };
             const response = await axios.get(url, config);
             setData(response.data);
