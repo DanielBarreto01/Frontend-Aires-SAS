@@ -14,7 +14,7 @@ function AppRouter() {
                 <Route path="/users" element={<ListUsers />} />
                 <Route path="/register" element={<RegisterUser />} />
                 <Route path="/profile" element={<UserProfile />} />
-                <Route path="*" element={<Navigate to="/register" />} />
+                <Route path="*" element={<Navigate to="/login" />} />
                
                 
             </Routes>

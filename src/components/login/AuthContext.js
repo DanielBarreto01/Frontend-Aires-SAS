@@ -8,7 +8,7 @@ export const AuthProvider = ({ children }) => {
 
     const handleLogin = async (userName, password) => {
         try {
-            const response = await axios.post(`${process.env.REACT_APP_BCKEND}/login`, { userName, password }, {
+            const response = await axios.post('/login', { userName, password }, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': '*/*'
