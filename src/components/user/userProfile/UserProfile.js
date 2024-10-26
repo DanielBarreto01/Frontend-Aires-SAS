@@ -209,6 +209,7 @@ function UserProfile({ user }) {
             await uploadImage(fileUser);
             console.log('Form Data con imagen:', formData);
             axios.patch(`/users/userUpdate/${user.id}`, usersData, config) // Usa la ruta relativa
+
                 .then(response => {
                     setLoading(true)
                     setToastMessage(response.data || 'Usuario registrado con éxito');
