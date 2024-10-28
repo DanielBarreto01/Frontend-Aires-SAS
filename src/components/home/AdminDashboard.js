@@ -118,7 +118,8 @@ function AdminDashboard() {
                 address: userData.address,
                 pathImage: userData.pathImage,
                 userStatus: userData.userStatus,
-                roles: userData.roles || [] // Asegúrate de que sea un array
+                // roles: userData.roles || [] // Asegúrate de que sea un array
+                roles: userData.roles && userData.roles.length > 0 ? userData.roles[0].name : null 
             };
 
             console.log("Respuesta: ", formattedData);
@@ -244,10 +245,7 @@ function AdminDashboard() {
         {/* Contenido principal */}
 
         <div className="col custom-col">
-
-
           <div className="row">
-
             <div className=" top-bar d-md-none">
               <button className=" menu-button" onClick={toggleMenu} style={{ margin: '10px' }}>
                 <FontAwesomeIcon className="icon-margin" icon={faBars} />
