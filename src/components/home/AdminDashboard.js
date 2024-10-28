@@ -130,10 +130,12 @@ function AdminDashboard() {
                 </div>
               </Nav.Link>
 
+
               <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/home')}>
                 <FontAwesomeIcon className="icon-margin" icon={faHome} />
                 Home
               </Nav.Link>
+
 
               <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/users')}>
                 <FontAwesomeIcon className="icon-margin" icon={faUsers} />
@@ -153,6 +155,7 @@ function AdminDashboard() {
                 Mantenimientos
               </Nav.Link>
               <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/control-mantenimientos')}>
+
                 <FontAwesomeIcon className="icon-margin" icon={faFileLines} />
                 Control Mantenimientos
               </Nav.Link>
@@ -171,7 +174,9 @@ function AdminDashboard() {
             </div>
 
             <div className="section-3">
+
               <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/configuracion')}>
+
                 <FontAwesomeIcon className="icon-margin" icon={faGear} />
                 Configuración
               </Nav.Link>
@@ -188,8 +193,12 @@ function AdminDashboard() {
 
 
         {/* Contenido principal */}
+
         <div className="col custom-col">
+
+
           <div className="row">
+
             <div className=" top-bar d-md-none">
               <button className=" menu-button" onClick={toggleMenu} style={{ margin: '10px' }}>
                 <FontAwesomeIcon className="icon-margin" icon={faBars} />

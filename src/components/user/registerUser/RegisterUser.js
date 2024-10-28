@@ -38,19 +38,19 @@ function RegisterUser() {
     useEffect(() => {
         console.log('entra al useeffect');
         setTimeout(() => {
-            try{
-            const token = localStorage.getItem('authToken');
-            if (token === null && jwtDecode(token).exp * 1000 < Date.now()) { // && jwtDecode(token).exp*1000 >  Date.now()
-                localStorage.removeItem('authToken');
+            try {
+                const token = localStorage.getItem('authToken');
+                if (token === null && jwtDecode(token).exp * 1000 < Date.now()) { // && jwtDecode(token).exp*1000 >  Date.now()
+                    localStorage.removeItem('authToken');
+                    setIsTokenChecked(false);
+                    console.log('entra al token ', token);
+                    window.location.href = '/login';
+                }
+            } catch (error) {
+                console.log('error', error);
                 setIsTokenChecked(false);
-                console.log('entra al token ', token);
                 window.location.href = '/login';
             }
-        }catch(error){
-            console.log('error', error);
-            setIsTokenChecked(false);
-            window.location.href = '/login';
-        }
         }, 200);
         return () => clearTimeout();
     }, []);
@@ -105,7 +105,7 @@ function RegisterUser() {
                 console.log('Image uploaded successfully');
                 // setImageUrl(await getDownloadURL(storageRef))
                 const url = await getDownloadURL(storageRef);
-                dataUser= {
+                dataUser = {
                     ...dataUser,  // Copia el resto de las propiedades
                     pathImage: url
                 }
@@ -122,10 +122,10 @@ function RegisterUser() {
                 //     roles: formData.roles
                 // };
                 console.log('Image URL subida:', await getDownloadURL(storageRef));
-              
+
             } else {
-                console.log('No image selected');   
-                dataUser= {
+                console.log('No image selected');
+                dataUser = {
                     ...dataUser,
                     pathImage: 'https://firebasestorage.googleapis.com/v0/b/aires-acondiconados.appspot.com/o/images%2Fuser.png?alt=media&token=6428ebe4-d22c-4954-99fa-8e51de3172d0'
                 }
@@ -174,7 +174,7 @@ function RegisterUser() {
             console.log('Form Data con imagen:', dataUser);
             // Acción de registrar - enviar datos al backend
             console.log('Registrando usuario:', formData);
-            axios.post(`${process.env.REACT_APP_BCKEND}/users/create`, dataUser, config,)
+            axios.post('/users/create', dataUser, config) // Usa la ruta relativa
                 .then(response => {
                     setLoading(true)
                     setToastMessage(response.data || 'Usuario registrado con éxito');

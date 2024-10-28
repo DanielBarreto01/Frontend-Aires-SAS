@@ -27,10 +27,10 @@ function UserProfile({ user }) {
     const storageApp = getStorage(appFirebase);
     let usersData = null;
 
-    
 
-    const loadformData =() => {
-        const dataUser ={
+
+    const loadformData = () => {
+        const dataUser = {
             name: user.name || '',
             lastName: user.lastName || '',
             typeIdentification: user.typeIdentification || '',
@@ -44,7 +44,7 @@ function UserProfile({ user }) {
         }
         return dataUser;
     }
-    
+
     const [formData, setFormData] = useState({
         name: '',
         lastName: '',
@@ -62,7 +62,7 @@ function UserProfile({ user }) {
         setTimeout(() => {
             try {
                 //setFormData(null);
-               setFormData(loadformData());
+                setFormData(loadformData());
                 if (localStorage.getItem('authToken') === null && jwtDecode(localStorage.getItem('authToken')).exp * 1000 < Date.now()) { // && jwtDecode(token).exp*1000 >  Date.now()
                     localStorage.removeItem('authToken');
                     setIsTokenChecked(false);
@@ -71,7 +71,7 @@ function UserProfile({ user }) {
             } catch (error) {
                 console.error('Error checking token:', error);
             }
-           
+
         }, 200);
         return () => clearTimeout();
     }, []);
@@ -125,7 +125,7 @@ function UserProfile({ user }) {
     }
     const handleShowListUsers = () => {
         setIsNewComponentVisible(true);
-     // Definimos el tipo de acción como registrar
+        // Definimos el tipo de acción como registrar
     };
 
     const handleSubmit = (e) => {
@@ -158,11 +158,11 @@ function UserProfile({ user }) {
                     roles: formData.roles
                 };
                 console.log('Image URL subida:', await getDownloadURL(storageRef));
-            } else{
+            } else {
                 usersData = formData;
             }
 
-           
+
             // setFormData({  pathImage: imageUrl });
             // Maneja el éxito de la carga de la imagen
 
@@ -173,11 +173,11 @@ function UserProfile({ user }) {
     };
 
     const handleConfirmAction = async () => {
-       
+
         setShowModal(false);  // Cerramos el modal primero
-        
+
         if (modalType === 'cancel') {
-            
+
             // Acción de cancelar
             setFormData((prevState) => {
                 setImage((prevStat) => {
@@ -185,16 +185,16 @@ function UserProfile({ user }) {
                     return formData.pathImage
                 });
                 return loadformData();
-             });
+            });
             //     setLoading(false);
             //     setImage(formData.pathImage); 
             //    // const u = loadformData();
             //     setFormData(loadformData());
             //     setIsEditingFormulary(false);
-                
-                
+
+
             //     setLoading(false);  // Detenemos el spinner
-                //  setIsNewComponentVisible(true);  // Mostramos el componente ListUsers
+            //  setIsNewComponentVisible(true);  // Mostramos el componente ListUsers
             // Simulamos una espera de 2 segundos
         } else if (modalType === 'register') {
             setLoading(true);
@@ -208,7 +208,8 @@ function UserProfile({ user }) {
 
             await uploadImage(fileUser);
             console.log('Form Data con imagen:', formData);
-            axios.patch(`${process.env.REACT_APP_BCKEND}/users/userUpdate/${user.id}`, usersData, config,)
+            axios.patch(`/users/userUpdate/${user.id}`, usersData, config) // Usa la ruta relativa
+
                 .then(response => {
                     setLoading(true)
                     setToastMessage(response.data || 'Usuario registrado con éxito');
@@ -298,10 +299,10 @@ function UserProfile({ user }) {
                     />
                 </div>
                 <CustomToast
-                showToast={showToast}
-                setShowToast={setShowToast}
-                toastMessage={toastMessage}
-                toastType={toastType}
+                    showToast={showToast}
+                    setShowToast={setShowToast}
+                    toastMessage={toastMessage}
+                    toastType={toastType}
                 />
             </div>
         )
