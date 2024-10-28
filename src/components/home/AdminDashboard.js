@@ -61,11 +61,14 @@ function AdminDashboard() {
         });
         console.log('Logout successful:', response.data);
         localStorage.removeItem('authToken');  // Eliminar el token de localStorage
-        navigate('/login');   // Redirigir a la página de login
+        console.log("sale correctamente")
+        navigate('/login');    // Redirigir a la página de login
       } catch (error) {
+        console.log("sale por error")
         if (error.response && error.response.status === 403) {
           console.error('Token vencido:', error);
-          localStorage.removeItem('authToken');  // Eliminar el token de localStorage
+          localStorage.removeItem('authToken');
+        // Eliminar el token de localStorage
           navigate(`/login`); // Redirigir a la página de login
         } else {
           console.error('Error durante el logout:', error);
