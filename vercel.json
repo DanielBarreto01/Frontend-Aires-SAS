@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+      {
+          "source": "/login",
+          "destination": "http://3.147.103.215:8080/login"
+      }
+  ]
+}
