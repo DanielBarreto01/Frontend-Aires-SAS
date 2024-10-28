@@ -1,7 +1,15 @@
 import React from 'react';
 import './UserProfileInfo.css';
+import { useLocation } from 'react-router-dom';
 
-function UserProfileInfo({ user }) {
+function UserProfileInfo() {
+  const location = useLocation();
+  const { user } = location.state || {}; // Acceder a los datos pasados
+
+  if (!user) {
+      return <div>Cargando...</div>; // O cualquier mensaje de carga que desees
+  }
+
   return (
     <div className="user-profile-info">
       <h2>Información del Perfil</h2>
