@@ -13,11 +13,7 @@ label {
 
 
 .full-screen-scrollable {
-    /* height: 100vh;  */
     overflow-y: auto; 
-    /* padding: 10%;  */
-    /* background-color: blue; */
-
 }
 
 .data {
@@ -47,4 +43,5 @@ label {
     object-position: center; /* Centra la imagen en el contenedor */
     display: block; /* Elimina el espacio en blanco adicional */
     border-radius: 5%; /* Redondea ligeramente los bordes */
+    
 }
