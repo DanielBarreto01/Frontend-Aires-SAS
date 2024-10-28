@@ -61,7 +61,7 @@ function AdminDashboard() {
         });
         console.log('Logout successful:', response.data);
         localStorage.removeItem('authToken');  // Eliminar el token de localStorage
-        window.location.href = '/login';  // Redirigir a la página de login
+        navigate('/login');   // Redirigir a la página de login
       } catch (error) {
         if (error.response && error.response.status === 403) {
           console.error('Token vencido:', error);
