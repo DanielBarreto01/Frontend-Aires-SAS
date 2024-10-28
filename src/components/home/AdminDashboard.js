@@ -4,23 +4,19 @@ import { faUsers, faCalendarDays, faHome, faGear, faRightFromBracket, faHardDriv
 import { Nav, Spinner, Navbar, Button } from 'react-bootstrap';  // Asegúrate de que el Spinner esté importado
 import { jwtDecode } from 'jwt-decode';
 import logo from "../../assets/logo.png";
-import adminLogo from "../../assets/admin.png";
 import './AdminDashboard.css';
 import axios from 'axios';
-import ListUsers from "../user/listUsers/ListUsers";
 import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
+import { useNavigate, Outlet } from 'react-router-dom';
+
 
 function AdminDashboard() {
   const [userData, setUserData] = useState({ name: '', lastName: '', email: '' });
   const [logout, setLogout] = useState(false);
-  const [selectedComponent, setSelectedComponent] = useState(null);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
-  const [loading, setLoading] = useState(false);  // Estado de carga
+  const [loading, setLoading] = useState(false);
   const [isTokenChecked, setIsTokenChecked] = useState(false);
-  const [showSidebar, setShowSidebar] = useState(true);
-
-
-  // Estado para controlar la visibilidad del menú
+  const navigate = useNavigate();
   const [isMenuVisible, setMenuVisible] = useState(true);
 
   useEffect(() => {  // Mostrar el spinner
@@ -72,6 +68,9 @@ function AdminDashboard() {
       }
     };
 
+
+
+
     if (logout) {
       handleLogout();
     }
@@ -93,19 +92,22 @@ function AdminDashboard() {
 
 
 
+  const handleNavigation = (path) => {
+    navigate(`/admin${path}`);
+  };
 
   // Función para alternar la visibilidad
   const toggleMenu = () => {
     setMenuVisible(!isMenuVisible);
   };
 
+
+
+
   if (!isTokenChecked) {
     return null;
   }
 
-
-
-  {/* <div className={`col-2 ${isMenuVisible ? '' : 'd-none'}`} style={{ minWidth: '265px', padding: 0, backgroundColor: 'yellow' }}> */ }
 
   return (
 
@@ -118,99 +120,84 @@ function AdminDashboard() {
         <div className={`col-2 ${isMenuVisible ? '' : 'd-none'}`} style={{ minWidth: '265px', padding: 0, }}>
 
           <Nav className=" menuU h-100">
-            <Nav.Link className="profile-header" style={{ padding: 0 }} >
-              <img src={logo} alt="Profile" className="profile-img" />
-              <div className="title-profile">
-                <h5 className="profile-title">P&A Aires Acondicionados</h5>
-                <p className="profile-subtitle">Control de mantenimientos</p>
-              </div>
-            </Nav.Link>
 
-            <Nav.Link className="nav-item-custom" onClick={() => setSelectedComponent('Home')}>
-              <FontAwesomeIcon className="icon-margin" icon={faHome} />
-              Home
-            </Nav.Link>
+            <div className="section-1">
+              <Nav.Link className="profile-header" style={{ padding: 0 }} >
+                <img src={logo} alt="Profile" className="profile-img" />
+                <div className="title-profile">
+                  <h5 className="profile-title">P&A Aires Acondicionados</h5>
+                  <p className="profile-subtitle">Control de mantenimientos</p>
+                </div>
+              </Nav.Link>
 
-            <Nav.Link className="nav-item-custom" onClick={() => setSelectedComponent('Usuarios')}>
-              <FontAwesomeIcon className="icon-margin" icon={faUsers} />
-              Usuarios
-            </Nav.Link>
-            <Nav.Link className="nav-item-custom" >
-              <FontAwesomeIcon className="icon-margin" icon={faHardDrive} />
-              Equipos
-            </Nav.Link>
-            <Nav.Link className="nav-item-custom">
-              <FontAwesomeIcon className="icon-margin" icon={faBuildingUser} />
-              Clientes
-            </Nav.Link>
-            <Nav.Link className="nav-item-custom">
-              <FontAwesomeIcon className="icon-margin" icon={faScrewdriverWrench} />
-              Mantenimientos
-            </Nav.Link>
-            <Nav.Link className="nav-item-custom">
-              <FontAwesomeIcon className="icon-margin" icon={faFileLines} />
-              Control Mantenimientos
-            </Nav.Link>
+              <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/home')}>
+                <FontAwesomeIcon className="icon-margin" icon={faHome} />
+                Home
+              </Nav.Link>
 
-            {/* <div className="separator-line" />
+              <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/users')}>
+                <FontAwesomeIcon className="icon-margin" icon={faUsers} />
+                Usuarios
+              </Nav.Link>
 
-            <Nav.Link className='profile-header-user'>
-              <img src={userData.pathImage} alt="Admin" className="profile-img-user" />
-              <div className="title-profile">
-                <h5 className="profile-title-user">{userData.name} {userData.lastName}</h5>
-                <p className="profile-subtitle-user">{userData.email}</p>
-              </div>
-            </Nav.Link>
+              <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/equipos')}>
+                <FontAwesomeIcon className="icon-margin" icon={faHardDrive} />
+                Equipos
+              </Nav.Link>
+              <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/clientes')}>
+                <FontAwesomeIcon className="icon-margin" icon={faBuildingUser} />
+                Clientes
+              </Nav.Link>
+              <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/mantenimientos')}>
+                <FontAwesomeIcon className="icon-margin" icon={faScrewdriverWrench} />
+                Mantenimientos
+              </Nav.Link>
+              <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/control-mantenimientos')}>
+                <FontAwesomeIcon className="icon-margin" icon={faFileLines} />
+                Control Mantenimientos
+              </Nav.Link>
+              <div className="separator-line" />
+            </div>
 
-            <div className="separator-linet" />
+            <div className="section-2">
+              <div className="separator-line" />
+              <Nav.Link className='profile-header-user'>
+                <img src={userData.pathImage} alt="Admin" className="profile-img-user" />
+                <div className="title-profile">
+                  <h5 className="profile-title-user">{userData.name} {userData.lastName}</h5>
+                  <p className="profile-subtitle-user">{userData.email}</p>
+                </div>
+              </Nav.Link>
+            </div>
 
-            <Nav.Link className="nav-item-custom">
-              <FontAwesomeIcon className="icon-margin" icon={faGear} />
-              Configuración
-            </Nav.Link>
+            <div className="section-3">
+              <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/configuracion')}>
+                <FontAwesomeIcon className="icon-margin" icon={faGear} />
+                Configuración
+              </Nav.Link>
 
-            <Nav.Link className="nav-item-custom" onClick={handleLogoutClick}>
-              <FontAwesomeIcon className="icon-margin" icon={faRightFromBracket} />
-              Cerrar Sesión
-            </Nav.Link> */}
+              <Nav.Link className="nav-item-custom" onClick={handleLogoutClick}>
+                <FontAwesomeIcon className="icon-margin" icon={faRightFromBracket} />
+                Cerrar Sesión
+              </Nav.Link>
+            </div>
           </Nav>
+
 
         </div>
 
 
         {/* Contenido principal */}
-
-
         <div className="col custom-col">
-
-          <div className=" row ">
-
-            <div className="top-bar custom-row " >
-
-              <div className='col-auto'>
-                <button className="menu-button" onClick={toggleMenu} style={{ margin: '10px' }}>
-                  <FontAwesomeIcon className="icon-margin" icon={faBars} />
-                </button>
-              </div>
-
-              <div className="col" ></div>
-
-
-              <div className='profile-header-user col-auto'>
-                <img src={userData.pathImage} alt="Admin" className="profile-img-user" />
-                <div className="title-profile">
-                  <h5 className="profile-title-user">{userData.name} {userData.lastName}</h5>
-                  {/* <p className="profile-subtitle-user">{userData.email}</p> */}
-                </div>
-              </div>
-
+          <div className="row">
+            <div className=" top-bar d-md-none">
+              <button className=" menu-button" onClick={toggleMenu} style={{ margin: '10px' }}>
+                <FontAwesomeIcon className="icon-margin" icon={faBars} />
+              </button>
             </div>
-
-            {selectedComponent === 'Usuarios' && <ListUsers />}
-            {isMenuVisible && <div className="content-overlay" onClick={toggleMenu}></div>}
+            <Outlet />
           </div>
         </div>
-
       </div>
 
 
