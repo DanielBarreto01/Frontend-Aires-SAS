@@ -4,6 +4,7 @@ import AdminDashboard from '../components/home/AdminDashboard';
 import ListUsers from '../components/user/listUsers/ListUsers';
 import RegisterUser from '../components/user/registerUser/RegisterUser';
 import UserProfile from '../components/user/userProfile/UserProfile';
+import RessetPassword from '../components/user/resetPassword/PasswordForm';
 
 
 function AppRouter() {
@@ -14,6 +15,7 @@ function AppRouter() {
                 <Route path="/users" element={<ListUsers />} />
                 <Route path="/register" element={<RegisterUser />} />
                 <Route path="/profile" element={<UserProfile />} />
+                <Route path="/resetpassword" element={<RessetPassword />} />
                 <Route path="*" element={<Navigate to="/login" />} />
                
                 
