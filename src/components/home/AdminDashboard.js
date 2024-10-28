@@ -54,7 +54,7 @@ function AdminDashboard() {
     const handleLogout = async () => {
       try {
         setLoading(true);  // Mostrar el spinner
-        const response = await axios.get(`${process.env.REACT_APP_BCKEND}/users/logout`, {
+        const response = await axios.get(`/users/logout`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('authToken')}` // Si necesitas enviar el token de autenticación
           }

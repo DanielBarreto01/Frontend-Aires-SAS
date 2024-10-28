@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+      {
+          "source": "/login",
+          "destination": "http://3.139.58.7:8080/login"
+      },
+      {
+          "source": "/users/:path*",
+          "destination": "http://3.139.58.7:8080/users/:path*"
+      }
+  ]
+}
