@@ -5,10 +5,11 @@ import ListUsers from '../components/user/listUsers/ListUsers';
 import RegisterUser from '../components/user/registerUser/RegisterUser';
 import UserProfile from '../components/user/userProfile/UserProfile';
 import UserProfileInfo from '../components/user/UserProfileInfo/UserProfileInfo';
+import RessetPassword from '../components/user/resetPassword/PasswordForm';
+
 
 function AppRouter() {
     return (
-
         <Routes>
           <Route path="/login" element={<Login />} />
           
