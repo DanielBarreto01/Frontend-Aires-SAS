@@ -6,6 +6,8 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const [authToken, setAuthToken] = useState(null);
 
+    
+
     const handleLogin = async (userName, password) => {
         try {
             const response = await axios.post('/login', { userName, password }, {

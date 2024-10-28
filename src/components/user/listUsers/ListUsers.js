@@ -136,28 +136,6 @@ function ListUsers() {
         }
     ]
 
-    // useEffect(()=>{
-    //     setTimeout(() => {
-    //         fetchData();          
-    //     }, 200);
-    //     return () => clearTimeout();
-    // },[]);
-
-    // const handleSelect = (eventKey) => {
-    //     setLoading(true);
-    //     setSelectedOption(eventKey);
-    //     console.log("eventKey", eventKey);
-    //     setTimeout(() => {
-    //         if (eventKey === "Seleccione un rol") {
-    //             url = "/users/getUsers";
-    //         } else {
-    //             url = `/users/ShowUserRoles/${eventKey}`;
-    //         }
-    //         fetchData();
-    //     }, 200);
-    //     return () => clearTimeout();
-    // };
-
 
     const handleRoleChange = (event) => {
         setLoading(true);
