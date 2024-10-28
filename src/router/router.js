@@ -12,6 +12,7 @@ function AppRouter() {
     return (
         <Routes>
           <Route path="/login" element={<Login />} />
+          <Route path="/reset-password" element={<RessetPassword />} />
           
           <Route path="/admin" element={<AdminDashboard />}>
             <Route path="users" element={<ListUsers />} />
