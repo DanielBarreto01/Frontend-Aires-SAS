@@ -66,7 +66,7 @@ function AdminDashboard() {
         if (error.response && error.response.status === 403) {
           console.error('Token vencido:', error);
           localStorage.removeItem('authToken');  // Eliminar el token de localStorage
-          window.location.href = '/login';  // Redirigir a la página de login
+          navigate(`/login`); // Redirigir a la página de login
         } else {
           console.error('Error durante el logout:', error);
         }
