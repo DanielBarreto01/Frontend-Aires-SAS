@@ -5,9 +5,13 @@ import { Nav, Spinner, Navbar, Button } from 'react-bootstrap';  // Asegúrate d
 import { jwtDecode } from 'jwt-decode';
 import logo from "../../assets/logo.png";
 import './AdminDashboard.css';
+import { getUserById } from '../../api/UserService';
 import axios from 'axios';
 import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
 import { useNavigate, Outlet } from 'react-router-dom';
+
+
+
 
 
 function AdminDashboard() {
@@ -18,6 +22,9 @@ function AdminDashboard() {
   const [isTokenChecked, setIsTokenChecked] = useState(false);
   const navigate = useNavigate();
   const [isMenuVisible, setMenuVisible] = useState(true);
+  const [userProfileData, setUserProfileData] = useState({});
+
+  
 
   useEffect(() => {  // Mostrar el spinner
     try {
@@ -47,7 +54,7 @@ function AdminDashboard() {
     const handleLogout = async () => {
       try {
         setLoading(true);  // Mostrar el spinner
-        const response = await axios.get(`${process.env.REACT_APP_BCKEND}/users/logout`, {
+        const response = await axios.get(`/users/logout`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('authToken')}` // Si necesitas enviar el token de autenticación
           }
@@ -92,9 +99,49 @@ function AdminDashboard() {
 
 
 
-  const handleNavigation = (path) => {
-    navigate(`/admin${path}`);
-  };
+  const handleNavigation = async (path) => {
+    if (path === '/profile-info') {
+        const userId = "4152"; // ID del usuario logueado
+        const token = localStorage.getItem('authToken'); // Obtener el token desde el localStorage
+
+        try {
+            const userData = await getUserById(userId, token);
+
+            // Formatear los datos recibidos
+            const formattedData = {
+                name: userData.name,
+                lastName: userData.lastName,
+                typeIdentification: userData.typeIdentification,
+                numberIdentification: userData.numberIdentification,
+                email: userData.email,
+                phoneNumber: userData.phoneNumber,
+                address: userData.address,
+                pathImage: userData.pathImage,
+                userStatus: userData.userStatus,
+                roles: userData.roles || [] // Asegúrate de que sea un array
+            };
+
+            console.log("Respuesta: ", formattedData);
+
+            // Navegar y pasar los datos en el estado
+            navigate(`/admin${path}`, { state: { user: formattedData } });
+        } catch (error) {
+            console.error("Error al cargar los datos del usuario", error);
+            // Opcional: Mostrar un mensaje de error al usuario
+        }
+    } else {
+        navigate(`/admin${path}`);
+    }
+};
+
+
+
+
+
+
+
+
+
 
   // Función para alternar la visibilidad
   const toggleMenu = () => {
@@ -164,13 +211,15 @@ function AdminDashboard() {
 
             <div className="section-2">
               <div className="separator-line" />
-              <Nav.Link className='profile-header-user'>
+
+              <Nav.Link className='profile-header-user'onClick={() => handleNavigation('/profile-info')}>
                 <img src={userData.pathImage} alt="Admin" className="profile-img-user" />
                 <div className="title-profile">
                   <h5 className="profile-title-user">{userData.name} {userData.lastName}</h5>
                   <p className="profile-subtitle-user">{userData.email}</p>
                 </div>
               </Nav.Link>
+
             </div>
 
             <div className="section-3">
@@ -207,6 +256,7 @@ function AdminDashboard() {
             <Outlet />
           </div>
         </div>
+        
       </div>
 
 
