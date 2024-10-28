@@ -8,17 +8,22 @@ import UserProfile from '../components/user/userProfile/UserProfile';
 
 function AppRouter() {
     return (
-            <Routes>
-                <Route path="/login" element={<Login/>} />
-                <Route path="/admin" element={<AdminDashboard />} />
-                <Route path="/users" element={<ListUsers />} />
-                <Route path="/register" element={<RegisterUser />} />
-                <Route path="/profile" element={<UserProfile />} />
-                <Route path="*" element={<Navigate to="/login" />} />
-               
-                
-            </Routes>
-    );
-}
 
-export default AppRouter;
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          
+          <Route path="/admin" element={<AdminDashboard />}>
+            <Route path="users" element={<ListUsers />} />
+            <Route path="register" element={<RegisterUser />} />
+            <Route path="profile" element={<UserProfile />} />
+            {/* <Route path="profile-info" element={<UserProfileInfo />} /> */}
+          </Route>
+    
+      
+          <Route path="*" element={<Navigate to="/login" />} />
+        </Routes>
+      );
+    }
+  
+  export default AppRouter;
+
