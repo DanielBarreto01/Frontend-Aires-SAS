@@ -61,12 +61,15 @@ function AdminDashboard() {
         });
         console.log('Logout successful:', response.data);
         localStorage.removeItem('authToken');  // Eliminar el token de localStorage
-        window.location.href = '/login';  // Redirigir a la página de login
+        console.log("sale correctamente")
+        navigate('/login');    // Redirigir a la página de login
       } catch (error) {
+        console.log("sale por error")
         if (error.response && error.response.status === 403) {
           console.error('Token vencido:', error);
-          localStorage.removeItem('authToken');  // Eliminar el token de localStorage
-          window.location.href = '/login';  // Redirigir a la página de login
+          localStorage.removeItem('authToken');
+        // Eliminar el token de localStorage
+          navigate(`/login`); // Redirigir a la página de login
         } else {
           console.error('Error durante el logout:', error);
         }
@@ -118,7 +121,8 @@ function AdminDashboard() {
                 address: userData.address,
                 pathImage: userData.pathImage,
                 userStatus: userData.userStatus,
-                roles: userData.roles || [] // Asegúrate de que sea un array
+                // roles: userData.roles || [] // Asegúrate de que sea un array
+                roles: userData.roles && userData.roles.length > 0 ? userData.roles[0].name : null 
             };
 
             console.log("Respuesta: ", formattedData);
@@ -244,10 +248,7 @@ function AdminDashboard() {
         {/* Contenido principal */}
 
         <div className="col custom-col">
-
-
           <div className="row">
-
             <div className=" top-bar d-md-none">
               <button className=" menu-button" onClick={toggleMenu} style={{ margin: '10px' }}>
                 <FontAwesomeIcon className="icon-margin" icon={faBars} />
