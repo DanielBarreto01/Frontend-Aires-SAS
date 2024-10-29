@@ -26,7 +26,7 @@ const PasswordForm = () => {
 
     useEffect(() => {
         try {
-            if (!localStorage.getItem('validateToken') || (JSON.parse(localStorage.getItem('validateToken')).token !== requestToken || !requestToken.trim().length === 0)) {
+            if (!localStorage.getItem('validateToken') || JSON.parse(localStorage.getItem('validateToken')).token !== requestToken) {
                 console.log("entra al if token");
                 const config = {
                     headers: {

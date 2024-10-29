@@ -2,19 +2,19 @@
   "rewrites": [
     {
       "source": "/login",
-      "destination": "http://13.58.123.108:8080/login"
+      "destination": "http://52.15.211.100:8080/login"
     },
     {
       "source": "/users/:path*",
-      "destination": "http://13.58.123.108:8080/users/:path*"
+      "destination": "http://52.15.211.100:8080/users/:path*"
     },
     {
         "source": "/reset-password/validateStatusToken/:path*",
-        "destination": "http://13.58.123.108:8080/reset-password/validateStatusToken/:path*"
+        "destination": "http://52.15.211.100:8080/reset-password/validateStatusToken/:path*"
       },
       {
         "source": "/reset-password/changePassword/:path*",
-        "destination": "http://13.58.123.108:8080/reset-password/changePassword/:path*"
+        "destination": "http://52.15.211.100:8080/reset-password/changePassword/:path*"
       }
   ]
 }

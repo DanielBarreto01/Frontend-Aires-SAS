@@ -6,7 +6,6 @@ import RegisterUser from '../components/user/registerUser/RegisterUser';
 import UserProfile from '../components/user/userProfile/UserProfile';
 import UserProfileInfo from '../components/user/UserProfileInfo/UserProfileInfo';
 import RessetPassword from '../components/user/resetPassword/PasswordForm';
-import PasswordChange from '../components/user/passwordChange/passwordChange';
 
 
 function AppRouter() {
@@ -14,7 +13,7 @@ function AppRouter() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/reset-password" element={<RessetPassword />} />
-          <Route path="/change-password" element={<PasswordChange />} />
+          
           <Route path="/admin" element={<AdminDashboard />}>
             <Route path="users" element={<ListUsers />} />
             <Route path="register" element={<RegisterUser />} />
