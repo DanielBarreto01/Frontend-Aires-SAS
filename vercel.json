@@ -9,12 +9,9 @@
           "destination": "http://52.15.74.61:8080/users/:path*"
       },
       {
-        "source": "/reset-password/validateStatusToken/:requestToken",
-        "destination": "http://52.15.74.61:8080/reset-password/validateStatusToken/:requestToken"
-      },
-      {
-        "source": "/reset-password/changePassword/:requestToken",
-        "destination": "http://52.15.74.61:8080/reset-password/changePassword/:requestToken"
+        "source": "/reset-password/:path*",
+        "destination": "http://52.15.74.61:8080/reset-password/:path*"
       }
+     
   ]
 }
