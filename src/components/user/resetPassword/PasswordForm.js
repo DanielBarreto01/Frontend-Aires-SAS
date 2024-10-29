@@ -25,6 +25,9 @@ const PasswordForm = () => {
 
 
     useEffect(() => {
+        if (requestToken.trim().length === 0) {
+            navigate('/login');
+        }
         try {
             if (!localStorage.getItem('validateToken') || JSON.parse(localStorage.getItem('validateToken')).token !== requestToken) {
                 console.log("entra al if token");
@@ -37,7 +40,6 @@ const PasswordForm = () => {
                 };
                 axios.get(`/reset-password/validateStatusToken/${requestToken}`, config).then((response) => {
                     localStorage.setItem('validateToken', JSON.stringify(response.data));
-                    console.log("validacion correcta", requestToken,"hola");
                     setLoading(false);
                 }).catch((error) => {
                     console.log(error);
@@ -45,7 +47,7 @@ const PasswordForm = () => {
                     navigate('/login');
                 });
 
-            } else if (new Date((JSON.parse(localStorage.getItem('validateToken'))).date) < Date.now() || requestToken === null) {
+            } else if (new Date((JSON.parse(localStorage.getItem('validateToken'))).date) < Date.now() || requestToken === null || requestToken.trim().length === 0) {
                 console.log("incorrecta sale fecha");
                 console.log(requestToken);
                 navigate('/login');
