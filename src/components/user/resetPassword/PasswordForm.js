@@ -45,7 +45,7 @@ const PasswordForm = () => {
                     navigate('/login');
                 });
 
-            } else if (new Date((JSON.parse(localStorage.getItem('validateToken'))).date) < Date.now() || requestToken === null) {
+            } else if (new Date((JSON.parse(localStorage.getItem('validateToken'))).date) < Date.now() || requestToken === null || requestToken.trim().length === 0) {
                 console.log("incorrecta sale fecha");
                 console.log(requestToken);
                 navigate('/login');
