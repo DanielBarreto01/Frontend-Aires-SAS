@@ -37,15 +37,20 @@ const PasswordForm = () => {
                 };
                 axios.get(`/reset-password/validateStatusToken/${requestToken}`, config).then((response) => {
                     localStorage.setItem('validateToken', JSON.stringify(response.data));
+                    console.log("validacion correcta", requestToken,"hola");
                     setLoading(false);
                 }).catch((error) => {
                     console.log(error);
+                    console.log("incorrecta");
                     navigate('/login');
                 });
 
             } else if (new Date((JSON.parse(localStorage.getItem('validateToken'))).date) < Date.now() || requestToken === null) {
+                console.log("incorrecta sale fecha");
+                console.log(requestToken);
                 navigate('/login');
             } else {
+                console.log("correcta salse else");
                 setLoading(false);
             }
 
@@ -89,7 +94,9 @@ const PasswordForm = () => {
     
         if (modalType === 'cancel') {
             console.log("Acción de cancelación seleccionada.");
+            navigate('/login');
             setLoading(false);
+            navigate('/login');
         } else if (modalType === 'register') {
             console.log("Iniciando proceso de registro de contraseña."); // Log inicial de cambio de contraseña
             setLoading(true);
