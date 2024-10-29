@@ -1,23 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Button, Spinner } from 'react-bootstrap';
 import ReCAPTCHA from 'react-google-recaptcha';
-
+import axios from 'axios';
+import CustomToast from '../../toastMessage/CustomToast'; // Importa CustomToast
 import './passwordChange.css';
 
-function PasswordChange({ handleSubmit }) {
+function PasswordChange() {
     const [email, setEmail] = useState('');
     const [captchaValue, setCaptchaValue] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [showToast, setShowToast] = useState(false);
+    const [toastMessage, setToastMessage] = useState('');
+    const [toastType, setToastType] = useState(''); // Puede ser 'success' o 'error'
 
     useEffect(() => {
-        // Cargar dinámicamente el script de Google reCAPTCHA
         const script = document.createElement("script");
         script.src = "https://www.google.com/recaptcha/api.js";
         script.async = true;
         script.defer = true;
         document.body.appendChild(script);
 
-        // Limpia el script cuando el componente se desmonte
         return () => {
             document.body.removeChild(script);
         };
@@ -31,14 +33,33 @@ function PasswordChange({ handleSubmit }) {
         setCaptchaValue(value);
     };
 
+    const handleSubmit = async (email) => {
+        try {
+            await axios.post('/reset-password/create', {
+                email: email,
+            });
+
+            setToastMessage('Email enviado exitosamente');
+            setToastType('success');
+            setShowToast(true);
+        } catch (error) {
+            setToastMessage('Hubo un error al enviar el email. Inténtalo de nuevo.');
+            setToastType('error');
+            setShowToast(true);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const onSubmit = (e) => {
         e.preventDefault();
         if (captchaValue) {
             setLoading(true);
-            handleSubmit(email, captchaValue)
-                .finally(() => setLoading(false));
+            handleSubmit(email);
         } else {
-            alert('Por favor, completa el captcha.');
+            setToastMessage('Por favor, completa el captcha.');
+            setToastType('error');
+            setShowToast(true);
         }
     };
 
@@ -64,14 +85,22 @@ function PasswordChange({ handleSubmit }) {
                     <ReCAPTCHA
                         sitekey="6LeZvm8qAAAAAOsSAyEy6RL-5mUZ36eN_3CFGWol"
                         onChange={handleCaptchaChange}
-                        theme="light" // Cambiar a "dark" para el tema oscuro
-                        size="normal" // Puedes cambiar a "compact" para tamaño pequeño
+                        theme="light"
+                        size="normal"
                     />
                 </div>
                 <Button variant="primary" type="submit" disabled={loading}>
                     {loading ? <Spinner animation="border" size="sm" /> : 'Validar'}
                 </Button>
             </Form>
+
+            {/* Muestra el CustomToast */}
+            <CustomToast
+                showToast={showToast}
+                setShowToast={setShowToast}
+                toastMessage={toastMessage}
+                toastType={toastType}
+            />
         </div>
     );
 }
