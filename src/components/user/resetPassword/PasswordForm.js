@@ -38,7 +38,7 @@ const PasswordForm = () => {
                         'Authorization': ''
                     }
                 };
-                axios.get(`/reset-password/validateStatusToken/${requestToken}`, config).then((response) => {
+                axios.get(`/reset-password/validateStatusToken/${requestToken}`).then((response) => {
                     localStorage.setItem('validateToken', JSON.stringify(response.data));
                     setLoading(false);
                 }).catch((error) => {
@@ -130,10 +130,11 @@ const PasswordForm = () => {
                     }, 2000);
                 })
                 .catch((error) => {
+                    
                     console.error("Error al cambiar la contraseña:", error.response ? error.response.data : error); // Log del error
                     setLoading(false);
                     setShowToast(true);
-                    setToastMessage(error.response ? error.response.data : 'Error al cambiar la contraseña');
+                    setToastMessage(error.response ? error.response.data : 'Ocurrió un error. Por favor, inténtalo nuevamente más tarde.');
                     setToastType('danger');
                     console.log("Contraseña enviada:", password); // Log de contraseña (para pruebas, eliminar en producción)
                     setError(''); // Limpiar el error
