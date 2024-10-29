@@ -28,13 +28,7 @@ const PasswordForm = () => {
         try {
             if (!localStorage.getItem('validateToken') || JSON.parse(localStorage.getItem('validateToken')).token !== requestToken) {
                 console.log("entra al if token");
-                const config = {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': '/'
-                    }
-                };
-                axios.get(`/reset-password/validateStatusToken/${requestToken}`, config).then((response) => {
+                axios.get(`/reset-password/validateStatusToken/${requestToken}`).then((response) => {
                     localStorage.setItem('validateToken', JSON.stringify(response.data));
                     setLoading(false);
                 }).catch((error) => {
