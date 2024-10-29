@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Button, Spinner } from 'react-bootstrap';
 import './PasswordForm.css'; // Asegúrate de importar el archivo CSS
-import { useLocation, Navigate } from 'react-router-dom';
+import { useLocation} from 'react-router-dom';
 import CustomToast from '../../toastMessage/CustomToast';
 import axios from 'axios';
 import ConfirmationModal from "../../ConfirmationModal/ConfirmationModal";
+import { useNavigate, Outlet } from 'react-router-dom';
 
 const PasswordForm = () => {
     const location = useLocation();
@@ -20,50 +21,40 @@ const PasswordForm = () => {
     const [disableButton, setDisableButton] = useState(false);
     const [modalType, setModalType] = useState('');
     const [showModal, setShowModal] = useState(false);
+    const navigate = useNavigate();
 
 
     useEffect(() => {
         try {
-            console.log("Iniciando validación de token..."); // Log inicial
-            const storedTokenData = JSON.parse(localStorage.getItem('validateToken'));
-            const storedToken = storedTokenData ? storedTokenData.token : null;
-            
-            // Validación de token y fecha
-            if (!storedToken || storedToken !== requestToken) {
-                console.log("Token no encontrado o no coincide. Realizando solicitud de validación...");
-    
+            if (!localStorage.getItem('validateToken') || JSON.parse(localStorage.getItem('validateToken')).token !== requestToken) {
+                console.log("entra al if token");
                 const config = {
                     headers: {
                         'Content-Type': 'application/json',
-                        'Accept': '*/*'
-                    },
-                    withCredentials: true
+                        'Accept': '/'
+                    }
                 };
-    
-                axios.get(`/reset-password/validateStatusToken/${requestToken}`, config)
-                    .then((response) => {
-                        console.log("Token validado exitosamente:", response.data);
-                        localStorage.setItem('validateToken', JSON.stringify(response.data));
-                        setLoading(false);
-                    })
-                    .catch((error) => {
-                        console.error("Error al validar el token:", error); // Log del error
-                        window.location.href = '/login';
-                    });
-    
-            } else if (new Date(storedTokenData.date) < Date.now() || requestToken === null) {
-                console.log("Token expirado o inválido. Redirigiendo a login.");
-                window.location.href = '/login';
+                axios.get(`/reset-password/validateStatusToken/${requestToken}`, config).then((response) => {
+                    localStorage.setItem('validateToken', JSON.stringify(response.data));
+                    setLoading(false);
+                }).catch((error) => {
+                    console.log(error);
+                    navigate('/login');
+                });
+
+            } else if (new Date((JSON.parse(localStorage.getItem('validateToken'))).date) < Date.now() || requestToken === null) {
+                navigate('/login');
             } else {
-                console.log("Token válido en localStorage.");
                 setLoading(false);
             }
-    
+
         } catch (error) {
-            console.error("Error de acceso al validar el token:", error); // Log del error
+
+            console.log("error acces");
             localStorage.removeItem('validateToken');
-            window.location.href = '/login';
+            navigate('/login');
         }
+
     }, [requestToken]);
     
 
@@ -119,7 +110,7 @@ const PasswordForm = () => {
                     setToastType('success');
                     localStorage.removeItem('validateToken');
                     setTimeout(() => {
-                        window.location.href = '/login';
+                        navigate('/login');
                     }, 2000);
                 })
                 .catch((error) => {
