@@ -84,7 +84,7 @@ const PasswordForm = () => {
         setLoading(true);
         if (modalType === 'cancel') {
             setLoading(false);
-            window.location.href = '/login';
+           // window.location.href = '/login';
         } else if (modalType === 'register') {
             setLoading(true);
             const body = {
