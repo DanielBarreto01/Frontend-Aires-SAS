@@ -1,12 +1,20 @@
 {
   "rewrites": [
-      {
-          "source": "/login",
-          "destination": "http://3.139.58.7:8080/login"
+    {
+      "source": "/login",
+      "destination": "http://52.15.211.100:8080/login"
+    },
+    {
+      "source": "/users/:path*",
+      "destination": "http://52.15.211.100:8080/users/:path*"
+    },
+    {
+        "source": "/reset-password/validateStatusToken/:path*",
+        "destination": "http://52.15.211.100:8080/reset-password/validateStatusToken/:path*"
       },
       {
-          "source": "/users/:path*",
-          "destination": "http://3.139.58.7:8080/users/:path*"
+        "source": "/reset-password/changePassword/:path*",
+        "destination": "http://52.15.211.100:8080/reset-password/changePassword/:path*"
       }
   ]
 }

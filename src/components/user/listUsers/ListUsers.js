@@ -159,24 +159,24 @@ function ListUsers() {
 
     const handleChange = (e) => {
         setRecords(data.filter(record => {
-            if (search === "name") {
-                return `${record.name} ${record.lastName}`.toLowerCase().includes(e.target.value.toLowerCase()) ||
-                record.lastName.toLowerCase().includes(e.target.value.toLowerCase()) ||
-                record.name.toLowerCase().includes(e.target.value.toLowerCase());
-            } else if (search === "document") {
-                return record.numberIdentification.includes(e.target.value);
-            } else if (search === "phone") {
-                return record.phoneNumber.toString().includes(e.target.value);
-            }else if (search === "email") {
-                return record.email.toLowerCase().includes(e.target.value.toLowerCase());
-            }
-            return null;
-            // return record.name.toLowerCase().includes(e.target.value.toLowerCase()) ||
-            //     `${record.name} ${record.lastName}`.toLowerCase().includes(e.target.value.toLowerCase()) ||
+            // if (search === "name") {
+            //     return `${record.name} ${record.lastName}`.toLowerCase().includes(e.target.value.toLowerCase()) ||
             //     record.lastName.toLowerCase().includes(e.target.value.toLowerCase()) ||
-            //     record.numberIdentification.includes(e.target.value) ||
-            //     record.phoneNumber.toString().includes(e.target.value) ||
-            //     record.email.toLowerCase().includes(e.target.value.toLowerCase())
+            //     record.name.toLowerCase().includes(e.target.value.toLowerCase());
+            // } else if (search === "document") {
+            //     return record.numberIdentification.includes(e.target.value);
+            // } else if (search === "phone") {
+            //     return record.phoneNumber.toString().includes(e.target.value);
+            // }else if (search === "email") {
+            //     return record.email.toLowerCase().includes(e.target.value.toLowerCase());
+            // }
+            // return null;
+            return record.name.toLowerCase().includes(e.target.value.toLowerCase()) ||
+                `${record.name} ${record.lastName}`.toLowerCase().includes(e.target.value.toLowerCase()) ||
+                record.lastName.toLowerCase().includes(e.target.value.toLowerCase()) ||
+                record.numberIdentification.includes(e.target.value) ||
+                record.phoneNumber.toString().includes(e.target.value) ||
+                record.email.toLowerCase().includes(e.target.value.toLowerCase())
         }));
     }
 
