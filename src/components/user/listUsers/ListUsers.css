@@ -1,31 +1,3 @@
-.General-Table {
-    background-color: #ffffff;
-    width: auto;
-    height: auto;
-    overflow: hidden;
-    padding: 8px !important;
- 
-}
-
-
-
-
-.filter-search{
-    display: flex; /* Cambia a flexbox para alinear los elementos en una fila */
-    align-items: center;
-    justify-content: flex-end; /* Alinea verticalmente los elementos */
-    width: 60%; /* Asegúrate de que ocupe todo el ancho */
-    margin-top: 6px;
-    background-color: rgb(255, 255, 255);
-    color: #7B7B7B
-    
-}
-
-h2{
-    font-family: Arial, sans-serif !important; /* Cambia la fuente a Arial */
-    font-weight: 900 !important; /* Hace que el texto sea muy grueso */
-}
-
 
 
 .input-container {
@@ -35,7 +7,6 @@ h2{
     width: 100%; /* Asegura que el contenedor ocupe todo el ancho disponible */
     border: 1px solid #000000; 
     border-radius: 9px;
-
 }
 
 
@@ -47,19 +18,8 @@ h2{
     background-color: #ffffff;
     border: 1px solid #7B7B7B;
 }
- /* background-color: red; */
-/* .button-Create{
-    border-radius: 9px;
-    background-color: #7B7B7D;
-    min-width: 150px;
-    height: 100% !important;
-    font-size: auto;
-    margin-left: 20px;
-    border: none;
-    height: auto;
-   
-    
-} */
+ 
+
 
 
 
@@ -121,10 +81,6 @@ h2{
 }
 
 
-/*
-.input-container {
-    height: 38px;
-}*/
 
 /*/////////////////////////////////////////////////////////////////////////////////////////////////*/
 
@@ -144,11 +100,7 @@ h2{
 
 }
 
-/* no va  */
-.filter-search {
-    width: 100%;
-    align-items: center; /* Asegura que los elementos se ajusten al 100% del ancho */
-}
+
 
 
 .title1 {
