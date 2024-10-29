@@ -9,12 +9,8 @@
       "destination": "http://3.135.188.233:8080/users/:path*"
     },
     {
-      "source": "/reset-password",
-      "destination": "http://3.135.188.233:8080/reset-password"
-    },
-    {
-      "source": "/reset-password/:path*",
-      "destination": "http://3.135.188.233:8080/reset-password/:path*"
-    }
+        "source": "/reset-password/validateStatusToken/:path*",
+        "destination": "http://3.135.188.233:8080/reset-password/validateStatusToken/:path*"
+      }
   ]
 }

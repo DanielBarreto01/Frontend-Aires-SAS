@@ -36,7 +36,8 @@ const PasswordForm = () => {
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': '*/*'
-                    }
+                    },
+                    withCredentials: true
                 };
     
                 axios.get(`/reset-password/validateStatusToken/${requestToken}`, config)
