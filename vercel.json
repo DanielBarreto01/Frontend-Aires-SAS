@@ -2,19 +2,19 @@
   "rewrites": [
     {
       "source": "/login",
-      "destination": "http://3.135.188.233:8080/login"
+      "destination": "http://3.15.214.167:8080/login"
     },
     {
       "source": "/users/:path*",
-      "destination": "http://3.135.188.233:8080/users/:path*"
+      "destination": "http://3.15.214.167:8080/users/:path*"
     },
     {
         "source": "/reset-password/validateStatusToken/:path*",
-        "destination": "http://3.135.188.233:8080/reset-password/validateStatusToken/:path*"
+        "destination": "http://3.15.214.167:8080/reset-password/validateStatusToken/:path*"
       },
       {
         "source": "/reset-password/changePassword/:path*",
-        "destination": "http://3.135.188.233:8080/reset-password/changePassword/:path*"
+        "destination": "http://3.15.214.167:8080/reset-password/changePassword/:path*"
       }
   ]
 }
