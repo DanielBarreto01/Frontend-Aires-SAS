@@ -110,6 +110,7 @@
     /* responsable de desplazamiento contededor principal donde se renderiza los contenidos  */
     flex-grow: 1;
     overflow: hidden;
+    /* background-color: aqua; */
 }
 
 .menuU {

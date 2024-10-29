@@ -8,7 +8,8 @@ import UserDetails from '../userProfile/UserProfile';
 import axios from 'axios';
 import {faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { jwtDecode } from 'jwt-decode';
-import "../../TableStyle.css";
+import "../../general.css";
+import "../../user/listUsers/ListUsers.css";
 import RegisterUser from '../registerUser/RegisterUser';
 import { Form, Row, Col } from 'react-bootstrap';
 
@@ -218,7 +219,7 @@ function ListUsers() {
         ) : (
             <div className='row'>
                 <div className='col-12 col-md-4 title1'>
-                    <h2 className="text-start">Usuarios</h2>
+                    <h2 className="text-start title">Usuarios </h2>
                 </div>
 
                 <div className='col-6 col-sm-6 col-md-4 ' >
@@ -266,12 +267,14 @@ function ListUsers() {
                                 <FontAwesomeIcon icon={faChevronDown} className="dropdown-icon" />
                             </div>
                         </Form.Group>
-                        {/* <Form.Group controlId="search" className="dropdownSearch">
+
+
+                        {/* <Form.Group controlId="search" className="dropdownSearch"> 
                             <div className="dropdown-container">
                                 <Form.Control
                                     as="select"
                                     name="search"
-                                    value={search} // Valor actual del select
+                                    value={search} 
                                     onChange={handleSearchInput}
                                     required
                                     style={{ border: 'none' }}
@@ -283,7 +286,8 @@ function ListUsers() {
                                 </Form.Control>
                                 <FontAwesomeIcon icon={faChevronDown} className="dropdown-icon" />
                             </div>
-                        </Form.Group> */}
+                        </Form.Group>*/}
+
                     </Form>
 
                 </div>

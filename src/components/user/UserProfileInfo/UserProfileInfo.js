@@ -24,7 +24,7 @@ function UserProfileInfo() {
         </div>
       
 
-      <div className='col-md-8 ' style={{backgroundColor: 'yellow'}}>
+      <div className='col-md-8 '>
         <div className='row data'>
           <div className='col-md-6'>
             <label>Nombre:</label>
