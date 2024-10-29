@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Button, Spinner } from 'react-bootstrap';
 import './PasswordForm.css'; // Asegúrate de importar el archivo CSS
-import { useLocation, Navigate } from 'react-router-dom';
-import { useNavigate, Outlet } from 'react-router-dom';
+import { useLocation} from 'react-router-dom';
 import CustomToast from '../../toastMessage/CustomToast';
 import axios from 'axios';
 import ConfirmationModal from "../../ConfirmationModal/ConfirmationModal";
+import { useNavigate, Outlet } from 'react-router-dom';
 
 const PasswordForm = () => {
     const location = useLocation();
@@ -31,7 +31,7 @@ const PasswordForm = () => {
                 const config = {
                     headers: {
                         'Content-Type': 'application/json',
-                        'Accept': '*/*'
+                        'Accept': '/'
                     }
                 };
                 axios.get(`/reset-password/validateStatusToken/${requestToken}`, config).then((response) => {
@@ -52,10 +52,11 @@ const PasswordForm = () => {
 
             console.log("error acces");
             localStorage.removeItem('validateToken');
-            window.location.href = '/login';
+            navigate('/login');
         }
 
     }, [requestToken]);
+    
 
     const handleCancel = () => {
         setModalType('cancel');  // Definimos el tipo de acción como cancelar
@@ -82,41 +83,48 @@ const PasswordForm = () => {
     };
 
     const handleConfirmAction = (e) => {
+        console.log("Ejecutando handleConfirmAction con modalType:", modalType); // Log del tipo de acción
         setShowModal(false);
         setLoading(true);
+    
         if (modalType === 'cancel') {
+            console.log("Acción de cancelación seleccionada.");
             setLoading(false);
-           // window.location.href = '/login';
         } else if (modalType === 'register') {
+            console.log("Iniciando proceso de registro de contraseña."); // Log inicial de cambio de contraseña
             setLoading(true);
+    
             const body = {
                 'password': password,
                 'verificationCode': verificationCode
-            }
-            axios.post(`/reset-password/changePassword/${requestToken}`, body).then((response) => {
-                setError('');
-                setLoading(false);
-                setShowToast(true)
-                setToastMessage(response.data);
-                setDisableButton(true);
-                setToastType('success');
-                localStorage.removeItem('validateToken');
-                setTimeout(() => {
-                    window.location.href = '/login';
-                }, 2000);
-            }).catch((error) => {
-                setLoading(false);
-                setShowToast(true);
-                setToastMessage(error.response.data || 'Error al cambair la contraseña');
-                setToastType('danger');
-                // Aquí puedes agregar la lógica para enviar la contraseña
-                console.log('Contraseña enviada:', password);
-                setError(''); // Limpiar el error
-            });
-            //setLoading(false);
-            // Puedes agregar tu lógica de envío aquí
-        };
-    }
+            };
+    
+            axios.post(`/reset-password/changePassword/${requestToken}`, body)
+                .then((response) => {
+                    console.log("Contraseña cambiada exitosamente:", response.data); // Log de éxito
+                    setError('');
+                    setLoading(false);
+                    setShowToast(true);
+                    setToastMessage(response.data);
+                    setDisableButton(true);
+                    setToastType('success');
+                    localStorage.removeItem('validateToken');
+                    setTimeout(() => {
+                        navigate('/login');
+                    }, 2000);
+                })
+                .catch((error) => {
+                    console.error("Error al cambiar la contraseña:", error.response ? error.response.data : error); // Log del error
+                    setLoading(false);
+                    setShowToast(true);
+                    setToastMessage(error.response ? error.response.data : 'Error al cambiar la contraseña');
+                    setToastType('danger');
+                    console.log("Contraseña enviada:", password); // Log de contraseña (para pruebas, eliminar en producción)
+                    setError(''); // Limpiar el error
+                });
+        }
+    };
+    
 
     //probar este if
     if (loading) {

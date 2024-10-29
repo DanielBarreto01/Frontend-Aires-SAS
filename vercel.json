@@ -1,20 +1,20 @@
 {
   "rewrites": [
-      {
-          "source": "/login",
-          "destination": "http://52.15.74.61:8080/login"
+    {
+      "source": "/login",
+      "destination": "http://3.135.188.233:8080/login"
+    },
+    {
+      "source": "/users/:path*",
+      "destination": "http://3.135.188.233:8080/users/:path*"
+    },
+    {
+        "source": "/reset-password/validateStatusToken/:path*",
+        "destination": "http://3.135.188.233:8080/reset-password/validateStatusToken/:path*"
       },
       {
-          "source": "/users/:path*",
-          "destination": "http://52.15.74.61:8080/users/:path*"
-      },
-      {
-        "source": "/reset-password/validateStatusToken/:requestToken",
-        "destination": "http://52.15.74.61:8080/reset-password/validateStatusToken/:requestToken"
-      },
-      {
-        "source": "/reset-password/changePassword/:requestToken",
-        "destination": "http://52.15.74.61:8080/reset-password/changePassword/:requestToken"
+        "source": "/reset-password/changePassword/:path*",
+        "destination": "http://3.135.188.233:8080/reset-password/changePassword/:path*"
       }
   ]
 }
