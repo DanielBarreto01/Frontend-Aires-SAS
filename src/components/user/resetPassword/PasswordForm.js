@@ -25,6 +25,9 @@ const PasswordForm = () => {
 
 
     useEffect(() => {
+        if (requestToken.trim().length === 0) {
+            navigate('/login');
+        }
         try {
             if (!localStorage.getItem('validateToken') || JSON.parse(localStorage.getItem('validateToken')).token !== requestToken) {
                 console.log("entra al if token");
