@@ -37,7 +37,8 @@ const PasswordForm = () => {
                 };
                 axios.get(`/reset-password/validateStatusToken/${requestToken}`, config).then((response) => {
                     localStorage.setItem('validateToken', JSON.stringify(response.data));
-                    console.log("validacion correcta", requestToken,"hola");
+
+                    console.log("validacion correcta", requestToken,"hola", response.data);
                     setLoading(false);
                 }).catch((error) => {
                     console.log(error);
