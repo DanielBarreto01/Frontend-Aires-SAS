@@ -158,24 +158,24 @@ function ListUsers() {
 
     const handleChange = (e) => {
         setRecords(data.filter(record => {
-            if (search === "name") {
-                return `${record.name} ${record.lastName}`.toLowerCase().includes(e.target.value.toLowerCase()) ||
-                record.lastName.toLowerCase().includes(e.target.value.toLowerCase()) ||
-                record.name.toLowerCase().includes(e.target.value.toLowerCase());
-            } else if (search === "document") {
-                return record.numberIdentification.includes(e.target.value);
-            } else if (search === "phone") {
-                return record.phoneNumber.toString().includes(e.target.value);
-            }else if (search === "email") {
-                return record.email.toLowerCase().includes(e.target.value.toLowerCase());
-            }
-            return null;
-            // return record.name.toLowerCase().includes(e.target.value.toLowerCase()) ||
-            //     `${record.name} ${record.lastName}`.toLowerCase().includes(e.target.value.toLowerCase()) ||
+            // if (search === "name") {
+            //     return `${record.name} ${record.lastName}`.toLowerCase().includes(e.target.value.toLowerCase()) ||
             //     record.lastName.toLowerCase().includes(e.target.value.toLowerCase()) ||
-            //     record.numberIdentification.includes(e.target.value) ||
-            //     record.phoneNumber.toString().includes(e.target.value) ||
-            //     record.email.toLowerCase().includes(e.target.value.toLowerCase())
+            //     record.name.toLowerCase().includes(e.target.value.toLowerCase());
+            // } else if (search === "document") {
+            //     return record.numberIdentification.includes(e.target.value);
+            // } else if (search === "phone") {
+            //     return record.phoneNumber.toString().includes(e.target.value);
+            // }else if (search === "email") {
+            //     return record.email.toLowerCase().includes(e.target.value.toLowerCase());
+            // }
+            // return null;
+            return record.name.toLowerCase().includes(e.target.value.toLowerCase()) ||
+                `${record.name} ${record.lastName}`.toLowerCase().includes(e.target.value.toLowerCase()) ||
+                record.lastName.toLowerCase().includes(e.target.value.toLowerCase()) ||
+                record.numberIdentification.includes(e.target.value) ||
+                record.phoneNumber.toString().includes(e.target.value) ||
+                record.email.toLowerCase().includes(e.target.value.toLowerCase())
         }));
     }
 
@@ -266,7 +266,7 @@ function ListUsers() {
                                 <FontAwesomeIcon icon={faChevronDown} className="dropdown-icon" />
                             </div>
                         </Form.Group>
-                        <Form.Group controlId="search" className="dropdownSearch">
+                        {/* <Form.Group controlId="search" className="dropdownSearch">
                             <div className="dropdown-container">
                                 <Form.Control
                                     as="select"
@@ -283,7 +283,7 @@ function ListUsers() {
                                 </Form.Control>
                                 <FontAwesomeIcon icon={faChevronDown} className="dropdown-icon" />
                             </div>
-                        </Form.Group>
+                        </Form.Group> */}
                     </Form>
 
                 </div>
