@@ -101,10 +101,15 @@ function AdminDashboard() {
 
   const handleNavigation = async (path) => {
     if (path === '/profile-info') {
-        const userId = "4152"; // ID del usuario logueado
         const token = localStorage.getItem('authToken'); // Obtener el token desde el localStorage
+    
 
         try {
+          const decodedToken = jwtDecode(token);
+          const userId = decodedToken.id;
+
+
+
             const userData = await getUserById(userId, token);
 
             // Formatear los datos recibidos
@@ -179,7 +184,7 @@ function AdminDashboard() {
               </Nav.Link>
 
 
-              <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/home')}>
+              <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/users')}>
                 <FontAwesomeIcon className="icon-margin" icon={faHome} />
                 Home
               </Nav.Link>
@@ -246,6 +251,7 @@ function AdminDashboard() {
 
         <div className="col custom-col">
           <div className="row">
+
             <div className=" top-bar d-md-none">
               <button className=" menu-button" onClick={toggleMenu} style={{ margin: '10px' }}>
                 <FontAwesomeIcon className="icon-margin" icon={faBars} />
