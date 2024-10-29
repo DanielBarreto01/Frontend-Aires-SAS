@@ -92,8 +92,15 @@ const PasswordForm = () => {
                 'password': password,
                 'verificationCode': verificationCode
             };
+
+            const config = {
+                headers: {
+                    "Content-Type": "application/json",
+                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                }
+            };
     
-            axios.post(`/reset-password/changePassword/${requestToken}`, body)
+            axios.post(`/reset-password/changePassword/${requestToken}`, body, config)
                 .then((response) => {
                     console.log("Contraseña cambiada exitosamente:", response.data); // Log de éxito
                     setError('');
