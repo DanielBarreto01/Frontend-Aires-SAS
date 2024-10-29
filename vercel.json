@@ -2,15 +2,15 @@
   "rewrites": [
       {
           "source": "/login",
-          "destination": "http://52.15.74.61:8080/login"
+          "destination": "http://3.134.97.166:8080/login"
       },
       {
           "source": "/users/:path*",
-          "destination": "http://52.15.74.61:8080/users/:path*"
+          "destination": "http://3.134.97.166:8080/users/:path*"
       },
       {
         "source": "/reset-password/:path*",
-        "destination": "http://52.15.74.61:8080/reset-password/:path*"
+        "destination": "http://3.134.97.166:8080/reset-password/:path*"
       }
      
   ]
