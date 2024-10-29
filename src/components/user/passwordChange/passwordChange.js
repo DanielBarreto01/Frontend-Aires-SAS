@@ -4,6 +4,7 @@ import ReCAPTCHA from 'react-google-recaptcha';
 import axios from 'axios';
 import CustomToast from '../../toastMessage/CustomToast'; // Importa CustomToast
 import './passwordChange.css';
+import { useNavigate} from 'react-router-dom';
 
 function PasswordChange() {
     const [email, setEmail] = useState('');
@@ -12,6 +13,7 @@ function PasswordChange() {
     const [showToast, setShowToast] = useState(false);
     const [toastMessage, setToastMessage] = useState('');
     const [toastType, setToastType] = useState(''); // Puede ser 'success' o 'error'
+    const navigate = useNavigate();
 
     useEffect(() => {
         const script = document.createElement("script");
@@ -38,12 +40,23 @@ function PasswordChange() {
             await axios.post('/reset-password/create', {
                 email: email,
             });
-
-            setToastMessage('Email enviado exitosamente');
+            
+            setToastMessage('Para continuar con el proceso de restablecimiento de contraseña, revisa tu correo electrónico.');
             setToastType('success');
             setShowToast(true);
+            setEmail('');
+            setLoading(true);
+            setTimeout(() => {
+                navigate('/login');
+            }, 5000);
+
         } catch (error) {
-            setToastMessage('Hubo un error al enviar el email. Inténtalo de nuevo.');
+            if (error.response && error.response.status === 400) {
+                setToastMessage('No encontramos una cuenta con ese correo electrónico. Verifica la dirección ingresada.');
+            }else{
+                setToastMessage('Ocurrió un error. Por favor, inténtalo nuevamente más tarde.');
+            }
+          
             setToastType('error');
             setShowToast(true);
         } finally {
