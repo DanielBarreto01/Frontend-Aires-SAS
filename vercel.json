@@ -15,6 +15,11 @@
       {
         "source": "/reset-password/changePassword/:path*",
         "destination": "http://13.58.123.108:8080/reset-password/changePassword/:path*"
+
+      },
+      {
+        "source": "/reset-password/create",
+        "destination": "http://13.58.123.108:8080/reset-password/create"
       }
   ]
 }
