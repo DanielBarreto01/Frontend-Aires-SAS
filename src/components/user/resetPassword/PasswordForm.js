@@ -37,11 +37,11 @@ const PasswordForm = () => {
                     setLoading(false);
                 }).catch((error) => {
                     console.log(error);
-                    window.location.href = '/login';
+                 //   window.location.href = '/login';
                 });
 
             } else if (new Date((JSON.parse(localStorage.getItem('validateToken'))).date) < Date.now() || requestToken === null) {
-                window.location.href = '/login';
+                //window.location.href = '/login';
             } else {
                 setLoading(false);
             }
@@ -50,7 +50,7 @@ const PasswordForm = () => {
 
             console.log("error acces");
             localStorage.removeItem('validateToken');
-            window.location.href = '/login';
+           // window.location.href = '/login';
         }
 
     }, [requestToken]);
@@ -100,7 +100,7 @@ const PasswordForm = () => {
                 setToastType('success');
                 localStorage.removeItem('validateToken');
                 setTimeout(() => {
-                    window.location.href = '/login';
+                   // window.location.href = '/login';
                 }, 2000);
             }).catch((error) => {
                 setLoading(false);
