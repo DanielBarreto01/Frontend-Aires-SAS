@@ -90,6 +90,7 @@ const PasswordForm = () => {
         if (modalType === 'cancel') {
             console.log("Acción de cancelación seleccionada.");
             setLoading(false);
+            navigate('/login');
         } else if (modalType === 'register') {
             console.log("Iniciando proceso de registro de contraseña."); // Log inicial de cambio de contraseña
             setLoading(true);
