@@ -24,36 +24,47 @@ const PasswordForm = () => {
 
     useEffect(() => {
         try {
-            if (!localStorage.getItem('validateToken') || JSON.parse(localStorage.getItem('validateToken')).token !== requestToken) {
-                console.log("entra al if token");
+            console.log("Iniciando validación de token..."); // Log inicial
+            const storedTokenData = JSON.parse(localStorage.getItem('validateToken'));
+            const storedToken = storedTokenData ? storedTokenData.token : null;
+            
+            // Validación de token y fecha
+            if (!storedToken || storedToken !== requestToken) {
+                console.log("Token no encontrado o no coincide. Realizando solicitud de validación...");
+    
                 const config = {
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': '*/*'
                     }
                 };
-                axios.get(`/reset-password/validateStatusToken/${requestToken}`, config).then((response) => {
-                    localStorage.setItem('validateToken', JSON.stringify(response.data));
-                    setLoading(false);
-                }).catch((error) => {
-                    console.log(error);
-                 //   window.location.href = '/login';
-                });
-
-            } else if (new Date((JSON.parse(localStorage.getItem('validateToken'))).date) < Date.now() || requestToken === null) {
-                //window.location.href = '/login';
+    
+                axios.get(`/reset-password/validateStatusToken/${requestToken}`, config)
+                    .then((response) => {
+                        console.log("Token validado exitosamente:", response.data);
+                        localStorage.setItem('validateToken', JSON.stringify(response.data));
+                        setLoading(false);
+                    })
+                    .catch((error) => {
+                        console.error("Error al validar el token:", error); // Log del error
+                        window.location.href = '/login';
+                    });
+    
+            } else if (new Date(storedTokenData.date) < Date.now() || requestToken === null) {
+                console.log("Token expirado o inválido. Redirigiendo a login.");
+                window.location.href = '/login';
             } else {
+                console.log("Token válido en localStorage.");
                 setLoading(false);
             }
-
+    
         } catch (error) {
-
-            console.log("error acces");
+            console.error("Error de acceso al validar el token:", error); // Log del error
             localStorage.removeItem('validateToken');
-           // window.location.href = '/login';
+            window.location.href = '/login';
         }
-
     }, [requestToken]);
+    
 
     const handleCancel = () => {
         setModalType('cancel');  // Definimos el tipo de acción como cancelar
@@ -80,41 +91,48 @@ const PasswordForm = () => {
     };
 
     const handleConfirmAction = (e) => {
+        console.log("Ejecutando handleConfirmAction con modalType:", modalType); // Log del tipo de acción
         setShowModal(false);
         setLoading(true);
+    
         if (modalType === 'cancel') {
+            console.log("Acción de cancelación seleccionada.");
             setLoading(false);
-           // window.location.href = '/login';
         } else if (modalType === 'register') {
+            console.log("Iniciando proceso de registro de contraseña."); // Log inicial de cambio de contraseña
             setLoading(true);
+    
             const body = {
                 'password': password,
                 'verificationCode': verificationCode
-            }
-            axios.post(`/reset-password/changePassword/${requestToken}`, body).then((response) => {
-                setError('');
-                setLoading(false);
-                setShowToast(true)
-                setToastMessage(response.data);
-                setDisableButton(true);
-                setToastType('success');
-                localStorage.removeItem('validateToken');
-                setTimeout(() => {
-                   // window.location.href = '/login';
-                }, 2000);
-            }).catch((error) => {
-                setLoading(false);
-                setShowToast(true);
-                setToastMessage(error.response.data || 'Error al cambair la contraseña');
-                setToastType('danger');
-                // Aquí puedes agregar la lógica para enviar la contraseña
-                console.log('Contraseña enviada:', password);
-                setError(''); // Limpiar el error
-            });
-            //setLoading(false);
-            // Puedes agregar tu lógica de envío aquí
-        };
-    }
+            };
+    
+            axios.post(`/reset-password/changePassword/${requestToken}`, body)
+                .then((response) => {
+                    console.log("Contraseña cambiada exitosamente:", response.data); // Log de éxito
+                    setError('');
+                    setLoading(false);
+                    setShowToast(true);
+                    setToastMessage(response.data);
+                    setDisableButton(true);
+                    setToastType('success');
+                    localStorage.removeItem('validateToken');
+                    setTimeout(() => {
+                        window.location.href = '/login';
+                    }, 2000);
+                })
+                .catch((error) => {
+                    console.error("Error al cambiar la contraseña:", error.response ? error.response.data : error); // Log del error
+                    setLoading(false);
+                    setShowToast(true);
+                    setToastMessage(error.response ? error.response.data : 'Error al cambiar la contraseña');
+                    setToastType('danger');
+                    console.log("Contraseña enviada:", password); // Log de contraseña (para pruebas, eliminar en producción)
+                    setError(''); // Limpiar el error
+                });
+        }
+    };
+    
 
     //probar este if
     if (loading) {
