@@ -16,7 +16,7 @@ const CustomToast = ({ showToast, setShowToast, toastMessage, toastType }) => {
                 show={showToast}
                 onClose={() => setShowToast(false)}
                 bg={toastType === 'success' ? 'success' : 'danger'}
-                delay={3000}
+                delay={4000}
                 autohide
                 className="custom-toast"
                 type={toastType}
