@@ -39,11 +39,11 @@ const PasswordForm = () => {
                     setLoading(false);
                 }).catch((error) => {
                     console.log(error);
-                    navigate('/login');
+                    //navigate('/login');
                 });
 
             } else if (new Date((JSON.parse(localStorage.getItem('validateToken'))).date) < Date.now() || requestToken === null) {
-                navigate('/login');
+                //navigate('/login');
             } else {
                 setLoading(false);
             }
@@ -52,7 +52,7 @@ const PasswordForm = () => {
 
             console.log("error acces");
             localStorage.removeItem('validateToken');
-            navigate('/login');
+           //navigate('/login');
         }
 
     }, [requestToken]);
