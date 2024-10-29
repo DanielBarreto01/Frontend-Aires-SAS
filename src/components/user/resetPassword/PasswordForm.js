@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Form, Button, Spinner } from 'react-bootstrap';
 import './PasswordForm.css'; // Asegúrate de importar el archivo CSS
 import { useLocation, Navigate } from 'react-router-dom';
+import { useNavigate, Outlet } from 'react-router-dom';
 import CustomToast from '../../toastMessage/CustomToast';
 import axios from 'axios';
 import ConfirmationModal from "../../ConfirmationModal/ConfirmationModal";
@@ -20,6 +21,7 @@ const PasswordForm = () => {
     const [disableButton, setDisableButton] = useState(false);
     const [modalType, setModalType] = useState('');
     const [showModal, setShowModal] = useState(false);
+    const navigate = useNavigate();
 
 
     useEffect(() => {
@@ -37,11 +39,11 @@ const PasswordForm = () => {
                     setLoading(false);
                 }).catch((error) => {
                     console.log(error);
-                    window.location.href = '/login';
+                    navigate('/login');
                 });
 
             } else if (new Date((JSON.parse(localStorage.getItem('validateToken'))).date) < Date.now() || requestToken === null) {
-                window.location.href = '/login';
+                navigate('/login');
             } else {
                 setLoading(false);
             }
