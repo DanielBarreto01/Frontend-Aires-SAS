@@ -6,7 +6,7 @@
 }
 
 .button-secudary:hover {
-    background-color: #362020; /* Color al pasar el ratón */
+    background-color: #362020 !important; /* Color al pasar el ratón */
 }
 .custom-button {
     background-color: #7B7B7B;
@@ -14,5 +14,5 @@
     width: 10%;
 }
 .custom-button:hover{
-    background-color: #6b4a4a;
+    background-color: #6b4a4a !important;
 }

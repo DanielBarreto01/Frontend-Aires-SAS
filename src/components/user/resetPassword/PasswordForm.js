@@ -25,31 +25,24 @@ const PasswordForm = () => {
 
 
     useEffect(() => {
-        if (requestToken.trim().length === 0) {
-            navigate('/login');
-        }
         try {
+            if (requestToken.trim().length === 0) {
+                navigate('/login');
+            }
             if (!localStorage.getItem('validateToken') || JSON.parse(localStorage.getItem('validateToken')).token !== requestToken) {
-                console.log("entra al if token");
-                const config = {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': '*/*',
-                        'Authorization': ''
-                    }
-                };
+                //console.log("entra al if token");
                 axios.get(`/reset-password/validateStatusToken/${requestToken}`).then((response) => {
                     localStorage.setItem('validateToken', JSON.stringify(response.data));
                     setLoading(false);
                 }).catch((error) => {
                     console.log(error);
-                    console.log("incorrecta");
+                    //console.log("incorrecta");
                     navigate('/login');
                 });
 
             } else if (new Date((JSON.parse(localStorage.getItem('validateToken'))).date) < Date.now() || requestToken === null || requestToken.trim().length === 0) {
-                console.log("incorrecta sale fecha");
-                console.log(requestToken);
+                // console.log("incorrecta sale fecha");
+                // console.log(requestToken);
                 navigate('/login');
             } else {
                 console.log("correcta salse else");
