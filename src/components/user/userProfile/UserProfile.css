@@ -1,11 +1,8 @@
-/* Aplica margen inferior a cada campo */
 .principal {
   width: 100% !important;
   height: 100% !important;
   padding: 0px;
   overflow: hidden;
- 
- 
 }
 
 .userProfileCon{
@@ -20,18 +17,8 @@ flex-direction: column; */
   width: 100% !important;
   height: 100vh !important;
   display: grid;
-
-  /* justify-content: center; */
   padding: 8px;
-
-
 }
-  
-  /* Centra tanto vertical como horizontalmente */
-  /* height: 100%; 
-  width: 100% !important; */
-
-
 
 .title-component {
   display: flex;
@@ -51,7 +38,6 @@ flex-direction: column; */
   background-color: #ffffff;
   height: auto !important;
 }
-
 
 .nameUserPro,
 .lastNameUserPro,
@@ -114,13 +100,9 @@ textarea:focus {
 
 .icon-containerPro {
   display: flex;
-  /* Cambia a flexbox */
   align-items: center;
   position: relative !important;
-  /* Posiciona los elementos relativos entre sí */
   width: 100%;
-  /* Asegura que el contenedor ocupe todo el ancho disponible */
-
   border-radius: 9px;
   margin-right: 9px;
 }
@@ -129,8 +111,6 @@ textarea:focus {
   margin-right: 15px;
 }
 
-
-/* Asegura que los campos "Nombre" y "Apellido" estén alineados y tengan espacio entre sí */
 .form-row {
   display: flex;
   flex-wrap: nowrap;
@@ -148,10 +128,6 @@ textarea:focus {
   /* Espacio por encima de los botones */
 
 }
-
-
-/* Añadir padding general para evitar que los campos se vean pegados a los bordes */
-
 
 h2 {
 
@@ -182,14 +158,6 @@ h2 {
   background-color: #353333;
 }
 
-
-
-/* Estilos para el contenedor */
-
-
-/* Estilos para la imagen */
-
-/* quita los botones de aumentar y dismuir en los campos numericos*/
 .phoneNumberPro input[type="text"],
 .numberIdentificationPro input[type="text"] {
   -webkit-appearance: none;
@@ -222,19 +190,13 @@ h2 {
   /* Cambia el cursor para indicar que no se puede interactuar */
 }
 
-
-
-
-
-
 @media only screen and (max-width: 574px) {
   .form-containerPro {
-   
     width: 97% !important;
     height: 100% !important;
     padding: 15px;
-
   }
+
   .nameUserPro,
   .lastNameUserPro,
   .typeIdentificationPro,
@@ -251,6 +213,7 @@ h2 {
     height: 35px;
     background-color: rgb(255, 255, 255);
   }
+
   .rolesPro{
     margin-bottom: 70px;
   }
@@ -260,11 +223,8 @@ h2 {
     display: flex;
     justify-content: center !important;
     gap: 40px;
-   
-    /* Espacio por encima de los botones */
-  
   }
-  /* aca */
+
   .principal {
     height: 100% !important;
     width: 100% !important;

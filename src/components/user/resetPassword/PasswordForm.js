@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Button, Spinner } from 'react-bootstrap';
 import './PasswordForm.css'; // Asegúrate de importar el archivo CSS
-import { useLocation} from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import CustomToast from '../../toastMessage/CustomToast';
 import axios from 'axios';
 import ConfirmationModal from "../../ConfirmationModal/ConfirmationModal";
@@ -22,13 +22,11 @@ const PasswordForm = () => {
     const [modalType, setModalType] = useState('');
     const [showModal, setShowModal] = useState(false);
     const navigate = useNavigate();
+    const [isEditing, setIsEditing] = useState(true);
 
 
     useEffect(() => {
         try {
-            if (requestToken.trim().length === 0) {
-                navigate('/login');
-            }
             if (!localStorage.getItem('validateToken') || JSON.parse(localStorage.getItem('validateToken')).token !== requestToken) {
                 //console.log("entra al if token");
                 axios.get(`/reset-password/validateStatusToken/${requestToken}`).then((response) => {
@@ -39,10 +37,10 @@ const PasswordForm = () => {
                     //console.log("incorrecta");
                     navigate('/login');
                 });
-
-            } else if (new Date((JSON.parse(localStorage.getItem('validateToken'))).date) < Date.now() || requestToken === null || requestToken.trim().length === 0) {
-                // console.log("incorrecta sale fecha");
-                // console.log(requestToken);
+                if (requestToken.trim().length === 0) {
+                   navigate('/login');
+                }
+            } else if (new Date((JSON.parse(localStorage.getItem('validateToken'))).date) < Date.now() || requestToken === null) {
                 navigate('/login');
             } else {
                 console.log("correcta salse else");
@@ -56,7 +54,36 @@ const PasswordForm = () => {
         }
 
     }, [requestToken]);
-    
+
+    const validatePassword = (e) => {
+        e.preventDefault();
+        const params = {
+            params: {
+                'verificationCode': verificationCode
+            }
+        };
+        setLoading(true);
+        axios.get(`/reset-password/validateCode/${requestToken}`, params)
+                .then((response) => {
+                    setLoading(false);
+                    setShowToast(true);
+                    setToastMessage(response.data);
+                    setToastType('success');
+                    setDisableButton(true);
+                    setTimeout(() => {
+                        setDisableButton(false);
+                        setIsEditing(false);
+                    }, 3000);
+                   
+                }).catch((error) => {
+                    console.log("Error al validar el código:", error.response ? error.response.data : error); // Log del error
+                    setLoading(false);
+                    setShowToast(true);
+                    setToastMessage(error.response ? error.response.data : 'Ocurrió un error. Por favor, inténtalo nuevamente más tarde.');
+                    setToastType('danger');
+                });
+    };
+
 
     const handleCancel = () => {
         setModalType('cancel');  // Definimos el tipo de acción como cancelar
@@ -83,32 +110,20 @@ const PasswordForm = () => {
     };
 
     const handleConfirmAction = (e) => {
-        console.log("Ejecutando handleConfirmAction con modalType:", modalType); // Log del tipo de acción
         setShowModal(false);
         setLoading(true);
-    
+
         if (modalType === 'cancel') {
-            console.log("Acción de cancelación seleccionada.");
             navigate('/login');
             setLoading(false);
             navigate('/login');
         } else if (modalType === 'register') {
-            console.log("Iniciando proceso de registro de contraseña."); // Log inicial de cambio de contraseña
             setLoading(true);
-    
             const body = {
                 'password': password,
                 'verificationCode': verificationCode
             };
-
-            const config = {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': '*/*'
-                }
-            };
-    
-            axios.post(`/reset-password/changePassword/${requestToken}`, body, config)
+            axios.post(`/reset-password/changePassword/${requestToken}`, body)
                 .then((response) => {
                     console.log("Contraseña cambiada exitosamente:", response.data); // Log de éxito
                     setError('');
@@ -120,10 +135,9 @@ const PasswordForm = () => {
                     localStorage.removeItem('validateToken');
                     setTimeout(() => {
                         navigate('/login');
-                    }, 2000);
+                    }, 3000);
                 })
                 .catch((error) => {
-                    
                     console.error("Error al cambiar la contraseña:", error.response ? error.response.data : error); // Log del error
                     setLoading(false);
                     setShowToast(true);
@@ -134,7 +148,6 @@ const PasswordForm = () => {
                 });
         }
     };
-    
 
     //probar este if
     if (loading) {
@@ -151,7 +164,7 @@ const PasswordForm = () => {
         <div className="container-reset-password">
             <div className="container-formulary">
                 <h3>Restablecimiento de Contraseña</h3>
-                <Form onSubmit={handleSubmit}>
+                {isEditing ? <Form onSubmit={validatePassword}>
                     <Form.Label>Código de verificación</Form.Label>
                     <Form.Group controlId="code" className="code">
                         <Form.Control
@@ -171,7 +184,17 @@ const PasswordForm = () => {
                                 }
                             }}
                         />
+                        <div className='button-group'>
+                            <Button variant="primary" type="submit" className='button-acept' disabled={disableButton}>
+                                Verificar
+                            </Button>
+                            <Button variant="secondary" type="button" className='button-cancel' disabled={disableButton} onClick={handleCancel} >
+                                Salir
+                            </Button>
+                        </div>
                     </Form.Group>
+                </Form> : <Form onSubmit={handleSubmit}>
+
                     <Form.Group controlId="formPassword">
                         <Form.Label>Nueva Contraseña</Form.Label>
                         <Form.Control
@@ -204,7 +227,8 @@ const PasswordForm = () => {
                         </Button>
                     </div>
 
-                </Form>
+                </Form>}
+
                 <ConfirmationModal
                     show={showModal}
                     onHide={handleCloseModal}
