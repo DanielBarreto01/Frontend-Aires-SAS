@@ -30,6 +30,10 @@
   margin: 0px;
 }
 
+.roles{
+  margin-top: 17px;
+}
+
 .nameUser,
 .lastNameUser,
 .typeIdentification,
@@ -72,7 +76,7 @@ textarea:focus {
   /* Puedes personalizar el borde si lo deseas */
 }
 .image-coponent{
-  height: 84%;
+  height: 78%;
 }
 
 .icon-container {
@@ -181,18 +185,6 @@ h2 {
     max-width: 100%;
     overflow: hidden;
 
-  }
-
-  .nameUser .form-control,
-  .lastNameUser .form-control,
-  .numberIdentification .form-control,
-  .email .form-control,
-  .phoneNumber .form-control,
-  .address .form-control,
-  .typeIdentification .form-control,
-  .roles .form-control {
-    border: 0px !important;
-    height: 17px !important;
   }
 
   .typeIdentification .form-control,
