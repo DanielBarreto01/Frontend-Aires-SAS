@@ -83,7 +83,7 @@ function PasswordChange() {
                     <h2>Validación de Correo</h2>
                 </div>
                 <Form onSubmit={onSubmit}>
-                    <Form.Group controlId="email" className="floating-label">
+                    <Form.Group controlId="email" className="floating-label-Password">
                         <Form.Control
                             type="email"
                             name="email"
