@@ -4,7 +4,7 @@ import ReCAPTCHA from 'react-google-recaptcha';
 import axios from 'axios';
 import CustomToast from '../../toastMessage/CustomToast'; // Importa CustomToast
 import './passwordChange.css';
-import { useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function PasswordChange() {
     const [email, setEmail] = useState('');
@@ -40,7 +40,7 @@ function PasswordChange() {
             await axios.post('/reset-password/create', {
                 email: email,
             });
-            
+
             setToastMessage('Para continuar con el proceso de restablecimiento de contraseña, revisa tu correo electrónico.');
             setToastType('success');
             setShowToast(true);
@@ -53,10 +53,10 @@ function PasswordChange() {
         } catch (error) {
             if (error.response && error.response.status === 400) {
                 setToastMessage('No encontramos una cuenta con ese correo electrónico. Verifica la dirección ingresada.');
-            }else{
+            } else {
                 setToastMessage('Ocurrió un error. Por favor, inténtalo nuevamente más tarde.');
             }
-          
+
             setToastType('error');
             setShowToast(true);
         } finally {
@@ -77,36 +77,37 @@ function PasswordChange() {
     };
 
     return (
-        <div className="email-captcha-form">
-            <div className="title-container">
-                <h2>Validación de Correo</h2>
-            </div>
-            <Form onSubmit={onSubmit}>
-                <Form.Group controlId="email" className="floating-label">
-                    <Form.Control
-                        type="email"
-                        name="email"
-                        value={email}
-                        onChange={handleEmailChange}
-                        placeholder=" "
-                        required
-                        maxLength={70}
-                    />
-                    <Form.Label>Correo electrónico</Form.Label>
-                </Form.Group>
-                <div className="captcha-container">
-                    <ReCAPTCHA
-                        sitekey="6LeZvm8qAAAAAOsSAyEy6RL-5mUZ36eN_3CFGWol"
-                        onChange={handleCaptchaChange}
-                        theme="light"
-                        size="normal"
-                    />
+        <div className='container-validate-email'>
+            <div className="email-captcha-form">
+                <div className="title-container">
+                    <h2>Validación de Correo</h2>
                 </div>
-                <Button variant="primary" type="submit" disabled={loading}>
-                    {loading ? <Spinner animation="border" size="sm" /> : 'Validar'}
-                </Button>
-            </Form>
-
+                <Form onSubmit={onSubmit}>
+                    <Form.Group controlId="email" className="floating-label">
+                        <Form.Control
+                            type="email"
+                            name="email"
+                            value={email}
+                            onChange={handleEmailChange}
+                            placeholder=" "
+                            required
+                            maxLength={70}
+                        />
+                        <Form.Label>Correo electrónico</Form.Label>
+                    </Form.Group>
+                    <div className="captcha-container">
+                        <ReCAPTCHA
+                            sitekey="6LeZvm8qAAAAAOsSAyEy6RL-5mUZ36eN_3CFGWol"
+                            onChange={handleCaptchaChange}
+                            theme="light"
+                            size="normal"
+                        />
+                    </div>
+                    <Button variant="primary" type="submit" disabled={loading}>
+                        {loading ? <Spinner animation="border" size="sm" /> : 'Validar'}
+                    </Button>
+                </Form>
+            </div>
             {/* Muestra el CustomToast */}
             <CustomToast
                 showToast={showToast}
