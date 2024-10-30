@@ -25,10 +25,10 @@ const PasswordForm = () => {
 
 
     useEffect(() => {
-        if (requestToken.trim().length === 0) {
-            navigate('/login');
-        }
         try {
+            if (requestToken.trim().length === 0) {
+                navigate('/login');
+            }
             if (!localStorage.getItem('validateToken') || JSON.parse(localStorage.getItem('validateToken')).token !== requestToken) {
                 //console.log("entra al if token");
                 axios.get(`/reset-password/validateStatusToken/${requestToken}`).then((response) => {
