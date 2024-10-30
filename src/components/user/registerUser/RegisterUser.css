@@ -42,6 +42,7 @@
   border: 1px solid #a39f9f !important;
   border-radius: 9px;
   height: 35px !important;
+ 
 }
 
 .nameUser .form-control,
@@ -56,6 +57,8 @@
   height: 100%;
   color: #7B7B7B !important;
   margin-left: 2px;
+  border: 0px !important;
+  font-weight: 700 !important;
 }
 
 input:focus,
@@ -225,41 +228,43 @@ h2 {
 }
 
 .floating-label input {
-  width: 99%;
-  padding: 2px 10px 0px 10px;
+  width: 99% !important;
+  padding: 2px 10px 0px 10px ;
   /* Padding superior para hacer espacio a la etiqueta */
   font-size: 13px;
-  border: 0px solid transparent;
-  border-radius: 10px;
-  outline: none;
+  border: 0px solid transparent !important;
+  border-radius: 10px !important;
+  outline: none !important;
   transition: border-color 0.3s ease;
+  
   background-color: transparent;
   /* Fondo transparente para evitar solapamiento */
 }
 
 .floating-label label {
-  position: absolute;
-  top: 7px;
+  position: absolute ;
+  top: 7px!important;
   /* La posición inicial de la etiqueta */
-  left: 10px;
-  font-size: 13px;
-  margin-right: 20px;
-  color: #7B7B7B;
-  pointer-events: none;
+  left: 10px !important;
+  font-size: 13px !important;
+  margin-right: 20px ;
+  color: #7B7B7B !important;
+  pointer-events: none ;
   /* Desactiva la interacción con el label */
-  transition: 0.2s ease all;
-  background-color: white;
+  transition: 0.2s ease all !important;
+  background-color: white !important;
   /* Fondo blanco para evitar solapamientos visuales */
-  padding: 0 5px;
+  padding: 0 5px !important;
 }
 
 .floating-label input:focus+label,
 .floating-label input:not(:placeholder-shown)+label {
-  top: -8px;
+  top: -8px  !important;
   /* Mueve la etiqueta hacia arriba cuando se escribe o está enfocado */
-  left: 5px;
-  font-size: 12px;
-  color: #383535;
+  left: 5px !important;
+  font-size: 12px !important;
+  color: #383535 !important;
+  
 }
 
 
