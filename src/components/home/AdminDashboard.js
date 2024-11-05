@@ -31,6 +31,7 @@ function AdminDashboard() {
       const token = localStorage.getItem('authToken');
       if (token !== null && jwtDecode(token).exp * 1000 > Date.now()) { //&& jwtDecode(token).exp*1000 >  Date.now()
         const decodedToken = jwtDecode(token);
+        console.log(token);
         setUserData({
           name: decodedToken.name,
           lastName: decodedToken.lastName,
@@ -198,11 +199,11 @@ function AdminDashboard() {
                 Usuarios
               </Nav.Link>
 
-              <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/equipos')}>
+              <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/equipments')}>
                 <FontAwesomeIcon className="icon-margin" icon={faHardDrive} />
                 Equipos
               </Nav.Link>
-              <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/clientes')}>
+              <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/clients')}>
                 <FontAwesomeIcon className="icon-margin" icon={faBuildingUser} />
                 Clientes
               </Nav.Link>
