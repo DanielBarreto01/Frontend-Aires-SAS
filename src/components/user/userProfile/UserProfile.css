@@ -155,7 +155,7 @@ h2 {
 }
 
 .button-confirmation:hover {
-  background-color: #353333;
+  background-color: #353333 !important;
 }
 
 .phoneNumberPro input[type="text"],
