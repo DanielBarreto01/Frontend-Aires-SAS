@@ -1,0 +1,220 @@
+.pricipal-update-conatiner {
+    height: 100vh;
+    width: 100%;
+}
+
+.client-update-conatiner {
+    overflow-y: auto !important;
+    overflow-x: hidden;
+    align-items: center !important;
+    height: 98vh;
+    display: grid;
+    align-items: center;
+    width: 100% !important;
+}
+
+.title-component {
+    margin-top: 10px;
+}
+
+.floating-label-client> :nth-child(1) {
+    margin-bottom: 20px;
+    height: 35px !important;
+    border: 1px solid #a39f9f !important;
+    border-radius: 9px;
+}
+
+.floating-label-client> :nth-child(1)> :nth-child(1) {
+    height: 100% !important;
+    padding: 3px 0px 0px 14px !important;
+    font-weight: 100 !important;
+}
+
+.clientState {
+    margin-top: 19px;
+    margin-bottom: 0px !important;
+}
+
+.image-client {
+    height: 78%;
+}
+
+.typeIdentification .form-control,
+.clientState .form-control {
+    height: 100% !important;
+    padding: 0px 11px !important;
+    width: 100% !important;
+    font-size: 0.8em;
+    font-weight: 100 !important;
+    color: #7B7B7B !important;
+
+}
+
+.icon-dropdown-client {
+    position: absolute;
+    right: 0px;
+    top: -2px;
+    left: -12px;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+/*    css para el dezplazamiento de los labels en los campos en qe sescribe*/
+.floating-label-client {
+    position: relative;
+
+}
+
+.floating-label-client input {
+    width: 99%;
+    padding: 2px 10px 0px 10px !important;
+    /* Padding superior para hacer espacio a la etiqueta */
+    font-size: 13px !important;
+    border: 0px solid transparent !important;
+    border-radius: 10px;
+    outline: none;
+    transition: border-color 0.3s ease;
+    background-color: transparent;
+    /* Fondo transparente para evitar solapamiento */
+}
+
+.button-group {
+    margin-bottom: 9px !important;
+}
+
+.floating-label-client label {
+    position: absolute;
+    top: 7px;
+    left: 10px !important;
+    font-size: 13px;
+    margin-right: 20px;
+    color: #7B7B7B !important;
+    pointer-events: none;
+    transition: 0.2s ease all !;
+    background-color: white;
+    padding: 0 5px !important;
+}
+
+.floating-label-client input:focus+label,
+.floating-label-client input:not(:placeholder-shown)+label {
+    top: -8px;
+    left: 5px;
+    font-size: 12px;
+    color: #383535;
+    border-radius: 50px;
+}
+
+@media only screen and (max-width: 704px) {
+    .client-update-conatiner {
+        width: 100% !important;
+        gap: 20px;
+        padding: 10px;
+        display: flex !important;
+        flex-direction: column;
+        padding: 11px;
+
+    }
+
+    .form-container-update-client {
+        display: flex !important;
+        flex-direction: column;
+        width: 100%;
+    }
+    .title-equip{
+       justify-content: center !important;
+    }
+
+    .title-component {
+        height: auto !important;
+    }
+
+    .client-update-conatiner {
+        height: 90vh;
+
+    }
+
+    .table-container-update-client {
+        margin-top: 50px;
+    }
+
+    .button-confirmation,
+    .button-cancel {
+        font-size: 14px !important;
+
+    }
+
+    .button-group-list-equip {
+        display: flex;
+        align-self: start;
+    }
+
+    .button-group-list-equip {
+        justify-content: center !important;
+        margin: 0px 0px 10px 0px;
+    }
+    .group-buttons-client button {
+        width: 40% !important;
+    }
+}
+
+.table-container-update-client {
+    width: 100% !important;
+    padding: 10px;
+    margin-left: 0px;
+    background-color: #F5F5F7;
+    border-radius: 18px;
+    margin-bottom: 10px;
+}
+.table-container-client-list-quip{
+    border-radius: 18px !important;
+    border: 1px solid #dbd9d9;
+    padding: 0px;
+}
+
+.button-group-list-equip {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    gap: 20px !important;
+}
+
+.title-equip {
+    display: flex;
+    justify-content: left;
+
+}
+
+.button-group-list-equip button {
+    width: 30% !important;
+    border-radius: 11px;
+    border: none;
+    font-size: 14px !important;
+    height: 80%;
+}
+
+.button-select {
+    background-color: #000000;
+}
+
+.button-select:hover {
+    background-color: #272525 !important;
+}
+
+.button-clean:hover {
+    background-color: #665f5f !important;
+}
+
+.group-buttons-client button {
+    width: 35%;
+}
+
+.group-buttons-client {
+    display: flex;
+    justify-content: right !important;
+    gap: 15px !important;
+   padding: 0px 30px 0px 0px;
+}
