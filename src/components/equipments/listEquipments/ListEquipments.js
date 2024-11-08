@@ -80,13 +80,13 @@ const ListEquipments = () => {
     };
 
     const columns = [
-        {
-            name: 'Id',
-            selector: row => row.id,
-            sortable: true,
-            center: true.toString()
+        // {
+        //     name: 'Id',
+        //     selector: row => row.id,
+        //     sortable: true,
+        //     center: true.toString()
            
-        },
+        // },
         {
             name: 'Equipo',
             selector: row => row.pathImage, // Suponiendo que 'image' es el campo que contiene la URL de la imagen
@@ -97,38 +97,40 @@ const ListEquipments = () => {
                     style={{ width: '45px', height: '45px', objectFit: 'cover', borderRadius: '80px' }} // Ajusta el tamaño según sea necesario
                 />
             ),
-            center: true.toString()
+           
+        },
+        {
+            name: 'Nombre',
+            selector: row => row.name,
+            sortable: true,
+         
+           
         },
         {
             name: "Marca",
             selector: row => row.brand,
             sortable: true,
-            center: true.toString()
         },
 
         {
             name: "Modelo",
             selector: row => row.modelNumber,
             sortable: true,
-            center: true.toString()
         },
         {
             name: "Tipo de equipo",
             selector: row => row.equipmentType,
             sortable: true,
-            center: true.toString()
         },
         {
             name: "No. de serie",
             selector: row => row.serialNumber,
             sortable: true,
-            center: true.toString()
         },
         {
             name: "No. en iventario",
             selector: row => row.iventoryNumber,
             sortable: true,
-            center: true.toString()
         },
     ];
 

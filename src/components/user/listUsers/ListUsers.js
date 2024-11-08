@@ -96,44 +96,39 @@ function ListUsers() {
                     style={{ width: '45px', height: '45px', objectFit: 'cover', borderRadius: '80px' }} // Ajusta el tamaño según sea necesario
                 />
             ),
-            center: true.toString()
+           
         },
         {
             name: "Nombre",
             selector: row => `${row.name} ${row.lastName}`,
             sortable: true,
-            center: true.toString()
+           
         },
 
         {
             name: "Documento",
             selector: row => row.numberIdentification,
             sortable: true,
-            center: true.toString()
         },
         {
             name: "Teléfono",
             selector: row => row.phoneNumber,
             sortable: true,
-            center: true.toString()
         },
         {
             name: "Correo",
             selector: row => row.email,
             sortable: true,
-            center: true.toString()
         },
         {
             name: "Estado",
             selector: row => row.userStatus === true ? "Activo" : "Inactivo",
             sortable: true,
-            center: true.toString()
         },
         {
             name: "Tipo de usuario",
             selector: row => row.roles.map(role => role.name).map(role => roleMap[role] || role),
             sortable: true,
-            center: true.toString()
         }
     ]
 
