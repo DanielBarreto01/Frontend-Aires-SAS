@@ -7,11 +7,9 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
-import RegisterEquipment from "../../equipments/registerEquipments/RegisterEquipment";
-import RegisterClient from "../registerClient/RegisterClient";
 import UpdateClient from "../updateClient/UpdateClient";
+import RegisterClient from "../registerClient/registerClient";
 import { getClients } from "../../../api/ClientService";
-import { useNavigate} from 'react-router-dom';
 import { useNavigate, Outlet,useLocation  } from 'react-router-dom';
 
 
@@ -230,7 +228,7 @@ const ListClients = () => {
                 </div>
 
                 <div className='col-12 col-sm-3 col-md-2' >
-                    <Button className="button-Create" onClick={handleNavigateToCustomerSelection}>Agregar Cliente</Button>
+                <Button className="button-Create" onClick={handleNavigateToCustomerSelection}>Agregar Cliente</Button>
 
                 </div>
                 <div className='col-12 gallery-scroll-container'>
