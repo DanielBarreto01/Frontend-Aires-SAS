@@ -274,7 +274,7 @@ function UserProfile({ user }) {
     return (
         isNewComponentVisible ? (
             <ListUsers />) : (
-            <div className="principal">
+            <>
                 <div className="userProfileCon">
                     <UserProfileForm
                         formData={formData}
@@ -304,7 +304,7 @@ function UserProfile({ user }) {
                     toastMessage={toastMessage}
                     toastType={toastType}
                 />
-            </div>
+            </>
         )
 
     );

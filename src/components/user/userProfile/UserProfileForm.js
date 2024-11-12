@@ -283,7 +283,7 @@ function UserProfileForm({ formData,
                 <Row>
                     <Col xs={12} sm={6}> </Col>
 
-                    <Col xs={12} sm={6} className="d-flex justify-content-center">
+                    <Col xs={12} sm={6}>
 
                         {isEditing ? (
                             <>

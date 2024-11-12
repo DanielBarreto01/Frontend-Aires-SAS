@@ -132,7 +132,7 @@ function UpdateEquipment({ equipment }) {
                     brand: formData.brand,
                     modelNumber: formData.modelNumber,
                     iventoryNumber: formData.iventoryNumber,
-                    pathImage: url                 
+                    pathImage: url
                 };
                 console.log('Image URL subida:', await getDownloadURL(storageRef));
             } else {
@@ -183,7 +183,7 @@ function UpdateEquipment({ equipment }) {
                     setToastType('danger');
                 } else {
                     const errorMessage =
-                    error.response.data && error.response.data
+                        error.response.data && error.response.data
                             ? error.response.data
                             : 'Error al actualizar el equipo. Inténtalo de nuevo.';
                     setToastMessage(errorMessage);  // Mostrar el mensaje de error del backend
@@ -192,8 +192,8 @@ function UpdateEquipment({ equipment }) {
                 setShowToast(true);
                 setLoading(false); // Detenemos el spinner si hay un error
             }
-            
-            
+
+
         }
         // Retardo de 500 ms para mostrar el spinner después de cerrar el modal
     };
@@ -210,8 +210,8 @@ function UpdateEquipment({ equipment }) {
     return (
         isNewComponentVisible ? (
             <ListEquipments />) : (
-            <div className="principal">
-                <div className="userProfileCon">
+            <>
+                <div className='container-equipment-update'>
                     <UpdateEquipmentForm
                         formData={formData}
                         setFormData={setFormData}
@@ -223,7 +223,7 @@ function UpdateEquipment({ equipment }) {
                         showModal={showModal}
                         handleCloseModal={handleCloseModal}
                         handleConfirmAction={handleConfirmAction}
-                        isEditingButtons = {isEditingButtons}
+                        isEditingButtons={isEditingButtons}
                         modalType={modalType}
                         getRootProps={getRootProps}
                         getInputProps={getInputProps}
@@ -233,14 +233,15 @@ function UpdateEquipment({ equipment }) {
                         isEditing={isEditingFormulary}
                         handleEditClick={handleEditClick}
                     />
+                    <CustomToast
+                        showToast={showToast}
+                        setShowToast={setShowToast}
+                        toastMessage={toastMessage}
+                        toastType={toastType}
+                    />
                 </div>
-                <CustomToast
-                    showToast={showToast}
-                    setShowToast={setShowToast}
-                    toastMessage={toastMessage}
-                    toastType={toastType}
-                />
-            </div>
+
+            </>
         )
 
     );

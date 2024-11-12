@@ -1,33 +1,27 @@
-/* Aplica margen inferior a cada campo */
-
-.principal {
-  width: 100% !important;
-  height: 100% !important;
-  padding: 0px;
-  overflow: hidden;
-
-}
 .container{
   width: 100% !important;
+  height: 100vh !important;
+  display: grid;
   padding: 0px;
-
+  overflow-y: auto !important;
 }
 
 .formu{
-  width: 95% !important;
-  height: 100vh !important;
-  padding: 8px;
+  width: auto !important;
+  height: 96% !important;
   display: grid;
+  justify-content: center;
+  align-content: center;
+  padding: 8px;
 }
 .title-register {
+  margin-bottom: 40px !important;
   display: flex;
   justify-content: center;
-  align-items: flex-end;
   width: 100% !important;
   height: 100% !important;
-  background-color: #ffffff;
   padding: 0px;
-  margin: 0px;
+  white-space: nowrap !important;
 }
 
 .roles{
@@ -36,7 +30,7 @@
 
 .nameUser,
 .lastNameUser,
-.typeIdentification,
+.typeIdentificationUser,
 .numberIdentification,
 .email,
 .phoneNumber,
@@ -55,7 +49,7 @@
 .email .form-control,
 .phoneNumber .form-control,
 .address .form-control,
-.typeIdentification .form-control,
+.typeIdentificationUser .form-control,
 .roles .form-control {
   font-size: 13px !important;
   height: 100%;
@@ -129,11 +123,11 @@ textarea:focus {
 
 
 h2 {
-
+  margin: 0px !important;
+  padding: 0px !important;
   font-weight: 790;
   /* Hace que el texto sea muy grueso */
   text-align: center !important;
-  margin-bottom: 30px;
 }
 
 .button-register {
@@ -170,20 +164,17 @@ h2 {
 @media only screen and (max-width: 767px) {
 
   .formu{
-    width: 90% !important;
-    height: 100% !important;
     padding: 8px;
-    display: grid;
+    
+    overflow-x: visible !important;
   }
 
   .register-container {
-
-
     background-color: #fff;
     width: 92%;
     margin-top: 6vh;
     max-width: 100%;
-    overflow: hidden;
+
 
   }
 
@@ -249,6 +240,7 @@ h2 {
   background-color: white !important;
   /* Fondo blanco para evitar solapamientos visuales */
   padding: 0 5px !important;
+  white-space: nowrap !important;
 }
 
 .floating-label input:focus+label,
