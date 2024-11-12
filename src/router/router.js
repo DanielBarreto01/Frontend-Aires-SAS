@@ -11,7 +11,7 @@ import ListEquipments from '../components/equipments/listEquipments/ListEquipmen
 import RegisterEquipment from '../components/equipments/registerEquipments/RegisterEquipment';
 import UpdateEquipment from '../components/equipments/updateEquipments/UpdateEquipment';
 import ListClients from '../components/clients/listClients/ListClients';
-import RegisterClient from '../components/clients/registerClient/RegisterClient';
+import RegisterClient from '../components/clients/registerClient/RegisterClient'; 
 
 function AppRouter() {
     return (

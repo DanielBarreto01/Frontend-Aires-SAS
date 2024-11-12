@@ -1,15 +1,15 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
-import CustomToast from '../../toastMessage/CustomToast';
+import CustomToast from '../../toastMessage/CustomToast.js';
 import RegisterClientForm from './RegisterClientForm.js';
 import { jwtDecode } from 'jwt-decode';
 import { useDropzone } from 'react-dropzone';
 import appFirebase from '../../FirebaseConfig.js';
 import ListClients from '../listClients/ListClients.js';
-import { createEquipments } from "../../../api/EquipmentService"
+import { createEquipments } from "../../../api/EquipmentService.js"
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
-function RegisterClient(){
+function RegisterClient({clientType}){
 
     const [isNewComponentVisible, setIsNewComponentVisible] = useState(false);
     const [showModal, setShowModal] = useState(false);  // Estado para mostrar el modal
@@ -23,15 +23,24 @@ function RegisterClient(){
     const [isTokenChecked, setIsTokenChecked] = useState(true);
     const [isEditingButtons, setIsEditingButtons] = useState(false);
     const storageApp = getStorage(appFirebase);
-    const [formData, setFormData] = useState({
+    const [personaType, setPersonaType] = useState('');
+    const initialFormData = {
+        phoneNumber: '',
+        address: '',
+        pathImage: '',
+        clientState: '',
         name: '',
-        equipmentType: '',
-        serialNumber: '',
-        brand: '',
-        modelNumber: '',
-        iventoryNumber: '',
-        pathImage: ''
-    });
+        lastName: '',
+        typeIdentification: '',
+        numberIdentification: '',
+        nameCompany: '',
+        numberIdentificationCompany: '',
+        socialReason: '',
+        nameLegalRepresentative: '',
+        phoneNumberLegalRepresentative: '',
+        emailLegalRepresentative: ''
+    };
+    const [formData, setFormData] = useState(initialFormData);
 
     useEffect(() => {
         console.log('entra al useeffect');
@@ -61,9 +70,11 @@ function RegisterClient(){
         });
     };
 
-    // const handleButtonClick = () => {
-    //     setIsNewComponentVisible(prevState => !prevState);
-    // };
+    const handlePersonaTypeChange = (e) => {
+        const type = e.target.value;
+        setPersonaType(type);
+        setFormData(initialFormData); // Restablece los datos del formulario
+    };
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         accept: 'image/*',
@@ -78,15 +89,14 @@ function RegisterClient(){
 
 
     const handleCancel = () => {
-        setModalType('cancel');  // Definimos el tipo de acción como cancelar
-        setShowModal(true);      // Mostramos el modal
+        setModalType('cancel');
+        setShowModal(true);
     };
     const handleRegister = () => {
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('Form Data:', formData);
         setModalType('register');
         setShowModal(true);
     };
@@ -189,7 +199,7 @@ function RegisterClient(){
     if (!isTokenChecked) {
         return null;
     }
-
+    
     return (
         isNewComponentVisible ? (
             <ListClients />) : (
@@ -202,16 +212,14 @@ function RegisterClient(){
                         handleSubmit={handleSubmit}
                         loading={loading}
                         handleCancel={handleCancel}
-                        handleRegister={handleRegister}
-                        showModal={showModal}
-                        handleCloseModal={handleCloseModal}
-                        isEditingButtons = {isEditingButtons}
-                        handleConfirmAction={handleConfirmAction}
-                        modalType={modalType}
+                        personaType={personaType}
+                        handlePersonaTypeChange={handlePersonaTypeChange}
+                        isEditingButtons={isEditingButtons}
                         getRootProps={getRootProps}
                         getInputProps={getInputProps}
                         isDragActive={isDragActive}
                         image={image}
+                        clientType={clientType}
                     />
                 </div>
                 <CustomToast
