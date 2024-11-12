@@ -1,7 +1,9 @@
 import React from 'react';
 import './CustomerSelection.css';
-import { Row, Col } from "react-bootstrap";
 import "../../general.css";
+import personNatu from "../../../assets/natu.png";
+import personj from "../../../assets/juri.png";
+
 
 const CustomerSelection = () => {
     return (
@@ -16,8 +18,9 @@ const CustomerSelection = () => {
                 <div className="row justify-content-around mt-4">
 
                     <div className="col-md-5 customer-option">
+                    
                         <img
-                            src="ruta-a-la-imagen-persona-natural.jpg"
+                            src={ personNatu }
                             alt="Persona Natural"
                             className="customer-image"
                         />
@@ -26,7 +29,7 @@ const CustomerSelection = () => {
 
                     <div className="col-md-5 customer-option">
                         <img
-                            src="ruta-a-la-imagen-persona-juridica.jpg"
+                            src={personj}
                             alt="Persona Jurídica"
                             className="customer-image"
                         />
