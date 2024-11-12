@@ -28,7 +28,7 @@ function UpdateEquipmentForm({
     modalType,
 }) {
     return (
-        <div className="form-containerPro">
+        <div className='container-form-update-equipment'>
             <div className="title-component">
                 <h2>Información equipo</h2>
             </div>
@@ -180,13 +180,13 @@ function UpdateEquipmentForm({
                     </Col>
                 </Row>
                 <Row>
-                    <Col xs={12} sm={6}> </Col>
+                    <Col xs={12} sm={5}> </Col>
 
-                    <Col xs={12} sm={6} className="d-flex justify-content-center">
+                    <Col xs={12} sm={7} className="d-flex justify-content-center">
 
                         {isEditing ? (
                             <>
-                                <div className="button-group">
+                                <div className="button-group-equipment-update">
                                     <Button variant="primary" type="submit" className='button-confirmation' disabled={isEditingButtons} >
                                         Guardar cambios
                                     </Button>
@@ -198,7 +198,7 @@ function UpdateEquipmentForm({
                             </>
                         ) : (
                             <>
-                                <div className="button-group">
+                                <div className="button-group-equipment-update">
                                     <Button variant="primary" type="button" className='button-confirmation' onClick={handleEditClick}>
                                         Editar
                                     </Button>

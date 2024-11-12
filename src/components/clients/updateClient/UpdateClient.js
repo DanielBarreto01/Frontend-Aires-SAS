@@ -261,7 +261,7 @@ function UpdateClient({ client }) {
                 idClient={client.id}
             />)
             :(
-            <div className="pricipal-update-conatiner">
+            <>
                 <div className="client-update-conatiner">
                     <UpdateClientForm
                         formData={formData}
@@ -294,7 +294,7 @@ function UpdateClient({ client }) {
                     toastMessage={toastMessage}
                     toastType={toastType}
                 />
-            </div>
+            </>
         )
 
     );

@@ -1,16 +1,18 @@
-.pricipal-update-conatiner {
-    height: 100vh;
-    width: 100%;
-}
-
 .client-update-conatiner {
     overflow-y: auto !important;
-    overflow-x: hidden;
     align-items: center !important;
     height: 98vh;
-    display: grid;
-    align-items: center;
+    display: grid !important;
     width: 100% !important;
+    justify-items: center;
+
+}
+
+.form-container-update-client{
+    display: grid;
+    width: 60%!important;
+    align-content: center;
+    padding: 10px;
 }
 
 .title-component {
@@ -66,7 +68,6 @@
 /*    css para el dezplazamiento de los labels en los campos en qe sescribe*/
 .floating-label-client {
     position: relative;
-
 }
 
 .floating-label-client input {
@@ -79,7 +80,7 @@
     outline: none;
     transition: border-color 0.3s ease;
     background-color: transparent;
-    /* Fondo transparente para evitar solapamiento */
+   
 }
 
 .button-group {
@@ -108,21 +109,35 @@
     border-radius: 50px;
 }
 
+@media only screen and (max-width: 970px) {
+    .form-container-update-client{
+        width: 100% !important;
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+@container (max-width< 394px) {
+    .form-container-update-client{
+        grid-template-columns: auto !important;
+        overflow-x: visible !important;
+       
+    }
+}
+/* 
+    .form-container-update-client{
+        grid-template-columns: auto !important;
+        overflow-x: visible !important;
+       
+        
+    } */
+ 
+
+
 @media only screen and (max-width: 704px) {
     .client-update-conatiner {
         width: 100% !important;
-        gap: 20px;
-        padding: 10px;
-        display: flex !important;
-        flex-direction: column;
-        padding: 11px;
 
-    }
-
-    .form-container-update-client {
-        display: flex !important;
-        flex-direction: column;
-        width: 100%;
+        padding: 20px;
+        
     }
     .title-equip{
        justify-content: center !important;
@@ -185,11 +200,12 @@
 .title-equip {
     display: flex;
     justify-content: left;
+    height: 50px;
 
 }
 
 .button-group-list-equip button {
-    width: 30% !important;
+    width: 40% !important;
     border-radius: 11px;
     border: none;
     font-size: 14px !important;

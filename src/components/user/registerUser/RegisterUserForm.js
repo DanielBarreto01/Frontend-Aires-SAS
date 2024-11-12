@@ -72,12 +72,12 @@ function RegisterUserForm({ formData,
                                 </div>
                             </Col>
                         </Row>
-                        <Form.Group controlId="typeIdentification" className="typeIdentification">
+                        <Form.Group controlId="typeIdentificationUser" className="typeIdentificationUser">
                             {/* <Form.Label>Type of Identification</Form.Label> */}
                             <div className="icon-container">
                                 <Form.Control
                                     as="select"
-                                    name="typeIdentification"
+                                    name="typeIdentificationUser"
                                     value={formData.typeIdentification}
                                     onChange={handleInputChange}
                                     required
