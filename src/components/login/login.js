@@ -6,7 +6,8 @@ import './login.css';
 import logo from './fondo_icon.png';
 import { Navigate } from 'react-router-dom';
 import CustomToast from '../toastMessage/CustomToast';
-import {jwtDecode} from 'jwt-decode';
+import { useNavigate } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
 
 const Login = () => {
   const { handleLogin } = useContext(AuthContext);
@@ -15,9 +16,10 @@ const Login = () => {
   const [error, setError] = useState('');
   const [navigation, setNavigation] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [showToast, setShowToast] = useState(false);  
+  const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
   const [toastType, setToastType] = useState('');
+  const navigate = useNavigate();
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -26,10 +28,10 @@ const Login = () => {
       const token = await handleLogin(userName, password);
       localStorage.setItem('authToken', token); // Almacenar el token en localStorage
       setError(''); // Limpiar el error si todo va bien
-      console.log((jwtDecode(localStorage.getItem('authToken')).userStatus) ,  "validacion de usuario")
-      if(jwtDecode(localStorage.getItem('authToken')).userStatus) {
+      console.log((jwtDecode(localStorage.getItem('authToken')).userStatus), "validacion de usuario")
+      if (jwtDecode(localStorage.getItem('authToken')).userStatus) {
         setNavigation(<Navigate to="/admin" />);
-      } 
+      }
       setShowToast(true);
       setToastMessage("Acceso denegado comuniquese con el administrador");
       setToastType('error');
@@ -82,7 +84,10 @@ const Login = () => {
                 {navigation}
               </div>
               <div className="resett-password">
-                <small><a href="/forgot-password" className="forgot-password">¿Olvidaste tu contraseña?</a></small>
+                <small><a href="/forgot-password" className="forgot-password" onClick={(e) => {
+                  e.preventDefault();
+                  navigate('/change-password');
+                }}>¿Olvidaste tu contraseña?</a></small>
               </div>
             </form>
 
@@ -96,11 +101,11 @@ const Login = () => {
         )}
       </div>
       <CustomToast
-                    showToast={showToast}
-                    setShowToast={setShowToast}
-                    toastMessage={toastMessage}
-                    toastType={toastType}
-                />
+        showToast={showToast}
+        setShowToast={setShowToast}
+        toastMessage={toastMessage}
+        toastType={toastType}
+      />
     </div>
   );
 };

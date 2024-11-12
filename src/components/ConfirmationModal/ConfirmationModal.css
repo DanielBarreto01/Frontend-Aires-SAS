@@ -2,17 +2,17 @@
     background-color: #000000; /* Color personalizado */
     color: white; /* Texto blanco */
     border: none; /* Sin bordes */
-    width: 10%;
+    width: 20%;
 }
 
 .button-secudary:hover {
-    background-color: #362020; /* Color al pasar el ratón */
+    background-color: #362020 !important; /* Color al pasar el ratón */
 }
 .custom-button {
     background-color: #7B7B7B;
     border: none;
-    width: 10%;
+    width: 20%;
 }
 .custom-button:hover{
-    background-color: #6b4a4a;
+    background-color: #6b4a4a !important;
 }

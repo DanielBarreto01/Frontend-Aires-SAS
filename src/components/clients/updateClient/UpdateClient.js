@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import './UserProfile.css';
 import CustomToast from '../../toastMessage/CustomToast';
 import { jwtDecode } from 'jwt-decode';
 import { useDropzone } from 'react-dropzone';
 import appFirebase from '../../FirebaseConfig.js';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import UserProfileForm from './UserProfileForm';
-import ListUsers from '../listUsers/ListUsers';
-import axios from 'axios';
+import UpdateClientForm from './UpdateClienForm.js';
+import ListClients from '../listClients/ListClients.js';
+import EquipmentUserList from './equipmentUserList/EquipmentUserList.js';
+import './UpdateClient.css';
 
 
-//import { toast } from 'sonner'
-function UserProfile({ user }) {
+function UpdateClient({ client }) {
     const [isNewComponentVisible, setIsNewComponentVisible] = useState(false);
     const [showModal, setShowModal] = useState(false);  // Estado para mostrar el modal
     const [modalType, setModalType] = useState('');     // Estado para controlar el tipo de acción (cancelar o registrar)
@@ -20,42 +19,37 @@ function UserProfile({ user }) {
     const [toastMessage, setToastMessage] = useState('');  // Estado para el mensaje del Toast
     const [toastType, setToastType] = useState('');
     const [isTokenChecked, setIsTokenChecked] = useState(true);
-    const [selectedImage, setSelectedImage] = useState(null);
+    const [isEditingButtons, setIsEditingButtons] = useState(false);
     const [image, setImage] = useState(null);
     const [fileUser, setFileUser] = useState(null); // Para mostrar el progreso de la carga
     const [isEditingFormulary, setIsEditingFormulary] = useState(false);
     const storageApp = getStorage(appFirebase);
-    let usersData = null;
-
-
+    const [isNewComponentVisibleEquipClient, setIsNewComponentVisibleEquipClient] = useState(false);
+    const [idsEquipments, setIdsEquipments] = useState([]);
+    let equipmentData = null;
 
     const loadformData = () => {
         const dataUser = {
-            name: user.name || '',
-            lastName: user.lastName || '',
-            typeIdentification: user.typeIdentification || '',
-            numberIdentification: user.numberIdentification || '',
-            email: user.email || '',
-            phoneNumber: user.phoneNumber.toString() || '',
-            address: user.address || '',
-            pathImage: user.pathImage || '',
-            userStatus: user.userStatus,
-            roles: user.roles.map(role => role.name) || ['']
+            name: client.name || '',
+            typeIdentification: client.typeIdentification || '',
+            numberIdentification: client.numberIdentification || '',
+            address: client.address || '',
+            phoneNumber: client.phoneNumber.toString() || '',
+            email: client.email || '',
+            clientState: client.clientState,
+            pathImage: client.pathImage || ''
         }
         return dataUser;
     }
 
     const [formData, setFormData] = useState({
         name: '',
-        lastName: '',
-        typeIdentification: '',
-        numberIdentification: '',
-        email: '',
-        phoneNumber: '',
-        address: '',
-        pathImage: '',
-        userStatus: true,
-        roles: ['']
+        equipmentType: '',
+        serialNumber: '',
+        brand: '',
+        modelNumber: '',
+        iventoryNumber: '',
+        pathImage: ''
     });
 
     useEffect(() => {
@@ -97,18 +91,10 @@ function UserProfile({ user }) {
 
     const handleCancel = () => {
         try {
-            //let forUser = formData;
             console.log('image format', image);
             if (JSON.stringify(loadformData()) !== JSON.stringify(formData) || (image !== null && image !== loadformData().pathImage)) {
-                // if (JSON.stringify(loadformData()) !== JSON.stringify(formData) || image !== null) {
                 setShowModal(true);
                 setModalType('cancel');
-
-                //forUser = loadformData();   
-                // setFormData(loadformData());
-                // console.log('forUser', forUser);
-                //  setModalType('cancel');
-                //  setShowModal(true);
             } else {
                 setIsEditingFormulary(false);
             }
@@ -123,10 +109,13 @@ function UserProfile({ user }) {
         event.preventDefault();
         setIsEditingFormulary(true);
     }
-    const handleShowListUsers = () => {
+    const handleShowListEquipment = () => {
         setIsNewComponentVisible(true);
-        // Definimos el tipo de acción como registrar
     };
+
+    const handleShowListEquipmentClient = () => {
+        setIsNewComponentVisibleEquipClient(true);
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -138,47 +127,34 @@ function UserProfile({ user }) {
     const uploadImage = async () => {
         try {
             if (fileUser !== null) {
-                const storageRef = ref(storageApp, `images/${fileUser.name}`);
+                const storageRef = ref(storageApp, `equipments/${fileUser.name}`);
                 await uploadBytes(storageRef, fileUser).then((res) => {
                     console.log('respuesta', res)
                 });
                 console.log('Image uploaded successfully');
                 // setImageUrl(await getDownloadURL(storageRef))
                 const url = await getDownloadURL(storageRef);
-                usersData = {
+                equipmentData = {
                     name: formData.name,
-                    lastName: formData.lastName,
-                    typeIdentification: formData.typeIdentification,
-                    numberIdentification: formData.numberIdentification,
-                    email: formData.email,
-                    phoneNumber: formData.phoneNumber.toString(),
-                    address: formData.address,
-                    pathImage: url,
-                    userStatus: formData.userStatus,
-                    roles: formData.roles
+                    equipmentType: formData.equipmentType,
+                    serialNumber: formData.serialNumber,
+                    brand: formData.brand,
+                    modelNumber: formData.modelNumber,
+                    iventoryNumber: formData.iventoryNumber,
+                    pathImage: url                 
                 };
                 console.log('Image URL subida:', await getDownloadURL(storageRef));
             } else {
-                usersData = formData;
+                equipmentData = formData;
             }
-
-
-            // setFormData({  pathImage: imageUrl });
-            // Maneja el éxito de la carga de la imagen
-
         } catch (error) {
             console.error('Error uploading image:', error);
-            // Maneja el error de la carga de la imagen
         }
     };
 
     const handleConfirmAction = async () => {
-
         setShowModal(false);  // Cerramos el modal primero
-
         if (modalType === 'cancel') {
-
-            // Acción de cancelar
             setFormData((prevState) => {
                 setImage((prevStat) => {
                     setIsEditingFormulary(false);
@@ -186,78 +162,47 @@ function UserProfile({ user }) {
                 });
                 return loadformData();
             });
-            //     setLoading(false);
-            //     setImage(formData.pathImage); 
-            //    // const u = loadformData();
-            //     setFormData(loadformData());
-            //     setIsEditingFormulary(false);
-
-
-            //     setLoading(false);  // Detenemos el spinner
-            //  setIsNewComponentVisible(true);  // Mostramos el componente ListUsers
-            // Simulamos una espera de 2 segundos
         } else if (modalType === 'register') {
             setLoading(true);
-            const config = {
-                headers: {
-                    "Content-Type": "application/json",
-                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-                }
-            };
-            // Acción de registrar - enviar datos al backend
-
             await uploadImage(fileUser);
-            console.log('Form Data con imagen:', formData);
-            axios.patch(`/users/userUpdate/${user.id}`, usersData, config) // Usa la ruta relativa
-
-                .then(response => {
-                    setLoading(true)
-                    setToastMessage(response.data || 'Usuario registrado con éxito');
-                    setToastType('success'); // Tipo de mensaje (éxito)
-                    console.log('desactivar botones', loading);
-                    setShowToast(true);  // Mostramos el Toast
-                    setFormData({
-                        name: '',
-                        lastName: '',
-                        typeIdentification: '',
-                        numberIdentification: '',
-                        email: '',
-                        phoneNumber: '',
-                        address: '',
-                        pathImage: '',
-                        userStatus: true,
-                        roles: ['']
-                    });
-                    console.log(formData);
-
-
-                    setTimeout(() => {
-                        setIsNewComponentVisible(true);  // Mostramos el componente ListUsers
-                        setLoading(false);
-                    }, 3000);  // Cambiar desp// Retardo adicional para que el Toast sea visible (3.5 segundos en este caso)
-
-
-                })
-                .catch(error => {
-                    console.error('Error registering user:', error);
-                    // Verificar si error.response existe
-                    if (!error.response) {
-                        // Esto significa que no hubo respuesta del servidor (posiblemente desconectado o problemas de red)
-                        setToastMessage('No se puede conectar al servidor. Verifica tu conexión o intenta más tarde.');
-                        setToastType('danger');
-                    } else {
-                        // Si el error tiene respuesta, manejar los errores del backend
-                        const errorMessage =
-                            error.response.data && error.response.data
-                                ? error.response.data
-                                : 'Error al registrar el usuario. Inténtalo e nuevo.';
-                        setToastMessage(errorMessage);  // Mostrar el mensaje de error del backend
-                        setToastType('danger');  // Tipo de mensaje (error)
-                    }
-                    // Mostrar el toast y detener el spinner
-                    setShowToast(true);
-                    setLoading(false); // Detenemos el spinner si hay un error
-                });
+            // try {
+            //     const response = await updateEquipments(client.id, equipmentData, localStorage.getItem('authToken'));
+            //     if (response.status === 200) {
+            //         setToastMessage(response.data || 'Equipo actualizado con éxito');
+            //         setToastType('success'); // Tipo de mensaje (éxito)
+            //         setShowToast(true);  // Mostramos el Toast
+            //         setFormData({
+            //             name: '',
+            //             equipmentType: '',
+            //             serialNumber: '',
+            //             brand: '',
+            //             modelNumber: '',
+            //             iventoryNumber: '',
+            //             pathImage: ''
+            //         });
+            //         setIsEditingButtons(true);
+            //         setLoading(false);
+            //         setTimeout(() => {
+            //             setIsNewComponentVisible(true);
+            //         }, 3000);  // Cambiar desp// Retardo adicional para que el Toast sea visible (3.5 segundos en este caso)
+            //     }
+            // } catch (error) {
+            //     if (!error.response) {
+            //         setToastMessage('No se puede conectar al servidor. Verifica tu conexión o intenta más tarde.');
+            //         setToastType('danger');
+            //     } else {
+            //         const errorMessage =
+            //         error.response.data && error.response.data
+            //                 ? error.response.data
+            //                 : 'Error al actualizar el equipo. Inténtalo de nuevo.';
+            //         setToastMessage(errorMessage);  // Mostrar el mensaje de error del backend
+            //         setToastType('danger');  // Tipo de mensaje (error)
+            //     }
+            //     setShowToast(true);
+            //     setLoading(false); // Detenemos el spinner si hay un error
+            // }
+            
+            
         }
         // Retardo de 500 ms para mostrar el spinner después de cerrar el modal
     };
@@ -266,6 +211,40 @@ function UserProfile({ user }) {
         setShowModal(false); // Cerrar el modal sin realizar acción
     };
 
+    const columns = [
+        {
+            name: 'Equipo',
+            selector: row => row.pathImage, // Suponiendo que 'image' es el campo que contiene la URL de la imagen
+            cell: row => (
+                <img
+                    src={row.pathImage} // Suponiendo que 'image' es el campo que contiene la URL de la imagen
+                    alt="imagen"
+                    style={{ width: '45px', height: '45px', objectFit: 'cover', borderRadius: '80px' }} // Ajusta el tamaño según sea necesario
+                />
+            ),
+            center: true.toString()
+        },
+        {
+            name: "Marca",
+            selector: row => row.brand,
+            sortable: true,
+            center: true.toString()
+        },
+
+        {
+            name: "Modelo",
+            selector: row => row.modelNumber,
+            sortable: true,
+            center: true.toString()
+        },
+        {
+            name: "No. de serie",
+            selector: row => row.serialNumber,
+            sortable: true,
+            center: true.toString()
+        },
+    ];
+
 
     if (!isTokenChecked) {
         return null;
@@ -273,21 +252,29 @@ function UserProfile({ user }) {
 
     return (
         isNewComponentVisible ? (
-            <ListUsers />) : (
+            <ListClients />) : 
+            isNewComponentVisibleEquipClient?(
+            <EquipmentUserList
+                idsEquipments={idsEquipments}
+                setIdsEquipments={setIdsEquipments}
+                setIsNewComponentVisibleEquipClient={setIsNewComponentVisibleEquipClient}
+                idClient={client.id}
+            />)
+            :(
             <>
-                <div className="userProfileCon">
-                    <UserProfileForm
+                <div className="client-update-conatiner">
+                    <UpdateClientForm
                         formData={formData}
                         setFormData={setFormData}
                         handleInputChange={handleInputChange}
                         handleSubmit={handleSubmit}
-                        selectedImage={selectedImage}
                         loading={loading}
                         handleCancel={handleCancel}
-                        handleShowListUsers={handleShowListUsers}
+                        handleShowListEquipment={handleShowListEquipment}
                         showModal={showModal}
                         handleCloseModal={handleCloseModal}
                         handleConfirmAction={handleConfirmAction}
+                        isEditingButtons = {isEditingButtons}
                         modalType={modalType}
                         getRootProps={getRootProps}
                         getInputProps={getInputProps}
@@ -296,6 +283,9 @@ function UserProfile({ user }) {
                         setImage={setImage}
                         isEditing={isEditingFormulary}
                         handleEditClick={handleEditClick}
+                        handleShowListEquipmentClient = {handleShowListEquipmentClient}
+                        columns={columns}
+                        records={idsEquipments}
                     />
                 </div>
                 <CustomToast
@@ -310,4 +300,4 @@ function UserProfile({ user }) {
     );
 }
 
-export default UserProfile;
+export default UpdateClient;
