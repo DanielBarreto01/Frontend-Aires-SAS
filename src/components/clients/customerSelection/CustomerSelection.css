@@ -1,0 +1,59 @@
+/* Contenedor principal centrado en la pantalla */
+.customer-selection-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f4f4f4; /* Color de fondo opcional */
+}
+
+/* Contenedor interno para el contenido */
+.content-wrapper {
+    width: 80%;
+    /* max-width: 800px; */
+    padding: 20px;
+    background-color: rgb(234, 234, 234);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo para el título */
+.header  {
+    font-family: Arial, sans-serif ;
+    font-weight: 500 !important; 
+   
+   
+}
+
+
+/* Estilos para cada opción (cuadro de cliente) */
+.customer-option {
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+    margin-top: 5%;
+}
+
+.customer-option:hover {
+    transform: scale(1.05);
+}
+
+/* Imagen dentro de cada cuadro */
+.customer-image {
+    width: 60%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+/* Estilo para el texto debajo de las imágenes */
+.customer-option p {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+}
