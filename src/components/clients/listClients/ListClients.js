@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { Form } from 'react-bootstrap';
 import { jwtDecode } from 'jwt-decode';
 import "./ListClients.css"; // Archivo CSS para estilos
-import { Button, Dropdown, DropdownButton, Spinner } from 'react-bootstrap';
+import { Button, Spinner } from 'react-bootstrap';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
-import RegisterEquipment from "../../equipments/registerEquipments/RegisterEquipment";
 import UpdateClient from "../updateClient/UpdateClient";
+import RegisterClient from "../registerClient/registerClient";
 import { getClients } from "../../../api/ClientService";
 import { useNavigate, Outlet,useLocation  } from 'react-router-dom';
 
@@ -171,7 +171,7 @@ const ListClients = () => {
         isClientDetailsVisible ? (
             <UpdateClient client={selectedClient} />
         ) : isNewComponentVisible ? (
-            <RegisterEquipment />
+            <RegisterClient />
         ) : (
             <div className='row'>
                 <div className='col-12 col-md-4 title1'>
@@ -223,33 +223,12 @@ const ListClients = () => {
                                 <FontAwesomeIcon icon={faChevronDown} className="dropdown-icon" />
                             </div>
                         </Form.Group>
-
-
-                        {/* <Form.Group controlId="search" className="dropdownSearch"> 
-                            <div className="dropdown-container">
-                                <Form.Control
-                                    as="select"
-                                    name="search"
-                                    value={search} 
-                                    onChange={handleSearchInput}
-                                    required
-                                    style={{ border: 'none' }}
-                                >
-                                    <option value="name">Nombre</option>
-                                    <option value="document">Documento</option>
-                                    <option value="phone">Telefono</option>
-                                    <option value="email">Correo</option>
-                                </Form.Control>
-                                <FontAwesomeIcon icon={faChevronDown} className="dropdown-icon" />
-                            </div>
-                        </Form.Group>*/}
-
                     </Form>
 
                 </div>
 
                 <div className='col-12 col-sm-3 col-md-2' >
-                    <Button className="button-Create" onClick={handleNavigateToCustomerSelection}>Agregar Cliente</Button>
+                <Button className="button-Create" onClick={handleNavigateToCustomerSelection}>Agregar Cliente</Button>
 
                 </div>
                 <div className='col-12 gallery-scroll-container'>
