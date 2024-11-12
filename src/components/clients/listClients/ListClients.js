@@ -10,7 +10,10 @@ import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import RegisterEquipment from "../../equipments/registerEquipments/RegisterEquipment";
 import UpdateClient from "../updateClient/UpdateClient";
 import { getClients } from "../../../api/ClientService";
-import { useNavigate, Outlet } from 'react-router-dom';
+import { useNavigate, Outlet,useLocation  } from 'react-router-dom';
+
+
+
 
 import "../../general.css";
 import "../../user/listUsers/ListUsers.css";
@@ -26,6 +29,7 @@ const ListClients = () => {
     const [isClientDetailsVisible, setIsClientDetailsVisible] = useState(false);
     const [search, setSearch] = useState("name");
     const navigate = useNavigate();
+    const location = useLocation();
 
     const roleMap = {
         "ADMIN": "Administrador",
@@ -135,10 +139,17 @@ const ListClients = () => {
         }));
     }
 
-    const handleButtonClick = () => {
-        setIsNewComponentVisible(prevState => !prevState); // Cambia el estado para mostrar el nuevo componente
-    };
 
+    const handleNavigateToCustomerSelection = () => {
+        navigate('/admin/clients/CustomerSelection');
+      };
+
+     const isCustomerSelection = location.pathname === '/admin/clients/CustomerSelection';
+
+      if (isCustomerSelection) {
+        return <Outlet />;
+    }
+ 
 
 
 
@@ -151,7 +162,10 @@ const ListClients = () => {
     if (!isTokenChecked) {
         return null;
     }
+  
 
+
+  
 
     return (
         isClientDetailsVisible ? (
@@ -235,7 +249,8 @@ const ListClients = () => {
                 </div>
 
                 <div className='col-12 col-sm-3 col-md-2' >
-                    <Button className="button-Create" onClick={handleButtonClick} >Agregar Cliente</Button>
+                    <Button className="button-Create" onClick={handleNavigateToCustomerSelection}>Agregar Cliente</Button>
+
                 </div>
                 <div className='col-12 gallery-scroll-container'>
                     <div className="space-y-4">
@@ -268,6 +283,7 @@ const ListClients = () => {
                     </div>
                 )}
             </div>
+            
         )
     );
 };
