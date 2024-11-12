@@ -236,7 +236,7 @@ function RegisterUser() {
     return (
         isNewComponentVisible ? (
             <ListUsers />) : (
-            <div className="principal">
+            <>
                 <div className='container'>
                     <RegisterUserForm
                         formData={formData}
@@ -263,7 +263,7 @@ function RegisterUser() {
                     toastMessage={toastMessage}
                     toastType={toastType}
                 />
-            </div>
+            </>
         )
     );
 }

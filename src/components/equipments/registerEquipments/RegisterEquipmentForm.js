@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import ConfirmationModal from "../../ConfirmationModal/ConfirmationModal";
 import ImageDropzone from '../../loadImage/ImageDropzone';
+import './RegisterEquipment.css';
 
 function RegisterEquipmentForm({ formData,
     setFormData,
@@ -23,8 +24,8 @@ function RegisterEquipmentForm({ formData,
     modalType }) {
 
     return (
-        <div className='formu'>
-            <div className='title-register'><h2>Registro de Equipo</h2></div>
+        <div className='container-form-register-equipment'>
+            <div className='title-register-equipment'><h2>Registro de Equipo</h2></div>
             <Form onSubmit={handleSubmit}>
                 <Row className="flex-row-reverse flex-sm-row">
                 <Col xs={12} sm={6} className="order-1 order-sm-2">
@@ -159,9 +160,9 @@ function RegisterEquipmentForm({ formData,
                     </Col>
                 </Row>
                 <Row>
-                    <Col xs={12} sm={6}> </Col>
+                    {/* <Col xs={12} sm={6}> </Col>
 
-                    <Col xs={12} sm={6} className="d-flex justify-content-center">
+                    <Col xs={12} sm={6} className="d-flex justify-content-center"> */}
                         <div className="button-group">
                             <Button variant="primary" type="submit" className='button-confirmation' disabled = {isEditingButtons}>
                                 Registrar equipo
@@ -171,7 +172,7 @@ function RegisterEquipmentForm({ formData,
                             </Button>
                         </div>
 
-                    </Col>
+                    {/* </Col> */}
                 </Row>
             </Form>
             <ConfirmationModal

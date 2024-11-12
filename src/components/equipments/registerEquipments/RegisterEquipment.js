@@ -7,6 +7,7 @@ import appFirebase from '../../FirebaseConfig.js';
 import ListEquipments from '../listEquipments/ListEquipments.js';
 import { createEquipments } from "../../../api/EquipmentService"
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import './RegisterEquipment.css';
 
 //import { toast } from 'sonner'
 function RegisterEquipment() {
@@ -192,8 +193,8 @@ function RegisterEquipment() {
     return (
         isNewComponentVisible ? (
             <ListEquipments />) : (
-            <div className="principal">
-                <div className='container'>
+            <>
+                <div className='container-equipment-register'>
                     <RegisterEquipmentForm
                         formData={formData}
                         setFormData={setFormData}
@@ -212,14 +213,14 @@ function RegisterEquipment() {
                         isDragActive={isDragActive}
                         image={image}
                     />
-                </div>
-                <CustomToast
+                     <CustomToast
                     showToast={showToast}
                     setShowToast={setShowToast}
                     toastMessage={toastMessage}
                     toastType={toastType}
                 />
-            </div>
+                </div>
+            </>
         )
     );
 }

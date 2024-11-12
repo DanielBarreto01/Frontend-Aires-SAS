@@ -1,3 +1,20 @@
+.container-equipment-update{
+    width: 100% !important;
+    height: 100vh;
+    display: grid;
+    justify-items: center;
+    overflow-y: auto !important;
+  
+ 
+}
+.container-form-update-equipment{
+    display: grid;
+    width: 60%!important;
+    align-content: center;
+    padding: 10px;
+}
+
+
 .floating-label-equipment> :nth-child(1) {
     /* Esto aplicará al primer hijo de `floating-label-equipment`, suponiendo que es `Form.Group` */
     margin-bottom: 20px;
@@ -49,6 +66,9 @@
     position: relative;
 
 }
+.floating-label-equipment{
+    white-space: nowrap;
+}
 
 .floating-label-equipment input {
     width: 99%;
@@ -89,7 +109,31 @@
     border-radius: 50px;
 }
 
-@media only screen and (max-width: 574px) {
+.button-group-equipment-update button{
+    width: 50% !important;
+    height: 90% !important;
+}
+.button-group-equipment-update{
+    width: 100% !important; 
+    display: flex;
+    gap: 5% !important;
+
+}
+@media only screen and (max-width: 800px) {
+    .container-equipment-update{
+        overflow-x: visible !important;
+        height: 80vh !important;
+    }
+    .container-form-update-equipment{
+        width: 100% !important;
+        
+    }
+}
+
+@media only screen and (max-width: 575px) {
+    .button-group-equipment-update{
+        margin-top: 50px;
+    }
     .button-confirmation {
         font-size: 14px !important;
 
@@ -97,5 +141,13 @@
 
     .button-cancel {
         font-size: 14px;
+    }
+
+    .container-equipment-update{
+        overflow-x: visible !important;
+    }
+    .container-form-update-equipment{
+        width: 100% !important;
+        
     }
 }

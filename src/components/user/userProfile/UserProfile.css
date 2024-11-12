@@ -1,32 +1,28 @@
-.principal {
-  width: 100% !important;
-  height: 100% !important;
-  padding: 0px;
-  overflow: hidden;
-}
-
 .userProfileCon{
- 
-  width: 100% !important;
-  height: 100% !important;
+  width: 98% !important;
+  height: 100vh !important;
+  display: grid;
+  overflow-y: auto !important;
+
+
 
 }
 .form-containerPro{
-/* display: flex;
-flex-direction: column; */
-  width: 100% !important;
-  height: 100vh !important;
+  width: auto !important;
+  height: 100% !important;
   display: grid;
+  justify-content: center;
+  align-content: center;
   padding: 8px;
 }
 
 .title-component {
+  margin-bottom: 30px !important;
   display: flex;
   justify-content: center;
-  align-items: flex-end;
+ 
   width: 100% !important;
   height: 100% !important;
-  background-color: #ffffff;
   padding: 0px;
   margin: 0px;
 }
@@ -37,6 +33,7 @@ flex-direction: column; */
   width: 100% !important;
   background-color: #ffffff;
   height: auto !important;
+  white-space: nowrap !important;
 }
 
 .nameUserPro,
@@ -111,23 +108,9 @@ textarea:focus {
   margin-right: 15px;
 }
 
-.form-row {
-  display: flex;
-  flex-wrap: nowrap;
-  gap: 10px;
-  /* Espacio horizontal entre Nombre y Apellido */
-}
 
 /* Alinear botones con espacio entre ellos */
-.button-group {
-  width: 100%;
-  display: flex;
-  justify-content: center !important;
-  gap: 50px;
-  margin-top: 20px;
-  /* Espacio por encima de los botones */
 
-}
 
 h2 {
 
@@ -137,6 +120,16 @@ h2 {
   margin-bottom: 30px;
   padding: none !important;
   height: 20px;
+}
+
+.button-group {
+  width: 100%;
+  display: flex;
+  justify-content: center !important;
+  gap: 5% !important;
+  
+  /* Espacio por encima de los botones */
+
 }
 
 .button-confirmation {
@@ -151,7 +144,7 @@ h2 {
   background-color: #7B7B7B;
   border-radius: 11px;
   font-size: 15px;
-  width: 45%;
+  width: 45% !important;
 }
 
 .button-confirmation:hover {
@@ -192,9 +185,9 @@ h2 {
 
 @media only screen and (max-width: 574px) {
   .form-containerPro {
-    width: 97% !important;
-    height: 100% !important;
-    padding: 15px;
+    
+    padding: 8px;
+    overflow-x: visible !important;
   }
 
   .nameUserPro,
@@ -215,58 +208,19 @@ h2 {
   }
 
   .rolesPro{
-    margin-bottom: 70px;
+    margin-bottom: -30px;
   }
 
   .button-group {
     width: 100%;
     display: flex;
     justify-content: center !important;
-    gap: 40px;
+    gap: 5% !important;
   }
-
-  .principal {
-    height: 100% !important;
-    width: 100% !important;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-  }
-
-  .userProfileCon {
-
-    display: flex;
-    background-color: #ffffff;
-    position: center;
-    align-items: center;
-    justify-content: center;
-    width: 100% !important;
-    height: 98% !important;
-
-    overflow: hidden;
-
-  }
-
-  .formu {
-    /* margin: 2px !important; */
-    overflow: hidden;
-  }
-
-  /* .nameUser, .lastNameUser, .typeIdentification, .numberIdentification, .email, .phoneNumber, .userStatusPro, .roles{
-    margin-bottom: 0px;
-    height: 31px;
-    border: 1px solid #a39f9f !important;
-    border-radius: 9px;
-    font-size: 8px !important; 
-  } */
   .address {
     height: 31px;
     margin-top: 10px;
   }
-
-
-
   .nameUser .form-control,
   .lastNameUser .form-control,
   .numberIdentification .form-control,
@@ -281,8 +235,8 @@ h2 {
 
   
 
-  .image-coponent {
-    height: 50%;
+  .image-coponentPro {
+    height: 40% !important;
   }
 
   .button-register {
@@ -293,20 +247,12 @@ h2 {
   .button-no-register {
     font-size: 14px;
   }
-
-  .button-group {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-top: 24px !important;
-    /* Espacio por encima de los botones */
-  }
 }
 
 /*    css para el dezplazamiento de los labels en los campos en qe sescribe*/
 .floating-labelPro {
   position: relative;
-
+  white-space: nowrap !important;
 }
 
 .floating-labelPro input {

@@ -1,0 +1,44 @@
+.container-equipment-register{
+    width: 100% !important;
+    height: 100vh !important;
+    display: grid;
+    justify-items: center;
+    overflow-y: auto !important;
+}
+
+.container-form-register-equipment{
+    margin-top: 40px;
+    display: grid;
+    width: 60%!important;
+    align-content: center;
+}
+
+.title-register-equipment{
+    display: flex;
+    justify-content: center;
+    width: 100% !important;
+    height: auto !important;
+    background-color: #ffffff;
+    margin-bottom: 30px;
+    white-space: nowrap;
+}
+
+
+
+.floating-label-equipment {
+    width: auto !important;
+}
+
+
+@media only screen and (max-width: 800px) {
+    .container-equipment-register{
+        padding: 8px;
+        overflow-x: visible !important;
+        width: 100% !important;
+       }
+        
+    .container-form-register-equipment{
+        width: 100% !important;
+        padding: 8px;
+    }
+}
