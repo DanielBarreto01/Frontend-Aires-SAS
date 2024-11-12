@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import './CustomerSelection.css';
-import { Row, Col } from "react-bootstrap";
 import "../../general.css";
+import personNatu from "../../../assets/natu.png";
+import personj from "../../../assets/juri.png";
 import RegisterClient from '../registerClient/registerClient';
+
 
 
 
@@ -16,7 +18,7 @@ const CustomerSelection = () => {
         setClientTypeSelected(clientType)
     }
 
-    
+
         return (
         clientType ? (
             <RegisterClient clientType={clientTypeSelected} />
@@ -29,7 +31,7 @@ const CustomerSelection = () => {
                     <div className="row justify-content-around mt-4">
                         <div className="col-md-5 customer-option" onClick={() => handleClientTypeSelection('natural')}>
                             <img
-                                src="ruta-a-la-imagen-persona-natural.jpg"
+                                src={ personNatu }
                                 alt="Persona Natural"
                                 className="customer-image"
                             />
@@ -37,7 +39,7 @@ const CustomerSelection = () => {
                         </div>
                         <div className="col-md-5 customer-option" onClick={() => handleClientTypeSelection('juridica')}>
                             <img
-                                src="ruta-a-la-imagen-persona-juridica.jpg"
+                                src={personj}
                                 alt="Persona Jurídica"
                                 className="customer-image"
                             />
