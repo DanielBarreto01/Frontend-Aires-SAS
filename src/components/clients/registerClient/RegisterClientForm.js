@@ -4,10 +4,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import ConfirmationModal from "../../ConfirmationModal/ConfirmationModal";
 import ImageDropzone from '../../loadImage/ImageDropzone';
+import './RegisterClient.css';
+import DataTable from 'react-data-table-component';
 
 function RegisterClientForm({ formData,
     setFormData,
     handleInputChange,
+    handleSelectEquipmentaAviable,
     handleSubmit,
     getRootProps,
     getInputProps,
@@ -15,17 +18,18 @@ function RegisterClientForm({ formData,
     image,
     loading,
     handleCancel,
-    handleRegister,
     isEditingButtons,
     showModal,
     handleCloseModal,
     handleConfirmAction,
     handleShowListEquipmentClient,
     clientType,
-    modalType }) {
+    modalType,
+    records,
+    columns}) {
 
     return (
-        <div className='formu'>
+        <div className='form-container-update-client'>
             <div className='title-register'><h2>Registro de Cliente</h2></div>
             <Form onSubmit={handleSubmit}>
                 <Row className="flex-row-reverse flex-sm-row">
@@ -132,7 +136,7 @@ function RegisterClientForm({ formData,
                                         <Form.Label>Nombre Empresa:</Form.Label>
                                     </Form.Group>
                                 </div>
-                                <div className="floating-label">
+                                <div className="floating-label-equipment">
                                     <Form.Group controlId="numberIdentificationCompany" className="numberIdentificationCompany">
                                         <Form.Control
                                             type="number"
@@ -188,7 +192,7 @@ function RegisterClientForm({ formData,
                                         <Form.Label>Nombre representante Legal:</Form.Label>
                                     </Form.Group>
                                 </div>
-                                <div className="floating-label">
+                                <div className="floating-label-equipment">
                                     <Form.Group controlId="phoneNumberLegalRepresentative" className="phoneNumberLegalRepresentative">
                                         <Form.Control
                                             type="number"
@@ -213,7 +217,7 @@ function RegisterClientForm({ formData,
                                         <Form.Label>Teléfono representante legal:</Form.Label>
                                     </Form.Group>
                                 </div>
-                                <div className="floating-label">
+                                <div className="floating-label-equipment">
                                     <Form.Group controlId="emailLegalRepresentative" className="emailLegalRepresentative" style={{ outline: '0px' }} >
                                         <Form.Control
                                             type="email"
@@ -233,7 +237,7 @@ function RegisterClientForm({ formData,
                     </Col>
                     <Col xs={12} sm={6} className="order-2 order-sm-1">
                         {/* Usamos el componente ImageDropzone aquí */}
-                        <div className="image-equipment order-3 order-sm-1">
+                        <div className="image-client-register order-3 order-sm-1">
                             <ImageDropzone
                                 getRootProps={getRootProps}
                                 getInputProps={getInputProps}
@@ -243,8 +247,8 @@ function RegisterClientForm({ formData,
                             />
                         </div>
                          {/* Campos comunes */}
-                         <div className="floating-label">
-                            <Form.Group controlId="email" className="email" style={{ outline: '0px' }} >
+                         <div className="floating-label-equipment">
+                            <Form.Group controlId="email" className="email">
                                 {/* <Form.Label>Email</Form.Label> */}
                                 <Form.Control
                                     type="email"
@@ -300,11 +304,40 @@ function RegisterClientForm({ formData,
                         </div>
                     </Col>
                 </Row>
-                <Row>
-                    <Col xs={12} sm={6}> </Col>
-
-                    <Col xs={12} sm={6} className="d-flex justify-content-center">
-                        <div className="button-group">
+                <div className='row table-container-update-client mt-3'>
+                    <div className='col-12 col-md-5 title-equip' ><h2>Equipos</h2></div>
+                    <div className='col-12 col-md-7 button-group-list-equip'>
+                        <Button variant="secoondary" type="submit" className='button-select' onClick={handleSelectEquipmentaAviable} >
+                            Seleccionar
+                        </Button>
+                        <Button variant="secondary" className='button-clean' onClick={handleCancel} disabled={isEditingButtons}>
+                            Limpiar
+                        </Button>
+                    </div>
+                    <div className="table-container-client-list-quip">
+                    <DataTable
+                        columns={columns}
+                        data={records}
+                        pagination
+                        paginationPerPage={2}
+                        fixedHeader
+                        persistTableHead
+                        fixedHeaderScrollHeight="30vh"
+                        // conditionalRowStyles={conditionalRowStyles}
+                        // paginationComponentOptions={customPaginationOptions}
+                        noDataComponent="No hay datos disponibles"
+                        progressComponent={(
+                            <div className="loading-overlay">
+                                <Spinner animation="border" size="lg" />
+                            </div>
+                        )}
+                    />
+                    </div>
+                
+                </div>
+                <Row className='cotainer-buttons'>
+                  
+                        <div className="group-buttons-register-client">
                             <Button variant="primary" type="submit" className='button-confirmation' onClick={handleShowListEquipmentClient} >
                                 Asociar equipos
                             </Button>
@@ -316,7 +349,7 @@ function RegisterClientForm({ formData,
                             </Button>
                         </div>
 
-                    </Col>
+                  
                 </Row>
             </Form>
             <ConfirmationModal
