@@ -8,7 +8,7 @@ import appFirebase from '../../FirebaseConfig.js';
 import ListClients from '../listClients/ListClients.js';
 import { createEquipments } from "../../../api/EquipmentService.js"
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import EquipmentUserList from '../updateClient/equipmentUserList/EquipmentUserList.js';
+import EquipmentUserList from '../equipmentClientList/EquipmentClientList.js';
 import {createClientNatural, createClientJuridical} from "../../../api/ClientService.js";
 
 function RegisterClient({ clientType }) {
