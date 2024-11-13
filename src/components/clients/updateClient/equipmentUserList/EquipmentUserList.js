@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo  } from "react";
 import { Form } from 'react-bootstrap';
 import { jwtDecode } from 'jwt-decode';
 import DataTable from 'react-data-table-component';
@@ -7,18 +7,20 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
-import { getEquipmentsIdClient } from "../../../../api/EquipmentService";
+import { getEquipmentsAvailable } from "../../../../api/EquipmentService";
 import "./EquipmentUserList.css";
 import { useNavigate, Outlet } from 'react-router-dom';
 
 
-const EquipmentUserList = ({ idsEquipments, setIdsEquipments, setIsNewComponentVisibleEquipClient, idClient }) => {
+const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableEquipment, setIsNewComponentVisibleEquipClient}) => {
     const [data, setData] = useState([]);
     const [selectedOption, setSelectedOption] = useState("Seleccione un rol");
     const [loading, setLoading] = useState(false);
     const [records, setRecords] = useState([]);
     const [isTokenChecked, setIsTokenChecked] = useState(false);
     const navigate = useNavigate();
+    const [selectedRows, setSelectedRows] = useState([]);
+    const [idsEquipmentsSelection, setIdsEquipmentsSelection] = useState([]);
 
     const roleMap = {
         "ADMIN": "Administrador",
@@ -34,6 +36,7 @@ const EquipmentUserList = ({ idsEquipments, setIdsEquipments, setIsNewComponentV
                 console.log("token", token);
                 if (token !== null && jwtDecode(token).exp * 1000 > Date.now()) { // && jwtDecode(token).exp*1000 >  Date.now()
                     fetchData();
+                    setIdsEquipmentsSelection(selectionAvailableEquipment.map(equipment => equipment.id));
                     setIsTokenChecked(true);
                     setLoading(true);
                 } else {
@@ -56,7 +59,7 @@ const EquipmentUserList = ({ idsEquipments, setIdsEquipments, setIsNewComponentV
         setLoading(false);
         try {
             const token = localStorage.getItem('authToken');
-            const response = await getEquipmentsIdClient(idClient, token);
+            const response = await getEquipmentsAvailable(token);
             setData(response);
             setRecords(response);
             setTimeout(() => {
@@ -135,11 +138,11 @@ const EquipmentUserList = ({ idsEquipments, setIdsEquipments, setIsNewComponentV
     }
 
     const handleButtonClick = () => {
-        setIdsEquipments(null);
         setIsNewComponentVisibleEquipClient(prevState => !prevState); // Cambia el estado para mostrar el nuevo componente
     };
 
     const handleButtonSave = () => {
+        setSelectionAvailableEquipment(selectedRows);
         setIsNewComponentVisibleEquipClient(prevState => !prevState); // Cambia el estado para mostrar el nuevo componente
     };
 
@@ -158,9 +161,25 @@ const EquipmentUserList = ({ idsEquipments, setIdsEquipments, setIsNewComponentV
     const handleRowSelected = (state) => {
        
         // setIdsEquipments(state.selectedRows.map(row => row.id));
-        setIdsEquipments(state.selectedRows);
+        setSelectedRows(state.selectedRows);
+      
+        console.log("selectedRows", state.selectedRows);
         // Aquí se almacena las filas seleccionadas
     };
+
+    //const selectableRowSelected = (row) => {
+        // return searchTerm.includes(row.id) 
+        // return searchTerm.some(equipment => equipment.id == row.id);
+       // return selectedRows.some(selectedRow => selectedRow.id === row.id); // Selecciona solo si el id está en selectedIds y es diferente de null
+        //// return selectedRows.includes(row.id) || selectedRows.some(selectedRow => selectedRow.id === row.id); // Selecciona solo si el id está en selectedIds y es diferente de null
+     // };
+
+      const selectableRowSelected = useMemo(() => {
+        return (row) => idsEquipmentsSelection.includes(row.id);
+       
+      }, [idsEquipmentsSelection]);
+    
+
     const customPaginationOptions = {
         rowsPerPageText: 'Filas por página',  // Texto para "Rows per page"
         rangeSeparatorText: 'de',             // Texto separador entre los rangos de páginas
@@ -231,7 +250,8 @@ const EquipmentUserList = ({ idsEquipments, setIdsEquipments, setIsNewComponentV
                             progressPending={loading}
                             selectableRows
                             onSelectedRowsChange={handleRowSelected}
-                            selectableRowSelected={() => true}
+                            selectableRowSelected={selectableRowSelected} 
+                            // selectableRowSelected={(row) => searchTerm.includes(row.id)}
                             conditionalRowStyles={conditionalRowStyles}
                             paginationComponentOptions={customPaginationOptions}
                             noDataComponent="No hay datos disponibles"

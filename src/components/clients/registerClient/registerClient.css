@@ -1,0 +1,36 @@
+.cotainer-buttons{
+    margin-top: 20px;
+    width: 100%;
+}
+
+.group-buttons-register-client{
+    display: flex;
+    gap: 15px;
+  
+}
+
+.group-buttons-register-client button{
+    width: 40% !important;
+    border-radius: 11px;
+    border: none;
+    font-size: 0.8em !important;
+}
+
+.image-client-register{
+    width: 100%;
+    height: 46%;
+    margin-bottom: 15px;
+  
+}
+
+.button-group-list-equip .button-select {
+    color: white !important;
+}
+
+@media only screen and (max-width: 772px) {
+    .cotainer-buttons{
+        margin-top: 80px;
+        width: 100%;
+    }
+}
+

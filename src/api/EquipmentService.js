@@ -14,6 +14,20 @@ export const getEquipments = async (token) => {
     }
 };
 
+export const getEquipmentsAvailable = async (token) => {
+    try {
+        const response = await axios.get('/equipments/getEquipmentsAvailable', {
+            headers: {
+                'Authorization': `Bearer ${token}` // Asegúrate de que el token esté en los headers
+            }
+        });
+        return response.data; // Retorna los datos del usuario
+    } catch (error) {
+        console.error("Error al obtener los equipos:", error);
+        throw error; // Lanza el error para manejarlo en la funció-n que llama a esta
+    }
+};
+
 export const updateEquipments = async (id, data, token) => {
     try {
         const response = await axios.patch(`/equipments/update/${id}`, data, {
