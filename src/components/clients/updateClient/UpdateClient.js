@@ -6,7 +6,7 @@ import appFirebase from '../../FirebaseConfig.js';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import UpdateClientForm from './UpdateClienForm.js';
 import ListClients from '../listClients/ListClients.js';
-import EquipmentUserList from './equipmentUserList/EquipmentUserList.js';
+import EquipmentUserList from '../equipmentClientList/EquipmentClientList.js';
 import './UpdateClient.css';
 
 

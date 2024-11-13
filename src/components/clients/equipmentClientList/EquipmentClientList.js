@@ -7,8 +7,8 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
-import { getEquipmentsAvailable } from "../../../../api/EquipmentService";
-import "./EquipmentUserList.css";
+import { getEquipmentsAvailable } from "../../../api/EquipmentService";
+import "./EquipmentClientList.css";
 import { useNavigate, Outlet } from 'react-router-dom';
 
 
