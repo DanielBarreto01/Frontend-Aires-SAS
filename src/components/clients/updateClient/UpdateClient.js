@@ -37,7 +37,16 @@ function UpdateClient({ client }) {
             phoneNumber: client.phoneNumber.toString() || '',
             email: client.email || '',
             clientState: client.clientState,
-            pathImage: client.pathImage || ''
+            pathImage: client.pathImage || '',
+            clientType: client.clientType ||'',
+            lastName:client.lastName || '',
+            nameCompany: client.nameCompany ||"",
+            numberIdentificationCompany:client.numberIdentificationCompany ||'',
+            socialReason:client.socialReason ||'',
+            nameLegalRepresentative: client.nameLegalRepresentative ||'',
+            phoneNumberLegalRepresentative: client.phoneNumberLegalRepresentative ||'',
+            emailLegalRepresentative:client.emailLegalRepresentative ||''
+
         }
         return dataUser;
     }
@@ -165,44 +174,6 @@ function UpdateClient({ client }) {
         } else if (modalType === 'register') {
             setLoading(true);
             await uploadImage(fileUser);
-            // try {
-            //     const response = await updateEquipments(client.id, equipmentData, localStorage.getItem('authToken'));
-            //     if (response.status === 200) {
-            //         setToastMessage(response.data || 'Equipo actualizado con éxito');
-            //         setToastType('success'); // Tipo de mensaje (éxito)
-            //         setShowToast(true);  // Mostramos el Toast
-            //         setFormData({
-            //             name: '',
-            //             equipmentType: '',
-            //             serialNumber: '',
-            //             brand: '',
-            //             modelNumber: '',
-            //             iventoryNumber: '',
-            //             pathImage: ''
-            //         });
-            //         setIsEditingButtons(true);
-            //         setLoading(false);
-            //         setTimeout(() => {
-            //             setIsNewComponentVisible(true);
-            //         }, 3000);  // Cambiar desp// Retardo adicional para que el Toast sea visible (3.5 segundos en este caso)
-            //     }
-            // } catch (error) {
-            //     if (!error.response) {
-            //         setToastMessage('No se puede conectar al servidor. Verifica tu conexión o intenta más tarde.');
-            //         setToastType('danger');
-            //     } else {
-            //         const errorMessage =
-            //         error.response.data && error.response.data
-            //                 ? error.response.data
-            //                 : 'Error al actualizar el equipo. Inténtalo de nuevo.';
-            //         setToastMessage(errorMessage);  // Mostrar el mensaje de error del backend
-            //         setToastType('danger');  // Tipo de mensaje (error)
-            //     }
-            //     setShowToast(true);
-            //     setLoading(false); // Detenemos el spinner si hay un error
-            // }
-            
-            
         }
         // Retardo de 500 ms para mostrar el spinner después de cerrar el modal
     };
@@ -286,6 +257,7 @@ function UpdateClient({ client }) {
                         handleShowListEquipmentClient = {handleShowListEquipmentClient}
                         columns={columns}
                         records={idsEquipments}
+                        clientType={client.clientType}
                     />
                 </div>
                 <CustomToast
