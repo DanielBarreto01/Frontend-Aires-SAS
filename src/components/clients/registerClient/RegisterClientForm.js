@@ -168,7 +168,7 @@ function RegisterClientForm({ formData,
                                             onChange={handleInputChange}
                                             required
                                             placeholder=""
-                                            pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s.]+$"
+                                            pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$"
                                             maxLength={30}
                                             onInvalid={(e) => e.target.setCustomValidity('Por favor, ingresa un nombre válido.')}
                                             onInput={(e) => e.target.setCustomValidity('')}

@@ -6,7 +6,7 @@ import appFirebase from '../../FirebaseConfig.js';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import UpdateClientForm from './UpdateClienForm.js';
 import ListClients from '../listClients/ListClients.js';
-import EquipmentUserList from '../equipmentClientList/EquipmentClientList.js';
+import EquipmentClientSelectionList from './equipmentClientSelectionList/EquipmentClientSelectionList.js';
 import './UpdateClient.css';
 
 
@@ -25,7 +25,7 @@ function UpdateClient({ client }) {
     const [isEditingFormulary, setIsEditingFormulary] = useState(false);
     const storageApp = getStorage(appFirebase);
     const [isNewComponentVisibleEquipClient, setIsNewComponentVisibleEquipClient] = useState(false);
-    const [idsEquipments, setIdsEquipments] = useState([]);
+    const [selectionAvailableEquipment, setSelectionAvailableEquipment] = useState([]);
     let equipmentData = null;
 
     const loadformData = () => {
@@ -122,7 +122,7 @@ function UpdateClient({ client }) {
         setIsNewComponentVisible(true);
     };
 
-    const handleShowListEquipmentClient = () => {
+    const handleShowListlistAssignedEquipment = () => {
         setIsNewComponentVisibleEquipClient(true);
     }
 
@@ -131,6 +131,13 @@ function UpdateClient({ client }) {
         console.log('Form Data:', formData);
         setModalType('register');
         setShowModal(true);
+    };
+
+    const handleSelectEquipmentaAviable = () => {
+        setIsNewComponentVisibleEquipClient(true);
+    }
+    const handleCleanSelectedEquipments = () => {
+        setSelectionAvailableEquipment([]);
     };
 
     const uploadImage = async () => {
@@ -225,11 +232,11 @@ function UpdateClient({ client }) {
         isNewComponentVisible ? (
             <ListClients />) : 
             isNewComponentVisibleEquipClient?(
-            <EquipmentUserList
-                idsEquipments={idsEquipments}
-                setIdsEquipments={setIdsEquipments}
+            <EquipmentClientSelectionList
+                selectionAvailableEquipment={selectionAvailableEquipment}
+                setSelectionAvailableEquipment={setSelectionAvailableEquipment}
                 setIsNewComponentVisibleEquipClient={setIsNewComponentVisibleEquipClient}
-                idClient={client.id}
+                clientId={client.id}
             />)
             :(
             <>
@@ -254,10 +261,12 @@ function UpdateClient({ client }) {
                         setImage={setImage}
                         isEditing={isEditingFormulary}
                         handleEditClick={handleEditClick}
-                        handleShowListEquipmentClient = {handleShowListEquipmentClient}
+                        handleShowListlistAssignedEquipment = {handleShowListlistAssignedEquipment}
                         columns={columns}
-                        records={idsEquipments}
+                        records={selectionAvailableEquipment}
                         clientType={client.clientType}
+                        handleSelectEquipmentaAviable={handleSelectEquipmentaAviable}
+                        handleCleanSelectedEquipments = {handleCleanSelectedEquipments}
                     />
                 </div>
                 <CustomToast
