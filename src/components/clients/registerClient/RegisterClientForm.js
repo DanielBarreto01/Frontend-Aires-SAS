@@ -23,6 +23,7 @@ function RegisterClientForm({ formData,
     handleCloseModal,
     handleConfirmAction,
     handleShowListEquipmentClient,
+    handleCleanSelectedEquipments,
     clientType,
     modalType,
     records,
@@ -167,7 +168,7 @@ function RegisterClientForm({ formData,
                                             onChange={handleInputChange}
                                             required
                                             placeholder=""
-                                            pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$"
+                                            pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s.]+$"
                                             maxLength={30}
                                             onInvalid={(e) => e.target.setCustomValidity('Por favor, ingresa un nombre válido.')}
                                             onInput={(e) => e.target.setCustomValidity('')}
@@ -310,7 +311,7 @@ function RegisterClientForm({ formData,
                         <Button variant="secoondary" type="submit" className='button-select' onClick={handleSelectEquipmentaAviable} >
                             Seleccionar
                         </Button>
-                        <Button variant="secondary" className='button-clean' onClick={handleCancel} disabled={isEditingButtons}>
+                        <Button variant="secondary" className='button-clean' onClick={handleCleanSelectedEquipments} disabled={isEditingButtons}>
                             Limpiar
                         </Button>
                     </div>
@@ -338,9 +339,6 @@ function RegisterClientForm({ formData,
                 <Row className='cotainer-buttons'>
                   
                         <div className="group-buttons-register-client">
-                            <Button variant="primary" type="submit" className='button-confirmation' onClick={handleShowListEquipmentClient} >
-                                Asociar equipos
-                            </Button>
                             <Button variant="primary" type="submit" className='button-confirmation' disabled={isEditingButtons}>
                                 Registrar cliente
                             </Button>
