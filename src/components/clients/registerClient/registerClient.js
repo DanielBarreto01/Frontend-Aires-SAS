@@ -5,13 +5,14 @@ import RegisterClientForm from './RegisterClientForm.js';
 import { jwtDecode } from 'jwt-decode';
 import { useDropzone } from 'react-dropzone';
 import appFirebase from '../../FirebaseConfig.js';
-import ListClients from '../listClients/ListClients.js';
-import { createEquipments } from "../../../api/EquipmentService.js"
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import EquipmentUserList from '../equipmentClientList/EquipmentClientList.js';
+import {createClientNatural, createClientJuridical} from "../../../api/ClientService.js";
+import { useNavigate, Outlet } from 'react-router-dom';
 
-function RegisterClient({clientType}){
+function RegisterClient({ clientType }) {
 
-    const [isNewComponentVisible, setIsNewComponentVisible] = useState(false);
+ 
     const [showModal, setShowModal] = useState(false);  // Estado para mostrar el modal
     const [modalType, setModalType] = useState('');     // Estado para controlar el tipo de acción (cancelar o registrar)
     const [loading, setLoading] = useState(false);
@@ -24,11 +25,13 @@ function RegisterClient({clientType}){
     const [isEditingButtons, setIsEditingButtons] = useState(false);
     const storageApp = getStorage(appFirebase);
     const [personaType, setPersonaType] = useState('');
+    const [isNewComponentVisibleEquipClient, setIsNewComponentVisibleEquipClient] = useState(false);
+    const [selectionAvailableEquipment, setSelectionAvailableEquipment] = useState([]);
+    const navigate = useNavigate();
     const initialFormData = {
         phoneNumber: '',
         address: '',
         pathImage: '',
-        clientState: '',
         name: '',
         lastName: '',
         typeIdentification: '',
@@ -38,7 +41,8 @@ function RegisterClient({clientType}){
         socialReason: '',
         nameLegalRepresentative: '',
         phoneNumberLegalRepresentative: '',
-        emailLegalRepresentative: ''
+        emailLegalRepresentative: '',
+        idsEquipments: []
     };
     const [formData, setFormData] = useState(initialFormData);
 
@@ -92,7 +96,8 @@ function RegisterClient({clientType}){
         setModalType('cancel');
         setShowModal(true);
     };
-    const handleRegister = () => {
+    const handleCleanSelectedEquipments = () => {
+        setSelectionAvailableEquipment([]);
     };
 
     const handleSubmit = (e) => {
@@ -100,13 +105,17 @@ function RegisterClient({clientType}){
         setModalType('register');
         setShowModal(true);
     };
+    const handleSelectEquipmentaAviable = () => {
+        setIsNewComponentVisibleEquipClient(true);
+    }
 
+   
 
     const uploadImage = async () => {
         let dataUser = formData;
         try {
             if (fileUser !== null) {
-                const storageRef = ref(storageApp, `equipments/${fileUser.name}`);
+                const storageRef = ref(storageApp, `clients/${fileUser.name}`);
                 await uploadBytes(storageRef, fileUser).then((res) => {
                     console.log('respuesta', res)
                 });
@@ -122,7 +131,8 @@ function RegisterClient({clientType}){
                 console.log('No image selected');
                 dataUser = {
                     ...dataUser,
-                    pathImage: 'https://firebasestorage.googleapis.com/v0/b/aires-acondiconados.appspot.com/o/equipments%2Fequipment.png?alt=media&token=0c2f85e4-324b-4197-9b5c-1f7debaee4eb'
+                    pathImage: 'https://firebasestorage.googleapis.com/v0/b/aires-acondiconados.appspot.com/o/clients%2Fedificios-modernos.jpg?alt=media&token=8f8e8f17-b86e-47ea-884f-42ce940af314',
+                    idsEquipments: selectionAvailableEquipment.map(equipment => equipment.id)
                 }
             }
         } catch (error) {
@@ -137,40 +147,29 @@ function RegisterClient({clientType}){
         if (modalType === 'cancel') {
             // Acción de cancelar
             setTimeout(() => {
-                setFormData({
-                    name: '',
-                    equipmentType: '',
-                    serialNumber: '',
-                    brand: '',
-                    modelNumber: '',
-                    iventoryNumber: '',
-                    pathImage: ''
-                });
+                setFormData(initialFormData);  // Restablece los datos del formulario
                 setLoading(false);  // Detenemos el spinner
-                setIsNewComponentVisible(true);  // Mostramos el componente ListUsers
+                navigate('/admin/clients'); // Mostramos el componente ListUsers
             }, 200); // Simulamos una espera de 2 segundos
         } else if (modalType === 'register') {
-            const dataUser = await uploadImage();
+            const dataUser = await uploadImage();      
             try {
-                const response = await createEquipments(jwtDecode(localStorage.getItem('authToken')).id, dataUser, localStorage.getItem('authToken'));
+                let response;
+                if(personaType === 'natural'){
+                    response = await createClientNatural(dataUser, localStorage.getItem('authToken'));
+                }else{
+                    response = await createClientJuridical(dataUser, localStorage.getItem('authToken'));
+                }
                 console.log('response status', response.status);
-                if(response.status === 200){
+                if (response.status === 200) {
                     setLoading(false)
-                    setToastMessage(response.data);
+                    setToastMessage("Cliente registrado exitosamente");
                     setToastType('success'); // Tipo de mensaje (éxito)
                     setShowToast(true);
-                    setFormData({
-                        name: '',
-                        equipmentType: '',
-                        serialNumber: '',
-                        brand: '',
-                        modelNumber: '',
-                        iventoryNumber: '',
-                        pathImage: ''
-                    });
+                    setFormData(initialFormData);
                     setIsEditingButtons(true);
                     setTimeout(() => {
-                       setIsNewComponentVisible(true);
+                        navigate('/admin/clients');
                     }, 3000);
                 }
             } catch (error) {
@@ -179,17 +178,51 @@ function RegisterClient({clientType}){
                     setToastType('danger');
                 } else {
                     const errorMessage =
-                    error.response.data && error.response.data
+                        error.response.data && error.response.data
                             ? error.response.data
                             : 'Error al registrar el equipo. Inténtalo de nuevo.';
                     setToastMessage(errorMessage);  // Mostrar el mensaje de error del backend
                     setToastType('danger');  // Tipo de mensaje (error)
                 }
                 setShowToast(true);
-                setLoading(false); 
+                setLoading(false);
             }
         }
     };
+
+    const columns = [
+        {
+            name: 'Equipo',
+            selector: row => row.pathImage, // Suponiendo que 'image' es el campo que contiene la URL de la imagen
+            cell: row => (
+                <img
+                    src={row.pathImage} // Suponiendo que 'image' es el campo que contiene la URL de la imagen
+                    alt="imagen"
+                    style={{ width: '45px', height: '45px', objectFit: 'cover', borderRadius: '80px' }} // Ajusta el tamaño según sea necesario
+                />
+            ),
+            center: true.toString()
+        },
+        {
+            name: "Marca",
+            selector: row => row.brand,
+            sortable: true,
+            center: true.toString()
+        },
+
+        {
+            name: "Modelo",
+            selector: row => row.modelNumber,
+            sortable: true,
+            center: true.toString()
+        },
+        {
+            name: "No. de serie",
+            selector: row => row.serialNumber,
+            sortable: true,
+            center: true.toString()
+        },
+    ];
 
     const handleCloseModal = () => {
         setShowModal(false); // Cerrar el modal sin realizar acción
@@ -199,12 +232,16 @@ function RegisterClient({clientType}){
     if (!isTokenChecked) {
         return null;
     }
-    
+
     return (
-        isNewComponentVisible ? (
-            <ListClients />) : (
-            <div className="principal">
-                <div className='container'>
+         isNewComponentVisibleEquipClient ? (
+                <EquipmentUserList
+                    selectionAvailableEquipment={selectionAvailableEquipment}
+                    setSelectionAvailableEquipment={setSelectionAvailableEquipment}
+                    setIsNewComponentVisibleEquipClient={setIsNewComponentVisibleEquipClient}
+                />) : (
+            <>
+                <div className='client-update-conatiner'>
                     <RegisterClientForm
                         formData={formData}
                         setFormData={setFormData}
@@ -215,11 +252,18 @@ function RegisterClient({clientType}){
                         personaType={personaType}
                         handlePersonaTypeChange={handlePersonaTypeChange}
                         isEditingButtons={isEditingButtons}
+                        showModal={showModal}
+                        handleConfirmAction={handleConfirmAction}
+                        handleCloseModal={handleCloseModal}
                         getRootProps={getRootProps}
                         getInputProps={getInputProps}
                         isDragActive={isDragActive}
                         image={image}
                         clientType={clientType}
+                        columns={columns}
+                        records={selectionAvailableEquipment}
+                        handleSelectEquipmentaAviable={handleSelectEquipmentaAviable}
+                        handleCleanSelectedEquipments={handleCleanSelectedEquipments}
                     />
                 </div>
                 <CustomToast
@@ -228,7 +272,7 @@ function RegisterClient({clientType}){
                     toastMessage={toastMessage}
                     toastType={toastType}
                 />
-            </div>
+            </>
         )
     );
 }

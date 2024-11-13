@@ -1,0 +1,33 @@
+.buttons-equipments-clients {
+  margin-top: 20px;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  gap: 10px;
+
+}
+
+.button-exit,
+.button-save {
+  width: 30% !important;
+  border-radius: 11px;
+  border: none;
+
+}
+
+.button-exit {
+  background-color: #7B7B7B;
+}
+
+.button-save {
+  background-color: #000000;
+}
+
+.button-exit:hover {
+  background-color: #4b4242 !important;
+}
+
+.button-save:hover {
+  background-color: #474040 !important;
+}
+

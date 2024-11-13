@@ -37,8 +37,15 @@
     margin-bottom: 0px !important;
 }
 
-.image-client {
-    height: 78%;
+
+.image-client-update-juridica {
+    height: 72%;
+    margin-bottom: 13px;
+}
+
+.image-client-update-natural {
+    height: 62%;
+    margin-bottom: 15px;
 }
 
 .typeIdentification .form-control,

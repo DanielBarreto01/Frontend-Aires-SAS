@@ -11,10 +11,6 @@ import UpdateClient from "../updateClient/UpdateClient";
 import RegisterClient from "../registerClient/registerClient";
 import { getClients } from "../../../api/ClientService";
 import { useNavigate, Outlet,useLocation  } from 'react-router-dom';
-
-
-
-
 import "../../general.css";
 import "../../user/listUsers/ListUsers.css";
 
@@ -246,7 +242,8 @@ const ListClients = () => {
                                         ) : (
                                             <div className="placeholder">No Image Available</div>
                                         )}
-                                        <p>{records.name}</p>
+                                       <p>{`${records.name || ''} ${records.lastName || ''}`.trim() || records.nameCompany}</p> 
+                                        {/* <p>{records.name || records.nameCompany}</p> */}
                                     </div>
                                 </div>
                             ))}
