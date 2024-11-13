@@ -2,35 +2,35 @@
   "rewrites": [
     {
       "source": "/login",
-      "destination": "http://3.128.153.235:8080/login"
+      "destination": "http://18.216.16.221:8080/login"
     },
     {
       "source": "/users/:path*",
-      "destination": "http://3.128.153.235:8080/users/:path*"
+      "destination": "http://18.216.16.221:8080/users/:path*"
     },
     {
       "source": "/reset-password/validateStatusToken/:path*",
-      "destination": "http://3.128.153.235:8080/reset-password/validateStatusToken/:path*"
+      "destination": "http://18.216.16.221:8080/reset-password/validateStatusToken/:path*"
     },
     {
       "source": "/reset-password/changePassword/:path*",
-      "destination": "http://3.128.153.235:8080/reset-password/changePassword/:path*"
+      "destination": "http://18.216.16.221:8080/reset-password/changePassword/:path*"
     },
     {
       "source": "/reset-password/create",
-      "destination": "http://3.128.153.235:8080/reset-password/create"
+      "destination": "http://18.216.16.221:8080/reset-password/create"
     },
     {
       "source": "/reset-password/validateCode/:path*",
-      "destination": "http://3.128.153.235:8080/reset-password/validateCode/:path*"
+      "destination": "http://18.216.16.221:8080/reset-password/validateCode/:path*"
     },
     {
       "source": "/equipments/:path*",
-      "destination": "http://3.128.153.235:8080/equipments/:path*"
+      "destination": "http://18.216.16.221:8080/equipments/:path*"
     },
     {
       "source": "/clients/:path*",
-      "destination": "http://3.128.153.235:8080/clients/:path*"
+      "destination": "http://18.216.16.221:8080/clients/:path*"
     }
   ]
 }
