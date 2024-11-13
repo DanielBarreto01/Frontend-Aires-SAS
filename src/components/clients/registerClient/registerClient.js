@@ -5,15 +5,14 @@ import RegisterClientForm from './RegisterClientForm.js';
 import { jwtDecode } from 'jwt-decode';
 import { useDropzone } from 'react-dropzone';
 import appFirebase from '../../FirebaseConfig.js';
-import ListClients from '../listClients/ListClients.js';
-import { createEquipments } from "../../../api/EquipmentService.js"
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import EquipmentUserList from '../equipmentClientList/EquipmentClientList.js';
 import {createClientNatural, createClientJuridical} from "../../../api/ClientService.js";
+import { useNavigate, Outlet } from 'react-router-dom';
 
 function RegisterClient({ clientType }) {
 
-    const [isNewComponentVisible, setIsNewComponentVisible] = useState(false);
+ 
     const [showModal, setShowModal] = useState(false);  // Estado para mostrar el modal
     const [modalType, setModalType] = useState('');     // Estado para controlar el tipo de acción (cancelar o registrar)
     const [loading, setLoading] = useState(false);
@@ -28,6 +27,7 @@ function RegisterClient({ clientType }) {
     const [personaType, setPersonaType] = useState('');
     const [isNewComponentVisibleEquipClient, setIsNewComponentVisibleEquipClient] = useState(false);
     const [selectionAvailableEquipment, setSelectionAvailableEquipment] = useState([]);
+    const navigate = useNavigate();
     const initialFormData = {
         phoneNumber: '',
         address: '',
@@ -96,7 +96,8 @@ function RegisterClient({ clientType }) {
         setModalType('cancel');
         setShowModal(true);
     };
-    const handleRegister = () => {
+    const handleCleanSelectedEquipments = () => {
+        setSelectionAvailableEquipment([]);
     };
 
     const handleSubmit = (e) => {
@@ -108,6 +109,7 @@ function RegisterClient({ clientType }) {
         setIsNewComponentVisibleEquipClient(true);
     }
 
+   
 
     const uploadImage = async () => {
         let dataUser = formData;
@@ -129,7 +131,7 @@ function RegisterClient({ clientType }) {
                 console.log('No image selected');
                 dataUser = {
                     ...dataUser,
-                    pathImage: 'https://firebasestorage.googleapis.com/v0/b/aires-acondiconados.appspot.com/o/equipments%2Fequipment.png?alt=media&token=0c2f85e4-324b-4197-9b5c-1f7debaee4eb',
+                    pathImage: 'https://firebasestorage.googleapis.com/v0/b/aires-acondiconados.appspot.com/o/clients%2Fedificios-modernos.jpg?alt=media&token=8f8e8f17-b86e-47ea-884f-42ce940af314',
                     idsEquipments: selectionAvailableEquipment.map(equipment => equipment.id)
                 }
             }
@@ -145,57 +147,29 @@ function RegisterClient({ clientType }) {
         if (modalType === 'cancel') {
             // Acción de cancelar
             setTimeout(() => {
-                setFormData({
-                    phoneNumber: '',
-                    address: '',
-                    pathImage: '',
-                    name: '',
-                    lastName: '',
-                    typeIdentification: '',
-                    numberIdentification: '',
-                    nameCompany: '',
-                    numberIdentificationCompany: '',
-                    socialReason: '',
-                    nameLegalRepresentative: '',
-                    phoneNumberLegalRepresentative: '',
-                    emailLegalRepresentative: ''
-                });
+                setFormData(initialFormData);  // Restablece los datos del formulario
                 setLoading(false);  // Detenemos el spinner
-                setIsNewComponentVisible(true);  // Mostramos el componente ListUsers
+                navigate('/admin/clients'); // Mostramos el componente ListUsers
             }, 200); // Simulamos una espera de 2 segundos
         } else if (modalType === 'register') {
-            const dataUser = await uploadImage();
+            const dataUser = await uploadImage();      
             try {
                 let response;
                 if(personaType === 'natural'){
-                    response = await createClientJuridical(dataUser, localStorage.getItem('authToken'));
+                    response = await createClientNatural(dataUser, localStorage.getItem('authToken'));
                 }else{
                     response = await createClientJuridical(dataUser, localStorage.getItem('authToken'));
                 }
                 console.log('response status', response.status);
                 if (response.status === 200) {
                     setLoading(false)
-                    setToastMessage(response.data);
+                    setToastMessage("Cliente registrado exitosamente");
                     setToastType('success'); // Tipo de mensaje (éxito)
                     setShowToast(true);
-                    setFormData({
-                        phoneNumber: '',
-                        address: '',
-                        pathImage: '',
-                        name: '',
-                        lastName: '',
-                        typeIdentification: '',
-                        numberIdentification: '',
-                        nameCompany: '',
-                        numberIdentificationCompany: '',
-                        socialReason: '',
-                        nameLegalRepresentative: '',
-                        phoneNumberLegalRepresentative: '',
-                        emailLegalRepresentative: ''
-                    });
+                    setFormData(initialFormData);
                     setIsEditingButtons(true);
                     setTimeout(() => {
-                        setIsNewComponentVisible(true);
+                        navigate('/admin/clients');
                     }, 3000);
                 }
             } catch (error) {
@@ -260,8 +234,7 @@ function RegisterClient({ clientType }) {
     }
 
     return (
-        isNewComponentVisible ? (
-            <ListClients />) : isNewComponentVisibleEquipClient ? (
+         isNewComponentVisibleEquipClient ? (
                 <EquipmentUserList
                     selectionAvailableEquipment={selectionAvailableEquipment}
                     setSelectionAvailableEquipment={setSelectionAvailableEquipment}
@@ -290,6 +263,7 @@ function RegisterClient({ clientType }) {
                         columns={columns}
                         records={selectionAvailableEquipment}
                         handleSelectEquipmentaAviable={handleSelectEquipmentaAviable}
+                        handleCleanSelectedEquipments={handleCleanSelectedEquipments}
                     />
                 </div>
                 <CustomToast

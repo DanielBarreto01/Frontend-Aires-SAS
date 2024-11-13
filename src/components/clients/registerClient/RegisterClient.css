@@ -5,6 +5,7 @@
 
 .group-buttons-register-client{
     display: flex;
+    justify-content: center;
     gap: 15px;
   
 }
