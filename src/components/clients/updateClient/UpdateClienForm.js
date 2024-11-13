@@ -7,6 +7,7 @@ import ImageDropzone from '../../loadImage/ImageDropzone';
 import DataTable from 'react-data-table-component';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './UpdateClient.css';
+import "../../general.css";
 
 function UpdateClientForm({
     formData,

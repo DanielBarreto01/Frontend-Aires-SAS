@@ -6,6 +6,7 @@ import ConfirmationModal from "../../ConfirmationModal/ConfirmationModal";
 import ImageDropzone from '../../loadImage/ImageDropzone';
 import './RegisterClient.css';
 import DataTable from 'react-data-table-component';
+import "../../general.css";
 
 function RegisterClientForm({ formData,
     setFormData,

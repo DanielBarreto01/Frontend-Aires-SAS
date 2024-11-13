@@ -5,6 +5,7 @@ import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import ConfirmationModal from "../../ConfirmationModal/ConfirmationModal";
 import ImageDropzone from '../../loadImage/ImageDropzone';
 import './RegisterEquipment.css';
+import "../../general.css";
 
 function RegisterEquipmentForm({ formData,
     setFormData,
@@ -164,10 +165,10 @@ function RegisterEquipmentForm({ formData,
 
                     <Col xs={12} sm={6} className="d-flex justify-content-center"> */}
                         <div className="button-group">
-                            <Button variant="primary" type="submit" className='button-confirmation' disabled = {isEditingButtons}>
+                            <Button variant="primary" type="submit" className='button-confirmationn' disabled = {isEditingButtons}>
                                 Registrar equipo
                             </Button>
-                            <Button variant="secondary" className='button-cancel' onClick={handleCancel} disabled = {isEditingButtons}>
+                            <Button variant="secondary" className='button-cancell' onClick={handleCancel} disabled = {isEditingButtons}>
                             Cancelar Registro
                             </Button>
                         </div>

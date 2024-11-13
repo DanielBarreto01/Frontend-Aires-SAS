@@ -8,6 +8,7 @@ import UpdateClientForm from './UpdateClienForm.js';
 import ListClients from '../listClients/ListClients.js';
 import EquipmentClientSelectionList from './equipmentClientSelectionList/EquipmentClientSelectionList.js';
 import './UpdateClient.css';
+import "../../general.css";
 
 
 function UpdateClient({ client }) {

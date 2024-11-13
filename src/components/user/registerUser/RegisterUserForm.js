@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import ConfirmationModal from "../../ConfirmationModal/ConfirmationModal";
 import ImageDropzone from '../../loadImage/ImageDropzone';
-
+import "../../general.css";
 function RegisterUserForm({ formData,
     setFormData,
     handleInputChange,
@@ -218,10 +218,10 @@ function RegisterUserForm({ formData,
 
                 </Row>
                 <div className="button-group">
-                    <Button variant="primary" type="submit" className='button-register' disabled={loading} onClick={handleRegister} >
+                    <Button variant="primary" type="submit" className='button-confirmationn' disabled={loading} onClick={handleRegister} >
                         Registrar Usuario
                     </Button>
-                    <Button variant="secondary" className='button-no-register' disabled={loading} onClick={handleCancel} >
+                    <Button variant="secondary" className='button-cancell' disabled={loading} onClick={handleCancel} >
                         Cancelar Registro
                     </Button>
                 </div>
