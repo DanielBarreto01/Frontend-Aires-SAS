@@ -22,9 +22,11 @@ function AdminDashboard() {
   const [isTokenChecked, setIsTokenChecked] = useState(false);
   const navigate = useNavigate();
   const [isMenuVisible, setMenuVisible] = useState(true);
-  const [userProfileData, setUserProfileData] = useState({});
+  const [isOverlayVisible, setOverlayVisible] = useState(false);
 
-  
+
+
+
 
   useEffect(() => {  // Mostrar el spinner
     try {
@@ -69,7 +71,7 @@ function AdminDashboard() {
         if (error.response && error.response.status === 403) {
           console.error('Token vencido:', error);
           localStorage.removeItem('authToken');
-        // Eliminar el token de localStorage
+          // Eliminar el token de localStorage
           navigate(`/login`); // Redirigir a la página de login
         } else {
           console.error('Error durante el logout:', error);
@@ -82,10 +84,18 @@ function AdminDashboard() {
 
 
 
+
+
+
+
+
+
     if (logout) {
       handleLogout();
     }
   }, [logout]);
+
+
 
   const handleLogoutClick = () => {
     setShowLogoutModal(true);  // Mostrar el modal de confirmación
@@ -105,59 +115,72 @@ function AdminDashboard() {
 
   const handleNavigation = async (path) => {
     if (path === '/profile-info') {
-        const token = localStorage.getItem('authToken'); // Obtener el token desde el localStorage
-    
-
-        try {
-          const decodedToken = jwtDecode(token);
-          const userId = decodedToken.id;
+      const token = localStorage.getItem('authToken'); // Obtener el token desde el localStorage
 
 
+      try {
+        const decodedToken = jwtDecode(token);
+        const userId = decodedToken.id;
 
-            const userData = await getUserById(userId, token);
 
-            // Formatear los datos recibidos
-            const formattedData = {
-                name: userData.name,
-                lastName: userData.lastName,
-                typeIdentification: userData.typeIdentification,
-                numberIdentification: userData.numberIdentification,
-                email: userData.email,
-                phoneNumber: userData.phoneNumber,
-                address: userData.address,
-                pathImage: userData.pathImage,
-                userStatus: userData.userStatus,
-                // roles: userData.roles || [] // Asegúrate de que sea un array
-                roles: userData.roles && userData.roles.length > 0 ? userData.roles[0].name : null 
-            };
 
-            console.log("Respuesta: ", formattedData);
+        const userData = await getUserById(userId, token);
 
-            // Navegar y pasar los datos en el estado
-            navigate(`/admin${path}`, { state: { user: formattedData } });
-        } catch (error) {
-            console.error("Error al cargar los datos del usuario", error);
-            // Opcional: Mostrar un mensaje de error al usuario
-        }
+        // Formatear los datos recibidos
+        const formattedData = {
+          name: userData.name,
+          lastName: userData.lastName,
+          typeIdentification: userData.typeIdentification,
+          numberIdentification: userData.numberIdentification,
+          email: userData.email,
+          phoneNumber: userData.phoneNumber,
+          address: userData.address,
+          pathImage: userData.pathImage,
+          userStatus: userData.userStatus,
+          // roles: userData.roles || [] // Asegúrate de que sea un array
+          roles: userData.roles && userData.roles.length > 0 ? userData.roles[0].name : null
+        };
+
+        console.log("Respuesta: ", formattedData);
+
+        // Navegar y pasar los datos en el estado
+        navigate(`/admin${path}`, { state: { user: formattedData } });
+      } catch (error) {
+        console.error("Error al cargar los datos del usuario", error);
+        // Opcional: Mostrar un mensaje de error al usuario
+      }
     } else {
-        navigate(`/admin${path}`);
+      navigate(`/admin${path}`);
     }
-};
-
-
-
-
-
-
-
-
-
-
-  // Función para alternar la visibilidad
-  const toggleMenu = () => {
-    setMenuVisible(!isMenuVisible);
   };
 
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setMenuVisible(true);
+        setOverlayVisible(false);
+      } else if (isMenuVisible) {
+        setOverlayVisible(true);
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    handleResize();
+    return () => window.removeEventListener('resize', handleResize);
+  }, [isMenuVisible]);
+
+
+  const toggleMenu = () => {
+    setMenuVisible((prevState) => {
+      const newMenuState = !prevState;
+      if (newMenuState && window.innerWidth < 768) {
+        setOverlayVisible(true);
+      } else {
+        setOverlayVisible(false);
+      }
+      return newMenuState;
+    });
+  };
 
 
 
@@ -166,15 +189,18 @@ function AdminDashboard() {
   }
 
 
+
+
+
   return (
 
     <div className="container-fluid ">
-
 
       <div className="row custom-row" >
         {/* Menú lateral */}
 
         <div className={`col-2 ${isMenuVisible ? '' : 'd-none'}`} style={{ minWidth: '265px', padding: 0, }}>
+
 
           <Nav className=" menuU h-100">
 
@@ -222,7 +248,7 @@ function AdminDashboard() {
             <div className="section-2">
               <div className="separator-line" />
 
-              <Nav.Link className='profile-header-user'onClick={() => handleNavigation('/profile-info')}>
+              <Nav.Link className='profile-header-user' onClick={() => handleNavigation('/profile-info')}>
                 <img src={userData.pathImage} alt="Admin" className="profile-img-user" />
                 <div className="title-profile">
                   <h5 className="profile-title-user">{userData.name} {userData.lastName}</h5>
@@ -256,16 +282,20 @@ function AdminDashboard() {
         <div className="col custom-col">
           <div className="row">
 
-            <div className=" top-bar d-md-none">
-              <button className=" menu-button" onClick={toggleMenu} style={{ margin: '10px' }}>
+            <div className=" top-bar d-md-none ">
+              <button className=" menu-button col-2" onClick={toggleMenu} >
                 <FontAwesomeIcon className="icon-margin" icon={faBars} />
               </button>
             </div>
+          
             <Outlet />
+
           </div>
+          <div className={`content-overlay ${isOverlayVisible ? 'visible' : ''}`} onClick={toggleMenu}></div>
         </div>
-        
       </div>
+
+
 
 
 

@@ -288,10 +288,10 @@ function UserProfileForm({ formData,
                         {isEditing ? (
                             <>
                                 <div className="button-group">
-                                    <Button variant="primary" type="submit" className='button-confirmation' disabled={loading} >
+                                    <Button variant="primary" type="submit" className='button-confirmationn' disabled={loading} >
                                         Guardar cambios
                                     </Button>
-                                    <Button variant="secondary" className='button-cancel' onClick={handleCancel}>
+                                    <Button variant="secondary" className='button-cancell' onClick={handleCancel}>
                                         Cancelar edición
                                     </Button>
                                 </div>
@@ -300,10 +300,10 @@ function UserProfileForm({ formData,
                         ) : (
                             <>
                                 <div className="button-group">
-                                    <Button variant="primary" type="button" className='button-confirmation' onClick={handleEditClick}>
+                                    <Button variant="primary" type="button" className='button-confirmationn' onClick={handleEditClick}>
                                         Editar
                                     </Button>
-                                    <Button variant="secondary" type="button" className='button-cancel' onClick={handleShowListUsers} >
+                                    <Button variant="secondary" type="button" className='button-cancell' onClick={handleShowListUsers} >
                                         Regresar
                                     </Button>
                                 </div>

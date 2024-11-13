@@ -257,6 +257,12 @@
     font-size: 18px;
     cursor: pointer;
   }
+  
+  .menu-button:hover{
+    background-color: #000000 !important;
+}
+ 
+
 
 .col.custom-col {
     position: relative;
@@ -264,17 +270,21 @@
 }
 
 
-@media (max-width: 767px) {
 
-    /* Aplica solo para pantallas menores a 576px */
-    .content-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: rgba(0, 0, 0, 0.7);
-        /* Fondo más oscuro */
-        z-index: 2;
+
+.content-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro semitransparente */
+    z-index: 1000; /* Asegúrate de que esté sobre el contenido principal */
+    display: none; /* Inicialmente oculto */
+  }
+  
+  @media (max-width: 768px) {
+    .content-overlay.visible {
+      display: block;
     }
-}
+  }

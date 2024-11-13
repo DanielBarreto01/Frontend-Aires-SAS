@@ -305,13 +305,13 @@ function RegisterClientForm({ formData,
 
                     <Col xs={12} sm={6} className="d-flex justify-content-center">
                         <div className="button-group">
-                            <Button variant="primary" type="submit" className='button-confirmation' onClick={handleShowListEquipmentClient} >
+                            <Button variant="primary" type="submit" className='button-confirmationn' onClick={handleShowListEquipmentClient} >
                                 Asociar equipos
                             </Button>
-                            <Button variant="primary" type="submit" className='button-confirmation' disabled={isEditingButtons}>
+                            <Button variant="primary" type="submit" className='button-confirmationn' disabled={isEditingButtons}>
                                 Registrar cliente
                             </Button>
-                            <Button variant="secondary" className='button-cancel' onClick={handleCancel} disabled={isEditingButtons}>
+                            <Button variant="secondary" className='button-cancell' onClick={handleCancel} disabled={isEditingButtons}>
                                 Cancelar Registro
                             </Button>
                         </div>

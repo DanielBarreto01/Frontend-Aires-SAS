@@ -187,10 +187,10 @@ function UpdateEquipmentForm({
                         {isEditing ? (
                             <>
                                 <div className="button-group-equipment-update">
-                                    <Button variant="primary" type="submit" className='button-confirmation' disabled={isEditingButtons} >
+                                    <Button variant="primary" type="submit" className='button-confirmationn' disabled={isEditingButtons} >
                                         Guardar cambios
                                     </Button>
-                                    <Button variant="secondary" className='button-cancel' onClick={handleCancel} disabled={isEditingButtons}>
+                                    <Button variant="secondary" className='button-cancell' onClick={handleCancel} disabled={isEditingButtons}>
                                         Cancelar edición
                                     </Button>
                                 </div>
@@ -199,10 +199,10 @@ function UpdateEquipmentForm({
                         ) : (
                             <>
                                 <div className="button-group-equipment-update">
-                                    <Button variant="primary" type="button" className='button-confirmation' onClick={handleEditClick}>
+                                    <Button variant="primary" type="button" className='button-confirmationn' onClick={handleEditClick}>
                                         Editar
                                     </Button>
-                                    <Button variant="secondary" type="button" className='button-cancel' onClick={handleShowListEquipment}>
+                                    <Button variant="secondary" type="button" className='button-cancell' onClick={handleShowListEquipment}>
                                         Regresar
                                     </Button>
                                 </div>
