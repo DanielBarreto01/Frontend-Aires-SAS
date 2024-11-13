@@ -28,8 +28,8 @@
 }
 
 @media only screen and (max-width: 772px) {
-    .cotainer-buttons{
-        margin-top: 80px;
+    .table-container-update-client{
+        margin-top: 50px !important;
         width: 100%;
     }
 }
