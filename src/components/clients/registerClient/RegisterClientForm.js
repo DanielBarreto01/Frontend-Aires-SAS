@@ -340,7 +340,7 @@ function RegisterClientForm({ formData,
                 <Row className='cotainer-buttons'>
                   
                         <div className="group-buttons-register-client">
-                            <Button variant="primary" type="submit" className='button-confirmation' disabled={isEditingButtons}>
+                            <Button variant="primary" type="submit" className='button-confirmationn' disabled={isEditingButtons}>
 
                                 Registrar cliente
                             </Button>

@@ -77,7 +77,7 @@ function RegisterUserForm({ formData,
                             <div className="icon-container">
                                 <Form.Control
                                     as="select"
-                                    name="typeIdentificationUser"
+                                    name="typeIdentification"
                                     value={formData.typeIdentification}
                                     onChange={handleInputChange}
                                     required
