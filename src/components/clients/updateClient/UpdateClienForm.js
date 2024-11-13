@@ -27,9 +27,11 @@ function UpdateClientForm({
     isEditing,
     handleEditClick,
     modalType,
-    handleShowListEquipmentClient,
+    handleShowListlistAssignedEquipment,
     columns,
     records,
+    handleSelectEquipmentaAviable,
+    handleCleanSelectedEquipments,
     clientType // Añadir clientType como prop
 }) {
     const dropzoneClass = clientType === 'JuridicalPersons' ? 'image-client-update-juridica' : 'image-client-update-natural';
@@ -370,10 +372,10 @@ function UpdateClientForm({
                     <div className='row table-container-update-client'>
                         <div className='col-12 col-md-5 title-equip'><h2>Equipos</h2></div>
                         <div className='col-12 col-md-7 button-group-list-equip'>
-                            <Button variant="primary" type="submit" className='button-select' disabled={isEditingButtons}>
+                            <Button variant="primary" type="submit" className='button-select' onClick={handleSelectEquipmentaAviable} disabled={isEditingButtons}>
                                 Seleccionar
                             </Button>
-                            <Button variant="secondary" className='button-clean' onClick={handleCancel} disabled={isEditingButtons}>
+                            <Button variant="secondary" className='button-clean' onClick={handleCleanSelectedEquipments} disabled={isEditingButtons}>
                                 Limpiar
                             </Button>
                         </div>
@@ -412,7 +414,7 @@ function UpdateClientForm({
                     ) : (
                         <>
                             <div className="button-group">
-                                <Button variant="primary" type="submit" className='button-confirmation' onClick={handleShowListEquipmentClient}>
+                                <Button variant="primary" type="submit" className='button-confirmation' onClick={handleShowListlistAssignedEquipment}>
                                     Consultar equipos
                                 </Button>
                                 <Button variant="primary" type="button" className='button-confirmation' onClick={handleEditClick}>
