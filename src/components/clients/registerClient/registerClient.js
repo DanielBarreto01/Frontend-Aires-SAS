@@ -155,7 +155,7 @@ function RegisterClient({ clientType }) {
             const dataUser = await uploadImage();      
             try {
                 let response;
-                if(personaType === 'natural'){
+                if(clientType === 'natural'){
                     response = await createClientNatural(dataUser, localStorage.getItem('authToken'));
                 }else{
                     response = await createClientJuridical(dataUser, localStorage.getItem('authToken'));
