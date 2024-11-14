@@ -273,7 +273,7 @@ const ListEquipments = () => {
                 </div>
 
                 <div className='col-12 col-sm-3 col-md-2' >
-                    <Button className="button-Create"  onClick={handleButtonClick} >Agregar equipo</Button>
+                    <Button className="button-Custom"  onClick={handleButtonClick} >Agregar equipo</Button>
                 </div>
 
 

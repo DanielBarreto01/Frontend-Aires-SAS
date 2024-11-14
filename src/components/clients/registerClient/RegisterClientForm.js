@@ -6,6 +6,7 @@ import ConfirmationModal from "../../ConfirmationModal/ConfirmationModal";
 import ImageDropzone from '../../loadImage/ImageDropzone';
 import './RegisterClient.css';
 import DataTable from 'react-data-table-component';
+import "../../general.css";
 
 function RegisterClientForm({ formData,
     setFormData,
@@ -306,6 +307,7 @@ function RegisterClientForm({ formData,
                     </Col>
                 </Row>
                 <div className='row table-container-update-client'>
+
                     <div className='col-12 col-md-5 title-equip' ><h2>Equipos</h2></div>
                     <div className='col-12 col-md-7 button-group-list-equip'>
                         <Button variant="secoondary" type="submit" className='button-select' onClick={handleSelectEquipmentaAviable} >
@@ -339,10 +341,11 @@ function RegisterClientForm({ formData,
                 <Row className='cotainer-buttons'>
                   
                         <div className="group-buttons-register-client">
-                            <Button variant="primary" type="submit" className='button-confirmation' disabled={isEditingButtons}>
+                            <Button variant="primary" type="submit" className='button-confirmationn' disabled={isEditingButtons}>
+
                                 Registrar cliente
                             </Button>
-                            <Button variant="secondary" className='button-cancel' onClick={handleCancel} disabled={isEditingButtons}>
+                            <Button variant="secondary" className='button-cancell' onClick={handleCancel} disabled={isEditingButtons}>
                                 Cancelar Registro
                             </Button>
                         </div>

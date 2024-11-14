@@ -12,6 +12,8 @@ import './UpdateClient.css';
 import { updateClient } from "../../../api/ClientService";
 import { getEquipmentsIdClient } from "../../../api/EquipmentService";
 import { useNavigate, useLocation } from 'react-router-dom';
+import "../../general.css";
+
 
 
 function UpdateClient() {

@@ -169,20 +169,7 @@
 
 
 
-.button-Create{
-    border-radius: 9px;
-    background-color: #7B7B7D;
-    
-    border: none;
-    margin-top: 10px;
-   
-    white-space: normal; /* Permitir que el texto se divida en varias líneas */
-    overflow: hidden; /* Esconder cualquier texto que desborde */
-    text-overflow: ellipsis; /* Mostrar puntos suspensivos si el texto es demasiado largo */
-    display: inline-block;
-    height: 38px;
-    width: 100%;
-}
+
 
 .table-container{
     border-radius: 20px !important;

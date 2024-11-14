@@ -132,13 +132,7 @@ h2 {
 
 }
 
-.button-confirmation {
-  background-color: #000000;
-  border-radius: 11px;
-  font-size: 15px;
-  width: 45%;
-  border: none;
-}
+
 
 .button-cancel {
   background-color: #7B7B7B;
@@ -147,9 +141,7 @@ h2 {
   width: 45% !important;
 }
 
-.button-confirmation:hover {
-  background-color: #353333 !important;
-}
+
 
 .phoneNumberPro input[type="text"],
 .numberIdentificationPro input[type="text"] {

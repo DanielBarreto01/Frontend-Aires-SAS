@@ -236,7 +236,7 @@ const ListClients = () => {
                 </div>
 
                 <div className='col-12 col-sm-3 col-md-2' >
-                <Button className="button-Create" onClick={handleNavigateToCustomerSelection}>Agregar Cliente</Button>
+                <Button className="button-Custom" onClick={handleNavigateToCustomerSelection}>Agregar Cliente</Button>
 
                 </div>
                 <div className='col-12 gallery-scroll-container'>

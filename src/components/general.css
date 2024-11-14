@@ -2,3 +2,49 @@
     font-family: Arial, sans-serif ;
     font-weight: 900 !important; 
 }
+
+.button-Custom{
+    border-radius: 9px;
+    background-color: #7B7B7D;
+    border: none;
+    margin-top: 10px;
+    width: 100%;
+    text-align: center;  /* Asegura que el texto dentro del botón esté centrado */
+    padding: 8px; 
+    white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+    overflow: hidden;
+    text-overflow: ellipsis; 
+}
+
+.button-Custom:hover{
+    background-color: #000000 !important;
+
+}
+
+.button-confirmationn {
+    background-color: #7B7B7B ;
+    /* background-color: #000000; */
+    border-radius: 11px;
+    font-size: 15px;
+    width: 45%;
+    border: none;
+    text-align: center;
+     
+  }
+  
+  .button-confirmationn:hover {
+    /* background-color: #7B7B7B !important; */
+    background-color: #000000 !important;; 
+  }
+
+  .button-cancell {
+    background-color: #7B7B7B;
+    border-radius: 11px;
+    font-size: 15px;
+    width: 45% !important;
+    text-align: center; 
+  }
+
+  .button-cancell:hover {
+    background-color: #000000 !important;
+  }

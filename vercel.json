@@ -31,6 +31,7 @@
     {
       "source": "/clients/:path*",
       "destination": "http://3.140.185.161:8080/clients/:path*"
+
     }
   ]
 }
