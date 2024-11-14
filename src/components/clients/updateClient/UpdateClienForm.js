@@ -20,7 +20,7 @@ function UpdateClientForm({
     image,
     loading,
     handleCancel,
-    handleShowListEquipment,
+    handleShowListClients,
     showModal,
     handleCloseModal,
     handleConfirmAction,
@@ -403,10 +403,10 @@ function UpdateClientForm({
                         <>
                             <div className='col-12 col-sm-1 col-md-5'></div>
                             <div className='col-12 col-sm-11 col-md-7 group-buttons-client'>
-                                <Button variant="primary" type="submit" className='button-confirmation' disabled={isEditingButtons}>
+                                <Button variant="primary" type="submit" className='button-confirmation' >
                                     Guardar cambios
                                 </Button>
-                                <Button variant="secondary" className='button-cancel' onClick={handleCancel} disabled={isEditingButtons}>
+                                <Button variant="secondary" className='button-cancel' onClick={handleCancel} >
                                     Cancelar edición
                                 </Button>
                             </div>
@@ -414,13 +414,13 @@ function UpdateClientForm({
                     ) : (
                         <>
                             <div className="button-group">
-                                <Button variant="primary" type="submit" className='button-confirmation' onClick={handleShowListlistAssignedEquipment}>
+                                <Button variant="secondary" type="button" className='button-confirmation' onClick={handleShowListlistAssignedEquipment} disabled={isEditingButtons}>
                                     Consultar equipos
                                 </Button>
-                                <Button variant="primary" type="button" className='button-confirmation' onClick={handleEditClick}>
+                                <Button variant="primary" type="button" className='button-confirmation' onClick={handleEditClick}disabled={isEditingButtons}>
                                     Editar
                                 </Button>
-                                <Button variant="secondary" type="button" className='button-cancel' onClick={handleShowListEquipment}>
+                                <Button variant="secondary" type="button" className='button-cancel' onClick={ handleShowListClients} disabled={isEditingButtons}>
                                     Regresar
                                 </Button>
                             </div>

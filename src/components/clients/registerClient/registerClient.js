@@ -123,7 +123,8 @@ function RegisterClient({ clientType }) {
                 const url = await getDownloadURL(storageRef);
                 dataUser = {
                     ...dataUser,  // Copia el resto de las propiedades
-                    pathImage: url
+                    pathImage: url,
+                    idsEquipments: selectionAvailableEquipment.map(equipment => equipment.id)
                 }
                 console.log('Image URL subida:', await getDownloadURL(storageRef));
 
@@ -145,12 +146,11 @@ function RegisterClient({ clientType }) {
         setShowModal(false);  // Cerramos el modal primero
         setLoading(true);
         if (modalType === 'cancel') {
-            // Acción de cancelar
+            setLoading(false); 
             setTimeout(() => {
-                setFormData(initialFormData);  // Restablece los datos del formulario
-                setLoading(false);  // Detenemos el spinner
-                navigate('/admin/clients'); // Mostramos el componente ListUsers
-            }, 200); // Simulamos una espera de 2 segundos
+                setFormData(initialFormData); 
+                navigate('/admin/clients', { state: { key: Date.now() } }); // Mostramos el componente ListUsers
+            }, 200);
         } else if (modalType === 'register') {
             const dataUser = await uploadImage();      
             try {
@@ -169,7 +169,7 @@ function RegisterClient({ clientType }) {
                     setFormData(initialFormData);
                     setIsEditingButtons(true);
                     setTimeout(() => {
-                        navigate('/admin/clients');
+                        navigate('/admin/clients', { state: { key: Date.now() } });
                     }, 3000);
                 }
             } catch (error) {

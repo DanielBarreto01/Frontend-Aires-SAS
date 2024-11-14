@@ -22,7 +22,6 @@ const ListClients = () => {
     const [records, setRecords] = useState([]);
     const [selectedClient, setSelectedClient] = useState(null);
     const [isTokenChecked, setIsTokenChecked] = useState(false);
-    const [isClientDetailsVisible, setIsClientDetailsVisible] = useState(false);
     const [search, setSearch] = useState("name");
     const navigate = useNavigate();
     const location = useLocation();
@@ -94,7 +93,7 @@ const ListClients = () => {
         }, 200);
         return () => clearTimeout();
 
-    }, []);
+    }, [location.state]);
 
     const fetchData = async () => {
         try {
@@ -126,34 +125,49 @@ const ListClients = () => {
             //     return record.email.toLowerCase().includes(e.target.value.toLowerCase());
             // }
             // return null;
-            return record.name.toLowerCase().includes(e.target.value.toLowerCase()) ||
-                record.id.toString().includes(e.target.value.toLowerCase()) ||
-                record.brand.toLowerCase().includes(e.target.value.toLowerCase()) ||
-                record.modelNumber.toLowerCase().includes(e.target.value) ||
-                record.serialNumber.toLowerCase().includes(e.target.value) ||
-                record.iventoryNumber.toString().includes(e.target.value.toLowerCase())
+            if(record.clientType ==='NaturalPerson') {
+                return record.name.toLowerCase().includes(e.target.value.toLowerCase()) ||
+                    record.lastName.toLowerCase().includes(e.target.value.toLowerCase()) ||
+                    `${record.name} ${record.lastName}`.toLowerCase().includes(e.target.value.toLowerCase()) ||  
+                    record.numberIdentification.toString().includes(e.target.value) 
+            } else {
+                return record.nameCompany.toLowerCase().includes(e.target.value.toLowerCase()) ||
+                record.numberIdentificationCompany.toString().includes(e.target.value)
+            }
+               
         }));
     }
 
 
     const handleNavigateToCustomerSelection = () => {
         navigate('/admin/clients/CustomerSelection');
-      };
+    };
 
      const isCustomerSelection = location.pathname === '/admin/clients/CustomerSelection';
+     const isUpdateClient = location.pathname === '/admin/clients/update';
 
-      if (isCustomerSelection) {
+      if (isCustomerSelection || isUpdateClient) {
         return <Outlet />;
     }
  
 
 
 
-    const handleItemClick = (location) => {
-        setSelectedClient(location);
-        console.log(location, " muestra la seleccion")
-        setIsClientDetailsVisible(true)
+    const handleItemClick = (client) => {
+        navigate('/admin/clients/update' ,{
+            state: {client}    
+        });
+       
+       //isCustomerSelection = location.pathname === '/admin/clients/update';
+        // setSelectedClient(location);
+        // console.log(location, " muestra la seleccion")
+        // setIsClientDetailsVisible(true)
     };
+
+
+    // let isCustomerSelectinonn = location.pathname === '/admin/clients/update';
+
+
 
     if (!isTokenChecked) {
         return null;
@@ -164,9 +178,7 @@ const ListClients = () => {
   
 
     return (
-        isClientDetailsVisible ? (
-            <UpdateClient client={selectedClient} />
-        ) : isNewComponentVisible ? (
+        isNewComponentVisible ? (
             <RegisterClient />
         ) : (
             <div className='row'>

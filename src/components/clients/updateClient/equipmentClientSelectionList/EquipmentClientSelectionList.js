@@ -12,7 +12,7 @@ import "./EquipmentClientList.css";
 import { useNavigate, Outlet } from 'react-router-dom';
 
 
-const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableEquipment, setIsNewComponentVisibleEquipClient, clientId}) => {
+const EquipmentUserList = ({ selectNewEquipments, setSelectNewEquipments, setSelectionEqipmentsClient, client}) => {
     const [data, setData] = useState([]);
     const [selectedOption, setSelectedOption] = useState("Seleccione un rol");
     const [loading, setLoading] = useState(false);
@@ -36,7 +36,7 @@ const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableE
                 console.log("token", token);
                 if (token !== null && jwtDecode(token).exp * 1000 > Date.now()) { // && jwtDecode(token).exp*1000 >  Date.now()
                     fetchData();
-                    setIdsEquipmentsSelection(selectionAvailableEquipment.map(equipment => equipment.id));
+                    setIdsEquipmentsSelection(selectNewEquipments.map(equipment => equipment.id));
                     setIsTokenChecked(true);
                     setLoading(true);
                 } else {
@@ -59,7 +59,7 @@ const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableE
         setLoading(false);
         try {
             const token = localStorage.getItem('authToken');
-            const response = await getEquipmentsIdClient(clientId, token);
+            const response = await getEquipmentsIdClient(client.id, token);
             setData(response);
             setRecords(response);
             setTimeout(() => {
@@ -138,12 +138,12 @@ const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableE
     }
 
     const handleButtonClick = () => {
-        setIsNewComponentVisibleEquipClient(prevState => !prevState); // Cambia el estado para mostrar el nuevo componente
+        setSelectionEqipmentsClient(prevState => !prevState); // Cambia el estado para mostrar el nuevo componente
     };
 
     const handleButtonSave = () => {
-        setSelectionAvailableEquipment(selectedRows);
-        setIsNewComponentVisibleEquipClient(prevState => !prevState); // Cambia el estado para mostrar el nuevo componente
+        setSelectNewEquipments(selectedRows);
+        setSelectionEqipmentsClient(prevState => !prevState); // Cambia el estado para mostrar el nuevo componente
     };
 
     const conditionalRowStyles = [
@@ -162,8 +162,6 @@ const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableE
        
         // setIdsEquipments(state.selectedRows.map(row => row.id));
         setSelectedRows(state.selectedRows);
-      
-        console.log("selectedRows", state.selectedRows);
         // Aquí se almacena las filas seleccionadas
     };
 
@@ -175,9 +173,7 @@ const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableE
      // };
 
       const selectableRowSelected = useMemo(() => {
-        console.log('el length es igual a ', idsEquipmentsSelection.length);
         if(idsEquipmentsSelection.length == 0) {
-            console.log("el length es 0", idsEquipmentsSelection);
             return (row) => records.map(record => record.id).includes(row.id);
         }else{
             return (row) => idsEquipmentsSelection.includes(row.id);
@@ -199,11 +195,11 @@ const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableE
 
     return (
         <div className='row'>
-            <div className='col-12 col-md-4 title1'>
-                <h2 className="text-start title">Equipos-Clientes </h2>
+            <div className='col-12 col-md-5 title1'>
+                <h2 className="text-start title">Equipos-{`${client.name || ''} ${client.lastName || ''}`.trim() || client.nameCompany}</h2>
             </div>
 
-            <div className='col-6 col-sm-6 col-md-5 ' >
+            <div className='col-6 col-sm-6 col-md-4 ' >
                 <form >
                     <div className='input-container'>
                         <FontAwesomeIcon icon={faSearch} className="icon" />
