@@ -17,9 +17,16 @@
     font-size: 0.8em !important;
 }
 
-.image-client-register{
+.image-client-register-juridica{
     width: 100%;
     height: 46%;
+    margin-bottom: 15px;
+  
+}
+
+.image-client-register-natural{
+    width: 100%;
+    height: 20% !important;
     margin-bottom: 15px;
   
 }

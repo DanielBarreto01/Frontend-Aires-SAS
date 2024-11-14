@@ -11,6 +11,7 @@ import ListEquipments from '../components/equipments/listEquipments/ListEquipmen
 import RegisterEquipment from '../components/equipments/registerEquipments/RegisterEquipment';
 import UpdateEquipment from '../components/equipments/updateEquipments/UpdateEquipment';
 import ListClients from '../components/clients/listClients/ListClients';
+import UpdateClient from '../components/clients/updateClient/UpdateClient';
 
 import CustomerSelection from '../components/clients/customerSelection/CustomerSelection';
 
@@ -34,6 +35,7 @@ function AppRouter() {
 
         <Route path="clients" element={<ListClients />}>
           <Route path="CustomerSelection" element={<CustomerSelection />} />
+          <Route path="update" element={<UpdateClient />} />
         </Route>
       </Route>
 

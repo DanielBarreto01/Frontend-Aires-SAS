@@ -6,12 +6,20 @@ import appFirebase from '../../FirebaseConfig.js';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import UpdateClientForm from './UpdateClienForm.js';
 import ListClients from '../listClients/ListClients.js';
-import EquipmentClientSelectionList from './equipmentClientSelectionList/EquipmentClientSelectionList.js';
+import EquipmentClientSelectionList from '../equipmentClientList/EquipmentClientList.js';
+import EquipmentClientSelection from './equipmentClientSelectionList/EquipmentClientSelectionList.js';
 import './UpdateClient.css';
+import { updateClient } from "../../../api/ClientService";
+import { getEquipmentsIdClient } from "../../../api/EquipmentService";
+import { useNavigate, useLocation } from 'react-router-dom';
 import "../../general.css";
 
 
-function UpdateClient({ client }) {
+
+function UpdateClient() {
+    const location = useLocation();
+    const navigate = useNavigate();
+    const client = location.state?.client;
     const [isNewComponentVisible, setIsNewComponentVisible] = useState(false);
     const [showModal, setShowModal] = useState(false);  // Estado para mostrar el modal
     const [modalType, setModalType] = useState('');     // Estado para controlar el tipo de acción (cancelar o registrar)
@@ -27,64 +35,67 @@ function UpdateClient({ client }) {
     const storageApp = getStorage(appFirebase);
     const [isNewComponentVisibleEquipClient, setIsNewComponentVisibleEquipClient] = useState(false);
     const [selectionAvailableEquipment, setSelectionAvailableEquipment] = useState([]);
-    let equipmentData = null;
+    const [selectionEqipmentsClient, setSelectionEqipmentsClient] = useState(false);
+    const [selectNewEquipments, setSelectNewEquipments] = useState([]);
+    const defaultClientData = {
+        name: '',
+        typeIdentification: '',
+        numberIdentification: '',
+        address: '',
+        phoneNumber: '',
+        email: '',
+        clientState: false, // Ajusta según el valor predeterminado deseado
+        pathImage: '',
+        clientType: '',
+        lastName: '',
+        nameCompany: '',
+        numberIdentificationCompany: '',
+        socialReason: '',
+        nameLegalRepresentative: '',
+        phoneNumberLegalRepresentative: '',
+        emailLegalRepresentative: '',
+        clientType: '',
+        idsEquipments: []
+    };
 
     const loadformData = () => {
-        const dataUser = {
-            name: client.name || '',
-            typeIdentification: client.typeIdentification || '',
-            numberIdentification: client.numberIdentification || '',
-            address: client.address || '',
-            phoneNumber: client.phoneNumber.toString() || '',
-            email: client.email || '',
-            clientState: client.clientState,
-            pathImage: client.pathImage || '',
-            clientType: client.clientType ||'',
-            lastName:client.lastName || '',
-            nameCompany: client.nameCompany ||"",
-            numberIdentificationCompany:client.numberIdentificationCompany ||'',
-            socialReason:client.socialReason ||'',
-            nameLegalRepresentative: client.nameLegalRepresentative ||'',
-            phoneNumberLegalRepresentative: client.phoneNumberLegalRepresentative ||'',
-            emailLegalRepresentative:client.emailLegalRepresentative ||''
-
-        }
-        return dataUser;
+        const clientData = Object.assign({}, defaultClientData, {
+            ...client,
+            phoneNumber: client.phoneNumber?.toString() || '', // Convierte a string si está definido
+        });
+        return clientData;
     }
 
-    const [formData, setFormData] = useState({
-        name: '',
-        equipmentType: '',
-        serialNumber: '',
-        brand: '',
-        modelNumber: '',
-        iventoryNumber: '',
-        pathImage: ''
-    });
+    const [formData, setFormData] = useState(defaultClientData);
 
     useEffect(() => {
-        setTimeout(() => {
-            try {
-                //setFormData(null);
-                setFormData(loadformData());
-                if (localStorage.getItem('authToken') === null && jwtDecode(localStorage.getItem('authToken')).exp * 1000 < Date.now()) { // && jwtDecode(token).exp*1000 >  Date.now()
-                    localStorage.removeItem('authToken');
-                    setIsTokenChecked(false);
-                    window.location.href = '/login';
-                }
-            } catch (error) {
-                console.error('Error checking token:', error);
+        try {
+            !client ? navigate('/admin/clients', { state: { key: Date.now() } }) : setFormData(loadformData());
+            fetchEquipments();
+            if (localStorage.getItem('authToken') === null && jwtDecode(localStorage.getItem('authToken')).exp * 1000 < Date.now()) { // && jwtDecode(token).exp*1000 >  Date.now()
+                localStorage.removeItem('authToken');
+                setIsTokenChecked(false);
+                window.location.href = '/login';
             }
-
-        }, 200);
-        return () => clearTimeout();
+        } catch (error) {
+            console.error('Error checking token:', error);
+        }
     }, []);
+
+    const fetchEquipments = async () => {
+        let equipments = [];
+        try {
+            equipments = await getEquipmentsIdClient(client.id, localStorage.getItem('authToken'));
+            setSelectNewEquipments(equipments);
+        } catch (error) {
+            console.error("Error fetching equipments:", error);
+        }
+    };
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         accept: 'image/*',
         onDrop: (acceptedFiles) => {
             const file = acceptedFiles[0];
-            console.log('nombre de la imgen subida', file);
             const previewUrl = URL.createObjectURL(file);
             setFileUser(file);
             setImage(previewUrl); // Actualizar el estado con la imagen seleccionada
@@ -99,37 +110,39 @@ function UpdateClient({ client }) {
         });
     };
 
-    const handleCancel = () => {
+    const handleShowListClients = () => {
         try {
-            console.log('image format', image);
             if (JSON.stringify(loadformData()) !== JSON.stringify(formData) || (image !== null && image !== loadformData().pathImage)) {
                 setShowModal(true);
                 setModalType('cancel');
             } else {
-                setIsEditingFormulary(false);
+                navigate('/admin/clients', { state: { key: Date.now() } });
             }
         } catch (error) {
             console.error('Error canceling:', error);
-            setIsEditingFormulary(false);
+            navigate('/admin/clients', { state: { key: Date.now() } });
         }
 
     };
+
+    const handleCancel = () => {
+        setIsEditingFormulary(false);
+    }
 
     const handleEditClick = (event) => {
         event.preventDefault();
         setIsEditingFormulary(true);
     }
     const handleShowListEquipment = () => {
-        setIsNewComponentVisible(true);
+        navigate('/admin/clients');
     };
 
     const handleShowListlistAssignedEquipment = () => {
-        setIsNewComponentVisibleEquipClient(true);
+        setSelectionEqipmentsClient(true);
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('Form Data:', formData);
         setModalType('register');
         setShowModal(true);
     };
@@ -141,32 +154,39 @@ function UpdateClient({ client }) {
         setSelectionAvailableEquipment([]);
     };
 
+    const mergedList = [...selectionAvailableEquipment, ...selectNewEquipments].reduce((acc, current) => {
+        if (!acc.find(item => item.id === current.id)) {
+            acc.push(current);
+        }
+        return acc;
+    }, []);
+
     const uploadImage = async () => {
+        let dataClient = formData;
         try {
             if (fileUser !== null) {
+
                 const storageRef = ref(storageApp, `equipments/${fileUser.name}`);
                 await uploadBytes(storageRef, fileUser).then((res) => {
                     console.log('respuesta', res)
                 });
-                console.log('Image uploaded successfully');
                 // setImageUrl(await getDownloadURL(storageRef))
                 const url = await getDownloadURL(storageRef);
-                equipmentData = {
-                    name: formData.name,
-                    equipmentType: formData.equipmentType,
-                    serialNumber: formData.serialNumber,
-                    brand: formData.brand,
-                    modelNumber: formData.modelNumber,
-                    iventoryNumber: formData.iventoryNumber,
-                    pathImage: url                 
-                };
-                console.log('Image URL subida:', await getDownloadURL(storageRef));
+                dataClient = {
+                    ...dataClient,  // Copia el resto de las propiedades
+                    pathImage: url,
+                    idsEquipments: mergedList.map(equipment => equipment.id)
+                }
             } else {
-                equipmentData = formData;
+                dataClient = {
+                    ...dataClient,  // Copia el resto de las propiedades
+                    idsEquipments: mergedList.map(equipment => equipment.id)
+                }
             }
         } catch (error) {
             console.error('Error uploading image:', error);
         }
+        return dataClient;
     };
 
     const handleConfirmAction = async () => {
@@ -174,14 +194,51 @@ function UpdateClient({ client }) {
         if (modalType === 'cancel') {
             setFormData((prevState) => {
                 setImage((prevStat) => {
-                    setIsEditingFormulary(false);
+                    setSelectionAvailableEquipment([]);
+                    setSelectNewEquipments([]);
+                    setFormData(defaultClientData)
+                    navigate('/admin/clients', { state: { key: Date.now() } });
                     return formData.pathImage
                 });
                 return loadformData();
             });
         } else if (modalType === 'register') {
             setLoading(true);
-            await uploadImage(fileUser);
+            const dataClient = await uploadImage(fileUser);
+            setLoading(false);
+            try {   
+                const response = await updateClient(client.id, dataClient, localStorage.getItem('authToken'));
+                if (response.status === 200) {
+                    setToastType('success');
+                    setToastMessage('Cliente actualizado correctamente');
+                    setShowToast(true);
+                    setLoading(false);
+                    setIsEditingButtons(true);
+                    setIsEditingFormulary(false);
+                    setTimeout(() => {
+                        setSelectionAvailableEquipment([]);
+                        setSelectNewEquipments([]);
+                        setFormData(defaultClientData)
+                        navigate('/admin/clients', { state: { key: Date.now() } });
+                    }, 3000);
+                }
+
+            } catch (error) {
+                console.error('Error updating client:', error);
+                if (!error.response) {
+                    setToastMessage('No se puede conectar al servidor. Verifica tu conexión o intenta más tarde.');
+                    setToastType('danger');
+                } else {
+                    const errorMessage =
+                        error.response.data && error.response.data
+                            ? error.response.data
+                            : 'Error al registrar el equipo. Inténtalo de nuevo.';
+                    setToastMessage(errorMessage);  // Mostrar el mensaje de error del backend
+                    setToastType('danger');  // Tipo de mensaje (error)
+                }
+                setShowToast(true);
+                setLoading(false);
+            }
         }
         // Retardo de 500 ms para mostrar el spinner después de cerrar el modal
     };
@@ -231,55 +288,60 @@ function UpdateClient({ client }) {
 
     return (
         isNewComponentVisible ? (
-            <ListClients />) : 
-            isNewComponentVisibleEquipClient?(
-            <EquipmentClientSelectionList
-                selectionAvailableEquipment={selectionAvailableEquipment}
-                setSelectionAvailableEquipment={setSelectionAvailableEquipment}
-                setIsNewComponentVisibleEquipClient={setIsNewComponentVisibleEquipClient}
-                clientId={client.id}
-            />)
-            :(
-            <>
-                <div className="client-update-conatiner">
-                    <UpdateClientForm
-                        formData={formData}
-                        setFormData={setFormData}
-                        handleInputChange={handleInputChange}
-                        handleSubmit={handleSubmit}
-                        loading={loading}
-                        handleCancel={handleCancel}
-                        handleShowListEquipment={handleShowListEquipment}
-                        showModal={showModal}
-                        handleCloseModal={handleCloseModal}
-                        handleConfirmAction={handleConfirmAction}
-                        isEditingButtons = {isEditingButtons}
-                        modalType={modalType}
-                        getRootProps={getRootProps}
-                        getInputProps={getInputProps}
-                        isDragActive={isDragActive}
-                        image={image}
-                        setImage={setImage}
-                        isEditing={isEditingFormulary}
-                        handleEditClick={handleEditClick}
-                        handleShowListlistAssignedEquipment = {handleShowListlistAssignedEquipment}
-                        columns={columns}
-                        records={selectionAvailableEquipment}
-                        clientType={client.clientType}
-                        handleSelectEquipmentaAviable={handleSelectEquipmentaAviable}
-                        handleCleanSelectedEquipments = {handleCleanSelectedEquipments}
+            <ListClients />) :
+            isNewComponentVisibleEquipClient ? (
+                <EquipmentClientSelectionList
+                    selectionAvailableEquipment={selectionAvailableEquipment}
+                    setSelectionAvailableEquipment={setSelectionAvailableEquipment}
+                    setIsNewComponentVisibleEquipClient={setIsNewComponentVisibleEquipClient}
+                />) : selectionEqipmentsClient ? (<EquipmentClientSelection
+                    selectNewEquipments={selectNewEquipments}
+                    setSelectNewEquipments={setSelectNewEquipments}
+                    setSelectionEqipmentsClient={setSelectionEqipmentsClient}
+                    client={client}
+                />) : (
+                <>
+                    <div className="client-update-conatiner">
+                        <UpdateClientForm
+                            formData={formData}
+                            setFormData={setFormData}
+                            handleInputChange={handleInputChange}
+                            handleSubmit={handleSubmit}
+                            loading={loading}
+                            handleCancel={handleCancel}
+                            handleShowListEquipment={handleShowListEquipment}
+                            showModal={showModal}
+                            handleCloseModal={handleCloseModal}
+                            handleConfirmAction={handleConfirmAction}
+                            isEditingButtons={isEditingButtons}
+                            modalType={modalType}
+                            getRootProps={getRootProps}
+                            getInputProps={getInputProps}
+                            isDragActive={isDragActive}
+                            image={image}
+                            setImage={setImage}
+                            isEditing={isEditingFormulary}
+                            handleEditClick={handleEditClick}
+                            handleShowListlistAssignedEquipment={handleShowListlistAssignedEquipment}
+                            columns={columns}
+                            records={selectionAvailableEquipment}
+                            clientType={client ? client.clientType : ''}
+                            handleSelectEquipmentaAviable={handleSelectEquipmentaAviable}
+                            handleCleanSelectedEquipments={handleCleanSelectedEquipments}
+                            handleShowListClients={handleShowListClients}
+                        />
+                    </div>
+                    <CustomToast
+                        showToast={showToast}
+                        setShowToast={setShowToast}
+                        toastMessage={toastMessage}
+                        toastType={toastType}
                     />
-                </div>
-                <CustomToast
-                    showToast={showToast}
-                    setShowToast={setShowToast}
-                    toastMessage={toastMessage}
-                    toastType={toastType}
-                />
-            </>
-        )
+                </>
+            )
 
     );
 }
+
 
 export default UpdateClient;

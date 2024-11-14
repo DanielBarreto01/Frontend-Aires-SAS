@@ -239,7 +239,7 @@ function RegisterClientForm({ formData,
                     </Col>
                     <Col xs={12} sm={6} className="order-2 order-sm-1">
                         {/* Usamos el componente ImageDropzone aquí */}
-                        <div className="image-client-register order-3 order-sm-1">
+                        <div className={`image-client-register-${clientType} order-3 order-sm-1`}>
                             <ImageDropzone
                                 getRootProps={getRootProps}
                                 getInputProps={getInputProps}
@@ -306,8 +306,8 @@ function RegisterClientForm({ formData,
                         </div>
                     </Col>
                 </Row>
+                <div className='row table-container-update-client'>
 
-                <div className='row table-container-update-client mt-3'>
                     <div className='col-12 col-md-5 title-equip' ><h2>Equipos</h2></div>
                     <div className='col-12 col-md-7 button-group-list-equip'>
                         <Button variant="secoondary" type="submit" className='button-select' onClick={handleSelectEquipmentaAviable} >

@@ -175,6 +175,7 @@ const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableE
      // };
 
       const selectableRowSelected = useMemo(() => {
+        console.log("idsEquipmentsSelection", idsEquipmentsSelection)
         return (row) => idsEquipmentsSelection.includes(row.id);
        
       }, [idsEquipmentsSelection]);
@@ -193,11 +194,11 @@ const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableE
 
     return (
         <div className='row'>
-            <div className='col-12 col-md-4 title1'>
-                <h2 className="text-start title">Equipos-Clientes </h2>
+            <div className='col-12 col-md-5 title1'>
+                <h2 className="text-start title">Equipos-Disponibles </h2>
             </div>
 
-            <div className='col-6 col-sm-6 col-md-5 ' >
+            <div className='col-6 col-sm-6 col-md-4 ' >
                 <form >
                     <div className='input-container'>
                         <FontAwesomeIcon icon={faSearch} className="icon" />

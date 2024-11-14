@@ -8,6 +8,7 @@ import UpdateEquipmentForm from './UpdateEquipmentForm';
 import ListEquipments from '../listEquipments/ListEquipments.js';
 import { updateEquipments } from "../../../api/EquipmentService"
 
+
 function UpdateEquipment({ equipment }) {
     const [isNewComponentVisible, setIsNewComponentVisible] = useState(false);
     const [showModal, setShowModal] = useState(false);  // Estado para mostrar el modal
