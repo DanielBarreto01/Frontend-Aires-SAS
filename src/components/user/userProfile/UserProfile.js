@@ -9,8 +9,6 @@ import UserProfileForm from './UserProfileForm';
 import ListUsers from '../listUsers/ListUsers';
 import axios from 'axios';
 
-
-//import { toast } from 'sonner'
 function UserProfile({ user }) {
     const [isNewComponentVisible, setIsNewComponentVisible] = useState(false);
     const [showModal, setShowModal] = useState(false);  // Estado para mostrar el modal
@@ -20,32 +18,13 @@ function UserProfile({ user }) {
     const [toastMessage, setToastMessage] = useState('');  // Estado para el mensaje del Toast
     const [toastType, setToastType] = useState('');
     const [isTokenChecked, setIsTokenChecked] = useState(true);
-    const [selectedImage, setSelectedImage] = useState(null);
+    const [isEditingButtons, setIsEditingButtons] = useState(false);
     const [image, setImage] = useState(null);
     const [fileUser, setFileUser] = useState(null); // Para mostrar el progreso de la carga
     const [isEditingFormulary, setIsEditingFormulary] = useState(false);
     const storageApp = getStorage(appFirebase);
     let usersData = null;
-
-
-
-    const loadformData = () => {
-        const dataUser = {
-            name: user.name || '',
-            lastName: user.lastName || '',
-            typeIdentification: user.typeIdentification || '',
-            numberIdentification: user.numberIdentification || '',
-            email: user.email || '',
-            phoneNumber: user.phoneNumber.toString() || '',
-            address: user.address || '',
-            pathImage: user.pathImage || '',
-            userStatus: user.userStatus,
-            roles: user.roles.map(role => role.name) || ['']
-        }
-        return dataUser;
-    }
-
-    const [formData, setFormData] = useState({
+    const defaultUserData = {
         name: '',
         lastName: '',
         typeIdentification: '',
@@ -56,12 +35,22 @@ function UserProfile({ user }) {
         pathImage: '',
         userStatus: true,
         roles: ['']
-    });
+    }
+
+    const loadformData = () => {
+        const dataUser = Object.assign({}, defaultUserData, {
+            ...user,
+            phoneNumber: user.phoneNumber.toString() || '', // Convierte a string si está definido
+            roles: user.roles.map(role => role.name) || [''], // Convierte a string si está definido
+        });
+        return dataUser;
+    }
+
+    const [formData, setFormData] = useState(defaultUserData);
 
     useEffect(() => {
         setTimeout(() => {
             try {
-                //setFormData(null);
                 setFormData(loadformData());
                 if (localStorage.getItem('authToken') === null && jwtDecode(localStorage.getItem('authToken')).exp * 1000 < Date.now()) { // && jwtDecode(token).exp*1000 >  Date.now()
                     localStorage.removeItem('authToken');
@@ -97,18 +86,10 @@ function UserProfile({ user }) {
 
     const handleCancel = () => {
         try {
-            //let forUser = formData;
             console.log('image format', image);
             if (JSON.stringify(loadformData()) !== JSON.stringify(formData) || (image !== null && image !== loadformData().pathImage)) {
-                // if (JSON.stringify(loadformData()) !== JSON.stringify(formData) || image !== null) {
                 setShowModal(true);
                 setModalType('cancel');
-
-                //forUser = loadformData();   
-                // setFormData(loadformData());
-                // console.log('forUser', forUser);
-                //  setModalType('cancel');
-                //  setShowModal(true);
             } else {
                 setIsEditingFormulary(false);
             }
@@ -124,8 +105,8 @@ function UserProfile({ user }) {
         setIsEditingFormulary(true);
     }
     const handleShowListUsers = () => {
+        setFormData(defaultUserData);
         setIsNewComponentVisible(true);
-        // Definimos el tipo de acción como registrar
     };
 
     const handleSubmit = (e) => {
@@ -142,20 +123,10 @@ function UserProfile({ user }) {
                 await uploadBytes(storageRef, fileUser).then((res) => {
                     console.log('respuesta', res)
                 });
-                console.log('Image uploaded successfully');
-                // setImageUrl(await getDownloadURL(storageRef))
                 const url = await getDownloadURL(storageRef);
                 usersData = {
-                    name: formData.name,
-                    lastName: formData.lastName,
-                    typeIdentification: formData.typeIdentification,
-                    numberIdentification: formData.numberIdentification,
-                    email: formData.email,
-                    phoneNumber: formData.phoneNumber.toString(),
-                    address: formData.address,
-                    pathImage: url,
-                    userStatus: formData.userStatus,
-                    roles: formData.roles
+                    ...formData,
+                    pathImage: url,  
                 };
                 console.log('Image URL subida:', await getDownloadURL(storageRef));
             } else {
@@ -186,16 +157,6 @@ function UserProfile({ user }) {
                 });
                 return loadformData();
             });
-            //     setLoading(false);
-            //     setImage(formData.pathImage); 
-            //    // const u = loadformData();
-            //     setFormData(loadformData());
-            //     setIsEditingFormulary(false);
-
-
-            //     setLoading(false);  // Detenemos el spinner
-            //  setIsNewComponentVisible(true);  // Mostramos el componente ListUsers
-            // Simulamos una espera de 2 segundos
         } else if (modalType === 'register') {
             setLoading(true);
             const config = {
@@ -204,49 +165,28 @@ function UserProfile({ user }) {
                     'Authorization': `Bearer ${localStorage.getItem('authToken')}`
                 }
             };
-            // Acción de registrar - enviar datos al backend
-
             await uploadImage(fileUser);
-            console.log('Form Data con imagen:', formData);
+            console.log('usersData', usersData);
             axios.patch(`/users/userUpdate/${user.id}`, usersData, config) // Usa la ruta relativa
-
                 .then(response => {
-                    setLoading(true)
+                    setLoading(false);
+                    setIsEditingFormulary(false);
+                    setIsEditingButtons(true);
                     setToastMessage(response.data || 'Usuario registrado con éxito');
                     setToastType('success'); // Tipo de mensaje (éxito)
-                    console.log('desactivar botones', loading);
                     setShowToast(true);  // Mostramos el Toast
-                    setFormData({
-                        name: '',
-                        lastName: '',
-                        typeIdentification: '',
-                        numberIdentification: '',
-                        email: '',
-                        phoneNumber: '',
-                        address: '',
-                        pathImage: '',
-                        userStatus: true,
-                        roles: ['']
-                    });
-                    console.log(formData);
-
-
                     setTimeout(() => {
-                        setIsNewComponentVisible(true);  // Mostramos el componente ListUsers
-                        setLoading(false);
+                        setFormData(defaultUserData);
+                        setIsNewComponentVisible(true);  // Mostramos el componente ListUsers               
                     }, 3000);  // Cambiar desp// Retardo adicional para que el Toast sea visible (3.5 segundos en este caso)
-
 
                 })
                 .catch(error => {
                     console.error('Error registering user:', error);
-                    // Verificar si error.response existe
                     if (!error.response) {
-                        // Esto significa que no hubo respuesta del servidor (posiblemente desconectado o problemas de red)
                         setToastMessage('No se puede conectar al servidor. Verifica tu conexión o intenta más tarde.');
                         setToastType('danger');
                     } else {
-                        // Si el error tiene respuesta, manejar los errores del backend
                         const errorMessage =
                             error.response.data && error.response.data
                                 ? error.response.data
@@ -254,12 +194,10 @@ function UserProfile({ user }) {
                         setToastMessage(errorMessage);  // Mostrar el mensaje de error del backend
                         setToastType('danger');  // Tipo de mensaje (error)
                     }
-                    // Mostrar el toast y detener el spinner
                     setShowToast(true);
                     setLoading(false); // Detenemos el spinner si hay un error
                 });
         }
-        // Retardo de 500 ms para mostrar el spinner después de cerrar el modal
     };
 
     const handleCloseModal = () => {
@@ -281,7 +219,6 @@ function UserProfile({ user }) {
                         setFormData={setFormData}
                         handleInputChange={handleInputChange}
                         handleSubmit={handleSubmit}
-                        selectedImage={selectedImage}
                         loading={loading}
                         handleCancel={handleCancel}
                         handleShowListUsers={handleShowListUsers}
@@ -296,6 +233,7 @@ function UserProfile({ user }) {
                         setImage={setImage}
                         isEditing={isEditingFormulary}
                         handleEditClick={handleEditClick}
+                        isEditingButtons={isEditingButtons}
                     />
                 </div>
                 <CustomToast

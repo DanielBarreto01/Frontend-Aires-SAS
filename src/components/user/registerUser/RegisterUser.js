@@ -21,9 +21,9 @@ function RegisterUser() {
     const [fileUser, setFileUser] = useState(null);
     const [image, setImage] = useState(null);
     const [isTokenChecked, setIsTokenChecked] = useState(true);
-    const [selectedImage, setSelectedImage] = useState(null);
+    const [isEditingButtons, setIsEditingButtons] = useState(false);
     const storageApp = getStorage(appFirebase);
-    const [formData, setFormData] = useState({
+    const defaultUserData = {
         name: '',
         lastName: '',
         typeIdentification: '',
@@ -33,7 +33,8 @@ function RegisterUser() {
         address: '',
         pathImage: '',
         roles: ['']
-    });
+    }
+    const [formData, setFormData] = useState(defaultUserData)
 
     useEffect(() => {
         console.log('entra al useeffect');
@@ -62,10 +63,6 @@ function RegisterUser() {
             [name]: name === 'email' ? value.replace(/\s/g, '') : value,
         });
     };
-
-    // const handleButtonClick = () => {
-    //     setIsNewComponentVisible(prevState => !prevState);
-    // };
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         accept: 'image/*',
@@ -103,24 +100,11 @@ function RegisterUser() {
                     console.log('respuesta', res)
                 });
                 console.log('Image uploaded successfully');
-                // setImageUrl(await getDownloadURL(storageRef))
                 const url = await getDownloadURL(storageRef);
                 dataUser = {
                     ...dataUser,  // Copia el resto de las propiedades
                     pathImage: url
                 }
-                // usersData = {
-                //     name: formData.name,
-                //     lastName: formData.lastName,
-                //     typeIdentification: formData.typeIdentification,
-                //     numberIdentification: formData.numberIdentification,
-                //     email: formData.email,
-                //     phoneNumber: formData.phoneNumber.toString(),
-                //     address: formData.address,
-                //     pathImage: url,
-                //     userStatus: formData.userStatus,
-                //     roles: formData.roles
-                // };
                 console.log('Image URL subida:', await getDownloadURL(storageRef));
 
             } else {
@@ -129,16 +113,10 @@ function RegisterUser() {
                     ...dataUser,
                     pathImage: 'https://firebasestorage.googleapis.com/v0/b/aires-acondiconados.appspot.com/o/images%2Fuser.png?alt=media&token=6428ebe4-d22c-4954-99fa-8e51de3172d0'
                 }
-                // usersData = formData;
             }
-
-
-            // setFormData({  pathImage: imageUrl });
-            // Maneja el éxito de la carga de la imagen
 
         } catch (error) {
             console.error('Error uploading image:', error);
-            // Maneja el error de la carga de la imagen
         }
         return dataUser;
     };
@@ -147,23 +125,11 @@ function RegisterUser() {
         setShowModal(false);  // Cerramos el modal primero
         setLoading(true);
         if (modalType === 'cancel') {
-            // Acción de cancelar
-            setTimeout(() => {
-                setFormData({
-                    name: '',
-                    lastName: '',
-                    typeIdentification: '',
-                    numberIdentification: '',
-                    email: '',
-                    phoneNumber: '',
-                    address: '',
-                    pathImage: '',
-                    roles: ['']
-                });
-                setLoading(false);  // Detenemos el spinner
-                setIsNewComponentVisible(true);  // Mostramos el componente ListUsers
-            }, 200); // Simulamos una espera de 2 segundos
+            setFormData(defaultUserData);
+            setLoading(false);  // Detenemos el spinner
+            setIsNewComponentVisible(true);  // Mostramos el componente ListUsers
         } else if (modalType === 'register') {
+            setLoading(true);
             const config = {
                 headers: {
                     "Content-Type": "application/json",
@@ -171,44 +137,24 @@ function RegisterUser() {
                 }
             };
             const dataUser = await uploadImage();
-            console.log('Form Data con imagen:', dataUser);
-            // Acción de registrar - enviar datos al backend
-            console.log('Registrando usuario:', formData);
             axios.post('/users/create', dataUser, config) // Usa la ruta relativa
                 .then(response => {
-                    setLoading(true)
-                    setToastMessage(response.data || 'Usuario registrado con éxito');
-                    setToastType('success'); // Tipo de mensaje (éxito)
-                    console.log('desactivar botones', loading);
-                    setShowToast(true);  // Mostramos el Toast
-                    setFormData({
-                        name: '',
-                        lastName: '',
-                        typeIdentification: '',
-                        numberIdentification: '',
-                        email: '',
-                        phoneNumber: '',
-                        address: '',
-                        pathImage: '',
-                        roles: [''],
-                    });
                     setLoading(false);
+                    setToastMessage(response.data || 'Usuario registrado con éxito');
+                    setToastType('success');
+                    setShowToast(true);
+                    setIsEditingButtons(true);
                     setTimeout(() => {
-                        setIsNewComponentVisible(true);  // Mostramos el componente ListUsers
-
-                    }, 3000);  // Cambiar desp// Retardo adicional para que el Toast sea visible (3.5 segundos en este caso)
-                    setLoading(true);
-
+                        setFormData(defaultUserData);
+                        setIsNewComponentVisible(true);
+                    }, 3000);
                 })
                 .catch(error => {
                     console.error('Error registering user:', error);
-                    // Verificar si error.response existe
                     if (!error.response) {
-                        // Esto significa que no hubo respuesta del servidor (posiblemente desconectado o problemas de red)
                         setToastMessage('No se puede conectar al servidor. Verifica tu conexión o intenta más tarde.');
                         setToastType('danger');
                     } else {
-                        // Si el error tiene respuesta, manejar los errores del backend
                         const errorMessage =
                             error.response.data && error.response.data
                                 ? error.response.data
@@ -216,12 +162,10 @@ function RegisterUser() {
                         setToastMessage(errorMessage);  // Mostrar el mensaje de error del backend
                         setToastType('danger');  // Tipo de mensaje (error)
                     }
-                    // Mostrar el toast y detener el spinner
+                    setLoading(false);
                     setShowToast(true);
-                    setLoading(false); // Detenemos el spinner si hay un error
                 });
         }
-        // Retardo de 500 ms para mostrar el spinner después de cerrar el modal
     };
 
     const handleCloseModal = () => {
@@ -243,7 +187,6 @@ function RegisterUser() {
                         setFormData={setFormData}
                         handleInputChange={handleInputChange}
                         handleSubmit={handleSubmit}
-                        selectedImage={selectedImage}
                         loading={loading}
                         handleCancel={handleCancel}
                         handleRegister={handleRegister}
@@ -255,6 +198,7 @@ function RegisterUser() {
                         getInputProps={getInputProps}
                         isDragActive={isDragActive}
                         image={image}
+                        isEditingButtons={isEditingButtons}
                     />
                 </div>
                 <CustomToast

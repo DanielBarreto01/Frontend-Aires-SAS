@@ -23,7 +23,7 @@ function RegisterEquipment() {
     const [isTokenChecked, setIsTokenChecked] = useState(true);
     const [isEditingButtons, setIsEditingButtons] = useState(false);
     const storageApp = getStorage(appFirebase);
-    const [formData, setFormData] = useState({
+    const defaultEquipmentData = {
         name: '',
         equipmentType: '',
         serialNumber: '',
@@ -31,7 +31,8 @@ function RegisterEquipment() {
         modelNumber: '',
         iventoryNumber: '',
         pathImage: ''
-    });
+    }
+    const [formData, setFormData] = useState(defaultEquipmentData);
 
     useEffect(() => {
         console.log('entra al useeffect');
@@ -60,10 +61,6 @@ function RegisterEquipment() {
             [name]: name === 'email' ? value.replace(/\s/g, '') : value,
         });
     };
-
-    // const handleButtonClick = () => {
-    //     setIsNewComponentVisible(prevState => !prevState);
-    // };
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         accept: 'image/*',
@@ -125,20 +122,9 @@ function RegisterEquipment() {
         setShowModal(false);  // Cerramos el modal primero
         setLoading(true);
         if (modalType === 'cancel') {
-            // Acción de cancelar
-            setTimeout(() => {
-                setFormData({
-                    name: '',
-                    equipmentType: '',
-                    serialNumber: '',
-                    brand: '',
-                    modelNumber: '',
-                    iventoryNumber: '',
-                    pathImage: ''
-                });
-                setLoading(false);  // Detenemos el spinner
-                setIsNewComponentVisible(true);  // Mostramos el componente ListUsers
-            }, 200); // Simulamos una espera de 2 segundos
+            setFormData(defaultEquipmentData);
+            setLoading(false);
+            setIsNewComponentVisible(true);  // Mostramos el componente ListUsers
         } else if (modalType === 'register') {
             const dataUser = await uploadImage();
             try {
@@ -149,18 +135,10 @@ function RegisterEquipment() {
                     setToastMessage(response.data);
                     setToastType('success'); // Tipo de mensaje (éxito)
                     setShowToast(true);
-                    setFormData({
-                        name: '',
-                        equipmentType: '',
-                        serialNumber: '',
-                        brand: '',
-                        modelNumber: '',
-                        iventoryNumber: '',
-                        pathImage: ''
-                    });
                     setIsEditingButtons(true);
                     setTimeout(() => {
-                       setIsNewComponentVisible(true);
+                        setFormData(defaultEquipmentData);
+                        setIsNewComponentVisible(true);
                     }, 3000);
                 }
             } catch (error) {

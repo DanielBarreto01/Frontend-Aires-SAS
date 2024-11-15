@@ -10,7 +10,7 @@ import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import UpdateClient from "../updateClient/UpdateClient";
 import RegisterClient from "../registerClient/registerClient";
 import { getClients } from "../../../api/ClientService";
-import { useNavigate, Outlet,useLocation  } from 'react-router-dom';
+import { useNavigate, Outlet, useLocation } from 'react-router-dom';
 import "../../general.css";
 import "../../user/listUsers/ListUsers.css";
 
@@ -143,15 +143,11 @@ const ListClients = () => {
         navigate('/admin/clients/CustomerSelection');
     };
 
-     const isCustomerSelection = location.pathname === '/admin/clients/CustomerSelection';
-     const isUpdateClient = location.pathname === '/admin/clients/update';
-
-      if (isCustomerSelection || isUpdateClient) {
+    const isCustomerSelection = location.pathname === '/admin/clients/CustomerSelection';
+    const isUpdateClient = location.pathname === '/admin/clients/update';
+    if (isCustomerSelection || isUpdateClient) {
         return <Outlet />;
     }
- 
-
-
 
     const handleItemClick = (client) => {
         navigate('/admin/clients/update' ,{

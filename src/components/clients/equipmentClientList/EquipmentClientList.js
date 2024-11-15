@@ -7,12 +7,12 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
-import { getEquipmentsAvailable } from "../../../api/EquipmentService";
+import { getEquipmentsAvailable, getEquipmentsIdClient } from "../../../api/EquipmentService";
 import "./EquipmentClientList.css";
 import { useNavigate, Outlet } from 'react-router-dom';
 
 
-const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableEquipment, setIsNewComponentVisibleEquipClient}) => {
+const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableEquipment, setIsNewComponentVisibleEquipClient, clientId}) => {
     const [data, setData] = useState([]);
     const [selectedOption, setSelectedOption] = useState("Seleccione un rol");
     const [loading, setLoading] = useState(false);
@@ -37,6 +37,7 @@ const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableE
                 if (token !== null && jwtDecode(token).exp * 1000 > Date.now()) { // && jwtDecode(token).exp*1000 >  Date.now()
                     fetchData();
                     setIdsEquipmentsSelection(selectionAvailableEquipment.map(equipment => equipment.id));
+                    //setRecords(records.concat(selectionAvailableEquipment))
                     setIsTokenChecked(true);
                     setLoading(true);
                 } else {
@@ -57,11 +58,17 @@ const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableE
 
     const fetchData = async () => {
         setLoading(false);
+        const token = localStorage.getItem('authToken');
         try {
-            const token = localStorage.getItem('authToken');
             const response = await getEquipmentsAvailable(token);
-            setData(response);
-            setRecords(response);
+            if (clientId == null) {
+                setData(response);
+                setRecords(response);
+            } else {
+                const responseExistEquipments = await getEquipmentsIdClient(clientId, token);
+                setData(mergeUniqueLists(responseExistEquipments,response));
+                setRecords(mergeUniqueLists(responseExistEquipments,response));
+            }
             setTimeout(() => {
                 setLoading(false);
             }, 1500);
@@ -71,6 +78,15 @@ const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableE
         } catch (error) {
             setLoading(false);
         }
+    };
+
+    const mergeUniqueLists = (list1, list2) => {
+        return [...list1, ...list2].reduce((acc, current) => {
+            if (!acc.find(item => item.id === current.id)) {
+                acc.push(current);
+            }
+            return acc;
+        }, []);
     };
 
     const columns = [
@@ -159,10 +175,8 @@ const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableE
     ];
 
     const handleRowSelected = (state) => {
-       
         // setIdsEquipments(state.selectedRows.map(row => row.id));
         setSelectedRows(state.selectedRows);
-      
         console.log("selectedRows", state.selectedRows);
         // Aquí se almacena las filas seleccionadas
     };
@@ -175,7 +189,8 @@ const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableE
      // };
 
       const selectableRowSelected = useMemo(() => {
-        console.log("idsEquipmentsSelection", idsEquipmentsSelection)
+        console.log( "recordssss", records)
+        //console.log("idsEquipmentsSelection", idsEquipmentsSelection)
         return (row) => idsEquipmentsSelection.includes(row.id);
        
       }, [idsEquipmentsSelection]);

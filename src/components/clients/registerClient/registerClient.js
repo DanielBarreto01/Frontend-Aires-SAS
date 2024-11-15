@@ -8,11 +8,13 @@ import appFirebase from '../../FirebaseConfig.js';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import EquipmentUserList from '../equipmentClientList/EquipmentClientList.js';
 import {createClientNatural, createClientJuridical} from "../../../api/ClientService.js";
-import { useNavigate, Outlet } from 'react-router-dom';
+import { useNavigate, Outlet, useLocation } from 'react-router-dom';
 
 function RegisterClient({ clientType }) {
 
- 
+    const location = useLocation();
+    const navigate = useNavigate();
+    // const clientType = location.state?.clientType;
     const [showModal, setShowModal] = useState(false);  // Estado para mostrar el modal
     const [modalType, setModalType] = useState('');     // Estado para controlar el tipo de acción (cancelar o registrar)
     const [loading, setLoading] = useState(false);
@@ -27,7 +29,6 @@ function RegisterClient({ clientType }) {
     const [personaType, setPersonaType] = useState('');
     const [isNewComponentVisibleEquipClient, setIsNewComponentVisibleEquipClient] = useState(false);
     const [selectionAvailableEquipment, setSelectionAvailableEquipment] = useState([]);
-    const navigate = useNavigate();
     const initialFormData = {
         phoneNumber: '',
         address: '',
@@ -239,6 +240,7 @@ function RegisterClient({ clientType }) {
                     selectionAvailableEquipment={selectionAvailableEquipment}
                     setSelectionAvailableEquipment={setSelectionAvailableEquipment}
                     setIsNewComponentVisibleEquipClient={setIsNewComponentVisibleEquipClient}
+                    clientId = {null}
                 />) : (
             <>
                 <div className='client-update-conatiner'>

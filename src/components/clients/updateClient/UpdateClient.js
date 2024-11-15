@@ -8,13 +8,11 @@ import UpdateClientForm from './UpdateClienForm.js';
 import ListClients from '../listClients/ListClients.js';
 import EquipmentClientSelectionList from '../equipmentClientList/EquipmentClientList.js';
 import EquipmentClientSelection from './equipmentClientSelectionList/EquipmentClientSelectionList.js';
-import './UpdateClient.css';
 import { updateClient } from "../../../api/ClientService";
 import { getEquipmentsIdClient } from "../../../api/EquipmentService";
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, Outlet,useLocation  } from 'react-router-dom';
 import "../../general.css";
-
-
+import './UpdateClient.css';
 
 function UpdateClient() {
     const location = useLocation();
@@ -86,7 +84,7 @@ function UpdateClient() {
         let equipments = [];
         try {
             equipments = await getEquipmentsIdClient(client.id, localStorage.getItem('authToken'));
-            setSelectNewEquipments(equipments);
+            setSelectionAvailableEquipment(equipments);
         } catch (error) {
             console.error("Error fetching equipments:", error);
         }
@@ -138,8 +136,9 @@ function UpdateClient() {
     };
 
     const handleShowListlistAssignedEquipment = () => {
+        //navigate('/admin/clients/update/equipmentClientSelectionList');
         setSelectionEqipmentsClient(true);
-    }
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -175,12 +174,12 @@ function UpdateClient() {
                 dataClient = {
                     ...dataClient,  // Copia el resto de las propiedades
                     pathImage: url,
-                    idsEquipments: mergedList.map(equipment => equipment.id)
+                    idsEquipments: selectionAvailableEquipment.map(equipment => equipment.id)
                 }
             } else {
                 dataClient = {
                     ...dataClient,  // Copia el resto de las propiedades
-                    idsEquipments: mergedList.map(equipment => equipment.id)
+                    idsEquipments: selectionAvailableEquipment.map(equipment => equipment.id)
                 }
             }
         } catch (error) {
@@ -197,7 +196,7 @@ function UpdateClient() {
                     setSelectionAvailableEquipment([]);
                     setSelectNewEquipments([]);
                     setFormData(defaultClientData)
-                    navigate('/admin/clients', { state: { key: Date.now() } });
+                    //navigate('/admin/clients', { state: { key: Date.now() } });
                     return formData.pathImage
                 });
                 return loadformData();
@@ -205,7 +204,6 @@ function UpdateClient() {
         } else if (modalType === 'register') {
             setLoading(true);
             const dataClient = await uploadImage(fileUser);
-            setLoading(false);
             try {   
                 const response = await updateClient(client.id, dataClient, localStorage.getItem('authToken'));
                 if (response.status === 200) {
@@ -281,6 +279,12 @@ function UpdateClient() {
         },
     ];
 
+    // const isEquipmentClientSelectionList = location.pathname === '/admin/clients/update/equipmentClientSelectionList';
+    // console.log(location.pathname, 'hhhhhhhhhh');
+    // if (isEquipmentClientSelectionList) {
+    //    console.log('entro');
+    //    return <Outlet/>;
+    // }
 
     if (!isTokenChecked) {
         return null;
@@ -294,12 +298,14 @@ function UpdateClient() {
                     selectionAvailableEquipment={selectionAvailableEquipment}
                     setSelectionAvailableEquipment={setSelectionAvailableEquipment}
                     setIsNewComponentVisibleEquipClient={setIsNewComponentVisibleEquipClient}
-                />) : selectionEqipmentsClient ? (<EquipmentClientSelection
-                    selectNewEquipments={selectNewEquipments}
-                    setSelectNewEquipments={setSelectNewEquipments}
-                    setSelectionEqipmentsClient={setSelectionEqipmentsClient}
+                    clientId = {client.id}
+                 />): selectionEqipmentsClient ? (<EquipmentClientSelection
+                    // selectNewEquipments={selectNewEquipments}
+                    // setSelectNewEquipments={setSelectNewEquipments}
+                    // setSelectionEqipmentsClient={setSelectionEqipmentsClient}
                     client={client}
-                />) : (
+                />) 
+                : (
                 <>
                     <div className="client-update-conatiner">
                         <UpdateClientForm
@@ -337,9 +343,11 @@ function UpdateClient() {
                         toastMessage={toastMessage}
                         toastType={toastType}
                     />
+                   <Outlet/>
                 </>
+                
             )
-
+           
     );
 }
 

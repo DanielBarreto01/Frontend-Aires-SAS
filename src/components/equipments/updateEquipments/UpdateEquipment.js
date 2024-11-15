@@ -23,22 +23,7 @@ function UpdateEquipment({ equipment }) {
     const [fileUser, setFileUser] = useState(null); // Para mostrar el progreso de la carga
     const [isEditingFormulary, setIsEditingFormulary] = useState(false);
     const storageApp = getStorage(appFirebase);
-    let equipmentData = null;
-
-    const loadformData = () => {
-        const dataUser = {
-            name: equipment.name || '',
-            equipmentType: equipment.equipmentType || '',
-            serialNumber: equipment.serialNumber || '',
-            brand: equipment.brand || '',
-            modelNumber: equipment.modelNumber || '',
-            iventoryNumber: equipment.iventoryNumber.toString() || '',
-            pathImage: equipment.pathImage || ''
-        }
-        return dataUser;
-    }
-
-    const [formData, setFormData] = useState({
+    const defaultEquipmentData = {
         name: '',
         equipmentType: '',
         serialNumber: '',
@@ -46,8 +31,16 @@ function UpdateEquipment({ equipment }) {
         modelNumber: '',
         iventoryNumber: '',
         pathImage: ''
-    });
+    }
+    const [formData, setFormData] = useState(defaultEquipmentData);
+    let equipmentData = null;
 
+    const loadformData = () => {
+        const dataEquipment = Object.assign({}, defaultEquipmentData, {
+            ...equipment,
+        });
+        return dataEquipment;
+    }
     useEffect(() => {
         setTimeout(() => {
             try {
@@ -124,18 +117,11 @@ function UpdateEquipment({ equipment }) {
                     console.log('respuesta', res)
                 });
                 console.log('Image uploaded successfully');
-                // setImageUrl(await getDownloadURL(storageRef))
                 const url = await getDownloadURL(storageRef);
                 equipmentData = {
-                    name: formData.name,
-                    equipmentType: formData.equipmentType,
-                    serialNumber: formData.serialNumber,
-                    brand: formData.brand,
-                    modelNumber: formData.modelNumber,
-                    iventoryNumber: formData.iventoryNumber,
+                    ...formData,
                     pathImage: url
                 };
-                console.log('Image URL subida:', await getDownloadURL(storageRef));
             } else {
                 equipmentData = formData;
             }
@@ -163,18 +149,11 @@ function UpdateEquipment({ equipment }) {
                     setToastMessage(response.data || 'Equipo actualizado con éxito');
                     setToastType('success'); // Tipo de mensaje (éxito)
                     setShowToast(true);  // Mostramos el Toast
-                    setFormData({
-                        name: '',
-                        equipmentType: '',
-                        serialNumber: '',
-                        brand: '',
-                        modelNumber: '',
-                        iventoryNumber: '',
-                        pathImage: ''
-                    });
+                    setIsEditingFormulary(false);                  
                     setIsEditingButtons(true);
                     setLoading(false);
                     setTimeout(() => {
+                        setFormData(defaultEquipmentData);
                         setIsNewComponentVisible(true);
                     }, 3000);  // Cambiar desp// Retardo adicional para que el Toast sea visible (3.5 segundos en este caso)
                 }
