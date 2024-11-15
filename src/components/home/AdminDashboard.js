@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUsers, faCalendarDays, faHome, faGear, faRightFromBracket, faHardDrive, faBars, faFileLines, faScrewdriverWrench, faBuildingUser } from '@fortawesome/free-solid-svg-icons';
-import { Nav, Spinner, Navbar, Button } from 'react-bootstrap';  // Asegúrate de que el Spinner esté importado
+import { faUsers, faHome, faGear, faRightFromBracket, faHardDrive, faBars, faFileLines, faScrewdriverWrench, faBuildingUser } from '@fortawesome/free-solid-svg-icons';
+import { Nav, Spinner } from 'react-bootstrap';
 import { jwtDecode } from 'jwt-decode';
 import logo from "../../assets/logo.png";
 import './AdminDashboard.css';
@@ -25,10 +25,7 @@ function AdminDashboard() {
   const [isOverlayVisible, setOverlayVisible] = useState(false);
 
 
-
-
-
-  useEffect(() => {  // Mostrar el spinner
+  useEffect(() => {
     try {
       const token = localStorage.getItem('authToken');
       if (token !== null && jwtDecode(token).exp * 1000 > Date.now()) { //&& jwtDecode(token).exp*1000 >  Date.now()
@@ -137,7 +134,6 @@ function AdminDashboard() {
           address: userData.address,
           pathImage: userData.pathImage,
           userStatus: userData.userStatus,
-          // roles: userData.roles || [] // Asegúrate de que sea un array
           roles: userData.roles && userData.roles.length > 0 ? userData.roles[0].name : null
         };
 
@@ -194,16 +190,12 @@ function AdminDashboard() {
 
   return (
 
-    <div className="container-fluid ">
-
-      <div className="row custom-row" >
+    <div className="container-fluid "  >
+      <div className="row custom-row">
         {/* Menú lateral */}
-
         <div className={`col-2 ${isMenuVisible ? '' : 'd-none'}`} style={{ minWidth: '265px', padding: 0, }}>
 
-
           <Nav className=" menuU h-100">
-
             <div className="section-1">
               <Nav.Link className="profile-header" style={{ padding: 0 }} >
                 <img src={logo} alt="Profile" className="profile-img" />
@@ -213,12 +205,10 @@ function AdminDashboard() {
                 </div>
               </Nav.Link>
 
-
-              <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/users')}>
+              <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/home')}>
                 <FontAwesomeIcon className="icon-margin" icon={faHome} />
                 Home
               </Nav.Link>
-
 
               <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/users')}>
                 <FontAwesomeIcon className="icon-margin" icon={faUsers} />
@@ -247,7 +237,6 @@ function AdminDashboard() {
 
             <div className="section-2">
               <div className="separator-line" />
-
               <Nav.Link className='profile-header-user' onClick={() => handleNavigation('/profile-info')}>
                 <img src={userData.pathImage} alt="Admin" className="profile-img-user" />
                 <div className="title-profile">
@@ -255,7 +244,6 @@ function AdminDashboard() {
                   <p className="profile-subtitle-user">{userData.email}</p>
                 </div>
               </Nav.Link>
-
             </div>
 
             <div className="section-3">
@@ -280,17 +268,22 @@ function AdminDashboard() {
         {/* Contenido principal */}
 
         <div className="col custom-col">
-          <div className="row">
 
-            <div className=" top-bar d-md-none ">
-              <button className=" menu-button col-2" onClick={toggleMenu} >
+          <div className="row ">
+            <div className="col-12  top-bar d-md-none">
+              <button className=" menu-button col-2" onClick={toggleMenu}>
                 <FontAwesomeIcon className="icon-margin" icon={faBars} />
               </button>
-            </div>
-          
-            <Outlet />
+            </div >
 
+            <div className='col-12'>
+            <Outlet />
+            </div>
+           
+
+            
           </div>
+
           <div className={`content-overlay ${isOverlayVisible ? 'visible' : ''}`} onClick={toggleMenu}></div>
         </div>
       </div>
@@ -310,16 +303,6 @@ function AdminDashboard() {
         cancelText="No"
         containerId="modal-container"
       />
-
-
-      {/* Spinner global que se muestra mientras el logout está en proceso  */}
-      {loading && (
-        <div className="loading-overlay">
-          <Spinner animation="border" role="status">
-            <span className="visually-hidden">Cargando...</span>
-          </Spinner>
-        </div>
-      )}
 
 
     </div>
