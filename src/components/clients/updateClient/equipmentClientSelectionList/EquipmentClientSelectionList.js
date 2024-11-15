@@ -268,7 +268,7 @@ const EquipmentClientSelectionList = ({client, setSelectionEqipmentsClient}) => 
 
             <div className='buttons-equipments-clients' >
                 {/* < Button className="button-save" onClick={handleButtonSave}>Guardar</Button> */}
-                <Button className="button-exit" onClick={handleButtonClick} >salir</Button>
+                <Button className="button-exit" onClick={handleButtonClick} >Salir</Button>
             </div>
 
         </div>
