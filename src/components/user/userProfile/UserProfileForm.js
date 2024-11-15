@@ -21,6 +21,7 @@ function UserProfileForm({ formData,
     handleCloseModal,
     handleConfirmAction,
     isEditing,
+    isEditingButtons,
     handleEditClick,
     modalType }) {
 
@@ -288,7 +289,7 @@ function UserProfileForm({ formData,
                         {isEditing ? (
                             <>
                                 <div className="button-group">
-                                    <Button variant="primary" type="submit" className='button-confirmationn' disabled={loading} >
+                                    <Button variant="primary" type="submit" className='button-confirmationn'>
                                         Guardar cambios
                                     </Button>
                                     <Button variant="secondary" className='button-cancell' onClick={handleCancel}>
@@ -300,10 +301,10 @@ function UserProfileForm({ formData,
                         ) : (
                             <>
                                 <div className="button-group">
-                                    <Button variant="primary" type="button" className='button-confirmationn' onClick={handleEditClick}>
+                                    <Button variant="primary" type="button" className='button-confirmationn' onClick={handleEditClick} disabled={isEditingButtons}>
                                         Editar
                                     </Button>
-                                    <Button variant="secondary" type="button" className='button-cancell' onClick={handleShowListUsers} >
+                                    <Button variant="secondary" type="button" className='button-cancell' onClick={handleShowListUsers} disabled={isEditingButtons} >
                                         Regresar
                                     </Button>
                                 </div>
@@ -312,14 +313,6 @@ function UserProfileForm({ formData,
                         )}
                     </Col>
                 </Row>
-                {/* <div className="button-group">
-                    <Button variant="primary" type="submit" className='button-register' disabled={loading} onClick={handleRegister} >
-                        Actualizar Usuario
-                    </Button>
-                    <Button variant="secondary" className='button-no-register' disabled={loading} onClick={handleCancel} >
-                        Cancelar actualización
-                    </Button>
-                </div> */}
             </Form>
 
             <ConfirmationModal
