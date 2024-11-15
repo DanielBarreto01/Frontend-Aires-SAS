@@ -302,7 +302,7 @@ function UpdateClient() {
                  />): selectionEqipmentsClient ? (<EquipmentClientSelection
                     // selectNewEquipments={selectNewEquipments}
                     // setSelectNewEquipments={setSelectNewEquipments}
-                    // setSelectionEqipmentsClient={setSelectionEqipmentsClient}
+                    setSelectionEqipmentsClient={setSelectionEqipmentsClient}
                     client={client}
                 />) 
                 : (
