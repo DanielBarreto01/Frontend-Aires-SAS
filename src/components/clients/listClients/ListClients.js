@@ -187,7 +187,7 @@ const ListClients = () => {
                         <div className='input-container'>
                             <FontAwesomeIcon icon={faSearch} className="icon" />
                             <input className="form-control input-style"
-                                placeholder="Buscar por nombre o numero de identificación"
+                                placeholder="Buscar por nombre o identificación"
                                 type="search"
                                 onChange={handleChange}
                             />
@@ -219,7 +219,7 @@ const ListClients = () => {
                                     required
                                     style={{ border: 'none' }}
                                 >
-                                    <option value="Seleccione un rol">tipo persona</option>
+                                    <option value="Seleccione un rol">Tipo persona</option>
                                     <option value="Administrador">Natural</option>
                                     <option value="Tecnico interno">Jurídica</option>
                                 </Form.Control>
