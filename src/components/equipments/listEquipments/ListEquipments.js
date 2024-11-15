@@ -80,13 +80,7 @@ const ListEquipments = () => {
     };
 
     const columns = [
-        // {
-        //     name: 'Id',
-        //     selector: row => row.id,
-        //     sortable: true,
-        //     center: true.toString()
-           
-        // },
+
         {
             name: 'Equipo',
             selector: row => row.pathImage, // Suponiendo que 'image' es el campo que contiene la URL de la imagen
@@ -136,18 +130,7 @@ const ListEquipments = () => {
 
     const handleChange = (e) => {
         setRecords(data.filter(record => {
-            // if (search === "name") {
-            //     return `${record.name} ${record.lastName}`.toLowerCase().includes(e.target.value.toLowerCase()) ||
-            //     record.lastName.toLowerCase().includes(e.target.value.toLowerCase()) ||
-            //     record.name.toLowerCase().includes(e.target.value.toLowerCase());
-            // } else if (search === "document") {
-            //     return record.numberIdentification.includes(e.target.value);
-            // } else if (search === "phone") {
-            //     return record.phoneNumber.toString().includes(e.target.value);
-            // }else if (search === "email") {
-            //     return record.email.toLowerCase().includes(e.target.value.toLowerCase());
-            // }
-            // return null;
+
             return record.name.toLowerCase().includes(e.target.value.toLowerCase()) ||
                 record.id.toString().includes(e.target.value.toLowerCase()) ||
                 record.brand.toLowerCase().includes(e.target.value.toLowerCase()) ||
@@ -219,15 +202,6 @@ const ListEquipments = () => {
 
                 <div className='col-6 col-sm-3 col-md-2' >
 
-
-                    {/* <div className="desplegable">
-                        <DropdownButton title={selectedOption} onSelect={handleSelect}>
-                            <Dropdown.Item eventKey="Seleccione un rol" className="dropdown-item-light">Seleccionee un rol</Dropdown.Item>
-                            <Dropdown.Item eventKey="Administrador">Administrador</Dropdown.Item>
-                            <Dropdown.Item eventKey="Tecnico interno">Tecnico interno</Dropdown.Item>
-                            <Dropdown.Item eventKey="Tecnico externo">Tecnico externo</Dropdown.Item>
-                        </DropdownButton>
-                    </div> */}
                     <Form>
                     <Form.Group controlId="rolesPro" className="dropdown">
                             <div className="dropdown-container">
@@ -249,35 +223,18 @@ const ListEquipments = () => {
                         </Form.Group>
 
 
-                        {/* <Form.Group controlId="search" className="dropdownSearch"> 
-                            <div className="dropdown-container">
-                                <Form.Control
-                                    as="select"
-                                    name="search"
-                                    value={search} 
-                                    onChange={handleSearchInput}
-                                    required
-                                    style={{ border: 'none' }}
-                                >
-                                    <option value="name">Nombre</option>
-                                    <option value="document">Documento</option>
-                                    <option value="phone">Telefono</option>
-                                    <option value="email">Correo</option>
-                                </Form.Control>
-                                <FontAwesomeIcon icon={faChevronDown} className="dropdown-icon" />
-                            </div>
-                        </Form.Group>*/}
+
 
                     </Form>
 
                 </div>
 
-                <div className='col-12 col-sm-3 col-md-2' >
+                <div className='col-12 col-sm-3 col-md-2'  >
                     <Button className="button-Custom"  onClick={handleButtonClick} >Agregar equipo</Button>
                 </div>
 
 
-
+ 
                 <div className='col-12'>
                     <div className="space-y-4">
                         <div className="table-container">

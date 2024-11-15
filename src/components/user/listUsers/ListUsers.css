@@ -1,88 +1,5 @@
 
 
-.input-container {
-    display: flex; /* Cambia a flexbox */
-    align-items: center;
-    position: relative; /* Posiciona los elementos relativos entre sí */
-    width: 100%; /* Asegura que el contenedor ocupe todo el ancho disponible */
-    border: 1px solid #000000; 
-    border-radius: 9px;
-}
-
-
-
-.table-container{
-    margin-top: 10px !important;
-    border-radius: 20px !important;
-    width: auto;
-    height: 100%;   
-    background-color: #ffffff;
-    border: 1px solid #7B7B7B;
-}
- 
-
-
-
-
-
-@media only screen and (max-width: 750px) {
-    .General-Table{
-        /* width: 96% ;
-        margin-right: 10%; */
-        padding: 20px !important;
-        overflow: hidden !important;
-    }
-
-    .icon {    
-        left: 10px;
-        top: 30%;
-        color: #aaa; /* Color del icono */
-    }
-
-    .heder-comp{
-        /* margin-top: 10px;*/
-        width: 100%;  
-        align-items: center; /* Alinea los elementos a la izquierda */
-        justify-content: center; 
-      
-
-
-    .form-control {
-        margin-top: 10px;
-        margin-right: 10px;
-        width: 100%;
-        font-size: 12px; /* El campo de búsqueda ocupa todo el ancho disponible */
-        margin-bottom: 10px; /* Añade espacio debajo del campo de búsqueda */
-    }
-
-
-
-
-   
-
-    h2{
-        font-family: Arial, sans-serif; /* Cambia la fuente a Arial */
-        font-weight: 900; /* Hace que el texto sea muy grueso */
-        text-align: center !important;
-    }
-    
-}
-
-.loading-overlay {
-    position: fixed; /* Fija el overlay */
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco con opacidad */
-    display: flex; /* Utiliza flexbox para centrar el contenido */
-    justify-content: center; /* Centra horizontalmente */
-    align-items: center; /* Centra verticalmente */
-    z-index: 1000; /* Asegúrate de que esté por encima de otros elementos */
-}
-
-
-
 /*/////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 
@@ -99,13 +16,10 @@
 }
 
 
-}
-
-
 
 
 .title1 {
-    padding: 10px 0 0 30px; 
+    padding: 0.3% 0 2% 1.2%; 
 }
 
 .input-container {
@@ -117,6 +31,7 @@
   
 
 }
+
 
 
 .icon {    
@@ -176,6 +91,7 @@
     overflow: hidden; 
     background-color: #ffffff;
     border: 1px solid #7B7B7B;
+    margin-top: 10px !important;
 }
  
 

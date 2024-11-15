@@ -1,3 +1,6 @@
+/* ///////////////////////////////////////////// MENU LATERAL //////////////////////////////////////////// */
+
+/*----- -----*/
 
 /* Título y subtítulo */
 .profile-title {
@@ -15,29 +18,16 @@
     margin: 0;
 
 }
-
-
-
-
-
-
 /* Imagen con contorno circular */
 .profile-img-user {
     width: 30px;
-    /* Reducir el ancho de la imagen */
     height: 30px;
-    /* Reducir la altura de la imagen */
     border-radius: 50%;
-    /* Hace la imagen circular */
     object-fit: cover;
-    /* Asegura que la imagen se ajuste al contorno */
     border: 1px solid #fff;
-    /* Reducir el contorno blanco alrededor de la imagen */
     margin-right: 15px;
-    /* Añadir margen a la derecha de la imagen */
     background-color: #ffffff;
     margin-left: 10px;
-
 }
 
 /* Título y subtítulo */
@@ -49,50 +39,21 @@
     font-size: 0.9em;
 }
 
+
+
 .profile-subtitle-user {
     color: #000000;
     font-size: 0.5rem;
-    /* Tamaño más pequeño para el subtítulo */
     margin: 0;
-    /* Sin márgenes adicionales */
-}
-
-.loading-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    /* Asegúrate de que esté por encima del contenido */
-}
-
-.p {
-    font-size: 14px;
-}
-
-@media only screen and (max-width: 995px) {
-    .container-fluid {
-        width: 100% !important;
-        padding: 0px 0px 0px 0px !important;
-        overflow: hidden !important;
-
-    }
 }
 
 
 
-/* ///////////////////////////////////////////// MENU LATERAL //////////////////////////////////////////// */
-
-
+/*----- -----*/
 
 .container-fluid {
     height: 100vh;
-    /* Altura del contenedor igual a la altura de la ventana */
+
     overflow: hidden;
 }
 
@@ -110,7 +71,7 @@
     /* responsable de desplazamiento contededor principal donde se renderiza los contenidos  */
     flex-grow: 1;
     overflow: hidden;
-    /* background-color: aqua; */
+
 }
 
 .menuU {

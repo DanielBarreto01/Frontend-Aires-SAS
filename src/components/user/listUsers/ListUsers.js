@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import UserDetails from '../userProfile/UserProfile';
 import axios from 'axios';
-import {faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { jwtDecode } from 'jwt-decode';
 import "../../general.css";
 import "../../user/listUsers/ListUsers.css";
@@ -53,7 +53,7 @@ function ListUsers() {
                 localStorage.removeItem('authToken');
                 window.location.href = '/login';
             }
-           
+
         }, 200);
         return () => clearTimeout();
 
@@ -96,13 +96,13 @@ function ListUsers() {
                     style={{ width: '45px', height: '45px', objectFit: 'cover', borderRadius: '80px' }} // Ajusta el tamaño según sea necesario
                 />
             ),
-           
+
         },
         {
             name: "Nombre",
             selector: row => `${row.name} ${row.lastName}`,
             sortable: true,
-           
+
         },
 
         {
@@ -148,24 +148,12 @@ function ListUsers() {
         return () => clearTimeout();
     };
 
-    const handleSearchInput = (event) =>{
+    const handleSearchInput = (event) => {
         setSearch(event.target.value);
     }
 
     const handleChange = (e) => {
         setRecords(data.filter(record => {
-            // if (search === "name") {
-            //     return `${record.name} ${record.lastName}`.toLowerCase().includes(e.target.value.toLowerCase()) ||
-            //     record.lastName.toLowerCase().includes(e.target.value.toLowerCase()) ||
-            //     record.name.toLowerCase().includes(e.target.value.toLowerCase());
-            // } else if (search === "document") {
-            //     return record.numberIdentification.includes(e.target.value);
-            // } else if (search === "phone") {
-            //     return record.phoneNumber.toString().includes(e.target.value);
-            // }else if (search === "email") {
-            //     return record.email.toLowerCase().includes(e.target.value.toLowerCase());
-            // }
-            // return null;
             return record.name.toLowerCase().includes(e.target.value.toLowerCase()) ||
                 `${record.name} ${record.lastName}`.toLowerCase().includes(e.target.value.toLowerCase()) ||
                 record.lastName.toLowerCase().includes(e.target.value.toLowerCase()) ||
@@ -212,14 +200,15 @@ function ListUsers() {
         ) : isNewComponentVisible ? (
             <RegisterUser />
         ) : (
-            <div className='row'>
-                <div className='col-12 col-md-4 title1'>
+            <div className='row'  >
+                
+                <div className='col-12 col-md-4 title1' >
                     <h2 className="text-start title">Usuarios </h2>
                 </div>
 
-                <div className='col-6 col-sm-6 col-md-4 ' >
+                <div className='col-6 col-sm-6 col-md-4' >
                     <form >
-                        <div className='input-container'>
+                        <div className='input-container'  >
                             <FontAwesomeIcon icon={faSearch} className="icon" />
                             <input className="form-control input-style"
                                 placeholder="Buscar por: Nombre, Documento, Teléfono o Correo"
@@ -228,23 +217,11 @@ function ListUsers() {
                             />
                         </div>
                     </form>
-
-
                 </div>
 
                 <div className='col-6 col-sm-3 col-md-2' >
-
-
-                    {/* <div className="desplegable">
-                        <DropdownButton title={selectedOption} onSelect={handleSelect}>
-                            <Dropdown.Item eventKey="Seleccione un rol" className="dropdown-item-light">Seleccionee un rol</Dropdown.Item>
-                            <Dropdown.Item eventKey="Administrador">Administrador</Dropdown.Item>
-                            <Dropdown.Item eventKey="Tecnico interno">Tecnico interno</Dropdown.Item>
-                            <Dropdown.Item eventKey="Tecnico externo">Tecnico externo</Dropdown.Item>
-                        </DropdownButton>
-                    </div> */}
                     <Form>
-                    <Form.Group controlId="rolesPro" className="dropdown">
+                        <Form.Group controlId="rolesPro" className="dropdown">
                             <div className="dropdown-container">
                                 <Form.Control
                                     as="select"
@@ -263,26 +240,6 @@ function ListUsers() {
                             </div>
                         </Form.Group>
 
-
-                        {/* <Form.Group controlId="search" className="dropdownSearch"> 
-                            <div className="dropdown-container">
-                                <Form.Control
-                                    as="select"
-                                    name="search"
-                                    value={search} 
-                                    onChange={handleSearchInput}
-                                    required
-                                    style={{ border: 'none' }}
-                                >
-                                    <option value="name">Nombre</option>
-                                    <option value="document">Documento</option>
-                                    <option value="phone">Telefono</option>
-                                    <option value="email">Correo</option>
-                                </Form.Control>
-                                <FontAwesomeIcon icon={faChevronDown} className="dropdown-icon" />
-                            </div>
-                        </Form.Group>*/}
-
                     </Form>
 
                 </div>
@@ -292,10 +249,9 @@ function ListUsers() {
                 </div>
 
 
-
-                <div className='col-12'>
+                <div className='col-12' >
                     <div className="space-y-4">
-                        <div className="table-container">
+                        <div className="table-container" >
                             <DataTable
                                 columns={columns}
                                 data={records}
@@ -319,89 +275,8 @@ function ListUsers() {
 
                     </div>
                 </div>
-
-
-
-
-
             </div>
-
-
         )
-
-        /*isUserDetailsVisible ? (
-           
-              <UserDetails user={selectedUser} />
-          ) : isNewComponentVisible ? (
-              <RegisterUser />
-          ) : (
-           
-  
-              <div className="General-Table flex flex-col items-center justify-center min-h-screen ">
-                  <div > 
-                  
-                      <div className="superior row justify-content-right aling-items-right d-flex ">
-                          <div className='heder-comp'> 
-                              <div className='title'><h2>Usuarios</h2></div>
-                          </div>           
-                          <div className="filter-search  mb-4">
-                          
-                          
-                              <form style={{ width:'100%', margin:'0px 5px 0px 0px'}}>
-                                  <div className='input-container'>
-                                      <FontAwesomeIcon icon={faSearch} className="icon" style={{ marginLeft: '10px' }} />
-                                      <input className="form-control items-right" 
-                                          placeholder="Buscar por: Nombre, Documento, Teléfono o Correo"
-                                          type="search"                    
-                                          onChange={handleChange}
-                                          style={{ border: 'none', marginLeft: '-12px',  marginRight: '1px'  }}
-                                          />
-                          
-                                  </div>
-                                  
-                                      
-                              </form>
-                              <div className = "desplegable">
-                                  <DropdownButton title={selectedOption} onSelect={handleSelect} className='selec-option' style={{ fontSize:'5px'}}>
-                                      <Dropdown.Item eventKey="Seleccione un rol" className="dropdown-item-light">Seleccione un rol</Dropdown.Item>
-                                      <Dropdown.Item eventKey="Administrador">Administrador</Dropdown.Item>
-                                      <Dropdown.Item eventKey="Tecnico interno">Tecnico interno</Dropdown.Item>
-                                      <Dropdown.Item eventKey="Tecnico externo">Tecnico externo</Dropdown.Item>
-                                  </DropdownButton>
-                              </div>
-                              <Button className = "button-Create"variant="primary" onClick={handleButtonClick}>Agregar usuario</Button>
-                             
-                          </div> 
-                      
-                      </div>
-                  
-                  
-                  
-                      <div className="space-y-4"style={{ backgroundColor: '#fff' }}>
-                          <div className="table-container">
-                          <DataTable
-                              columns={columns}
-                              data = {records}
-                              pagination
-                              paginationPerPage={6}
-                              fixedHeader
-                              persistTableHead
-                              fixedHeaderScrollHeight = "70vh"
-                              progressPending={loading}
-                              onRowClicked = {handleRowClick}
-                              conditionalRowStyles={conditionalRowStyles}
-                              progressComponent={( 
-                                  <div className="loading-overlay">
-                                  <Spinner animation="border" size="lg" /> 
-                                  </div>
-                              )}
-                          />              
-                          </div>
-  
-                      </div>
-                  </div>
-              </div>
-          )*/
     )
 }
 export default ListUsers;
