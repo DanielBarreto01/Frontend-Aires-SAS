@@ -204,6 +204,7 @@ function UpdateClient() {
         } else if (modalType === 'register') {
             setLoading(true);
             const dataClient = await uploadImage(fileUser);
+           
             try {   
                 const response = await updateClient(client.id, dataClient, localStorage.getItem('authToken'));
                 if (response.status === 200) {
@@ -278,13 +279,6 @@ function UpdateClient() {
             center: true.toString()
         },
     ];
-
-    // const isEquipmentClientSelectionList = location.pathname === '/admin/clients/update/equipmentClientSelectionList';
-    // console.log(location.pathname, 'hhhhhhhhhh');
-    // if (isEquipmentClientSelectionList) {
-    //    console.log('entro');
-    //    return <Outlet/>;
-    // }
 
     if (!isTokenChecked) {
         return null;
