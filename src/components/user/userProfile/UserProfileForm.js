@@ -297,12 +297,13 @@ function UserProfileForm({ formData,
                                     </Form.Group>
 
                                 </div>
-
+                                
+                                
                                 <div className=" col-12">
                                     {isEditing ? (
                                         <>
                                             <div className="button-group">
-                                                <button type="submit" className='button-confirmationn' disabled={loading}>
+                                                <button type="button" className='button-confirmationn' disabled={loading} >
                                                     Guardar cambios
                                                 </button>
 
