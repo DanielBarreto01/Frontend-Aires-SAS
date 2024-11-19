@@ -154,3 +154,25 @@
   align-items: center; /* Centra verticalmente */
   z-index: 1000; /* Asegúrate de que esté por encima de otros elementos */
 }
+
+/*--------------------------------------*/
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none !important;
+  /* Elimina el borde azul con prioridad */
+  box-shadow: none !important;
+  /* Elimina el efecto de sombra */
+  border: 1px soloid #a39f9f !important;
+  /* Puedes personalizar el borde si lo deseas */
+}
+
+
+/*Configuracion del color que pone en el navegador al hacer autorrellenado de los campos*/
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+  /* Fondo blanco */
+  -webkit-text-fill-color: #858080 !important;
+  /* Color del texto */
+}
