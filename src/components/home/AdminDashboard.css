@@ -53,8 +53,16 @@
 
 .container-fluid {
     height: 100vh;
-
     overflow: hidden;
+} 
+
+
+.container-content-scrollable {
+    height: calc(100vh - 50px); /* Ajusta la altura según lo necesario, restando la altura del encabezado o la barra superior si la tienes */
+    overflow-y: auto;       /* Habilita el desplazamiento vertical */
+    overflow-x: hidden;  /*Evita el scroll horizontal */
+    padding-right: 10px;    /* Evita que el contenido se superponga con la barra de desplazamiento */
+
 }
 
 .custom-row {

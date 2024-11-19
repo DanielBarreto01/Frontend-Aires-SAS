@@ -7,15 +7,16 @@
     background-color: #f4f4f4; /* Color de fondo opcional */
 }
 
-/* Contenedor interno para el contenido */
+/* Contenedor interno para el contenido */ 
 .content-wrapper {
     width: 80%;
-    /* max-width: 800px; */
+  
     padding: 20px;
     background-color: rgb(234, 234, 234);
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
 
 /* Estilo para el título */
 .header  {
@@ -35,6 +36,8 @@
     text-align: center;
     transition: transform 0.3s ease-in-out;
     margin-top: 5%;
+    min-height: 200px; /* Altura mínima fija */
+    min-width: 200px; /* Ancho mínimo fijo */
 }
 
 .customer-option:hover {
@@ -45,6 +48,8 @@
 .customer-image {
     width: 60%;
     height: auto;
+    min-width: 120px; /* Ancho mínimo para evitar que cambie */
+    min-height: 120px; /* Altura mínima para evitar que cambie */
     border-radius: 8px;
     margin-bottom: 15px;
 }
