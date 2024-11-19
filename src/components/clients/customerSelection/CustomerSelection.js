@@ -4,22 +4,31 @@ import "../../general.css";
 import personNatu from "../../../assets/natu.png";
 import personj from "../../../assets/juri.png";
 import RegisterClient from '../registerClient/registerClient';
+import { useNavigate, Outlet,useLocation  } from 'react-router-dom';
+
 
 
 
 
 
 const CustomerSelection = () => {
-
+    const location = useLocation();
+    const navigate = useNavigate();
     const [clientType, setClientType] = useState(false);
     const [clientTypeSelected, setClientTypeSelected] = useState('');
+
     const handleClientTypeSelection = (clientType) => {
         setClientType(true) 
         setClientTypeSelected(clientType)
+    
     }
 
+    // const h = location.pathname=== '/admin/clients/CustomerSelection/register';
+    // if(h){
+    //     return<Outlet/>
+    // }
 
-        return (
+    return (
         clientType ? (
             <RegisterClient clientType={clientTypeSelected} />
         ) : (

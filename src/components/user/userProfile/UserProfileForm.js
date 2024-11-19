@@ -24,6 +24,7 @@ function UserProfileForm({ formData,
     handleCloseModal,
     handleConfirmAction,
     isEditing,
+    isEditingButtons,
     handleEditClick,
     modalType }) {
 
@@ -209,6 +210,7 @@ function UserProfileForm({ formData,
                                 </div>
 
 
+
                                 <div className="floating-label col-12">
                                     <Form.Group controlId="numberIdentificationPro" className="numberIdentification">
                                         <Form.Control
@@ -332,6 +334,7 @@ function UserProfileForm({ formData,
                     </div>
                 </div>
             </div>
+
 
 
             <ConfirmationModal

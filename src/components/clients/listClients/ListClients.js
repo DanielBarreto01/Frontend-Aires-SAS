@@ -10,7 +10,7 @@ import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import UpdateClient from "../updateClient/UpdateClient";
 import RegisterClient from "../registerClient/registerClient";
 import { getClients } from "../../../api/ClientService";
-import { useNavigate, Outlet,useLocation  } from 'react-router-dom';
+import { useNavigate, Outlet, useLocation } from 'react-router-dom';
 import "../../general.css";
 import "../../user/listUsers/ListUsers.css";
 
@@ -143,15 +143,11 @@ const ListClients = () => {
         navigate('/admin/clients/CustomerSelection');
     };
 
-     const isCustomerSelection = location.pathname === '/admin/clients/CustomerSelection';
-     const isUpdateClient = location.pathname === '/admin/clients/update';
-
-      if (isCustomerSelection || isUpdateClient) {
+    const isCustomerSelection = location.pathname === '/admin/clients/CustomerSelection';
+    const isUpdateClient = location.pathname === '/admin/clients/update';
+    if (isCustomerSelection || isUpdateClient) {
         return <Outlet />;
     }
- 
-
-
 
     const handleItemClick = (client) => {
         navigate('/admin/clients/update' ,{
@@ -191,7 +187,7 @@ const ListClients = () => {
                         <div className='input-container'>
                             <FontAwesomeIcon icon={faSearch} className="icon" />
                             <input className="form-control input-style"
-                                placeholder="Buscar por: Id, Marca, Modelo, No. serie o No. inventario"
+                                placeholder="Buscar por nombre o identificación"
                                 type="search"
                                 onChange={handleChange}
                             />
@@ -223,10 +219,9 @@ const ListClients = () => {
                                     required
                                     style={{ border: 'none' }}
                                 >
-                                    <option value="Seleccione un rol">Seleccione un rol</option>
-                                    <option value="Administrador">Administrador</option>
-                                    <option value="Tecnico interno">Tecnico interno</option>
-                                    <option value="Tecnico externo">Tecnico externo</option>
+                                    <option value="Seleccione un rol">Tipo persona</option>
+                                    <option value="Administrador">Natural</option>
+                                    <option value="Tecnico interno">Jurídica</option>
                                 </Form.Control>
                                 <FontAwesomeIcon icon={faChevronDown} className="dropdown-icon" />
                             </div>

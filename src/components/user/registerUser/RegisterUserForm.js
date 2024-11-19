@@ -27,6 +27,7 @@ function RegisterUserForm({ formData,
     showModal,
     handleCloseModal,
     handleConfirmAction,
+    isEditingButtons,
     modalType }) {
 
     const [dropdownState, setDropdownState] = useState({
@@ -511,10 +512,10 @@ function RegisterUserForm({ formData,
 
                 </Row>
                 <div className="button-group">
-                    <Button variant="primary" type="submit" className='button-confirmationn' disabled={loading} onClick={handleRegister} >
+                    <Button variant="primary" type="submit" className='button-confirmationn' disabled={isEditingButtons} onClick={handleRegister} >
                         Registrar Usuario
                     </Button>
-                    <Button variant="secondary" className='button-cancell' disabled={loading} onClick={handleCancel} >
+                    <Button variant="secondary" className='button-cancell' disabled={isEditingButtons} onClick={handleCancel} >
                         Cancelar Registro
                     </Button>
                 </div>

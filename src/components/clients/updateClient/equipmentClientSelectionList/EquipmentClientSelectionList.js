@@ -8,17 +8,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { getEquipmentsIdClient } from "../../../../api/EquipmentService";
+import { useNavigate, Outlet,useLocation  } from 'react-router-dom';
 import "./EquipmentClientList.css";
-import { useNavigate, Outlet } from 'react-router-dom';
 
-
-const EquipmentUserList = ({ selectNewEquipments, setSelectNewEquipments, setSelectionEqipmentsClient, client}) => {
+const EquipmentClientSelectionList = ({client, setSelectionEqipmentsClient}) => {
+    const location = useLocation();
+    const navigate = useNavigate();
+    //const client = location.state?.client;
     const [data, setData] = useState([]);
     const [selectedOption, setSelectedOption] = useState("Seleccione un rol");
     const [loading, setLoading] = useState(false);
     const [records, setRecords] = useState([]);
     const [isTokenChecked, setIsTokenChecked] = useState(false);
-    const navigate = useNavigate();
     const [selectedRows, setSelectedRows] = useState([]);
     const [idsEquipmentsSelection, setIdsEquipmentsSelection] = useState([]);
 
@@ -36,7 +37,6 @@ const EquipmentUserList = ({ selectNewEquipments, setSelectNewEquipments, setSel
                 console.log("token", token);
                 if (token !== null && jwtDecode(token).exp * 1000 > Date.now()) { // && jwtDecode(token).exp*1000 >  Date.now()
                     fetchData();
-                    setIdsEquipmentsSelection(selectNewEquipments.map(equipment => equipment.id));
                     setIsTokenChecked(true);
                     setLoading(true);
                 } else {
@@ -56,7 +56,6 @@ const EquipmentUserList = ({ selectNewEquipments, setSelectNewEquipments, setSel
     }, []);
 
     const fetchData = async () => {
-        setLoading(false);
         try {
             const token = localStorage.getItem('authToken');
             const response = await getEquipmentsIdClient(client.id, token);
@@ -138,13 +137,11 @@ const EquipmentUserList = ({ selectNewEquipments, setSelectNewEquipments, setSel
     }
 
     const handleButtonClick = () => {
-        setSelectionEqipmentsClient(prevState => !prevState); // Cambia el estado para mostrar el nuevo componente
+        setSelectionEqipmentsClient(false)
+        // Cambia el estado para mostrar el nuevo componente
     };
 
-    const handleButtonSave = () => {
-        setSelectNewEquipments(selectedRows);
-        setSelectionEqipmentsClient(prevState => !prevState); // Cambia el estado para mostrar el nuevo componente
-    };
+
 
     const conditionalRowStyles = [
         {
@@ -250,9 +247,9 @@ const EquipmentUserList = ({ selectNewEquipments, setSelectNewEquipments, setSel
                             persistTableHead
                             fixedHeaderScrollHeight="80vh"
                             progressPending={loading}
-                            selectableRows
-                            onSelectedRowsChange={handleRowSelected}
-                            selectableRowSelected={selectableRowSelected} 
+                            // selectableRows
+                            // onSelectedRowsChange={handleRowSelected}
+                            // selectableRowSelected={selectableRowSelected} 
                             // selectableRowSelected={(row) => searchTerm.includes(row.id)}
                             conditionalRowStyles={conditionalRowStyles}
                             paginationComponentOptions={customPaginationOptions}
@@ -269,8 +266,8 @@ const EquipmentUserList = ({ selectNewEquipments, setSelectNewEquipments, setSel
             </div>
 
             <div className='buttons-equipments-clients' >
-                < Button className="button-save" onClick={handleButtonSave}>Guardar</Button>
-                <Button className="button-exit" onClick={handleButtonClick} >salir</Button>
+                {/* < Button className="button-save" onClick={handleButtonSave}>Guardar</Button> */}
+                <Button className="button-exit" onClick={handleButtonClick} >Salir</Button>
             </div>
 
         </div>
@@ -278,4 +275,4 @@ const EquipmentUserList = ({ selectNewEquipments, setSelectNewEquipments, setSel
     )
 };
 
-export default EquipmentUserList;
+export default EquipmentClientSelectionList;

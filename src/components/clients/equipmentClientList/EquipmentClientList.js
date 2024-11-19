@@ -1,32 +1,30 @@
-import React, { useEffect, useState, useMemo  } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { Form } from 'react-bootstrap';
 import { jwtDecode } from 'jwt-decode';
 import DataTable from 'react-data-table-component';
-import { Button, Dropdown, DropdownButton, Spinner } from 'react-bootstrap';
+import { Button, Spinner } from 'react-bootstrap';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
-import { getEquipmentsAvailable } from "../../../api/EquipmentService";
+import { getEquipmentsAvailable, getEquipmentsIdClient } from "../../../api/EquipmentService";
 import "./EquipmentClientList.css";
 import { useNavigate, Outlet } from 'react-router-dom';
 
 
-const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableEquipment, setIsNewComponentVisibleEquipClient}) => {
+const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableEquipment, setIsNewComponentVisibleEquipClient, clientId}) => {
     const [data, setData] = useState([]);
-    const [selectedOption, setSelectedOption] = useState("Seleccione un rol");
+    const [selectedOption, setSelectedOption] = useState("All");
+    const [searchText, setSearchText] = useState('');
     const [loading, setLoading] = useState(false);
     const [records, setRecords] = useState([]);
     const [isTokenChecked, setIsTokenChecked] = useState(false);
     const navigate = useNavigate();
     const [selectedRows, setSelectedRows] = useState([]);
     const [idsEquipmentsSelection, setIdsEquipmentsSelection] = useState([]);
-
-    const roleMap = {
-        "ADMIN": "Administrador",
-        "INTERNAL_TECHNICIAN": "Técnico interno",
-        "EXTERNAL_TECHNICIAN": "Técnico externo"
-    };
+    const [equipmentsAvailable, setEquipmentsAvailable] = useState([]);
+    const [equipmentsAsigned, setEquipmentsAsigned] = useState([]);
+    const [validateScreenChange, setValidateScreenChange] = useState(false);
 
     useEffect(() => {
         setTimeout(() => {
@@ -39,6 +37,7 @@ const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableE
                     setIdsEquipmentsSelection(selectionAvailableEquipment.map(equipment => equipment.id));
                     setIsTokenChecked(true);
                     setLoading(true);
+                   
                 } else {
                     localStorage.removeItem('authToken');
                     setLoading(false);
@@ -56,12 +55,20 @@ const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableE
     }, []);
 
     const fetchData = async () => {
-        setLoading(false);
+        
+        const token = localStorage.getItem('authToken');
         try {
-            const token = localStorage.getItem('authToken');
             const response = await getEquipmentsAvailable(token);
-            setData(response);
-            setRecords(response);
+            if (clientId == null) {
+                setData(response);
+                setRecords(response);
+            } else {
+                const responseExistEquipments = await getEquipmentsIdClient(clientId, token);
+                setData(mergeUniqueLists(responseExistEquipments, response));
+                setRecords(mergeUniqueLists(responseExistEquipments, response));
+                setEquipmentsAsigned(responseExistEquipments)
+                setEquipmentsAvailable(response);
+            }
             setTimeout(() => {
                 setLoading(false);
             }, 1500);
@@ -73,14 +80,31 @@ const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableE
         }
     };
 
-    const columns = [
-        {
-            name: 'Id',
-            selector: row => row.id,
-            sortable: true,
-            center: true.toString()
+    function updateLists(lista2, lista3) {
+        if (lista3.length === 0) {
+            lista2.length = 0;
+        } else {
+            lista2 = lista2.filter(elemento => lista3.includes(elemento));
+            lista3.forEach(elemento => {
+                if (!lista2.includes(elemento)) {
+                    lista2.push(elemento);
+                }
+            });
+        }
+        return lista2;
+    }
 
-        },
+    const mergeUniqueLists = (list1, list2) => {
+        return [...list1, ...list2].reduce((acc, current) => {
+            if (!acc.find(item => item.id === current.id)) {
+                acc.push(current);
+            }
+            return acc;
+        }, []);
+    };
+
+    const columns = [
+      
         {
             name: 'Equipo',
             selector: row => row.pathImage, // Suponiendo que 'image' es el campo que contiene la URL de la imagen
@@ -92,6 +116,13 @@ const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableE
                 />
             ),
             center: true.toString()
+        },
+        {
+            name: 'Nombre',
+            selector: row => row.name,
+            sortable: true,
+            center: true.toString()
+
         },
         {
             name: "Marca",
@@ -127,24 +158,43 @@ const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableE
     ];
 
     const handleChange = (e) => {
-        setRecords(data.filter(record => {
+        setSearchText(e.target.value);
+        const listSearch = data.filter(record => {
             return record.name.toLowerCase().includes(e.target.value.toLowerCase()) ||
-                record.id.toString().includes(e.target.value.toLowerCase()) ||
                 record.brand.toLowerCase().includes(e.target.value.toLowerCase()) ||
                 record.modelNumber.toLowerCase().includes(e.target.value) ||
                 record.serialNumber.toLowerCase().includes(e.target.value) ||
                 record.iventoryNumber.toString().includes(e.target.value.toLowerCase())
-        }));
+        });
+        if(listSearch.length > 0){
+            updateEquipmentSelectionIds(selectedOption);
+        }
+        setRecords(listSearch)
     }
 
     const handleButtonClick = () => {
         setIsNewComponentVisibleEquipClient(prevState => !prevState); // Cambia el estado para mostrar el nuevo componente
     };
 
+
     const handleButtonSave = () => {
-        setSelectionAvailableEquipment(selectedRows);
-        setIsNewComponentVisibleEquipClient(prevState => !prevState); // Cambia el estado para mostrar el nuevo componente
+        if(clientId == null){
+            setSelectionAvailableEquipment(selectedRows);
+            setIsNewComponentVisibleEquipClient(prevState => !prevState);
+        }else{
+            setValidateScreenChange(true);
+            updateEquipmentSelectionIds(selectedOption);
+            setTimeout(() => {
+              setIsNewComponentVisibleEquipClient(prevState => !prevState);
+            }, 500);     
+            
+        }
     };
+
+    if(validateScreenChange){
+        setSelectionAvailableEquipment((mergeUniqueLists(equipmentsAsigned, equipmentsAvailable).filter(item => idsEquipmentsSelection.includes(item.id))));
+        setValidateScreenChange(false);
+    }
 
     const conditionalRowStyles = [
         {
@@ -158,28 +208,69 @@ const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableE
         },
     ];
 
+    function updateList3(list1, list2, list3) {
+         const idsList2 = new Set(list1.map(item => item.id));
+         list3 = list3.filter(item => !(list2.some(el => el.id === item.id) && !idsList2.has(item.id)));
+         list1.forEach(item => {
+             if (idsList2.has(item.id) && !list3.some(existingItem => existingItem.id === item.id)) {
+                 list3.push(item);
+             }
+         });  
+         return list3;
+    }
+
     const handleRowSelected = (state) => {
-       
-        // setIdsEquipments(state.selectedRows.map(row => row.id));
-        setSelectedRows(state.selectedRows);
-      
-        console.log("selectedRows", state.selectedRows);
-        // Aquí se almacena las filas seleccionadas
+        if(records.length > 0){
+            setSelectedRows(updateList3(state.selectedRows, records, selectedRows))
+        }
     };
 
-    //const selectableRowSelected = (row) => {
-        // return searchTerm.includes(row.id) 
-        // return searchTerm.some(equipment => equipment.id == row.id);
-       // return selectedRows.some(selectedRow => selectedRow.id === row.id); // Selecciona solo si el id está en selectedIds y es diferente de null
-        //// return selectedRows.includes(row.id) || selectedRows.some(selectedRow => selectedRow.id === row.id); // Selecciona solo si el id está en selectedIds y es diferente de null
-     // };
+    const updateEquipmentSelectionIds = (selectedOptionFilter) => {
+        let referenceList = [];
+        let comparisonList = selectedRows.map(row => row.id);
+        if (selectedOptionFilter === "Asigned") {
+            referenceList = equipmentsAvailable.map(row => row.id);
+        } else if (selectedOption === "Available") {
+            selectedOptionFilter = equipmentsAsigned.map(row => row.id)
+        } else {
+            setIdsEquipmentsSelection(selectedRows.map(row => row.id))
+            return;
+        }
 
-      const selectableRowSelected = useMemo(() => {
-        console.log("idsEquipmentsSelection", idsEquipmentsSelection)
+        const filteredList1 = idsEquipmentsSelection.filter(item => referenceList.includes(item));
+        const updatedList2 = updateLists(referenceList, comparisonList);
+        
+        setIdsEquipmentsSelection([...new Set([...filteredList1, ...updatedList2])]);
+    };
+
+    const handleRoleChange = (newSelectedOption) => {
+        setSearchText(''); 
+        setSelectedOption(newSelectedOption);
+        if (newSelectedOption === "All") {
+            setLoading(true);
+            setTimeout(() => {
+                fetchData();
+                setData(mergeUniqueLists(equipmentsAsigned, equipmentsAvailable))
+                setRecords(mergeUniqueLists(equipmentsAsigned, equipmentsAvailable));
+            }, 200);     
+        } else if (newSelectedOption === "Asigned") {
+            setData(equipmentsAsigned);
+            setRecords(equipmentsAsigned);
+
+        } else if (newSelectedOption === "Available") {
+            setData(equipmentsAvailable);
+            setRecords(equipmentsAvailable);
+        } 
+
+
+        updateEquipmentSelectionIds(selectedOption);
+        
+    };
+
+    const selectableRowSelected = useMemo(() => {
         return (row) => idsEquipmentsSelection.includes(row.id);
-       
-      }, [idsEquipmentsSelection]);
-    
+    }, [idsEquipmentsSelection]);
+
 
     const customPaginationOptions = {
         rowsPerPageText: 'Filas por página',  // Texto para "Rows per page"
@@ -205,6 +296,7 @@ const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableE
                         <input className="form-control input-style"
                             placeholder="Buscar por: Id, Marca, Modelo, No. serie o No. inventario"
                             type="search"
+                            value={searchText} 
                             onChange={handleChange}
                         />
                     </div>
@@ -215,24 +307,46 @@ const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableE
 
             <div className='col-6 col-sm-3 col-md-3' >
                 <Form>
-                    <Form.Group controlId="rolesPro" className="dropdown">
-                        <div className="dropdown-container">
-                            <Form.Control
-                                as="select"
-                                name="roles"
-                                value={selectedOption} // Valor actual del select
-                                // onChange={handleRoleChange}
-                                required
-                                style={{ border: 'none' }}
-                            >
-                                <option value="Seleccione un rol">Seleccione un rol</option>
-                                <option value="Administrador">Administrador</option>
-                                <option value="Tecnico interno">Tecnico interno</option>
-                                <option value="Tecnico externo">Tecnico externo</option>
-                            </Form.Control>
-                            <FontAwesomeIcon icon={faChevronDown} className="dropdown-icon" />
-                        </div>
-                    </Form.Group>
+                    {clientId == null ? (
+                        <Form.Group controlId="rolesPro" className="dropdown">
+                            <div className="dropdown-container">
+                                <Form.Control
+                                    as="select"
+                                    name="roles"
+                                    value={selectedOption} // Valor actual del select
+                                    // onChange={handleRoleChange}
+                                    required
+                                    style={{ border: 'none' }}
+                                >
+                                    <option value="Seleccione un rol">Seleccione un rol</option>
+                                    <option value="Administrador">Administrador</option>
+                                    <option value="Tecnico interno">Tecnico interno</option>
+                                    <option value="Tecnico externo">Tecnico externo</option>
+                                </Form.Control>
+                                <FontAwesomeIcon icon={faChevronDown} className="dropdown-icon" />
+                            </div>
+                        </Form.Group>
+                    ) : (
+                        <Form.Group controlId="rolesPro" className="dropdown">
+
+                            <div className="dropdown-container">
+
+                                <Form.Control
+                                    as="select"
+                                    name="roles"
+                                    value={selectedOption} // Valor actual del select
+                                    onChange={(e) => handleRoleChange(e.target.value)}
+                                    required
+                                    style={{ border: 'none' }}
+                                >
+                                    <option value="All">Todos</option>
+                                    <option value="Asigned">Asignados</option>
+                                    <option value="Available">Disponibles</option>
+                                </Form.Control>
+                                <FontAwesomeIcon icon={faChevronDown} className="dropdown-icon" />
+                            </div>
+                        </Form.Group>)}
+
                 </Form>
 
             </div>
@@ -251,7 +365,7 @@ const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableE
                             progressPending={loading}
                             selectableRows
                             onSelectedRowsChange={handleRowSelected}
-                            selectableRowSelected={selectableRowSelected} 
+                            selectableRowSelected={selectableRowSelected}
                             // selectableRowSelected={(row) => searchTerm.includes(row.id)}
                             conditionalRowStyles={conditionalRowStyles}
                             paginationComponentOptions={customPaginationOptions}
@@ -268,7 +382,7 @@ const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableE
             </div>
 
             <div className='buttons-equipments-clients' >
-                < Button className="button-save" onClick={handleButtonSave}>Guardar</Button>
+                <Button className="button-save" onClick={handleButtonSave}>Guardar</Button>
                 <Button className="button-exit" onClick={handleButtonClick} >salir</Button>
             </div>
 
