@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import UserDetails from '../userProfile/UserProfile';
 import axios from 'axios';
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { jwtDecode } from 'jwt-decode';
 import "../../general.css";
 import "../../user/listUsers/ListUsers.css";
@@ -61,6 +61,12 @@ function ListUsers() {
 
     const handleButtonClick = () => {
         setIsNewComponentVisible(prevState => !prevState); // Cambia el estado para mostrar el nuevo componente
+    };
+
+    const [isOpen, setIsOpen] = useState(false);  
+
+    const handleDropdownToggle = () => {
+        setIsOpen(!isOpen);  
     };
 
     const fetchData = async () => {
@@ -201,7 +207,7 @@ function ListUsers() {
             <RegisterUser />
         ) : (
             <div className='row'  >
-                
+
                 <div className='col-12 col-md-4 title1' >
                     <h2 className="text-start title">Usuarios </h2>
                 </div>
@@ -229,6 +235,7 @@ function ListUsers() {
                                     value={selectedOption} // Valor actual del select
                                     onChange={handleRoleChange}
                                     required
+                                    onClick={handleDropdownToggle}
                                     style={{ border: 'none' }}
                                 >
                                     <option value="Seleccione un rol">Seleccione un rol</option>
@@ -236,7 +243,12 @@ function ListUsers() {
                                     <option value="Tecnico interno">Tecnico interno</option>
                                     <option value="Tecnico externo">Tecnico externo</option>
                                 </Form.Control>
-                                <FontAwesomeIcon icon={faChevronDown} className="dropdown-icon" />
+                                {/* <FontAwesomeIcon icon={faChevronDown} className="dropdown-icon" /> */}
+
+                                <FontAwesomeIcon
+                                    icon={isOpen ? faChevronUp : faChevronDown}
+                                    className="icon "
+                                />
                             </div>
                         </Form.Group>
 

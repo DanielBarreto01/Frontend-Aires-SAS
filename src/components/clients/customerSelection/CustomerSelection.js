@@ -31,7 +31,7 @@ const CustomerSelection = () => {
                     <div className="row justify-content-around mt-4">
                         <div className="col-md-5 customer-option" onClick={() => handleClientTypeSelection('natural')}>
                             <img
-                                src={ personNatu }
+                                 src={ personNatu }
                                 alt="Persona Natural"
                                 className="customer-image"
                             />

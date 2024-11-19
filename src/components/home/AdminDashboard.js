@@ -184,10 +184,6 @@ function AdminDashboard() {
     return null;
   }
 
-
-
-
-
   return (
 
     <div className="container-fluid "  >
@@ -276,7 +272,7 @@ function AdminDashboard() {
               </button>
             </div >
 
-            <div className='col-12'>
+            <div className='col-12 container-content-scrollable'>
             <Outlet />
             </div>
            

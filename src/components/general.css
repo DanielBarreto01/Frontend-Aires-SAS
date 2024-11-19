@@ -22,15 +22,17 @@
 }
 
 .button-confirmationn {
-    background-color: #7B7B7B ;
-    /* background-color: #000000; */
-    border-radius: 11px;
-    font-size: 15px;
-    width: 45%;
-    border: none;
-    text-align: center;
-     
-  }
+  background-color: #7B7B7B;
+  border-radius: 11px;
+  font-size: 15px;
+  width: 45%;
+  height: 35px;
+ 
+  display: flex; /* Activo Flexbox */
+  justify-content: center; /* Centro horizontalmente */
+  align-items: center; /* Centro verticalmente */
+}
+
   
   .button-confirmationn:hover {
     /* background-color: #7B7B7B !important; */
@@ -42,9 +44,34 @@
     border-radius: 11px;
     font-size: 15px;
     width: 45% !important;
-    text-align: center; 
+   
+    height: 35px;
+ 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
   }
+  
 
   .button-cancell:hover {
+    background-color: #000000 !important;
+  }
+
+  .button-clean{
+    /* background-color: #6c757d; */
+    background-color: #898a8a;
+    border-radius: 11px;
+    font-size: 15px;
+    width: 45% !important;
+   
+    height: 35px;
+ 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+
+  }
+
+  .button-clean:hover {
     background-color: #000000 !important;
   }
