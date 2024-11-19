@@ -34,7 +34,7 @@ function RegisterClientForm({ formData,
 
     const handleExternalSubmit = () => {
         if (formRef.current) {
-            formRef.current.requestSubmit(); 
+            formRef.current.requestSubmit();
         }
     };
 
@@ -62,21 +62,19 @@ function RegisterClientForm({ formData,
 
 
                         <div className='floating-label' >
-                            <div className="floating-label">
-                                <Form.Group controlId="address" className="address">
-                                    <Form.Control
-                                        type="text"
-                                        name="address"
-                                        value={formData.address}
-                                        onChange={handleInputChange}
-                                        placeholder=" "
-                                        required
-                                        maxLength={50}
-                                    />
-                                    <Form.Label>Dirección</Form.Label>
-                                </Form.Group>
-                            </div>
 
+                            <Form.Group controlId="address" className="address">
+                                <Form.Control
+                                    type="text"
+                                    name="address"
+                                    value={formData.address}
+                                    onChange={handleInputChange}
+                                    placeholder=" "
+                                    required
+                                    maxLength={50}
+                                />
+                                <Form.Label>Dirección</Form.Label>
+                            </Form.Group>
 
                         </div>
 
@@ -84,7 +82,7 @@ function RegisterClientForm({ formData,
                         {clientType === 'juridica' && (
                             <>
                                 <div className="floating-label">
-                                    <Form.Group controlId="emailLegalRepresentative" className="email" style={{ outline: '0px' }} >
+                                    <Form.Group controlId="emailLegalRepresentative" className="email" >
                                         <Form.Control
                                             type="email"
                                             name="emailLegalRepresentative"
@@ -413,15 +411,8 @@ function RegisterClientForm({ formData,
                         </div>
                     </div>
                     <div className="col-lg-6" ></div>
-
-
-
-
                     <div className='col-lg-6 button-group '>
-
                         <button type="button" className='button-confirmationn' disabled={isEditingButtons} onClick={handleExternalSubmit} >
-                     
-                            
                             Registrar clientes
                         </button>
 
@@ -429,7 +420,6 @@ function RegisterClientForm({ formData,
                             Cancelar Registro
                         </button>
                     </div>
-
                 </div>
 
             </div >
