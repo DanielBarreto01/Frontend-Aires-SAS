@@ -7,8 +7,6 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
-import UpdateClient from "../updateClient/UpdateClient";
-import RegisterClient from "../registerClient/registerClient";
 import { getClients } from "../../../api/ClientService";
 import { useNavigate, Outlet, useLocation } from 'react-router-dom';
 import "../../general.css";
@@ -16,58 +14,14 @@ import "../../user/listUsers/ListUsers.css";
 
 const ListClients = () => {
     const [data, setData] = useState([]);
-    const [selectedOption, setSelectedOption] = useState("Seleccione un rol");
+    const [searchText, setSearchText] = useState('');
+    const [selectedOption, setSelectedOption] = useState("Type person");
     const [loading, setLoading] = useState(false);
-    const [isNewComponentVisible, setIsNewComponentVisible] = useState(false);
     const [records, setRecords] = useState([]);
-    const [selectedClient, setSelectedClient] = useState(null);
     const [isTokenChecked, setIsTokenChecked] = useState(false);
-    const [search, setSearch] = useState("name");
     const navigate = useNavigate();
     const location = useLocation();
-
-    const roleMap = {
-        "ADMIN": "Administrador",
-        "INTERNAL_TECHNICIAN": "Técnico interno",
-        "EXTERNAL_TECHNICIAN": "Técnico externo"
-    };
     const [selectedId, setSelectedId] = useState(null);
-
-    // const locations = [
-    //     { id: 1, city: "Manchester", country: "UK", imageUrl: "https://trivo.com.ec/wp-content/uploads/2024/01/edificios-modernos.jpg"},
-    //     { id: 2, city: "Yorkshire", country: "UK", imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-bmWuYOI_RewtFu86U4XhbMGYg6qAjU631A&s" },
-    //     { id: 3, city: "Hull", country: "UK", imageUrl: "ruta/de/imagen3.jpg" },
-    //     { id: 4, city: "Leicester", country: "UK", imageUrl: "ruta/de/imagen4.jpg" },
-    //     { id: 5, city: "Hull", country: "UK", imageUrl: "ruta/de/imagen3.jpg" },
-    //     { id: 6, city: "Leicester", country: "UK", imageUrl: "ruta/de/imagen4.jpg" },
-    //     { id: 7, city: "Hull", country: "UK", imageUrl: "ruta/de/imagen3.jpg" },
-    //     { id: 8, city: "Leicester", country: "UK", imageUrl: "ruta/de/imagen4.jpg" },
-    //     { id: 9, city: "Hull", country: "UK", imageUrl: "ruta/de/imagen3.jpg" },
-    //     { id: 10, city: "Leicester", country: "UK", imageUrl: "ruta/de/imagen4.jpg" },
-    //     { id: 11, city: "Hull", country: "UK", imageUrl: "ruta/de/imagen3.jpg" },
-    //     { id: 12, city: "Leicester", country: "UK", imageUrl: "ruta/de/imagen4.jpg" },
-    //     { id: 13, city: "Hull", country: "UK", imageUrl: "ruta/de/imagen3.jpg" },
-    //     { id: 14, city: "Leicester", country: "UK", imageUrl: "ruta/de/imagen4.jpg" },
-    //     { id: 15, city: "Hull", country: "UK", imageUrl: "ruta/de/imagen3.jpg" },
-    //     { id: 16, city: "Leicester", country: "UK", imageUrl: "ruta/de/imagen4.jpg" },
-    //     { id: 17, city: "Hull", country: "UK", imageUrl: "ruta/de/imagen3.jpg" },
-    //     { id: 18, city: "Leicester", country: "UK", imageUrl: "ruta/de/imagen4.jpg" },
-    //     { id: 19, city: "Leicester", country: "UK", imageUrl: "ruta/de/imagen4.jpg" },
-    //     { id: 20, city: "Hull", country: "UK", imageUrl: "ruta/de/imagen3.jpg" },
-    //     { id: 43, city: "Leicester", country: "UK", imageUrl: "ruta/de/imagen4.jpg" },
-    //     { id: 38, city: "Hull", country: "UK", imageUrl: "ruta/de/imagen3.jpg" },
-    //     { id: 401, city: "Leicester", country: "UK", imageUrl: "ruta/de/imagen4.jpg" },
-    //     { id: 301, city: "Hull", country: "UK", imageUrl: "ruta/de/imagen3.jpg" },
-    //     { id: 40015, city: "Leicester", country: "UK", imageUrl: "ruta/de/imagen4.jpg" },
-    //     { id: 489, city: "Leicester", country: "UK", imageUrl: "ruta/de/imagen4.jpg" },
-    //     { id: 3963, city: "Hull", country: "UK", imageUrl: "ruta/de/imagen3.jpg" },
-    //     { id: 4207, city: "Leicester", country: "UK", imageUrl: "ruta/de/imagen4.jpg" },
-    //     { id: 30263, city: "Hull", country: "UK", imageUrl: "ruta/de/imagen3.jpg" },
-    //     { id: 42145, city: "Leicester", country: "UK", imageUrl: "ruta/de/imagen4.jpg" },
-    //     { id: 32014, city: "Hull", country: "UK", imageUrl: "ruta/de/imagen3.jpg" },
-    //     { id: 423524, city: "Leicester", country: "UK", imageUrl: "ruta/de/imagen4.jpg" },
-    //     // Agrega más ubicaciones si es necesario
-    // ];
 
     useEffect(() => {
         setTimeout(() => {
@@ -112,19 +66,8 @@ const ListClients = () => {
 
 
     const handleChange = (e) => {
+        setSearchText(e.target.value);
         setRecords(data.filter(record => {
-            // if (search === "name") {
-            //     return `${record.name} ${record.lastName}`.toLowerCase().includes(e.target.value.toLowerCase()) ||
-            //     record.lastName.toLowerCase().includes(e.target.value.toLowerCase()) ||
-            //     record.name.toLowerCase().includes(e.target.value.toLowerCase());
-            // } else if (search === "document") {
-            //     return record.numberIdentification.includes(e.target.value);
-            // } else if (search === "phone") {
-            //     return record.phoneNumber.toString().includes(e.target.value);
-            // }else if (search === "email") {
-            //     return record.email.toLowerCase().includes(e.target.value.toLowerCase());
-            // }
-            // return null;
             if(record.clientType ==='NaturalPerson') {
                 return record.name.toLowerCase().includes(e.target.value.toLowerCase()) ||
                     record.lastName.toLowerCase().includes(e.target.value.toLowerCase()) ||
@@ -136,6 +79,17 @@ const ListClients = () => {
             }
                
         }));
+    }
+    const handleRoleChange = (e) => {
+        setSearchText('');
+        setSelectedOption(e.target.value);
+        if (e.target.value === 'Type person') {
+            setRecords(data);
+        } else if (e.target.value === 'natural') {
+            setRecords(data.filter(record => record.clientType === 'NaturalPerson'));
+        } else if (e.target.value === 'juridical') {
+            setRecords(data.filter(record => record.clientType === 'JuridicalPersons'));
+        }
     }
 
 
@@ -153,15 +107,7 @@ const ListClients = () => {
         navigate('/admin/clients/update' ,{
             state: {client}    
         });
-       
-       //isCustomerSelection = location.pathname === '/admin/clients/update';
-        // setSelectedClient(location);
-        // console.log(location, " muestra la seleccion")
-        // setIsClientDetailsVisible(true)
     };
-
-
-    // let isCustomerSelectinonn = location.pathname === '/admin/clients/update';
 
 
 
@@ -174,9 +120,7 @@ const ListClients = () => {
   
 
     return (
-        isNewComponentVisible ? (
-            <RegisterClient />
-        ) : (
+        
             <div className='row'>
                 <div className='col-12 col-md-4 title1'>
                     <h2 className="text-start title">Clientes </h2>
@@ -189,6 +133,7 @@ const ListClients = () => {
                             <input className="form-control input-style"
                                 placeholder="Buscar por nombre o identificación"
                                 type="search"
+                                value={searchText}
                                 onChange={handleChange}
                             />
                         </div>
@@ -215,13 +160,13 @@ const ListClients = () => {
                                     as="select"
                                     name="roles"
                                     value={selectedOption} // Valor actual del select
-                                    // onChange={handleRoleChange}
+                                    onChange={handleRoleChange}
                                     required
                                     style={{ border: 'none' }}
                                 >
-                                    <option value="Seleccione un rol">Tipo persona</option>
-                                    <option value="Administrador">Natural</option>
-                                    <option value="Tecnico interno">Jurídica</option>
+                                    <option value="Type person">Tipo persona</option>
+                                    <option value="natural">Natural</option>
+                                    <option value="juridical">Jurídica</option>
                                 </Form.Control>
                                 <FontAwesomeIcon icon={faChevronDown} className="dropdown-icon" />
                             </div>
@@ -267,7 +212,7 @@ const ListClients = () => {
                 )}
             </div>
             
-        )
+        
     );
 };
 
