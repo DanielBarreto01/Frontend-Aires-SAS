@@ -419,7 +419,7 @@ function RegisterClientForm({ formData,
 
                     <div className='col-lg-6 button-group '>
 
-                        <button type="button" className='button-confirmationn' disabled={isEditingButtons}  onClick={handleExternalSubmit} >
+                        <button type="button" className='button-confirmationn' disabled={isEditingButtons} onClick={handleExternalSubmit} >
                      
                             
                             Registrar clientes
