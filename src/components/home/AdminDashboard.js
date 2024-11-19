@@ -184,10 +184,6 @@ function AdminDashboard() {
     return null;
   }
 
-
-
-
-
   return (
 
     <div className="container-fluid "  >
@@ -226,11 +222,6 @@ function AdminDashboard() {
               <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/mantenimientos')}>
                 <FontAwesomeIcon className="icon-margin" icon={faScrewdriverWrench} />
                 Mantenimientos
-              </Nav.Link>
-              <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/control-mantenimientos')}>
-
-                <FontAwesomeIcon className="icon-margin" icon={faFileLines} />
-                Control Mantenimientos
               </Nav.Link>
               <div className="separator-line" />
             </div>
@@ -276,7 +267,7 @@ function AdminDashboard() {
               </button>
             </div >
 
-            <div className='col-12'>
+            <div className='col-12 container-content-scrollable'>
             <Outlet />
             </div>
            

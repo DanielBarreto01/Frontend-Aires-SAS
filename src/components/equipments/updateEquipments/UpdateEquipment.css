@@ -1,4 +1,4 @@
-.container-equipment-update{
+/* .container-equipment-update{
     width: 100% !important;
     height: 100vh;
     display: grid;
@@ -16,7 +16,6 @@
 
 
 .floating-label-equipment> :nth-child(1) {
-    /* Esto aplicará al primer hijo de `floating-label-equipment`, suponiendo que es `Form.Group` */
     margin-bottom: 20px;
     height: 35px !important;
     border: 1px solid #a39f9f !important;
@@ -61,7 +60,7 @@
 
 }
 
-/*    css para el dezplazamiento de los labels en los campos en qe sescribe*/
+
 .floating-label-equipment {
     position: relative;
 
@@ -73,36 +72,30 @@
 .floating-label-equipment input {
     width: 99%;
     padding: 2px 10px 0px 10px !important;
-    /* Padding superior para hacer espacio a la etiqueta */
     font-size: 13px !important;
     border: 0px solid transparent !important;
     border-radius: 10px;
     outline: none;
     transition: border-color 0.3s ease;
     background-color: transparent;
-    /* Fondo transparente para evitar solapamiento */
 }
 
 .floating-label-equipment label {
     position: absolute;
     top: 7px;
-    /* La posición inicial de la etiqueta */
     left: 10px !important;
     font-size: 13px;
     margin-right: 20px;
     color: #7B7B7B !important;
     pointer-events: none;
-    /* Desactiva la interacción con el label */
     transition: 0.2s ease all !;
     background-color: white;
-    /* Fondo blanco para evitar solapamientos visuales */
     padding: 0 5px !important;
 }
 
 .floating-label-equipment input:focus+label,
 .floating-label-equipment input:not(:placeholder-shown)+label {
     top: -8px;
-    /* Mueve la etiqueta hacia arriba cuando se escribe o está enfocado */
     left: 5px;
     font-size: 12px;
     color: #383535;
@@ -150,4 +143,4 @@
         width: 100% !important;
         
     }
-}
+} */

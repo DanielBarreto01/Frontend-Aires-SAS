@@ -422,7 +422,7 @@ function UpdateClientForm({
                                 <Button variant="primary" type="button" className='button-confirmationn' onClick={handleEditClick}disabled={isEditingButtons}>
                                     Editar
                                 </Button>
-                                <Button variant="secondary" type="button" className='button-cancell' onClick={ handleShowListClients} disabled={isEditingButtons}>
+                                <Button variant="secondary" type="button" className='button-cancell' onClick={ handleShowListClients}  disabled={isEditingButtons}>
                                     Regresar
                                 </Button>
                             </div>
