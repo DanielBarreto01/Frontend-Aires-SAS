@@ -223,11 +223,6 @@ function AdminDashboard() {
                 <FontAwesomeIcon className="icon-margin" icon={faScrewdriverWrench} />
                 Mantenimientos
               </Nav.Link>
-              <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/control-mantenimientos')}>
-
-                <FontAwesomeIcon className="icon-margin" icon={faFileLines} />
-                Control Mantenimientos
-              </Nav.Link>
               <div className="separator-line" />
             </div>
 
