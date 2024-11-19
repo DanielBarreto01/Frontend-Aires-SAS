@@ -73,7 +73,7 @@
 
 .button-container {
   margin-top: 20px;
-  height: 8%;
+  height: 20%;
   font-family: 'Plus Jakarta Sans', sans-serif;
   display: flex;
   justify-content: center; 
@@ -84,7 +84,7 @@
   color: #fff;
   border: none;
   border-radius: 8px;
-  height: 200%;
+  height: 100%;
   width: 70%;
   align-items: center;
   font-size: 0.8em; 
@@ -95,12 +95,10 @@
   display: block;
   margin-top: 10px;
   text-align: center;
-  color: #007bff;
 }
 .resett-password{
   margin-top: 30px;
   font-family: 'Plus Jakarta Sans', sans-serif;
-  color: #0066FF;
 }
 .cont-1{
   height: 20%;
