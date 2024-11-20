@@ -106,7 +106,6 @@ function RegisterClient() {  //{ clientType }
 
 
     const handleCancel = () => {
-        
         setShowModal(true);
        setModalType('cancel'); 
     };
@@ -268,6 +267,7 @@ function RegisterClient() {  //{ clientType }
                         handlePersonaTypeChange={handlePersonaTypeChange}
                         isEditingButtons={isEditingButtons}
                         showModal={showModal}
+                        modalType={modalType}
                         handleConfirmAction={handleConfirmAction}
                         handleCloseModal={handleCloseModal}
                         getRootProps={getRootProps}
