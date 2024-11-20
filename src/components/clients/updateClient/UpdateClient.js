@@ -59,7 +59,7 @@ function UpdateClient () {
     const loadformData = () => {
         const clientData = Object.assign({}, defaultClientData, {
             ...client,
-            phoneNumber: client.phoneNumber?.toString() || '', // Convierte a string si está definido
+            phoneNumber: client.phoneNumber?.toString() || ''
         });
         return clientData;
     }
@@ -112,13 +112,13 @@ function UpdateClient () {
         });
     };
 
-    const handleShowListClients = () => {
+    const handleCancel = () => {
         try {
             if (JSON.stringify(loadformData()) !== JSON.stringify(formData) || (image !== null && image !== loadformData().pathImage)) {
                 setShowModal(true);
                 setModalType('cancel');
             } else {
-                //navigate('/admin/clients', { state: { key: Date.now() } });
+               setIsEditingFormulary(false);
             }
         } catch (error) {
             console.error('Error canceling:', error);
@@ -127,8 +127,8 @@ function UpdateClient () {
 
     };
 
-    const handleCancel = () => {
-        setIsEditingFormulary(false);
+    const handleShowListClients = () => {
+       navigate('/admin/clients', { state: { key: Date.now() } });
     }
 
     const handleEditClick = (event) => {
@@ -148,7 +148,7 @@ function UpdateClient () {
 
     const handleShowListlistAssignedEquipment = () => {
       
-            navigate('/admin/clients/update/equipmentClientSelectionList', { state: { client } });
+        navigate('/admin/clients/update/equipmentClientSelectionList', { state: { client } });
         
         // console.log('sdsdd', location.pathname)
        // setSelectionEqipmentsClient(true)
