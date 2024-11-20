@@ -307,7 +307,7 @@ function UserProfileForm({ formData,
                                                     Guardar cambios
                                                 </button>
 
-                                                <button className='button-cancell' onClick={handleCancel}>
+                                                <button type = "button"className='button-cancell' onClick={handleCancel}>
                                                     Cancelar edición
                                                 </button>
                                                 

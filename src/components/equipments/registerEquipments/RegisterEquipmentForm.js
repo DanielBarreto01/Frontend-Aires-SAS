@@ -188,7 +188,7 @@ function RegisterEquipmentForm({ formData,
                 title={modalType === 'cancel' ? "Cancelar registro" : "Confirmar registro"}
                 bodyText={modalType === 'cancel'
                     ? "¿Estás seguro de que deseas cancelar el registro? Se perderán todos los datos."
-                    : "¿Estás seguro de que deseas registrar este usuario?"}
+                    : "¿Estás seguro de que deseas registrar este equipo?"}
                 confirmText={modalType === 'cancel' ? "Sí" : "Sí"}
                 cancelText="No"
                 containerId="modal-container"
