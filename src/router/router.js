@@ -16,6 +16,8 @@ import EquipmentClientSelectionList from '../components/clients/updateClient/equ
 import CustomerSelection from '../components/clients/customerSelection/CustomerSelection';
 import RegisterClient from '../components/clients/registerClient/registerClient';
 import ListRequestMaintenance from '../components/maintenanceRequest/listRequestMaintenance/ListRequestMaintenance';
+import Welcome from '../components/home/Welcome';
+
 
 function AppRouter() {
   return (
@@ -29,7 +31,7 @@ function AppRouter() {
         <Route path="register" element={<RegisterUser />} />
         <Route path="profile" element={<UserProfile />} />
         <Route path="profile-info" element={<UserProfileInfo />} />
-
+        <Route path="welcome" element={<Welcome />} />
         <Route path="equipments" element={<ListEquipments />}>
           <Route path="register" element={<RegisterEquipment />} />
           <Route path="update" element={<UpdateEquipment />} />

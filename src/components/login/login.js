@@ -30,7 +30,7 @@ const Login = () => {
       setError(''); // Limpiar el error si todo va bien
       console.log((jwtDecode(localStorage.getItem('authToken')).userStatus), "validacion de usuario")
       if (jwtDecode(localStorage.getItem('authToken')).userStatus) {
-        setNavigation(<Navigate to="/admin" />);
+        setNavigation(<Navigate to="/admin/welcome" />);
       }
       setShowToast(true);
       setToastMessage("Acceso denegado comuniquese con el administrador");
