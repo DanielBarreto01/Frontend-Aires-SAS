@@ -17,16 +17,17 @@ const CustomerSelection = () => {
     const [clientType, setClientType] = useState(false);
     const [clientTypeSelected, setClientTypeSelected] = useState('');
 
-    const handleClientTypeSelection = (clientType) => {
+    const handleClientTypeSelection =  async (clientType) => {
         setClientType(true) 
-        setClientTypeSelected(clientType)
+        //setClientTypeSelected(clientType)
+        navigate(`/admin/clients/CustomerSelection/register`, { state: { clientType: clientType } });
     
     }
 
-    // const h = location.pathname=== '/admin/clients/CustomerSelection/register';
-    // if(h){
-    //     return<Outlet/>
-    // }
+    const h = location.pathname=== '/admin/clients/CustomerSelection/register';
+    if(h){
+        return <Outlet/>
+    }
 
     return (
         clientType ? (

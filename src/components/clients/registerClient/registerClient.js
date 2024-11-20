@@ -10,11 +10,11 @@ import EquipmentUserList from '../equipmentClientList/EquipmentClientList.js';
 import {createClientNatural, createClientJuridical} from "../../../api/ClientService.js";
 import { useNavigate, Outlet, useLocation } from 'react-router-dom';
 
-function RegisterClient({ clientType }) {
+function RegisterClient() {  //{ clientType }
 
     const location = useLocation();
     const navigate = useNavigate();
-    // const clientType = location.state?.clientType;
+    const clientType = location.state?.clientType;
     const [showModal, setShowModal] = useState(false);  // Estado para mostrar el modal
     const [modalType, setModalType] = useState('');     // Estado para controlar el tipo de acción (cancelar o registrar)
     const [loading, setLoading] = useState(false);
@@ -51,6 +51,9 @@ function RegisterClient({ clientType }) {
         console.log('entra al useeffect');
         setTimeout(() => {
             try {
+
+                !clientType ? navigate('/admin/clients', { state: { key: Date.now() } }) :   setIsTokenChecked(true); ;
+
                 const token = localStorage.getItem('authToken');
                 if (token === null && jwtDecode(token).exp * 1000 < Date.now()) { // && jwtDecode(token).exp*1000 >  Date.now()
                     localStorage.removeItem('authToken');

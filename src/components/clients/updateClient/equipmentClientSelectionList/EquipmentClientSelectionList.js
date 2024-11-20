@@ -11,10 +11,11 @@ import { getEquipmentsIdClient } from "../../../../api/EquipmentService";
 import { useNavigate, Outlet,useLocation  } from 'react-router-dom';
 import "./EquipmentClientList.css";
 
-const EquipmentClientSelectionList = ({client, setSelectionEqipmentsClient}) => {
+const EquipmentClientSelectionList = () => { //{client, setSelectionEqipmentsClient}
     const location = useLocation();
     const navigate = useNavigate();
-    //const client = location.state?.client;
+    const client = location.state?.client || {};
+    
     const [data, setData] = useState([]);
     const [selectedOption, setSelectedOption] = useState("Seleccione un rol");
     const [loading, setLoading] = useState(false);
@@ -53,7 +54,7 @@ const EquipmentClientSelectionList = ({client, setSelectionEqipmentsClient}) => 
         }, 200);
         return () => clearTimeout();
 
-    }, []);
+    }, [location.state]);
 
     const fetchData = async () => {
         try {
@@ -137,7 +138,8 @@ const EquipmentClientSelectionList = ({client, setSelectionEqipmentsClient}) => 
     }
 
     const handleButtonClick = () => {
-        setSelectionEqipmentsClient(false)
+        navigate(-1);
+       // setSelectionEqipmentsClient(false)
         // Cambia el estado para mostrar el nuevo componente
     };
 
@@ -191,8 +193,9 @@ const EquipmentClientSelectionList = ({client, setSelectionEqipmentsClient}) => 
 
 
     return (
+        
         <div className='row'>
-            <div className='col-12 col-md-5 title1'>
+            <div className='col-12 col-md-6 title1'>
                 <h2 className="text-start title">Equipos-{`${client.name || ''} ${client.lastName || ''}`.trim() || client.nameCompany}</h2>
             </div>
 
@@ -211,7 +214,7 @@ const EquipmentClientSelectionList = ({client, setSelectionEqipmentsClient}) => 
 
             </div>
 
-            <div className='col-6 col-sm-3 col-md-3' >
+            <div className='col-6 col-sm-3 col-md-2' >
                 <Form>
                     <Form.Group controlId="rolesPro" className="dropdown">
                         <div className="dropdown-container">

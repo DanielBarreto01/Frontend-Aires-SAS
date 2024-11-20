@@ -24,6 +24,7 @@ function AppRouter() {
       <Route path="/reset-password" element={<RessetPassword />} />
       <Route path="/change-password" element={<PasswordChange />} />
       <Route path="/admin" element={<AdminDashboard />}>
+      
         <Route path="users" element={<ListUsers />} />
         <Route path="register" element={<RegisterUser />} />
         <Route path="profile" element={<UserProfile />} />
@@ -35,6 +36,7 @@ function AppRouter() {
         </Route>
 
         <Route path="clients" element={<ListClients />}>
+       
           <Route path="CustomerSelection" element={<CustomerSelection />}>
             <Route path="register" element={<RegisterClient />} />
           </Route>
@@ -44,8 +46,11 @@ function AppRouter() {
           </Route>
         </Route>
       </Route>
-
-      <Route path="*" element={<Navigate to="/login" />} />
+      {localStorage.getItem('authToken')?  
+        <Route path="*" element={<Navigate to="/admin/welcome" />}/>:
+        <Route path="*" element={<Navigate to="/login" />} /> 
+      }
+     
     </Routes>
   );
 }

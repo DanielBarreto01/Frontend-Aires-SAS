@@ -10,11 +10,11 @@ import EquipmentClientSelectionList from '../equipmentClientList/EquipmentClient
 import EquipmentClientSelection from './equipmentClientSelectionList/EquipmentClientSelectionList.js';
 import { updateClient } from "../../../api/ClientService";
 import { getEquipmentsIdClient } from "../../../api/EquipmentService";
-import { useNavigate, Outlet,useLocation  } from 'react-router-dom';
+import { useNavigate, Outlet, useLocation } from 'react-router-dom';
 import "../../general.css";
 import './UpdateClient.css';
 
-function UpdateClient() {
+function UpdateClient () {
     const location = useLocation();
     const navigate = useNavigate();
     const client = location.state?.client;
@@ -67,6 +67,7 @@ function UpdateClient() {
     const [formData, setFormData] = useState(defaultClientData);
 
     useEffect(() => {
+        setTimeout(() => {
         try {
             !client ? navigate('/admin/clients', { state: { key: Date.now() } }) : setFormData(loadformData());
             fetchEquipments();
@@ -78,7 +79,10 @@ function UpdateClient() {
         } catch (error) {
             console.error('Error checking token:', error);
         }
-    }, []);
+        
+    }, 200);
+    return () => clearTimeout();
+    }, [location.state]);
 
     const fetchEquipments = async () => {
         let equipments = [];
@@ -135,9 +139,21 @@ function UpdateClient() {
         navigate('/admin/clients');
     };
 
+    const isEquipmentClientSelectionList = location.pathname === '/admin/clients/update/equipmentClientSelectionList';
+
+  
+    if (isEquipmentClientSelectionList) {
+        return <Outlet />;
+    }
+
     const handleShowListlistAssignedEquipment = () => {
-        //navigate('/admin/clients/update/equipmentClientSelectionList');
-        setSelectionEqipmentsClient(true);
+      
+            navigate('/admin/clients/update/equipmentClientSelectionList', { state: { client } });
+        
+        // console.log('sdsdd', location.pathname)
+       // setSelectionEqipmentsClient(true)
+       
+
     };
 
     const handleSubmit = (e) => {
@@ -337,7 +353,6 @@ function UpdateClient() {
                         toastMessage={toastMessage}
                         toastType={toastType}
                     />
-                   <Outlet/>
                 </>
                 
             )
