@@ -1,7 +1,7 @@
 
 .gallery-scroll-container {
-    height: 90vh; /* Ocupa el 100% de la altura de su contenedor padre */
-    overflow-y: auto; /* Habilita el scroll vertical */
+    height: auto !important; /* Ocupa el 100% de la altura de su contenedor padre */
+    overflow-y: auto !important; /* Habilita el scroll vertical */
     padding: 10px;
     box-sizing: border-box;/* Espacio entre el borde y los elementos de la galería */
 }
@@ -41,7 +41,9 @@
 }
 
 .gallery-item p {
-    margin: 10px 0;
+    margin: 7px 0;
+    font-size: 0.9em;
+    height: 30px !important;
 }
 
 .gallery-item {
@@ -55,9 +57,3 @@
     background-color: rgba(173, 216, 230, 0.5); /* Opcional: fondo ligero para el seleccionado */
 }
 
-@media only screen and (max-width: 764px) {
-    .gallery-scroll-container {
-        margin-top: 10px;
-        height: 70vh;
-    }
-}

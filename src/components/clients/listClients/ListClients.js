@@ -97,15 +97,18 @@ const ListClients = () => {
         navigate('/admin/clients/CustomerSelection');
     };
 
+   // console.log("locationxxxxx", location.pathname);
+    const validateEquipmentClientSelectionList = location.pathname === '/admin/clients/update/equipmentClientSelectionList';
+    const validateRegister = location.pathname === '/admin/clients/CustomerSelection/register';
     const isCustomerSelection = location.pathname === '/admin/clients/CustomerSelection';
     const isUpdateClient = location.pathname === '/admin/clients/update';
-    if (isCustomerSelection || isUpdateClient) {
+    if (isCustomerSelection || isUpdateClient || validateEquipmentClientSelectionList || validateRegister) {
         return <Outlet />;
     }
 
     const handleItemClick = (client) => {
         navigate('/admin/clients/update' ,{
-            state: {client}    
+            state: {client}
         });
     };
 
