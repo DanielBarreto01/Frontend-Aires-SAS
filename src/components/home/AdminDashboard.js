@@ -201,7 +201,7 @@ function AdminDashboard() {
                 </div>
               </Nav.Link>
 
-              <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/home')}>
+              <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/welcome')}>
                 <FontAwesomeIcon className="icon-margin" icon={faHome} />
                 Home
               </Nav.Link>
