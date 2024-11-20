@@ -95,14 +95,24 @@ function UpdateClient () {
     };
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
-        accept: 'image/*',
-        onDrop: (acceptedFiles) => {
+        accept: 'image/*', 
+        onDropAccepted: (acceptedFiles) => {
             const file = acceptedFiles[0];
-            const previewUrl = URL.createObjectURL(file);
-            setFileUser(file);
-            setImage(previewUrl); // Actualizar el estado con la imagen seleccionada
-        }
-    })
+            if (file && file.type.startsWith('image/')) {
+                console.log('Archivo aceptado:', file);
+                const previewUrl = URL.createObjectURL(file);
+                setFileUser(file);
+                setImage(previewUrl); // Actualizar el estado con la imagen seleccionada
+            } else {
+                setToastMessage('Por favor, selecciona solo archivos de imagen.');
+                setToastType('danger');
+                setShowToast(true);
+            }
+        },
+        maxFiles: 1,
+        multiple: false,
+
+    });
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
