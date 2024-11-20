@@ -123,6 +123,11 @@ function ListRequestMaintenace() {
         },
     ];
 
+    const validateRegisterRequestMaintenance = location.pathname === '/admin/requestMaintenance/clients/registerRequestMaintenance';
+    if (validateRegisterRequestMaintenance) {
+        return <Outlet />;
+    }
+
 
     const handleRoleChange = (event) => {
         setLoading(true);
