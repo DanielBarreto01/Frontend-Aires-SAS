@@ -15,6 +15,7 @@ import UpdateClient from '../components/clients/updateClient/UpdateClient';
 import EquipmentClientSelectionList from '../components/clients/updateClient/equipmentClientSelectionList/EquipmentClientSelectionList';
 import CustomerSelection from '../components/clients/customerSelection/CustomerSelection';
 import RegisterClient from '../components/clients/registerClient/registerClient';
+import ListRequestMaintenance from '../components/maintenanceRequest/listRequestMaintenance/ListRequestMaintenance';
 import Welcome from '../components/home/Welcome';
 
 
@@ -46,6 +47,11 @@ function AppRouter() {
             <Route path="equipmentClientSelectionList" element={<EquipmentClientSelectionList />} />
           </Route>
         </Route>
+        
+        <Route path="requestMaintenance" element={<ListRequestMaintenance/>} >
+          <Route path="clients" element={<ListClients />}/>
+        </Route>
+
       </Route>
       {localStorage.getItem('authToken')?  
         <Route path="*" element={<Navigate to="/admin/welcome" />}/>:

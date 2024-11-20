@@ -219,7 +219,7 @@ function AdminDashboard() {
                 <FontAwesomeIcon className="icon-margin" icon={faBuildingUser} />
                 Clientes
               </Nav.Link>
-              <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/mantenimientos')}>
+              <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/requestMaintenance')}>
                 <FontAwesomeIcon className="icon-margin" icon={faScrewdriverWrench} />
                 Mantenimientos
               </Nav.Link>

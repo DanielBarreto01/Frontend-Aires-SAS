@@ -412,11 +412,11 @@ function RegisterClientForm({ formData,
                     </div>
                     <div className="col-lg-6" ></div>
                     <div className='col-lg-6 button-group '>
-                        <button type="button" className='button-confirmationn' disabled={isEditingButtons} onClick={handleExternalSubmit} >
+                        <button type="submit" className='button-confirmationn' disabled={isEditingButtons} onClick={handleExternalSubmit} >
                             Registrar clientes
                         </button>
 
-                        <button className='button-cancell' onClick={handleCancel} disabled={isEditingButtons}>
+                        <button type = "button"className='button-cancell' onClick={handleCancel} disabled={isEditingButtons}>
                             Cancelar Registro
                         </button>
                     </div>
@@ -431,7 +431,7 @@ function RegisterClientForm({ formData,
                 title={modalType === 'cancel' ? "Cancelar registro" : "Confirmar registro"}
                 bodyText={modalType === 'cancel'
                     ? "¿Estás seguro de que deseas cancelar el registro? Se perderán todos los datos."
-                    : "¿Estás seguro de que deseas registrar este usuario?"}
+                    : "¿Estás seguro de que deseas registrar este cliente?"}
                 confirmText={modalType === 'cancel' ? "Sí" : "Sí"}
                 cancelText="No"
                 containerId="modal-container"

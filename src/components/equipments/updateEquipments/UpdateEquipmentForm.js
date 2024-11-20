@@ -200,7 +200,7 @@ function UpdateEquipmentForm({
                                                     Guardar cambios
                                                 </button>
 
-                                                <button className='button-cancell' onClick={handleCancel} disabled={isEditingButtons}>
+                                                <button type= "button" className='button-cancell' onClick={handleCancel} disabled={isEditingButtons}>
                                                     Cancelar edición
                                                 </button>
 

@@ -1,0 +1,97 @@
+
+
+/*/////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+
+.heder-comp{
+    margin-top: 6px;
+    display: flex; /* Cambia a flexbox */
+    align-items: center; /* Alinea verticalmente los elementos */
+   /* Distribuye los elementos horizontalmente */
+    width: 40%;
+    height: 39px;
+    justify-content: flex-start;
+    margin-bottom: 20px;
+    background-color: #4c0000;
+}
+
+
+
+
+.title1 {
+    padding: 0.3% 0 2% 1.2%; 
+}
+
+.input-container {
+    display: flex; /* Cambia a flexbox */
+    align-items: center;
+    border: 1px solid #000000; 
+    border-radius: 9px;
+    margin-top: 10px;
+  
+
+}
+
+
+
+.icon {    
+    top: 50%;
+    color: #aaa;
+    margin-left: 10px;
+}
+
+.form-control {
+    flex-grow: 1; 
+    outline: none;
+    border: 'none' !important;
+    outline: 'none' !important;
+    outline: none !important; /* Elimina el outline predeterminado */
+    box-shadow: 0 0 0px rgba(81, 203, 238, 1) !important; /* Agrega un efecto de sombra */
+    border: 0px transparent rgba(81, 203, 238, 1) !important;  
+}
+
+
+.input-style {
+    border: none;
+    margin-left: -12px; 
+    margin-right: 1px; 
+    
+}
+
+
+
+.dropdown{
+     background-color: #ffffff;
+     color: #7B7B7D ;
+     border-radius: 9px;
+     border: solid 1px #000000;
+     margin-top: 10px;
+     width: 100%;
+    
+  /* Cambia a flexbox */
+  
+   
+ }
+ .dropdown-container{
+    display: flex;
+    border: 0px;
+    align-items: center;
+    position: relative !important;
+    margin-right: 7px;
+    margin-left: 1px;
+ }
+
+
+
+
+
+
+.table-container{
+    border-radius: 20px !important;
+    overflow: hidden; 
+    background-color: #ffffff;
+    border: 1px solid #7B7B7B;
+    margin-top: 10px !important;
+}
+ 
+

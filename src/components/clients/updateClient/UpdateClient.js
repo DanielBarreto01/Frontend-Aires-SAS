@@ -118,7 +118,7 @@ function UpdateClient () {
                 setShowModal(true);
                 setModalType('cancel');
             } else {
-                navigate('/admin/clients', { state: { key: Date.now() } });
+                //navigate('/admin/clients', { state: { key: Date.now() } });
             }
         } catch (error) {
             console.error('Error canceling:', error);
@@ -209,10 +209,7 @@ function UpdateClient () {
         if (modalType === 'cancel') {
             setFormData((prevState) => {
                 setImage((prevStat) => {
-                    setSelectionAvailableEquipment([]);
-                    setSelectNewEquipments([]);
-                    setFormData(defaultClientData)
-                    //navigate('/admin/clients', { state: { key: Date.now() } });
+                    setIsEditingFormulary(false);
                     return formData.pathImage
                 });
                 return loadformData();

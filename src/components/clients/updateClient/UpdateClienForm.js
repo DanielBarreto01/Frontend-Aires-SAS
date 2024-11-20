@@ -443,7 +443,7 @@ function UpdateClientForm({
                                         Guardar cambios
                                     </button>
 
-                                    <button className='button-cancell' onClick={handleCancel}>
+                                    <button className='button-cancell' onClick={handleShowListClients}>
                                         Cancelar edición
                                     </button>
                                 </div>
@@ -458,7 +458,7 @@ function UpdateClientForm({
                                     <button className='button-confirmationn' onClick={handleEditClick} disabled={isEditingButtons}>
                                         Editar
                                     </button>
-                                    <button className='button-cancell' onClick={handleShowListClients} disabled={isEditingButtons}>
+                                    <button className='button-cancell' onClick={handleCancel} disabled={isEditingButtons}>
                                         Regresar
                                     </button>
                                 </div>
