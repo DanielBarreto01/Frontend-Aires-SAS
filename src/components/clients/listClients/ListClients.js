@@ -22,6 +22,7 @@ const ListClients = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [selectedId, setSelectedId] = useState(null);
+    const path = location.pathname
 
     useEffect(() => {
         setTimeout(() => {
@@ -102,14 +103,21 @@ const ListClients = () => {
     const validateRegister = location.pathname === '/admin/clients/CustomerSelection/register';
     const isCustomerSelection = location.pathname === '/admin/clients/CustomerSelection';
     const isUpdateClient = location.pathname === '/admin/clients/update';
-    if (isCustomerSelection || isUpdateClient || validateEquipmentClientSelectionList || validateRegister) {
+    const validateRegisterRequestMaintenance = location.pathname === '/admin/requestMaintenance/clients/registerRequestMaintenance';
+    if (isCustomerSelection || isUpdateClient || validateEquipmentClientSelectionList || validateRegister || validateRegisterRequestMaintenance) {
         return <Outlet />;
     }
 
     const handleItemClick = (client) => {
-        navigate('/admin/clients/update' ,{
-            state: {client}
-        });
+        if (path.includes('requestMaintenance')) {
+            navigate('/admin/requestMaintenance/clients/registerRequestMaintenance', { state: { client } });
+        } else {
+            navigate('/admin/clients/update', {
+                state: { client }
+            });
+        }
+
+
     };
 
 
@@ -126,7 +134,10 @@ const ListClients = () => {
         
             <div className='row'>
                 <div className='col-12 col-md-4 title1'>
-                    <h2 className="text-start title">Clientes </h2>
+                    {(path.includes('requestMaintenance')? 
+                    <h2 className="text-start title">Seleccion-Cliente </h2> 
+                    : <h2 className="text-start title">Clientes </h2>)}
+                   
                 </div>
 
                 <div className='col-6 col-sm-6 col-md-4 ' >
