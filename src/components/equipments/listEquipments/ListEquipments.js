@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { Form } from 'react-bootstrap';
 import { jwtDecode } from 'jwt-decode';
 import "./ListEquipments.css"; // Archivo CSS para estilos
@@ -7,10 +7,11 @@ import { Button, Dropdown, DropdownButton, Spinner } from 'react-bootstrap';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { getEquipments } from "../../../api/EquipmentService"
 import RegisterEquipment from "../registerEquipments/RegisterEquipment";
 import UpdateEquipment from "../updateEquipments/UpdateEquipment";
+
 
 import { useNavigate, Outlet } from 'react-router-dom';
 
@@ -55,7 +56,7 @@ const ListEquipments = () => {
                 localStorage.removeItem('authToken');
                 window.location.href = '/login';
             }
-           
+
         }, 200);
         return () => clearTimeout();
 
@@ -91,14 +92,14 @@ const ListEquipments = () => {
                     style={{ width: '45px', height: '45px', objectFit: 'cover', borderRadius: '80px' }} // Ajusta el tamaño según sea necesario
                 />
             ),
-           
+
         },
         {
             name: 'Nombre',
             selector: row => row.name,
             sortable: true,
-         
-           
+
+
         },
         {
             name: "Marca",
@@ -158,7 +159,7 @@ const ListEquipments = () => {
 
 
     const handleRowClick = (row) => {
-       // setLoading(true);
+        // setLoading(true);
         setSelectedEquipment(row);
         //console.log(row);  // Guarda la información de la fila seleccionada
         setIsEquipmentDetailsVisible(true);
@@ -167,6 +168,12 @@ const ListEquipments = () => {
         rowsPerPageText: 'Filas por página',  // Texto para "Rows per page"
         rangeSeparatorText: 'de',             // Texto separador entre los rangos de páginas
         noRowsPerPage: false,
+    };
+
+    const [isOpen, setIsOpen] = useState(false);
+
+    const handleDropdownToggle = () => {
+        setIsOpen(!isOpen);
     };
 
     if (!isTokenChecked) {
@@ -203,7 +210,7 @@ const ListEquipments = () => {
                 <div className='col-6 col-sm-3 col-md-2' >
 
                     <Form>
-                    <Form.Group controlId="rolesPro" className="dropdown">
+                        <Form.Group controlId="rolesPro" className="dropdown">
                             <div className="dropdown-container">
                                 <Form.Control
                                     as="select"
@@ -211,14 +218,18 @@ const ListEquipments = () => {
                                     value={selectedOption} // Valor actual del select
                                     // onChange={handleRoleChange}
                                     required
+                                    onClick={handleDropdownToggle}
                                     style={{ border: 'none' }}
                                 >
-                                    <option value="Seleccione un rol">Seleccione un rol</option>
-                                    <option value="Administrador">Administrador</option>
-                                    <option value="Tecnico interno">Tecnico interno</option>
-                                    <option value="Tecnico externo">Tecnico externo</option>
+                                    <option value="Seleccione un rol">Tipo de Equipo</option>
+                                    <option value="Administrador">Condensador</option>
+                                    <option value="Tecnico interno">Cassette Inventer y On-Off </option>
+                                    <option value="Tecnico externo">Condensador</option>
                                 </Form.Control>
-                                <FontAwesomeIcon icon={faChevronDown} className="dropdown-icon" />
+                                <FontAwesomeIcon
+                                    icon={isOpen ? faChevronUp : faChevronDown}
+                                    className="icon "
+                                />
                             </div>
                         </Form.Group>
 
@@ -230,11 +241,11 @@ const ListEquipments = () => {
                 </div>
 
                 <div className='col-12 col-sm-3 col-md-2'  >
-                    <Button className="button-Custom"  onClick={handleButtonClick} >Agregar equipo</Button>
+                    <Button className="button-Custom" onClick={handleButtonClick} >Agregar equipo</Button>
                 </div>
 
 
- 
+
                 <div className='col-12'>
                     <div className="space-y-4">
                         <div className="table-container">
