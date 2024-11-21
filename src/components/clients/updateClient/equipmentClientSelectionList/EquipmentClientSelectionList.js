@@ -94,6 +94,12 @@ const EquipmentClientSelectionList = () => { //{client, setSelectionEqipmentsCli
             center: true.toString()
         },
         {
+            name: "Nombre",
+            selector: row => row.name,
+            sortable: true,
+            center: true.toString()
+        },
+        {
             name: "Marca",
             selector: row => row.brand,
             sortable: true,
