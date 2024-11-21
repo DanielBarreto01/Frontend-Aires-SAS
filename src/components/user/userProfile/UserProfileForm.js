@@ -124,9 +124,11 @@ function UserProfileForm({ formData,
 
                                     </Form.Control>
                                     <FontAwesomeIcon
-                                        icon={dropdownState.userStatusPro ? faChevronUp : faChevronDown} // Ícono dinámico
+                                        icon={!dropdownState.userStatusPro ? faChevronDown: faChevronUp } // Ícono dinámico
                                         className="icon-selector"
                                     />
+
+
                                 </div>
                             </Form.Group>
 
@@ -138,7 +140,7 @@ function UserProfileForm({ formData,
                     <div className="col-12 col-lg-6 form ">
                         <Form onSubmit={handleSubmit}>
                             <div className='row'>
-                                <div className="floating-label col-12 col-lg-6"  >
+                                <div className="floating-label col-12"  >
                                     <Form.Group controlId="nameUserPro" className='nameUser'>
                                         <Form.Control
                                             type="text"
@@ -158,7 +160,7 @@ function UserProfileForm({ formData,
                                     </Form.Group>
                                 </div>
 
-                                <div className="floating-label col-12 col-lg-6">
+                                <div className="floating-label col-12 ">
                                     <Form.Group controlId="lastNamePro" className='lastNameUser' >
                                         <Form.Control
                                             type="text"
@@ -179,7 +181,7 @@ function UserProfileForm({ formData,
 
                                 </div>
 
-                                <div clasname='col-12 '>
+                                <div className="col-12 col-lg-4"  >
                                     <Form.Group controlId="typeIdentificationPro" className="typeIdentificationUser floating-label">
                                         <div className="icon-container">
                                             <Form.Control
@@ -211,7 +213,7 @@ function UserProfileForm({ formData,
 
 
 
-                                <div className="floating-label col-12">
+                                <div className="floating-label col-12 col-lg-8"  >
                                     <Form.Group controlId="numberIdentificationPro" className="numberIdentification">
                                         <Form.Control
                                             type="number"
@@ -297,8 +299,8 @@ function UserProfileForm({ formData,
                                     </Form.Group>
 
                                 </div>
-                                
-                                
+
+
                                 <div className=" col-12">
                                     {isEditing ? (
                                         <>
@@ -307,20 +309,20 @@ function UserProfileForm({ formData,
                                                     Guardar cambios
                                                 </button>
 
-                                                <button type = "button"className='button-cancell' onClick={handleCancel}>
+                                                <button type="button" className='button-cancell' onClick={handleCancel}>
                                                     Cancelar edición
                                                 </button>
-                                                
+
                                             </div>
 
                                         </>
                                     ) : (
                                         <>
                                             <div className="button-group col-12">
-                                                <button type="button" className='button-confirmationn' disabled={isEditingButtons}  onClick={handleEditClick}>
+                                                <button type="button" className='button-confirmationn' disabled={isEditingButtons} onClick={handleEditClick}>
                                                     Editar
                                                 </button>
-                                                <button type="button" className='button-cancell'  disabled={isEditingButtons} onClick={handleShowListUsers}>
+                                                <button type="button" className='button-cancell' disabled={isEditingButtons} onClick={handleShowListUsers}>
                                                     Regresar
                                                 </button>
 

@@ -1,12 +1,14 @@
+import React, { useRef ,  useState} from 'react';
 import { Form, Button, Row, Col, Image, Spinner } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import ConfirmationModal from "../../ConfirmationModal/ConfirmationModal";
 import ImageDropzone from '../../loadImage/ImageDropzone';
 import './RegisterClient.css';
 import DataTable from 'react-data-table-component';
 import "../../general.css";
-import React, { useRef } from 'react';
+
+
 
 function RegisterClientForm({ formData,
     setFormData,
@@ -38,6 +40,18 @@ function RegisterClientForm({ formData,
         }
     };
 
+    const [dropdownState, setDropdownState] = useState({
+        typeIdentification: false,
+    });
+
+    const handleDropdownToggle = (controlId) => {
+        setDropdownState((prevState) => ({
+            ...prevState,
+            [controlId]: !prevState[controlId] // Alterna el estado del dropdown correspondiente
+        }));
+    };
+
+
     return (
         <div className='row' >
 
@@ -61,28 +75,10 @@ function RegisterClientForm({ formData,
                         </div>
 
 
-                        <div className='floating-label' >
-
-                            <Form.Group controlId="address" className="address">
-                                <Form.Control
-                                    type="text"
-                                    name="address"
-                                    value={formData.address}
-                                    onChange={handleInputChange}
-                                    placeholder=" "
-                                    required
-                                    maxLength={50}
-                                />
-                                <Form.Label>Dirección</Form.Label>
-                            </Form.Group>
-
-                        </div>
-
-
                         {clientType === 'juridica' && (
                             <>
                                 <div className="floating-label">
-                                    <Form.Group controlId="emailLegalRepresentative" className="email" >
+                                    <Form.Group controlId="emailLegalRepresentative" className="address" >
                                         <Form.Control
                                             type="email"
                                             name="emailLegalRepresentative"
@@ -96,12 +92,25 @@ function RegisterClientForm({ formData,
                                     </Form.Group>
                                 </div>
 
+
+
                             </>
                         )}
 
-
-
-
+                        <div className='floating-label' >
+                            <Form.Group controlId="address" className="address">
+                                <Form.Control
+                                    type="text"
+                                    name="address"
+                                    value={formData.address}
+                                    onChange={handleInputChange}
+                                    placeholder=" "
+                                    required
+                                    maxLength={50}
+                                />
+                                <Form.Label>Dirección</Form.Label>
+                            </Form.Group>
+                        </div>
 
                     </div>
 
@@ -170,14 +179,19 @@ function RegisterClientForm({ formData,
                                                         value={formData.typeIdentification}
                                                         onChange={handleInputChange}
                                                         required
+                                                        onClick={() => handleDropdownToggle("typeIdentification")}
                                                         style={{ border: 'none' }}
                                                     >
+
                                                         <option value="" disabled>Tipo de identificación</option>
-                                                        <option value="CC">CC</option>
-                                                        <option value="CE">CE</option>
-                                                        <option value="PA">PA</option>
+                                                        <option value="CC">Cédula de ciudadanía </option>
+                                                        <option value="CE">Cédula de extranjería</option>
+                                                        <option value="PA">Pasaporte</option>
                                                     </Form.Control>
-                                                    <FontAwesomeIcon icon={faChevronDown} className="icon-selector" />
+                                                    <FontAwesomeIcon
+                                                        icon={!dropdownState.typeIdentification ? faChevronDown : faChevronUp} // Ícono dinámico
+                                                        className="icon-selector"
+                                                    />
                                                 </div>
                                             </Form.Group>
 
@@ -416,7 +430,7 @@ function RegisterClientForm({ formData,
                             Registrar clientes
                         </button>
 
-                        <button type = "button"className='button-cancell' onClick={handleCancel} disabled={isEditingButtons}>
+                        <button type="button" className='button-cancell' onClick={handleCancel} disabled={isEditingButtons}>
                             Cancelar Registro
                         </button>
                     </div>
