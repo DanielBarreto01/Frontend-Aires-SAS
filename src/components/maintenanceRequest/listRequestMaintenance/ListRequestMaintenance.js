@@ -123,7 +123,7 @@ function ListRequestMaintenace() {
         },
     ];
 
-    const validateRegisterRequestMaintenance = location.pathname === '/admin/requestMaintenance/clients/registerRequestMaintenance';
+    const validateRegisterRequestMaintenance = location.pathname ===  false //'/admin/requestMaintenance/clients/registerRequestMaintenance';
     if (validateRegisterRequestMaintenance) {
         return <Outlet />;
     }
@@ -173,10 +173,10 @@ function ListRequestMaintenace() {
 
 
     const handleRowClick = (row) => {
-        setLoading(true);
-        setSelectedUser(row);
+        //setLoading(true);
+        //setSelectedUser(row);
         console.log(row);  // Guarda la información de la fila seleccionada
-        setIsUserDetailsVisible(true);
+        //setIsUserDetailsVisible(true);
     };
     const customPaginationOptions = {
         rowsPerPageText: 'Filas por página',  // Texto para "Rows per page"

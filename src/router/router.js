@@ -57,8 +57,8 @@ function AppRouter() {
 
       </Route>
       {localStorage.getItem('authToken')?  
-        <Route path="*" element={<Navigate to="/admin/welcome" />}/>:
-        <Route path="*" element={<Navigate to="/login" />} /> 
+        <Route index element={<Navigate to="/admin/welcome" />}/>:
+        <Route index element={<Navigate to="/login" />} /> 
       }
      
     </Routes>
