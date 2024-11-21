@@ -58,8 +58,10 @@ function AppRouter() {
       </Route>
       {localStorage.getItem('authToken')?  
         <Route index element={<Navigate to="/admin/welcome" />}/>:
-        <Route index element={<Login/>} /> 
+        <Route index element={<Navigate to="/login" />} /> 
       }
+
+      <Route path="*" element={<h2>404 Not Found</h2>} />
      
     </Routes>
   );
