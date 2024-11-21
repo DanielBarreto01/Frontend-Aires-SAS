@@ -1,5 +1,3 @@
-// import React from 'react';
-
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
@@ -112,7 +110,7 @@ function RegisterUserForm({ formData,
                         <Form onSubmit={handleSubmit} >
 
                             <div className='row'>
-                                <div className="floating-label col-12 col-lg-6">
+                                <div className="floating-label col-12 ">
                                     <Form.Group controlId="name" className='nameUser'>
                                         <Form.Control
                                             type="text"
@@ -132,7 +130,7 @@ function RegisterUserForm({ formData,
 
 
 
-                                <div className="floating-label col-12 col-lg-6">
+                                <div className="floating-label col-12  " >
                                     <Form.Group controlId="lastName" className='lastNameUser' >
 
                                         <Form.Control
@@ -153,7 +151,7 @@ function RegisterUserForm({ formData,
 
                                 </div>
 
-                                <div clasname='col-12 '>
+                                <div className="col-12 col-lg-4" >
                                     <Form.Group controlId="typeIdentificationUser" className="typeIdentificationUser floating-label">
                                         <div className="icon-container">
                                             <Form.Control
@@ -167,13 +165,13 @@ function RegisterUserForm({ formData,
 
                                             >
                                                 <option value="" disabled>Tipo de identificación</option>
-                                                <option value="CC">CC</option>
-                                                <option value="CE">CE</option>
-                                                <option value="PA">PA</option>
+                                                <option value="CC">Cédula de ciudadanía </option>
+                                                <option value="CE">Cédula de extranjería</option>
+                                                <option value="PA">Pasaporte</option>
                                             </Form.Control>
 
                                             <FontAwesomeIcon
-                                                icon={dropdownState.typeIdentification ? faChevronDown : faChevronUp} // Ícono dinámico
+                                                icon={!dropdownState.typeIdentification ? faChevronDown : faChevronUp} // Ícono dinámico
                                                 className="icon-selector"
                                             />
 
@@ -182,7 +180,7 @@ function RegisterUserForm({ formData,
 
                                 </div>
 
-                                <div className="floating-label col-12">
+                                <div className="floating-label col-12 col-lg-8" >
                                     <Form.Group controlId="numberIdentification" className="numberIdentification">
 
                                         <Form.Control

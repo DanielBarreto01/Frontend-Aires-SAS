@@ -1,66 +1,110 @@
-/* Contenedor principal centrado en la pantalla */
+/* Estilo para el contenedor principal */
 .customer-selection-container {
-    min-height: 100vh;
+    min-height: 0vh;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #f4f4f4; /* Color de fondo opcional */
+    background-color: #f9f9f9; /* Fondo gris claro */
 }
 
-/* Contenedor interno para el contenido */ 
+/* Estilo para el contenedor interno */
 .content-wrapper {
-    min-height: 100vh;
+    gap: 20px;
     width: 100%;
-    padding: 20px;
-    background-color: rgb(234, 234, 234);
+    background-color: #ffffff; /* Fondo blanco */
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
-    overflow: hidden;
 }
 
-
-/* Estilo para el título */
-.header  {
-    font-family: Arial, sans-serif ;
-    font-weight: 500 !important; 
-   
-   
-}
-
-
-/* Estilos para cada opción (cuadro de cliente) */
-.customer-option {
-    padding: 20px;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+/* Estilo para el encabezado */
+.header {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #000000;
     text-align: center;
-    transition: transform 0.3s ease-in-out;
-    margin-top: 5%;
-    min-height: 150px; /* Altura mínima fija */
-    min-width: 150px; /* Ancho mínimo fijo */
 }
 
-.customer-option:hover {
-    transform: scale(1.05);
+/* Estilo para el subtítulo */
+.text-muted {
+    font-size: 14px;
+    color: #777777;
+    text-align: center;
 }
 
-/* Imagen dentro de cada cuadro */
-.customer-image {
-    width: 40%;
-    height: auto;
-    min-width: 80px; /* Ancho mínimo para evitar que cambie */
-    min-height: 80px; /* Altura mínima para evitar que cambie */
+/* Estilo para las tarjetas de resumen */
+.card-summary {
+    padding: 15px;
+    background-color: #f8f9fa;
+    border: 1px solid #dddddd;
     border-radius: 8px;
-    margin-bottom: 15px;
+    text-align: center;
+    margin-bottom: 20px;
+    gap: 20px;
+
+    transition: box-shadow 0.3s ease;
+    min-height: 100px; /* Altura mínima fija */
+    min-width: 200px; /* Ancho mínimo fijo */
 }
 
-/* Estilo para el texto debajo de las imágenes */
-.customer-option p {
-    font-family: Arial, sans-serif;
+.card-summary:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.card-summary h5 {
     font-size: 16px;
-    font-weight: 600;
-    color: #333;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #000000;
+}
+
+.card-summary p {
+    font-size: 14px;
+    color: #666666;
     margin: 0;
+}
+
+/* Estilo para la lista de solicitudes recientes */
+.requests-list {
+    margin-top: 20px;
+}
+
+.request-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    background-color: #ffffff;
+    border: 1px solid #dddddd;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.request-item:hover {
+    background-color: #f5f5f5;
+}
+
+.request-item .status {
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 8px;
+    padding: 5px 10px;
+    text-align: center;
+    color: #ffffff;
+}
+
+/* Estilo para los estados */
+.status.pending {
+    background-color: #ff6b6b;
+}
+
+.status.in-progress {
+    background-color: #feca57;
+}
+
+.status.completed {
+    background-color: #1dd1a1;
 }
