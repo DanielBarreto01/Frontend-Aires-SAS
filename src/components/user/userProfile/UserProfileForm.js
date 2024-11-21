@@ -303,7 +303,7 @@ function UserProfileForm({ formData,
                                     {isEditing ? (
                                         <>
                                             <div className="button-group">
-                                                <button type="button" className='button-confirmationn' disabled={loading} >
+                                                <button type="submit" className='button-confirmationn' disabled={loading} >
                                                     Guardar cambios
                                                 </button>
 

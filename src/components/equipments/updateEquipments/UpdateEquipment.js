@@ -30,6 +30,7 @@ function UpdateEquipment({ equipment }) {
         brand: '',
         modelNumber: '',
         iventoryNumber: '',
+        equipmentState: true,
         pathImage: ''
     }
     const [formData, setFormData] = useState(defaultEquipmentData);

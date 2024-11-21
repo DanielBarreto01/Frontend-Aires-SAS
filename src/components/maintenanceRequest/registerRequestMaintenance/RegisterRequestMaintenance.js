@@ -1,29 +1,35 @@
-import React, {useEffect} from 'react';
+import React, { useEffect, useState } from 'react';
 import './RegisterRequestMaintenance.css';
 import { useLocation } from 'react-router-dom';
 import { Spinner } from 'react-bootstrap';
 import DataTable from 'react-data-table-component';
 import { jwtDecode } from 'jwt-decode';
+import { getUsersWithoutAdminRole } from '../../../api/UserService';
+import { getEquipmentsIdClient } from '../../../api/EquipmentService';
 
 function RegisterRequestMaintenance() {
   const location = useLocation();
   const { client } = location.state || {};
   const records = []// Acceder a los datos pasados
+  const [isTokenChecked, setIsTokenChecked] = useState(false);
+  const [recordsTechnician, setRecordsTechnician] = useState([]);
+  const [recordsEquipments, setRecordsEquipments] = useState([]);
+  const [loading, setLoading] = useState(true);
 
 
   useEffect(() => {
     setTimeout(() => {
       try {
-       // setLoading(false);
+        setLoading(false);
         const token = localStorage.getItem('authToken');
         console.log("token", token);
         if (token !== null && jwtDecode(token).exp * 1000 > Date.now()) { // && jwtDecode(token).exp*1000 >  Date.now()
-          //fetchData();
-          //setIsTokenChecked(true);
-         // setLoading(true);
+          fetchData();
+          setIsTokenChecked(true);
+          setLoading(true);
         } else {
           localStorage.removeItem('authToken');
-         // setLoading(false);
+          // setLoading(false);
           window.location.href = '/login';
         }
       } catch (error) {
@@ -35,6 +41,21 @@ function RegisterRequestMaintenance() {
     }, 200);
     return () => clearTimeout();
   }, []);
+
+
+  const fetchData = async () => {
+    const token = localStorage.getItem('authToken');
+    try {
+      const technician = await getUsersWithoutAdminRole(token);
+      setRecordsTechnician(technician.data);
+      const equipments = await getEquipmentsIdClient(client.id, token);
+      setRecordsEquipments(equipments);
+    } catch (error) {
+      console.error('Error al obetenr los tecnicos:', error);
+     
+    }
+    setLoading(false);
+  }
 
 
   if (!client) {
@@ -85,17 +106,23 @@ function RegisterRequestMaintenance() {
     },
     {
       name: 'Nombre',
-      selector: row => row.name,
+      selector: row =>  `${row.name} ${row.lastName}`,
       sortable: true,
 
 
     },
     {
       name: "Docuemnto",
-      selector: row => row.brand,
+      selector: row => row.numberIdentification,
       sortable: true,
     }
   ];
+
+
+  if (!isTokenChecked) {
+    return null;
+  }
+
 
   return (
     <div className=' full-screen-scrollable row'>
@@ -184,12 +211,13 @@ function RegisterRequestMaintenance() {
             <div className="table-container-client-list-quip">
               <DataTable
                 columns={columnsEquipments}
-                data={records}
+                data={recordsEquipments || []}
                 pagination
                 paginationPerPage={2}
                 fixedHeader
                 persistTableHead
                 fixedHeaderScrollHeight="30vh"
+                selectableRows
                 // conditionalRowStyles={conditionalRowStyles}
                 // paginationComponentOptions={customPaginationOptions}
                 noDataComponent="No hay datos disponibles"
@@ -220,12 +248,14 @@ function RegisterRequestMaintenance() {
             <div className="table-container-client-list-quip">
               <DataTable
                 columns={columnsTechnical}
-                data={records}
+                data={recordsTechnician || []}
                 pagination
                 paginationPerPage={2}
                 fixedHeader
                 persistTableHead
                 fixedHeaderScrollHeight="30vh"
+                selectableRows
+                selectableRowsSingle
                 // conditionalRowStyles={conditionalRowStyles}
                 // paginationComponentOptions={customPaginationOptions}
                 noDataComponent="No hay datos disponibles"
@@ -253,7 +283,13 @@ function RegisterRequestMaintenance() {
 
       </div>
 
-
+      {loading && (
+        <div className="loading-overlay">
+          <Spinner animation="border" role="status">
+            <span className="visually-hidden">Cargando...</span>
+          </Spinner>
+        </div>
+      )}
 
 
     </div >

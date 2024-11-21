@@ -86,6 +86,34 @@ function UpdateClientForm({
                             </Form.Group>
                         </div>
 
+                        <div className='floating-label' >
+                            <Form.Group controlId="clientState" className="roles">
+                                <div className="icon-container">
+                                    <Form.Control
+                                        as="select"
+                                        name="clientState"
+                                        value={formData.clientState === true ? 'AC' : 'IN'}
+                                        onChange={(e) => {
+                                            setFormData({
+                                                ...formData,
+                                                clientState: e.target === 'AC',
+                                            });
+                                        }}
+                                        required
+                                        disabled={!isEditing}
+                                        style={{ border: 'none' }}
+                                        className={!isEditing ? 'input-disabled' : ''}
+                                    >
+                                        <option value="" disabled>Estado</option>
+                                        <option value="AC">Activo</option>
+                                        <option value="IN">Inactivo</option>
+
+                                    </Form.Control>
+                                        <FontAwesomeIcon icon={faChevronDown} className="icon-selector" />
+                                </div>
+                            </Form.Group>
+                        </div>
+
                         {clientType === 'JuridicalPersons' && (
                             <>
                                 <div className="floating-label">
