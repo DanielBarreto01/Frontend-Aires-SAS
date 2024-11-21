@@ -5,7 +5,7 @@ import { Spinner } from 'react-bootstrap';
 import DataTable from 'react-data-table-component';
 import { jwtDecode } from 'jwt-decode';
 import { getUsersWithoutAdminRole } from '../../../api/UserService';
-import { getEquipmentsIdClient } from '../../../api/EquipmentService';
+import { getEquipmentsIdClientAviable } from '../../../api/EquipmentService';
 
 function RegisterRequestMaintenance() {
   const location = useLocation();
@@ -48,7 +48,7 @@ function RegisterRequestMaintenance() {
     try {
       const technician = await getUsersWithoutAdminRole(token);
       setRecordsTechnician(technician.data);
-      const equipments = await getEquipmentsIdClient(client.id, token);
+      const equipments = await getEquipmentsIdClientAviable(client.id, token);
       setRecordsEquipments(equipments);
     } catch (error) {
       console.error('Error al obetenr los tecnicos:', error);
