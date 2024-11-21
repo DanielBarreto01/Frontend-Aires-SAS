@@ -69,16 +69,16 @@ const ListClients = () => {
     const handleChange = (e) => {
         setSearchText(e.target.value);
         setRecords(data.filter(record => {
-            if(record.clientType ==='NaturalPerson') {
+            if (record.clientType === 'NaturalPerson') {
                 return record.name.toLowerCase().includes(e.target.value.toLowerCase()) ||
                     record.lastName.toLowerCase().includes(e.target.value.toLowerCase()) ||
-                    `${record.name} ${record.lastName}`.toLowerCase().includes(e.target.value.toLowerCase()) ||  
-                    record.numberIdentification.toString().includes(e.target.value) 
+                    `${record.name} ${record.lastName}`.toLowerCase().includes(e.target.value.toLowerCase()) ||
+                    record.numberIdentification.toString().includes(e.target.value)
             } else {
                 return record.nameCompany.toLowerCase().includes(e.target.value.toLowerCase()) ||
-                record.numberIdentificationCompany.toString().includes(e.target.value)
+                    record.numberIdentificationCompany.toString().includes(e.target.value)
             }
-               
+
         }));
     }
     const handleRoleChange = (e) => {
@@ -98,27 +98,27 @@ const ListClients = () => {
         navigate('/admin/clients/CustomerSelection');
     };
 
-   // console.log("locationxxxxx", location.pathname);
-    const validateEquipmentClientSelectionList = location.pathname === '/admin/clients/update/equipmentClientSelectionList';
-    const validateRegister = location.pathname === '/admin/clients/CustomerSelection/register';
-    const isCustomerSelection = location.pathname === '/admin/clients/CustomerSelection';
-    const isUpdateClient = location.pathname === '/admin/clients/update';
-    
-    console.log("locationxxxxx", location.pathname);
-    const validateRegisterRequestMaintenance = location.pathname === '/admin/requestMaintenance/clients/registerRequestMaintenance';
-    if (isCustomerSelection || isUpdateClient || validateEquipmentClientSelectionList || validateRegister || validateRegisterRequestMaintenance) {
+    // console.log("locationxxxxx", location.pathname);
+    // const validateEquipmentClientSelectionList = location.pathname === '/admin/clients/update/equipmentClientSelectionList';
+    // const validateRegister = location.pathname === '/admin/clients/CustomerSelection/register';
+    // const isCustomerSelection = location.pathname === '/admin/clients/CustomerSelection';
+    // const isUpdateClient = location.pathname === '/admin/clients/update';
+    const isUpdateClient = location.pathname.includes('/admin/clients/') || location.pathname.includes('/admin/requestMaintenance/clients/') || location.pathname.includes('registerRequestMaintenance');
+   
+    // const validateRegisterRequestMaintenance = location.pathname === '/admin/requestMaintenance/clients/registerRequestMaintenance';
+    // if (isCustomerSelection || isUpdateClient || validateEquipmentClientSelectionList || validateRegister || validateRegisterRequestMaintenance) {
+    //     console.log("entra", location.pathname);
+    //     return <Outlet />;
+    // }
+
+    if(isUpdateClient){
         console.log("entra", location.pathname);
         return <Outlet />;
     }
 
     const handleItemClick = (client) => {
         if (path.includes('requestMaintenance')) {
-            setTimeout(() => {
-                //navigate('/admin/requestMaintenance/clients/registerRequestMaintenance', { state: { client } });
-
-            }, 2000);
-            location.pathname ='/admin/requestMaintenance/clients/registerRequestMaintenance'
-            console.log("location", location.pathname);
+            navigate('/admin/requestMaintenance/clients/registerRequestMaintenance', { state: { client } });
         } else {
             navigate('/admin/clients/update', {
                 state: { client }
@@ -133,19 +133,21 @@ const ListClients = () => {
     if (!isTokenChecked) {
         return null;
     }
-  
 
 
-  
+
+
 
     return (
-        
+
+     
             <div className='row'>
+                
                 <div className='col-12 col-md-4 title1'>
-                    {(path.includes('requestMaintenance')? 
-                    <h2 className="text-start title">Seleccion-Cliente </h2> 
-                    : <h2 className="text-start title">Clientes </h2>)}
-                   
+                    {(path.includes('requestMaintenance') ?
+                        <h2 className="text-start title">Seleccion-Cliente </h2>
+                        : <h2 className="text-start title">Clientes </h2>)}
+
                 </div>
 
                 <div className='col-6 col-sm-6 col-md-4 ' >
@@ -198,7 +200,7 @@ const ListClients = () => {
                 </div>
 
                 <div className='col-12 col-sm-3 col-md-2' >
-                <Button className="button-Custom" onClick={handleNavigateToCustomerSelection}>Agregar Cliente</Button>
+                    <Button className="button-Custom" onClick={handleNavigateToCustomerSelection}>Agregar Cliente</Button>
 
                 </div>
                 <div className='col-12 gallery-scroll-container'>
@@ -216,7 +218,7 @@ const ListClients = () => {
                                         ) : (
                                             <div className="placeholder">No Image Available</div>
                                         )}
-                                       <p>{`${records.name || ''} ${records.lastName || ''}`.trim() || records.nameCompany}</p> 
+                                        <p>{`${records.name || ''} ${records.lastName || ''}`.trim() || records.nameCompany}</p>
                                         {/* <p>{records.name || records.nameCompany}</p> */}
                                     </div>
                                 </div>
@@ -233,8 +235,8 @@ const ListClients = () => {
                     </div>
                 )}
             </div>
-            
-        
+
+     
     );
 };
 

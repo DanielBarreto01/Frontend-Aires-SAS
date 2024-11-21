@@ -8,8 +8,8 @@ import { faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { jwtDecode } from 'jwt-decode';
 import "../../general.css";
 import "../../user/listUsers/ListUsers.css";
-import { Form} from 'react-bootstrap';
-import {getRequestMaintenace} from "../../../api/MaintenanceService";
+import { Form } from 'react-bootstrap';
+import { getRequestMaintenace } from "../../../api/MaintenanceService";
 import { useNavigate, Outlet, useLocation } from 'react-router-dom';
 
 
@@ -26,7 +26,7 @@ function ListRequestMaintenace() {
     const [search, setSearch] = useState("name");
     const navigate = useNavigate();
     const location = useLocation();
-    const [isOpen, setIsOpen] = useState(false);  
+    const [isOpen, setIsOpen] = useState(false);
 
 
     const roleMap = {
@@ -65,17 +65,17 @@ function ListRequestMaintenace() {
     const handleButtonClick = () => {
         setIsNewComponentVisible(prevState => !prevState);
         navigate('/admin/requestMaintenance/clients');
-         // Cambia el estado para mostrar el nuevo componente
+        // Cambia el estado para mostrar el nuevo componente
     };
 
-    const validateCients = location.pathname === '/admin/requestMaintenance/clients';
-    if(validateCients){
-        return <Outlet/>
-    }
+    // const validateCients = location.pathname === '/admin/requestMaintenance/clients';
+    // if (validateCients) {
+    //     return <Outlet />
+    // }
 
-    
+
     const handleDropdownToggle = () => {
-        setIsOpen(!isOpen);  
+        setIsOpen(!isOpen);
     };
 
     const fetchData = async () => {
@@ -123,10 +123,15 @@ function ListRequestMaintenace() {
         },
     ];
 
-    const validateRegisterRequestMaintenance = location.pathname ===  false //'/admin/requestMaintenance/clients/registerRequestMaintenance';
-    if (validateRegisterRequestMaintenance) {
-        return <Outlet />;
+    const isUpdateClient = location.pathname.includes('/admin/requestMaintenance/clients') || location.pathname.includes('registerRequestMaintenance');
+    if(isUpdateClient){
+        return <Outlet />
     }
+
+    // const validateRegisterRequestMaintenance = location.pathname ===  false //'/admin/requestMaintenance/clients/registerRequestMaintenance';
+    // if (validateRegisterRequestMaintenance) {
+    //     return <Outlet />;
+    // }
 
 
     const handleRoleChange = (event) => {
@@ -191,7 +196,7 @@ function ListRequestMaintenace() {
 
     return (
 
-    
+       
             <div className='row'  >
 
                 <div className='col-12 col-md-4 title1' >
@@ -274,8 +279,9 @@ function ListRequestMaintenace() {
                     </div>
                 </div>
             </div>
-        )
-    
+       
+    )
+
 }
 export default ListRequestMaintenace;
 

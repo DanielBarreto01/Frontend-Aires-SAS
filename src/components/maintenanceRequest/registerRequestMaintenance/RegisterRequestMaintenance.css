@@ -1,6 +1,6 @@
 .title{
     height: auto;
-    padding-top:1% ;
+    padding-top:2% !important ;
 }
 
 label {
@@ -12,16 +12,23 @@ label {
 
 .full-screen-scrollable {
     overflow-y: auto; 
+ 
+}
+.data h2{
+    padding: 1% 0% 2% 1% !important;
 }
 
 .data {
-    border: 1px solid rgb(234, 234, 234);
+    border: 1px solid rgb(255, 255, 255);
+    background-color: #F5F5F7;
     margin: 2%; 
-    border-radius: 4px; 
+    border-radius: 15px; 
 }
 .content{
-    height: 100vh; 
-    padding: 2%;
+  
+    height: 100%; 
+
+    
     background-color: rgb(255, 255, 255);
     
   
