@@ -103,14 +103,22 @@ const ListClients = () => {
     const validateRegister = location.pathname === '/admin/clients/CustomerSelection/register';
     const isCustomerSelection = location.pathname === '/admin/clients/CustomerSelection';
     const isUpdateClient = location.pathname === '/admin/clients/update';
+    
+    console.log("locationxxxxx", location.pathname);
     const validateRegisterRequestMaintenance = location.pathname === '/admin/requestMaintenance/clients/registerRequestMaintenance';
     if (isCustomerSelection || isUpdateClient || validateEquipmentClientSelectionList || validateRegister || validateRegisterRequestMaintenance) {
+        console.log("entra", location.pathname);
         return <Outlet />;
     }
 
     const handleItemClick = (client) => {
         if (path.includes('requestMaintenance')) {
-            navigate('/admin/requestMaintenance/clients/registerRequestMaintenance', { state: { client } });
+            setTimeout(() => {
+                //navigate('/admin/requestMaintenance/clients/registerRequestMaintenance', { state: { client } });
+
+            }, 2000);
+            location.pathname ='/admin/requestMaintenance/clients/registerRequestMaintenance'
+            console.log("location", location.pathname);
         } else {
             navigate('/admin/clients/update', {
                 state: { client }
