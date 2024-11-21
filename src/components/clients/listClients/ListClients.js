@@ -7,7 +7,7 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
-import { getClients } from "../../../api/ClientService";
+import { getClients, getClientsActive } from "../../../api/ClientService";
 import { useNavigate, Outlet, useLocation } from 'react-router-dom';
 import "../../general.css";
 import "../../user/listUsers/ListUsers.css";
@@ -51,10 +51,14 @@ const ListClients = () => {
     }, [location.state]);
 
     const fetchData = async () => {
+        const token = localStorage.getItem('authToken');
+        let response= [];
         try {
-            const token = localStorage.getItem('authToken');
-            const response = await getClients(token);
-            console.log("respuesta equpos", response);
+            if(location.pathname.includes('/admin/requestMaintenance/clients')) {
+                response = await getClientsActive(token);
+            }else{
+                response = await getClients(token);
+            }
             setData(response);
             setRecords(response);
             setLoading(false);

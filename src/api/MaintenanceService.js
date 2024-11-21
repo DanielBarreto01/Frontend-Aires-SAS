@@ -3,7 +3,6 @@ import axios from 'axios';
 
 export const createRequestMaintenace = async (data, token) => {
     try {
-        console.log("data",data);
         const response = await axios.post('/maintenanceRequest/create', data, {
             headers: {
                 'Authorization': `Bearer ${token}` // Asegúrate de que el token esté en los headers
