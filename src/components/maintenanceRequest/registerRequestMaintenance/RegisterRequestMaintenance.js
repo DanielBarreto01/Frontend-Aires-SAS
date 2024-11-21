@@ -1,22 +1,78 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './RegisterRequestMaintenance.css';
 import { useLocation } from 'react-router-dom';
 import { Spinner } from 'react-bootstrap';
 import DataTable from 'react-data-table-component';
+import { jwtDecode } from 'jwt-decode';
 
 function RegisterRequestMaintenance() {
   const location = useLocation();
   const { client } = location.state || {};
   const records = []// Acceder a los datos pasados
 
+
+  useEffect(() => {
+    setTimeout(() => {
+      try {
+       // setLoading(false);
+        const token = localStorage.getItem('authToken');
+        console.log("token", token);
+        if (token !== null && jwtDecode(token).exp * 1000 > Date.now()) { // && jwtDecode(token).exp*1000 >  Date.now()
+          //fetchData();
+          //setIsTokenChecked(true);
+         // setLoading(true);
+        } else {
+          localStorage.removeItem('authToken');
+         // setLoading(false);
+          window.location.href = '/login';
+        }
+      } catch (error) {
+        console.error('Error al verificar el token:', error);
+        localStorage.removeItem('authToken');
+        window.location.href = '/login';
+      }
+
+    }, 200);
+    return () => clearTimeout();
+  }, []);
+
+
   if (!client) {
     return <div>Cargando...</div>; // O cualquier mensaje de carga que desees
   }
 
-  const columns = [
+  const columnsEquipments = [
 
     {
-      name: 'Equipo',
+      name: 'Representacion',
+      selector: row => row.pathImage, // Suponiendo que 'image' es el campo que contiene la URL de la imagen
+      cell: row => (
+        <img
+          src={row.pathImage} // Suponiendo que 'image' es el campo que contiene la URL de la imagen
+          alt="imagen"
+          style={{ width: '45px', height: '45px', objectFit: 'cover', borderRadius: '80px' }} // Ajusta el tamaño según sea necesario
+        />
+      ),
+
+    },
+    {
+      name: 'Marca',
+      selector: row => row.name,
+      sortable: true,
+
+
+    },
+    {
+      name: "Modelo",
+      selector: row => row.brand,
+      sortable: true,
+    }
+  ];
+
+  const columnsTechnical = [
+
+    {
+      name: 'Usuario',
       selector: row => row.pathImage, // Suponiendo que 'image' es el campo que contiene la URL de la imagen
       cell: row => (
         <img
@@ -35,31 +91,10 @@ function RegisterRequestMaintenance() {
 
     },
     {
-      name: "Marca",
+      name: "Docuemnto",
       selector: row => row.brand,
       sortable: true,
-    },
-
-    {
-      name: "Modelo",
-      selector: row => row.modelNumber,
-      sortable: true,
-    },
-    {
-      name: "Tipo de equipo",
-      selector: row => row.equipmentType,
-      sortable: true,
-    },
-    {
-      name: "No. de serie",
-      selector: row => row.serialNumber,
-      sortable: true,
-    },
-    {
-      name: "No. en iventario",
-      selector: row => row.iventoryNumber,
-      sortable: true,
-    },
+    }
   ];
 
   return (
@@ -118,10 +153,19 @@ function RegisterRequestMaintenance() {
 
             </div>
 
+            <div className='row'>
+              <div className='col-lg-6 col-12'> </div>
+              <div className="col-lg-6 col-12 button-group">
+                <button type="button" className='button-confirmationn'>
+                  Detalles
+                </button>
+              </div>
+            </div>
+
           </div>
 
-        </div>
 
+        </div>
       </div>
       <div className='row'>
         <div className='col-lg-6 col-12'>
@@ -139,7 +183,7 @@ function RegisterRequestMaintenance() {
 
             <div className="table-container-client-list-quip">
               <DataTable
-                columns={columns}
+                columns={columnsEquipments}
                 data={records}
                 pagination
                 paginationPerPage={2}
@@ -175,7 +219,7 @@ function RegisterRequestMaintenance() {
 
             <div className="table-container-client-list-quip">
               <DataTable
-                columns={columns}
+                columns={columnsTechnical}
                 data={records}
                 pagination
                 paginationPerPage={2}
