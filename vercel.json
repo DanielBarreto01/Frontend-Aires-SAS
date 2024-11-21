@@ -2,39 +2,39 @@
   "rewrites": [
     {
       "source": "/login",
-      "destination": "http://18.117.175.120:8080/login"
+      "destination": "http://3.147.79.170:8080/login"
     },
     {
       "source": "/users/:path*",
-      "destination": "http://18.117.175.120:8080/users/:path*"
+      "destination": "http://3.147.79.170:8080/users/:path*"
     },
     {
       "source": "/reset-password/validateStatusToken/:path*",
-      "destination": "http://18.117.175.120:8080/reset-password/validateStatusToken/:path*"
+      "destination": "http://3.147.79.170:8080/reset-password/validateStatusToken/:path*"
     },
     {
       "source": "/reset-password/changePassword/:path*",
-      "destination": "http://18.117.175.120:8080/reset-password/changePassword/:path*"
+      "destination": "http://3.147.79.170:8080/reset-password/changePassword/:path*"
     },
     {
       "source": "/reset-password/create",
-      "destination": "http://18.117.175.120:8080/reset-password/create"
+      "destination": "http://3.147.79.170:8080/reset-password/create"
     },
     {
       "source": "/reset-password/validateCode/:path*",
-      "destination": "http://18.117.175.120:8080/reset-password/validateCode/:path*"
+      "destination": "http://3.147.79.170:8080/reset-password/validateCode/:path*"
     },
     {
       "source": "/equipments/:path*",
-      "destination": "http://18.117.175.120:8080/equipments/:path*"
+      "destination": "http://3.147.79.170:8080/equipments/:path*"
     },
     {
       "source": "/clients/:path*",
-      "destination": "http://18.117.175.120:8080/clients/:path*"
+      "destination": "http://3.147.79.170:8080/clients/:path*"
     },
     {
       "source": "/maintenanceRequest/:path*",
-      "destination": "http://18.117.175.120:8080/maintenanceRequest/:path*"
+      "destination": "http://3.147.79.170:8080/maintenanceRequest/:path*"
     }
   ]
 }
