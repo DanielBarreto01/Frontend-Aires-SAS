@@ -259,20 +259,17 @@ function AdminDashboard() {
         {/* Contenido principal */}
 
         <div className="col custom-col">
-
           <div className="row ">
+
             <div className="col-12  top-bar d-md-none">
               <button className=" menu-button col-2" onClick={toggleMenu}>
                 <FontAwesomeIcon className="icon-margin" icon={faBars} />
               </button>
             </div >
+            <div className='col-12 container-content-scrollable' style={{ backgroundColor: '' }}>
 
-            <div className='col-12 container-content-scrollable'>
-            <Outlet />
+              <Outlet />
             </div>
-           
-
-            
           </div>
 
           <div className={`content-overlay ${isOverlayVisible ? 'visible' : ''}`} onClick={toggleMenu}></div>
