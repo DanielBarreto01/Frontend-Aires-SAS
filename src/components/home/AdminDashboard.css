@@ -54,6 +54,9 @@
 .container-fluid {
     height: 100vh;
     overflow: hidden;
+    /* background-color: aquamarine; */
+    
+ 
 } 
 
 
@@ -72,6 +75,7 @@
     /* Asegura que no haya wraps (cambio de línea) */
     height: 100%;
     /* Asegúrate de que ocupe toda la altura */
+    
 }
 
 
@@ -79,6 +83,11 @@
     /* responsable de desplazamiento contededor principal donde se renderiza los contenidos  */
     flex-grow: 1;
     overflow: hidden;
+
+    margin: 0; /* Elimina márgenes */
+    padding: 0; /* Elimina relleno */
+    height: 100%; /* Asegura que ocupe todo el alto disponible */
+    
 
 }
 
