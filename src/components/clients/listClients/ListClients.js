@@ -108,7 +108,6 @@ const ListClients = () => {
     // const isCustomerSelection = location.pathname === '/admin/clients/CustomerSelection';
     // const isUpdateClient = location.pathname === '/admin/clients/update';
     const isUpdateClient = location.pathname.includes('/admin/clients/') || location.pathname.includes('/admin/requestMaintenance/clients/') || location.pathname.includes('registerRequestMaintenance');
-   
     // const validateRegisterRequestMaintenance = location.pathname === '/admin/requestMaintenance/clients/registerRequestMaintenance';
     // if (isCustomerSelection || isUpdateClient || validateEquipmentClientSelectionList || validateRegister || validateRegisterRequestMaintenance) {
     //     console.log("entra", location.pathname);
@@ -116,7 +115,6 @@ const ListClients = () => {
     // }
 
     if(isUpdateClient){
-        console.log("entra", location.pathname);
         return <Outlet />;
     }
 
