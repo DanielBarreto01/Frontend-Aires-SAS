@@ -130,7 +130,7 @@ function UpdateClientForm({
                                         onChange={(e) => {
                                             setFormData({
                                                 ...formData,
-                                                clientState: e.target === 'AC',
+                                                clientState: e.target.value === 'AC',
                                             });
                                         }}
                                         required

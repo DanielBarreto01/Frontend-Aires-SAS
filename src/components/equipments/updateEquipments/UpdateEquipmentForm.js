@@ -207,7 +207,7 @@ function UpdateEquipmentForm({
                                                 onChange={(e) => {
                                                     setFormData({
                                                         ...formData,
-                                                        equipmentState: e.target === 'AC',
+                                                        equipmentState: e.target.value === 'AC',
                                                     });
                                                 }}
                                                 required
