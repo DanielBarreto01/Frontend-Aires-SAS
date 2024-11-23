@@ -2,18 +2,17 @@ import React, { useState,useEffect } from 'react';
 import './Welcome.css';
 import "../../components/general.css";
 import {getUsersWithoutAdminRole} from "../../api/UserService";
+import {getClientsActive} from "../../api/ClientService";
+import {getEquipments} from "../../api/EquipmentService";
+import {getRequestMaintenace} from "../../api/MaintenanceService"; 
 
 const Welcome = () => {
-    const [clientType, setClientType] = useState(false);
-    const [clientTypeSelected, setClientTypeSelected] = useState('');
-    //varaibel donde se guarde un dato entero
+
+
     const [UserActive, setVariable] = useState(0);
-
-
-    const handleClientTypeSelection = (clientType) => {
-        setClientType(true);
-        setClientTypeSelected(clientType);
-    };
+    const [clients, setClients] = useState(0);
+    const [equipments, setEquipments] = useState(0);
+    const [requests, setRequests] = useState(0);
 
     useEffect(() => {
         fetchData();
@@ -22,8 +21,17 @@ const Welcome = () => {
 
     const fetchData = async () => {
         try {
+
+            const responseClients = await getClientsActive(localStorage.getItem('authToken'));
+            setClients(responseClients.length);
+
+            const responseEquipments = await getEquipments(localStorage.getItem('authToken'));
+            setEquipments(responseEquipments.length);
+
+            const responseRequests = await getRequestMaintenace(localStorage.getItem('authToken'));
+            setRequests(responseRequests.data.length);
+
             const response = await getUsersWithoutAdminRole(localStorage.getItem('authToken'));
-            console.log(response);
             setVariable(response.data.length);
         } catch (error) {
             console.error(error);
@@ -43,7 +51,7 @@ const Welcome = () => {
                         <div className=" col-md-6 col-lg-2 ">
                             <div className="card-summary">
                                 <h5>Solicitudes Totales</h5>
-                                <p>1,234</p>
+                                <p>{requests}</p>
                             </div>
                         </div>
                         <div className="col-md-6 col-lg-2">
@@ -61,13 +69,13 @@ const Welcome = () => {
                         <div className="col-md-6 col-lg-2 ">
                             <div className="card-summary">
                                 <h5>Clientes Activos</h5>
-                                <p>283</p>
+                                <p>{clients}</p>
                             </div>
                         </div>
                         <div className="col-md-12 col-lg-2">
                             <div className="card-summary">
                                 <h5>Equipos Registrados</h5>
-                                <p>283</p>
+                                <p>{equipments}</p>
                             </div>
                         </div>
                     </div>
