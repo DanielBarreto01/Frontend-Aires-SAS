@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import './RegisterRequestMaintenance.css';
 import { Spinner } from 'react-bootstrap';
 import DataTable from 'react-data-table-component';
@@ -29,7 +29,22 @@ function RegisterRequestMaintenance() {
   const [toastType, setToastType] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState('');
+  const [showModalClean, setShowModalClean] = useState(false);
  
+
+  const fetchData = useCallback(async () => {
+    setLoading(true);
+    const token = localStorage.getItem('authToken');
+    try {
+      const technician = await getUsersWithoutAdminRole(token);
+      setRecordsTechnician(technician.data);
+      const equipments = await getEquipmentsIdClientAviable(client.id, token);
+      setRecordsEquipments(equipments);
+    } catch (error) {
+      console.error('Error al obtener los técnicos y equipos:', error);
+    }
+    setLoading(false);
+  }, [client]);
 
   useEffect(() => {
     try {
@@ -57,22 +72,8 @@ function RegisterRequestMaintenance() {
       localStorage.removeItem('authToken');
       window.location.href = '/login';
     }
-  }, [client]);
+  }, [fetchData, from, location.state?.selectedEqipments, location.state?.selectedTechnicians, navigate, client]);
 
-  const fetchData = async () => {
-    setLoading(true);
-    const token = localStorage.getItem('authToken');
-    try {
-      const technician = await getUsersWithoutAdminRole(token);
-      setRecordsTechnician(technician.data);
-      const equipments = await getEquipmentsIdClientAviable(client.id, token);
-      setRecordsEquipments(equipments);
-    } catch (error) {
-      console.error('Error al obetenr los tecnicos:', error);
-
-    }
-    setLoading(false);
-  }
 
 
 
@@ -142,6 +143,7 @@ function RegisterRequestMaintenance() {
   }, [idsTechniciansSelection]);
 
   const selectionEquipments = () => {
+    console.log('entrar')
     setIdsEquipmentsSelection(selectedRowsEquipments.map(item => item.id) || []);
     navigate('/admin/requestMaintenance/clients/registerRequestMaintenance/listSelectEquipment', { state: { selectedRowsEquipments, recordsEquipments, client } });
 
@@ -152,7 +154,8 @@ function RegisterRequestMaintenance() {
   }
 
   const handleCloseModal = () => {
-    setShowModal(false); // Cerrar el modal sin realizar acción
+    setShowModal(false);
+    setShowModalClean(false); // Cerrar el modal sin realizar acción
   };
 
   const handleCancelRegister = () => {
@@ -218,14 +221,26 @@ function RegisterRequestMaintenance() {
     }
   }
 
-  const cleanEquipments = () => {
-    setSelectedRowsEquipments([]);
-    setIdsEquipmentsSelection([]);
+
+  const cleanTables  = (type) => {
+    if(selectedRowsEquipments.length ===0 && type === 'equipments'){
+      return
+    }else if(selectedRowsTechnicians.length === 0 && type === 'technician'){
+      return
+    }
+    setModalType(type)
+    setShowModalClean(true)
   }
 
-  const cleanTechnician = () => {
-    setSelectedRowsTechnicians([]);
-    setIdsTechniciansSelection([]);
+  const handleConfirmActionClean = () => {
+    setShowModalClean(false)
+    if(modalType === 'equipments'){
+      setSelectedRowsEquipments([]);
+      setIdsEquipmentsSelection([]);
+    }else{
+      setSelectedRowsTechnicians([]);
+      setIdsTechniciansSelection([]);
+    }
   }
 
 
@@ -338,7 +353,7 @@ function RegisterRequestMaintenance() {
               <button className='button-clean' onClick={selectionEquipments} disabled={isEditingButtons}>
                 Seleccionar
               </button>
-              <button className='button-clean' onClick={cleanEquipments} disabled={isEditingButtons}>
+              <button className='button-clean'  onClick={() => cleanTables('equipments')} disabled={isEditingButtons}>
                 Limpiar
               </button>
             </div>
@@ -377,7 +392,7 @@ function RegisterRequestMaintenance() {
               <button className='button-clean' onClick={selectionTechnician} disabled={isEditingButtons}>
                 Seleccionar
               </button>
-              <button className='button-clean' onClick={cleanTechnician} disabled={isEditingButtons}>
+              <button className='button-clean' onClick={() => cleanTables('technician')} disabled={isEditingButtons}>
                 Limpiar
               </button>
             </div>
@@ -405,6 +420,16 @@ function RegisterRequestMaintenance() {
                 )}
               />
             </div>
+            <ConfirmationModal
+              show={showModalClean}
+              onConfirm={handleConfirmActionClean}
+              onHide={handleCloseModal}
+              title= "Confirmar limpieza de selección"
+              bodyText="¿Estás seguro de que deseas limpiar la selección? Se eliminarán todas las selecciones actuales en la tabla."
+              confirmText= "Sí"
+              cancelText="No"
+              containerId="modal-container"
+            />
 
           </div>
         </div>
