@@ -327,10 +327,10 @@ function RegisterRequestMaintenance() {
                 columns={columnsEquipments}
                 data={recordsEquipments || []}
                 pagination
-                paginationPerPage={2}
+                paginationPerPage={1}
                 fixedHeader
                 persistTableHead
-                fixedHeaderScrollHeight="30vh"
+                fixedHeaderScrollHeight="20vh"
                 selectableRows
                 onSelectedRowsChange={handleRowSelectedEquipments}
                 selectableRowSelected={selectableRowSelectedEquipments}
@@ -366,10 +366,10 @@ function RegisterRequestMaintenance() {
                 columns={columnsTechnical}
                 data={recordsTechnician || []}
                 pagination
-                paginationPerPage={2}
+                paginationPerPage={1}
                 fixedHeader
                 persistTableHead
-                fixedHeaderScrollHeight="30vh"
+                fixedHeaderScrollHeight="20vh"
                 selectableRows
                 selectableRowsSingle
                 onSelectedRowsChange={handleRowSelectedTechnicians}
