@@ -34,35 +34,37 @@ const Welcome = () => {
         <div className="customer-selection-container ">
             <div className="customer-selection-container ">
                 <div className="content-wrapper">
-                    <h1 className="header">Sistema de Gestión de Mantenimiento</h1>
+                    <h1 className="header ">Sistema de Gestión de Mantenimiento</h1>
                     <p className="text-muted">Bienvenido al panel de control</p>
 
-                    <div className="row mt-4">
-                        <div className="col-md-2 col-sm-6">
+                    <div className="row my-4" >
+                    <div className="col-lg-1"> </div>
+
+                        <div className=" col-md-6 col-lg-2 ">
                             <div className="card-summary">
                                 <h5>Solicitudes Totales</h5>
                                 <p>1,234</p>
                             </div>
                         </div>
-                        <div className="col-md-2 col-sm-6">
+                        <div className="col-md-6 col-lg-2">
                             <div className="card-summary">
                                 <h5>Solicitudes Pendientes</h5>
                                 <p>45</p>
                             </div>
                         </div>
-                        <div className="col-md-2 col-sm-6">
-                            <div className="card-summary">
+                        <div className="col-md-6 col-lg-2">
+                            <div className="card-summary" style={{paddingTop:''}}>
                                 <h5>Técnicos Activos</h5>
                                 <p>{UserActive}</p>
                             </div>
                         </div>
-                        <div className="col-md-2 col-sm-6">
+                        <div className="col-md-6 col-lg-2 ">
                             <div className="card-summary">
                                 <h5>Clientes Activos</h5>
                                 <p>283</p>
                             </div>
                         </div>
-                        <div className="col-md-2 col-sm-6">
+                        <div className="col-md-12 col-lg-2">
                             <div className="card-summary">
                                 <h5>Equipos Registrados</h5>
                                 <p>283</p>

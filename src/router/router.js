@@ -18,7 +18,8 @@ import RegisterClient from '../components/clients/registerClient/registerClient'
 import ListRequestMaintenance from '../components/maintenanceRequest/listRequestMaintenance/ListRequestMaintenance';
 import Welcome from '../components/home/Welcome';
 import RegisterRequestMaintenance from '../components/maintenanceRequest/registerRequestMaintenance/RegisterRequestMaintenance';
-
+import ListSelectEquipment from '../components/maintenanceRequest/listSelectEquipmentAndTechnician/ListSelectedEquipment';
+import ListSelectedTechnician from '../components/maintenanceRequest/listSelectEquipmentAndTechnician/ListSelectedTechnician';
 
 function AppRouter() {
   return (
@@ -51,10 +52,13 @@ function AppRouter() {
         
         <Route path="requestMaintenance" element={<ListRequestMaintenance/>} >
           <Route path="clients" element={<ListClients />}>
-            <Route path="registerRequestMaintenance" element={<RegisterRequestMaintenance />} />
+            <Route path="registerRequestMaintenance" element={<RegisterRequestMaintenance />} >
+              <Route path="listSelectEquipment" element={<ListSelectEquipment />} />
+              <Route path="listSelectedTechnician" element={<ListSelectedTechnician />} />
+            </Route>
           </Route>
         </Route>
-
+ 
       </Route>
       {localStorage.getItem('authToken')?  
         <Route index element={<Navigate to="/admin/welcome" />}/>:

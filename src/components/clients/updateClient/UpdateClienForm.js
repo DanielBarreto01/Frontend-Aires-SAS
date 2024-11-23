@@ -1,7 +1,7 @@
-import React, { useRef } from 'react';
+import React, { useRef , useState } from 'react';
 import { Form, Button, Row, Col, Spinner } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import ConfirmationModal from "../../ConfirmationModal/ConfirmationModal";
 import ImageDropzone from '../../loadImage/ImageDropzone';
 import DataTable from 'react-data-table-component';
@@ -45,6 +45,17 @@ function UpdateClientForm({
         }
     };
 
+    const [dropdownState, setDropdownState] = useState({
+        clinetStatus: false
+    });
+
+    const handleDropdownToggle = (controlId) => {
+        setDropdownState((prevState) => ({
+            ...prevState,
+            [controlId]: !prevState[controlId] // Alterna el estado del dropdown correspondiente
+        }));
+    };
+
     return (
         <div row>
 
@@ -58,7 +69,7 @@ function UpdateClientForm({
                     {/* derecha */}
                     <div className='col-12 col-lg-6' >
                         {/* <div className={`image-client-update ${dropzoneClass}` }> */}
-                        <div className={clientType === 'JuridicalPersons' ? 'image-coponent' : 'image-coponent-info'}>
+                        <div className={clientType === 'JuridicalPersons' ? 'image-coponent-info-cliN' : 'image-coponent-info-cliJ'}>
                             <ImageDropzone
                                 getRootProps={getRootProps}
                                 getInputProps={getInputProps}
@@ -86,38 +97,12 @@ function UpdateClientForm({
                             </Form.Group>
                         </div>
 
-                        <div className='floating-label' >
-                            <Form.Group controlId="clientState" className="roles">
-                                <div className="icon-container">
-                                    <Form.Control
-                                        as="select"
-                                        name="clientState"
-                                        value={formData.clientState === true ? 'AC' : 'IN'}
-                                        onChange={(e) => {
-                                            setFormData({
-                                                ...formData,
-                                                clientState: e.target === 'AC',
-                                            });
-                                        }}
-                                        required
-                                        disabled={!isEditing}
-                                        style={{ border: 'none' }}
-                                        className={!isEditing ? 'input-disabled' : ''}
-                                    >
-                                        <option value="" disabled>Estado</option>
-                                        <option value="AC">Activo</option>
-                                        <option value="IN">Inactivo</option>
 
-                                    </Form.Control>
-                                        <FontAwesomeIcon icon={faChevronDown} className="icon-selector" />
-                                </div>
-                            </Form.Group>
-                        </div>
 
                         {clientType === 'JuridicalPersons' && (
                             <>
                                 <div className="floating-label">
-                                <Form.Group controlId="emailLegalRepresentative" className="email" >
+                                    <Form.Group controlId="emailLegalRepresentative" className="email" >
                                         <Form.Control
                                             type="email"
                                             name="emailLegalRepresentative"
@@ -134,6 +119,38 @@ function UpdateClientForm({
                                 </div>
                             </>
                         )}
+
+                        <div className='floating-label' >
+                            <Form.Group controlId="clientState" className="roles">
+                                <div className="icon-container">
+                                    <Form.Control
+                                        as="select"
+                                        name="clientState"
+                                        value={formData.clientState === true ? 'AC' : 'IN'}
+                                        onChange={(e) => {
+                                            setFormData({
+                                                ...formData,
+                                                clientState: e.target.value === 'AC',
+                                            });
+                                        }}
+                                        required
+                                        disabled={!isEditing}
+                                        onClick={() => handleDropdownToggle("clinetStatus")}
+                                        style={{ border: 'none' }}
+                                        className={!isEditing ? 'input-disabled' : ''}
+                                    >
+                                        <option value="" disabled>Estado</option>
+                                        <option value="AC">Activo</option>
+                                        <option value="IN">Inactivo</option>
+
+                                    </Form.Control>
+                                    <FontAwesomeIcon
+                                        icon={!dropdownState.clinetStatus ? faChevronDown: faChevronUp } // Ícono dinámico
+                                        className="icon-selector"
+                                    />
+                                </div>
+                            </Form.Group>
+                        </div>
 
 
 
@@ -429,7 +446,7 @@ function UpdateClientForm({
                         {isEditing ? (
                             <div className='row table-container-update-client'>
                                 <div className='col-12 col-md-5 title-equip'><h2>Equipos</h2></div>
-                                
+
                                 <div className='col-12 col-md-7 button-group-list-equip'>
                                     <button type="submit" className='button-clean' onClick={handleSelectEquipmentaAviable} disabled={isEditingButtons}>
                                         Seleccionar

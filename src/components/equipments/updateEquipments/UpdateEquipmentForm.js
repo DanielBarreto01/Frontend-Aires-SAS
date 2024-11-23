@@ -31,6 +31,8 @@ function UpdateEquipmentForm({
 
     const [dropdownState, setDropdownState] = useState({
         typeEquipment: false,
+        equipState: false
+       
     });
 
     const handleDropdownToggle = (controlId) => {
@@ -48,7 +50,7 @@ function UpdateEquipmentForm({
             <div className='col-12'>
                 <div className='row'>
                     <div className='col-12 col-lg-6' >
-                        <div className="image-coponent-info">
+                        <div className="image-coponent">
                             <ImageDropzone
                                 getRootProps={getRootProps}
                                 getInputProps={getInputProps}
@@ -80,41 +82,15 @@ function UpdateEquipmentForm({
 
                                     </Form.Control>
                                     <FontAwesomeIcon
-                                        icon={dropdownState.typeEquipment ? faChevronDown : faChevronUp} // Ícono dinámico
+                                        icon={dropdownState.typeEquipment ? faChevronUp : faChevronDown} // Ícono dinámico
                                         className="icon-selector"
                                     />
                                 </div>
                             </Form.Group>
                         </div>
 
-                        
-                        <div className='floating-label' >
-                            <Form.Group controlId="equipmentState" className="roles">
-                                <div className="icon-container">
-                                    <Form.Control
-                                        as="select"
-                                        name="equipmentState"
-                                        value={formData.equipmentState === true ? 'AC' : 'IN'}
-                                        onChange={(e) => {
-                                            setFormData({
-                                                ...formData,
-                                                equipmentState: e.target === 'AC',
-                                            });
-                                        }}
-                                        required
-                                        disabled={!isEditing}
-                                        style={{ border: 'none' }}
-                                        className={!isEditing ? 'input-disabled' : ''}
-                                    >
-                                        <option value="" disabled>Estado</option>
-                                        <option value="AC">Activo</option>
-                                        <option value="IN">Inactivo</option>
 
-                                    </Form.Control>
-                                        <FontAwesomeIcon icon={faChevronDown} className="icon-selector" />
-                                </div>
-                            </Form.Group>
-                        </div>
+
                     </div>
 
                     <div className="col-12 col-lg-6 form ">
@@ -217,7 +193,39 @@ function UpdateEquipmentForm({
                                             disabled={!isEditing}
                                             className={!isEditing ? 'input-disabled' : ''}
                                         />
-                                        <Form.Label>Número en iventario</Form.Label>
+                                        <Form.Label>Número en inventario</Form.Label>
+                                    </Form.Group>
+                                </div>
+
+                                <div className='floating-label col-12' >
+                                    <Form.Group controlId="equipmentState" className="roles">
+                                        <div className="icon-container">
+                                            <Form.Control
+                                                as="select"
+                                                name="equipmentState"
+                                                value={formData.equipmentState === true ? 'AC' : 'IN'}
+                                                onChange={(e) => {
+                                                    setFormData({
+                                                        ...formData,
+                                                        equipmentState: e.target.value === 'AC',
+                                                    });
+                                                }}
+                                                required
+                                                disabled={!isEditing}
+                                                style={{ border: 'none' }}
+                                                onClick={() => handleDropdownToggle("equipState")}
+                                                className={!isEditing ? 'input-disabled' : ''}
+                                            >
+                                                <option value="" disabled>Estado</option>
+                                                <option value="AC">Activo</option>
+                                                <option value="IN">Inactivo</option>
+
+                                            </Form.Control>
+                                            <FontAwesomeIcon
+                                                icon={dropdownState.equipState ?  faChevronUp:faChevronDown} // Ícono dinámico
+                                                className="icon-selector"
+                                            />
+                                        </div>
                                     </Form.Group>
                                 </div>
 
@@ -229,21 +237,21 @@ function UpdateEquipmentForm({
                                                     Guardar cambios
                                                 </button>
 
-                                                <button type= "button" className='button-cancell' onClick={handleCancel} disabled={isEditingButtons}>
+                                                <button type="button" className='button-cancell' onClick={handleCancel} disabled={isEditingButtons}>
                                                     Cancelar edición
                                                 </button>
 
-                                            
+
                                             </div>
 
                                         </>
                                     ) : (
                                         <>
                                             <div className="button-group">
-                                                <button type="button" className='button-confirmationn' disabled={isEditingButtons}  onClick={handleEditClick}>
+                                                <button type="button" className='button-confirmationn' disabled={isEditingButtons} onClick={handleEditClick}>
                                                     Editar
                                                 </button>
-                                                <button type="button" className='button-cancell'  disabled={isEditingButtons} onClick={handleShowListEquipment}>
+                                                <button type="button" className='button-cancell' disabled={isEditingButtons} onClick={handleShowListEquipment}>
                                                     Regresar
                                                 </button>
 
@@ -281,7 +289,7 @@ function UpdateEquipmentForm({
             )}
 
         </div>
-       
+
     );
 }
 

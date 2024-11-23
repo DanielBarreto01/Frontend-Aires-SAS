@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from "react";
 import { Form, Button, Row, Col, Image, Spinner } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import ConfirmationModal from "../../ConfirmationModal/ConfirmationModal";
 import ImageDropzone from '../../loadImage/ImageDropzone';
 import './RegisterEquipment.css';
@@ -23,6 +23,18 @@ function RegisterEquipmentForm({ formData,
     handleCloseModal,
     handleConfirmAction,
     modalType }) {
+
+    const [dropdownState, setDropdownState] = useState({
+        typeEqupment: false,
+    });
+
+    const handleDropdownToggle = (controlId) => {
+        setDropdownState((prevState) => ({
+            ...prevState,
+            [controlId]: !prevState[controlId] // Alterna el estado del dropdown correspondiente
+        }));
+    };
+
 
     return (
         <div className='row' >
@@ -53,6 +65,7 @@ function RegisterEquipmentForm({ formData,
                                         value={formData.equipmentType}
                                         onChange={handleInputChange}
                                         required
+                                        onClick={() => handleDropdownToggle('typeEqupment') }
                                         style={{ border: 'none' }}
                                     >
                                         <option value="" disabled>Tipo de equipo</option>
@@ -60,8 +73,10 @@ function RegisterEquipmentForm({ formData,
                                         <option value="SECADOR">Secador</option>
 
                                     </Form.Control>
-                                    <FontAwesomeIcon icon={faChevronDown} className="icon-selector" />
-                                    {/* <FontAwesomeIcon icon={faChevronDown} /> */}
+                                    <FontAwesomeIcon
+                                        icon={!dropdownState.typeEqupment ? faChevronDown : faChevronUp} // Ícono dinámico
+                                        className="icon-selector"
+                                    />
                                 </div>
                             </Form.Group>
                         </div>
@@ -165,7 +180,7 @@ function RegisterEquipmentForm({ formData,
                             </div>
 
                             <div className=" col-12 button-group">
-                                <button type="submit" className='button-confirmationn'  disabled={isEditingButtons}>
+                                <button type="submit" className='button-confirmationn' disabled={isEditingButtons}>
                                     Registrar equipo
                                 </button>
                                 <button className='button-cancell' onClick={handleCancel} disabled={isEditingButtons}>
@@ -202,7 +217,7 @@ function RegisterEquipmentForm({ formData,
             )}
 
         </div>
-       
+
     );
 }
 export default RegisterEquipmentForm;

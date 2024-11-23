@@ -71,3 +71,19 @@ export const getEquipmentsIdClient = async (clientId, token) => {
        throw error; // Lanza el error para manejarlo en la función que llama a esta
     }
 };
+
+
+
+export const getEquipmentsIdClientAviable = async (clientId, token) => {
+    try {
+        const response = await axios.get(`/equipments/getEquipmentsIdClientAviable/${clientId}`, {
+            headers: {
+                'Authorization': `Bearer ${token}` // Asegúrate de que el token esté en los headers
+            }
+        });
+        return response.data; // Retorna los datos del usuario
+    } catch (error) {
+        console.error("Error al obtener los equipos:", error);
+       throw error; // Lanza el error para manejarlo en la función que llama a esta
+    }
+}
