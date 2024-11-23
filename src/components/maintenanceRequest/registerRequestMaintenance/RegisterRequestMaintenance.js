@@ -6,18 +6,14 @@ import { jwtDecode } from 'jwt-decode';
 import { getUsersWithoutAdminRole } from '../../../api/UserService';
 import { getEquipmentsIdClientAviable } from '../../../api/EquipmentService';
 import { useNavigate, Outlet, useLocation } from 'react-router-dom';
-import ListSelectEquipment from '../listSelectEquipmentAndTechnician/ListSelectedEquipment'
-import ListSelectedTechnician from '../listSelectEquipmentAndTechnician/ListSelectedTechnician'
 import { createRequestMaintenace } from '../../../api/MaintenanceService'
 import CustomToast from '../../toastMessage/CustomToast';
 
 function RegisterRequestMaintenance() {
   const navigate = useNavigate();
   const location = useLocation();
-  //const client  = location.state?.client || {};
   const client = location.state?.client || [];
   const from = location.state?.from || '';
-  const records = []// Acceder a los datos pasados
   const [isTokenChecked, setIsTokenChecked] = useState(false);
   const [recordsTechnician, setRecordsTechnician] = useState([]);
   const [recordsEquipments, setRecordsEquipments] = useState([]);
@@ -26,31 +22,27 @@ function RegisterRequestMaintenance() {
   const [selectedRowsTechnicians, setSelectedRowsTechnicians] = useState([]);
   const [idsEquipmentsSelection, setIdsEquipmentsSelection] = useState([]);
   const [idsTechniciansSelection, setIdsTechniciansSelection] = useState([]);
-  const [isNewComponentVisibleEquip, setIsNewComponentVisibleEquip] = useState(false)
-  const [isNewComponentVisibleTech, setIsNewComponentVisibleTech] = useState(false)
   const [isEditingButtons, setIsEditingButtons] = useState(false);
-
   const [showToast, setShowToast] = useState(false);     // Estado para mostrar/ocultar el Toast
   const [toastMessage, setToastMessage] = useState('');  // Estado para el mensaje del Toast
   const [toastType, setToastType] = useState('');
+
   useEffect(() => {
     try {
       setLoading(false);
       const token = localStorage.getItem('authToken');
-      console.log("token", token);
       if (token !== null && jwtDecode(token).exp * 1000 > Date.now()) { // && jwtDecode(token).exp*1000 >  Date.now()
-
         if (from.includes('listSelectEquipment')) {
           const selectedEqipments = location.state?.selectedEqipments || [];
-          console.log("selectedEqipmentsddddddd", selectedEqipments);
           setIdsEquipmentsSelection(selectedEqipments.map(item => item.id) || [])
         } else if (from.includes('listSelectedTechnician')) {
           const selectedTechnicians = location.state?.selectedTechnicians || [];
-          console.log("selectedTechnicianssss", selectedTechnicians);
           setIdsTechniciansSelection(selectedTechnicians.map(item => item.id) || [])
         }
         fetchData();
+        
         setIsTokenChecked(true);
+      
       } else {
         localStorage.removeItem('authToken');
         setLoading(false);
@@ -146,14 +138,15 @@ function RegisterRequestMaintenance() {
   }, [idsTechniciansSelection]);
 
   const selectionEquipments = () => {
-    //setIdsEquipmentsSelection(selectedRowsEquipments.map(item => item.id) || []);
-    setIsNewComponentVisibleEquip(true)
-    //navigate('/admin/requestMaintenance/clients/registerRequestMaintenance/listSelectEquipment', { state: { selectedRowsEquipments, recordsEquipments, client } });
+    console.log("selectedRowsEquipments", selectedRowsEquipments)
+    setIdsEquipmentsSelection(selectedRowsEquipments.map(item => item.id) || []);
+    navigate('/admin/requestMaintenance/clients/registerRequestMaintenance/listSelectEquipment', { state: { selectedRowsEquipments, recordsEquipments, client } });
+
   }
   const selectionTechnician = () => {
-    //setIdsTechniciansSelection(selectedRowsTechnicians.map(item => item.id) || []);
-    setIsNewComponentVisibleTech(true)
-    //navigate('/admin/requestMaintenance/clients/registerRequestMaintenance/listSelectedTechnician', { state: { selectedRowsTechnicians, recordsTechnician, client } });
+    console.log("selectedRowsTechnicians", selectedRowsTechnicians)
+    setIdsTechniciansSelection(selectedRowsTechnicians.map(item => item.id) || []);
+    navigate('/admin/requestMaintenance/clients/registerRequestMaintenance/listSelectedTechnician', { state: { selectedRowsTechnicians, recordsTechnician, client } });
   }
 
   const handleSaveRegister = async () => {
@@ -194,7 +187,7 @@ function RegisterRequestMaintenance() {
       const errorMessage =
         error.response.data && error.response.data
           ? error.response.data
-          : 'Error al actualizar el equipo. Inténtalo de nuevo.';
+          : 'Error al registar la solicitud de mantenimiento. Inténtalo de nuevo.';
       setToastMessage(errorMessage);
       setShowToast(true)
       setToastType('danger')
@@ -245,20 +238,7 @@ function RegisterRequestMaintenance() {
   }
 
 
-  return (isNewComponentVisibleEquip ? (<ListSelectEquipment
-    selectionEquipment={selectedRowsEquipments}
-    setSelectionEquipment={setSelectedRowsEquipments}
-    setIsNewComponentVisibleEquip={setIsNewComponentVisibleEquip}
-    client={client}
-    loadData={recordsEquipments} />
-  ) : isNewComponentVisibleTech ? (<ListSelectedTechnician
-    selectionTechnician={selectedRowsTechnicians}
-    setSelectionTechnician={setSelectedRowsTechnicians}
-    setIsNewComponentVisibleTech={setIsNewComponentVisibleTech}
-    client={client}
-    loadData={recordsTechnician}
-  />
-  ) : (
+  return (
     <div className=' full-screen-scrollable row'>
 
       <div className='col-12'>
@@ -436,8 +416,6 @@ function RegisterRequestMaintenance() {
       />
 
     </div >
-
-  )
 
   );
 }

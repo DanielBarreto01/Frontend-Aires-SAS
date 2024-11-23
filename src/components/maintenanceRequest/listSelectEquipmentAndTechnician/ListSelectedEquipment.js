@@ -12,46 +12,30 @@ import { getEquipments } from "../../../api/EquipmentService";
 import { useNavigate, Outlet, useLocation } from 'react-router-dom';
 
 
-function ListSelectEquipment({ selectionEquipment, setSelectionEquipment, setIsNewComponentVisibleEquip, client, loadData}) {
+function ListSelectEquipment() {
     const navigate = useNavigate();
     const location = useLocation();
-    // const client = location.state?.client || {};
-    // const loadData = location.state?.recordsEquipments || [];
+    const client = location.state?.client || {};
+    const loadData = location.state?.recordsEquipments || [];
+    const initialSelection = location.state?.selectedRowsEquipments || [];
     const [data, setData] = useState();
     const [selectedOption, setSelectedOption] = useState("Seleccione un rol");
     const [loading, setLoading] = useState(true);
-    const [records, setRecords] = useState();
-    let url = "/users/getUsers";
+    const [records, setRecords] = useState([]);
     const [isTokenChecked, setIsTokenChecked] = useState(false);
-    const [reload, setReload] = useState(false);
-    const [search, setSearch] = useState("name");
     const [isOpen, setIsOpen] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const [idsEquipmentsSelection, setIdsEquipmentsSelection] = useState([]);       
-
-
-    const roleMap = {
-        "ADMIN": "Administrador",
-        "INTERNAL_TECHNICIAN": "Técnico interno",
-        "EXTERNAL_TECHNICIAN": "Técnico externo"
-    };
 
 
     useEffect(() => {
             try {
                 setLoading(false);
                 const token = localStorage.getItem('authToken');
-                console.log("token", token);
                 if (token !== null && jwtDecode(token).exp * 1000 > Date.now()) { // && jwtDecode(token).exp*1000 >  Date.now()
-                    fetchData();
-
-                    // const sel = location.state?.selectedRowsEquipments || [];
-                    // const initialSelectedRows = loadData.filter(record => idsEquipmentsSelection.includes(record.id));
-                    //setSelectedRows(initialSelectedRows);
-                    setIdsEquipmentsSelection(selectionEquipment.map(row => row.id));
-                    console.log("use")
+                    fetchData();                    
+                    setIdsEquipmentsSelection(initialSelection.map(row => row.id));
                     setIsTokenChecked(true);
-                    //setLoading(true);
                 } else {
                     localStorage.removeItem('authToken');
                     setLoading(false);
@@ -59,26 +43,18 @@ function ListSelectEquipment({ selectionEquipment, setSelectionEquipment, setIsN
                 }
             } catch (error) {
                 console.error('Error al verificar el token:', error);
-                //localStorage.removeItem('authToken');
-               // window.location.href = '/login';
+                localStorage.removeItem('authToken');
+               window.location.href = '/login';
             }
 
-    }, [reload]);
+    }, []);
 
     const handleButtonClick = () => {
-        console.log("selectedRowseequip", selectedRows);
-        // navigate("/admin/requestMaintenance/clients/registerRequestMaintenance", { state: { from: location.pathname, selectedEqipments: selectedRows, client } });	
-        //console.log("selectedRows", selectedRows);
-        setIsNewComponentVisibleEquip(false)
-        setSelectionEquipment(selectedRows)
-        //navigate(-1, { state: { selected: selectedRows } });
-        // Cambia el estado para mostrar el nuevo componente
+        navigate("/admin/requestMaintenance/clients/registerRequestMaintenance", { state: { from: location.pathname, selectedEqipments: selectedRows, client } });	
     };
 
     const handleButtonCancel = () => {
-       // const from = undefined;
-       setIsNewComponentVisibleEquip(false)
-       //navigate(-1);
+       navigate("/admin/requestMaintenance/clients/registerRequestMaintenance", { state: { from: undefined, client } });
     }   
 
     // const validateCients = location.pathname === '/admin/requestMaintenance/clients';
@@ -93,21 +69,12 @@ function ListSelectEquipment({ selectionEquipment, setSelectionEquipment, setIsN
 
     const fetchData = async () => {
         try {
-            setData(loadData);
-            setRecords(loadData);
-        //     const token = localStorage.getItem('authToken');
-        //     const response = await getEquipments(token);
-        //    // const response = location.state?.recordsEquipments || [];
-        //     setData(response);
-        //     setRecords(response);
-        //     // setData(response);
-        //     // setRecords(response);
-        //     setTimeout(() => {
-        //         setLoading(false);
-        //     }, 1500);
-
-        //     return () => clearTimeout();
-
+            setLoading(true);
+            setTimeout(() => {
+                setData(loadData);
+                setRecords(loadData);
+                setLoading(false);
+            }, 300);
         } catch (error) {
             setLoading(false);
         }
@@ -189,13 +156,8 @@ function ListSelectEquipment({ selectionEquipment, setSelectionEquipment, setIsN
     };
 
     const handleRowSelected = (state) => {
-      
         if (records.length > 0) {
-            const updatedSelectedRows = updateList3(state.selectedRows, records, selectedRows);
-            if (updatedSelectedRows.length !== selectedRows.length) {
-                setSelectedRows(updatedSelectedRows);
-            }
-            console.log("Selected Rows:", state.selectedRows);
+            setSelectedRows(updateList3(state.selectedRows, records, selectedRows));
         }
     };
 

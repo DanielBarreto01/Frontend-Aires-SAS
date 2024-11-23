@@ -13,13 +13,14 @@ import { getRequestMaintenace } from "../../../api/MaintenanceService";
 import { useNavigate, Outlet, useLocation } from 'react-router-dom';
 
 
-function ListSelectedTechnician({ selectionTechnician, setSelectionTechnician, setIsNewComponentVisibleTech, client, loadData}) {
+function ListSelectedTechnician() {
     const navigate = useNavigate();
     const location = useLocation();
-    // const client = location.state?.client || {};
-    // const loadData = location.state?.recordsTechnician;
-    const [data, setData] = useState(loadData || []);
-    const [records, setRecords] = useState(loadData || []);
+    const client = location.state?.client || {};
+    const loadData = location.state?.recordsTechnician || [];
+    const initialSelection = location.state?.selectedRowsTechnicians || [];
+    const [data, setData] = useState([]);
+    const [records, setRecords] = useState([]);
     const [selectedOption, setSelectedOption] = useState("Seleccione un rol");
     const [loading, setLoading] = useState(true);
     let url = "/users/getUsers";
@@ -44,9 +45,9 @@ function ListSelectedTechnician({ selectionTechnician, setSelectionTechnician, s
             console.log("token", token);
             if (token !== null && jwtDecode(token).exp * 1000 > Date.now()) { // && jwtDecode(token).exp*1000 >  Date.now()
                 fetchData();
+                setIdsTechniciansSelection(initialSelection.map(technician => technician.id))
                 setIsTokenChecked(true);
-                setIdsTechniciansSelection(selectionTechnician.map(technician => technician.id))
-                //setLoading(true);
+               
             } else {
                 localStorage.removeItem('authToken');
                 setLoading(false);
@@ -60,23 +61,6 @@ function ListSelectedTechnician({ selectionTechnician, setSelectionTechnician, s
 
     }, []);
 
-    const handleButtonClick = () => {
-        console.log("selectedRowstech", selectedRows);
-        setSelectionTechnician(selectedRows)
-        setIsNewComponentVisibleTech(false)
-
-       // navigate("/admin/requestMaintenance/clients/registerRequestMaintenance", { state: { selectedTechnicians: selectedRows, from: location.pathname, client } })
-    };
-    const handleButtonCancel = () => {
-        setIsNewComponentVisibleTech(false)
-        //navigate(-1);
-    }
-
-    // const validateCients = location.pathname === '/admin/requestMaintenance/clients';
-    // if (validateCients) {
-    //     return <Outlet />
-    // }
-
 
     const handleDropdownToggle = () => {
         setIsOpen(!isOpen);
@@ -84,15 +68,12 @@ function ListSelectedTechnician({ selectionTechnician, setSelectionTechnician, s
 
     const fetchData = async () => {
         try {
-            // const token = localStorage.getItem('authToken');
-            // const response = await getRequestMaintenace(token);
-            setData(loadData);
-            setRecords(loadData);
-            // setTimeout(() => {
-            //     setLoading(false);
-            // }, 1500);
-
-            // return () => clearTimeout();
+            setLoading(true);
+            setTimeout(() => {
+                setData(loadData);
+                setRecords(loadData);
+                setLoading(false);
+            }, 600);
 
         } catch (error) {
             setLoading(false);
@@ -147,12 +128,14 @@ function ListSelectedTechnician({ selectionTechnician, setSelectionTechnician, s
     ]
 
 
-
-
-    // const validateRegisterRequestMaintenance = location.pathname ===  false //'/admin/requestMaintenance/clients/registerRequestMaintenance';
-    // if (validateRegisterRequestMaintenance) {
-    //     return <Outlet />;
-    // }
+    
+    const handleButtonClick = () => {
+        navigate("/admin/requestMaintenance/clients/registerRequestMaintenance", { state: { selectedTechnicians: selectedRows, from: location.pathname, client } });
+    };
+    
+    const handleButtonCancel = () => {
+          navigate("/admin/requestMaintenance/clients/registerRequestMaintenance", { state: { from: undefined, client } });
+    }
 
     function updateList3(list1, list2, list3) {
         const idsList2 = new Set(list1.map(item => item.id));
