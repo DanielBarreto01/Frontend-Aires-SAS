@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useCallback } from "react";
 import { Form } from 'react-bootstrap';
 import { jwtDecode } from 'jwt-decode';
 import "./ListClients.css"; // Archivo CSS para estilos
@@ -24,6 +24,23 @@ const ListClients = () => {
     const [selectedId, setSelectedId] = useState(null);
     const path = location.pathname
 
+    const fetchData = useCallback(async () => {
+        const token = localStorage.getItem('authToken');
+        let response = [];
+        try {
+            if(location.pathname.includes('/admin/requestMaintenance/clients')) {
+                response = await getClientsActive(token);
+            } else {
+                response = await getClients(token);
+            }
+            setData(response);
+            setRecords(response);
+            setLoading(false);
+        } catch (error) {
+            setLoading(false);
+        }
+    }, [location.pathname]);
+
     useEffect(() => {
         setTimeout(() => {
             try {
@@ -48,25 +65,9 @@ const ListClients = () => {
         }, 200);
         return () => clearTimeout();
 
-    }, [location.state]);
+    }, [location.state, fetchData]);
 
-    const fetchData = async () => {
-        const token = localStorage.getItem('authToken');
-        let response= [];
-        try {
-            if(location.pathname.includes('/admin/requestMaintenance/clients')) {
-                response = await getClientsActive(token);
-            }else{
-                response = await getClients(token);
-            }
-            setData(response);
-            setRecords(response);
-            setLoading(false);
-
-        } catch (error) {
-            setLoading(false);
-        }
-    };
+   
 
 
 
@@ -101,6 +102,10 @@ const ListClients = () => {
     const handleNavigateToCustomerSelection = () => {
         navigate('/admin/clients/CustomerSelection');
     };
+
+    const handleGoBack = () => {
+        navigate('/admin/requestMaintenance',{state:{key: new Date()}});
+    }
 
     // console.log("locationxxxxx", location.pathname);
     // const validateEquipmentClientSelectionList = location.pathname === '/admin/clients/update/equipmentClientSelectionList';
@@ -200,11 +205,15 @@ const ListClients = () => {
                     </Form>
 
                 </div>
-
-                <div className='col-12 col-sm-3 col-md-2' >
+                {location.pathname.includes('requestMaintenance/clients') ? 
+                ( <div className='col-12 col-sm-3 col-md-2' >
+                    <Button className="button-Custom" onClick={handleGoBack}>Regresar</Button>
+                </div>)
+                :(<div className='col-12 col-sm-3 col-md-2' >
                     <Button className="button-Custom" onClick={handleNavigateToCustomerSelection}>Agregar Cliente</Button>
+                </div>)}
 
-                </div>
+                
                 <div className='col-12 gallery-scroll-container'>
                     <div className="space-y-4">
                         <div className="gallery-container">

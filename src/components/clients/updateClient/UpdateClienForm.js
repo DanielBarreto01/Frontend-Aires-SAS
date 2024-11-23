@@ -1,4 +1,4 @@
-import React, { useRef , useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Form, Button, Row, Col, Spinner } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
@@ -33,7 +33,8 @@ function UpdateClientForm({
     records,
     handleSelectEquipmentaAviable,
     handleCleanSelectedEquipments,
-    clientType // Añadir clientType como prop
+    clientType,
+    location // Añadir clientType como prop
 }) {
     const dropzoneClass = clientType === 'JuridicalPersons' ? 'image-client-update-juridica' : 'image-client-update-natural';
 
@@ -145,7 +146,7 @@ function UpdateClientForm({
 
                                     </Form.Control>
                                     <FontAwesomeIcon
-                                        icon={!dropdownState.clinetStatus ? faChevronDown: faChevronUp } // Ícono dinámico
+                                        icon={!dropdownState.clinetStatus ? faChevronDown : faChevronUp} // Ícono dinámico
                                         className="icon-selector"
                                     />
                                 </div>
@@ -262,16 +263,6 @@ function UpdateClientForm({
 
                                     </>
                                 )}
-
-
-
-
-
-
-
-
-
-
 
 
                                 {clientType === 'JuridicalPersons' && (
@@ -495,17 +486,26 @@ function UpdateClientForm({
                             </>
                         ) : (
                             <>
-
                                 <div className="button-group">
-                                    <button type="button" className='button-confirmationn' onClick={handleShowListlistAssignedEquipment} disabled={isEditingButtons}>
-                                        Consultar equipos
-                                    </button>
-                                    <button className='button-confirmationn' onClick={handleEditClick} disabled={isEditingButtons}>
-                                        Editar
-                                    </button>
-                                    <button className='button-cancell' onClick={handleShowListClients} disabled={isEditingButtons}>
-                                        Regresar
-                                    </button>
+                                    {location.pathname.includes('showClient') ? (
+                                        // Solo mostrar el botón "Regresar" si isBackButtonVisible es true
+                                        <button className='button-cancell' onClick={handleShowListClients} disabled={isEditingButtons}>
+                                            Regresar
+                                        </button>
+                                    ) : (
+                                        <>
+                                            {/* Mostrar los otros botones si isBackButtonVisible es false */}
+                                            <button type="button" className='button-confirmationn' onClick={handleShowListlistAssignedEquipment} disabled={isEditingButtons}>
+                                                Consultar equipos
+                                            </button>
+                                            <button className='button-confirmationn' onClick={handleEditClick} disabled={isEditingButtons}>
+                                                Editar
+                                            </button>
+                                            <button className='button-cancell' onClick={handleShowListClients} disabled={isEditingButtons}>
+                                                Regresar
+                                            </button>
+                                        </>
+                                    )}
                                 </div>
                             </>
                         )}
@@ -532,12 +532,6 @@ function UpdateClientForm({
                     </Spinner>
                 </div>
             )}
-
-
-
-
-
-
 
         </div >
     );

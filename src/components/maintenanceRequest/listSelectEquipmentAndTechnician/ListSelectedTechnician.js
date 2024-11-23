@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import DataTable from 'react-data-table-component';
 import { Button, Spinner } from 'react-bootstrap';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
@@ -15,9 +15,10 @@ import { useNavigate, useLocation } from 'react-router-dom';
 function ListSelectedTechnician() {
     const navigate = useNavigate();
     const location = useLocation();
-    const client = location.state?.client || {};
-    const loadData = location.state?.recordsTechnician || [];
-    const initialSelection = location.state?.selectedRowsTechnicians || [];
+    const client = useMemo(() => location.state?.client || {}, [location.state?.client]);
+    const loadData = useMemo(() => location.state?.recordsTechnician || [], [location.state?.recordsTechnician]);
+    const initialSelection = useMemo(() => location.state?.selectedRowsTechnicians || [], [location.state?.selectedRowsTechnicians]);
+
     const [data, setData] = useState([]);
     const [records, setRecords] = useState([]);
     const [selectedOption, setSelectedOption] = useState("Seleccione un rol");
@@ -33,6 +34,21 @@ function ListSelectedTechnician() {
         "INTERNAL_TECHNICIAN": "Técnico interno",
         "EXTERNAL_TECHNICIAN": "Técnico externo"
     };
+
+    
+    const fetchData = useCallback(async () => {
+        try {
+            setLoading(true);
+            setTimeout(() => {
+                setData(loadData);
+                setRecords(loadData);
+                setLoading(false);
+            }, 600);
+
+        } catch (error) {
+            setLoading(false);
+        }
+    }, [loadData]);
 
 
     useEffect(() => {
@@ -57,26 +73,13 @@ function ListSelectedTechnician() {
             window.location.href = '/login';
         }
 
-    }, []);
+    }, [client, fetchData, initialSelection, navigate]);
 
 
     const handleDropdownToggle = () => {
         setIsOpen(!isOpen);
     };
 
-    const fetchData = async () => {
-        try {
-            setLoading(true);
-            setTimeout(() => {
-                setData(loadData);
-                setRecords(loadData);
-                setLoading(false);
-            }, 600);
-
-        } catch (error) {
-            setLoading(false);
-        }
-    }
 
     const columns = [
         {

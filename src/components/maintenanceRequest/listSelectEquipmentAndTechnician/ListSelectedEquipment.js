@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import DataTable from 'react-data-table-component';
-import { Button, Dropdown, DropdownButton, Spinner } from 'react-bootstrap';
+import { Button, Spinner } from 'react-bootstrap';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -8,16 +8,15 @@ import { faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { jwtDecode } from 'jwt-decode';
 import "../../general.css";
 import { Form } from 'react-bootstrap';
-import { getEquipments } from "../../../api/EquipmentService";
-import { useNavigate, Outlet, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 
 function ListSelectEquipment() {
     const navigate = useNavigate();
     const location = useLocation();
-    const client = location.state?.client || {};
-    const loadData = location.state?.recordsEquipments || [];
-    const initialSelection = location.state?.selectedRowsEquipments || [];
+    const client = useMemo(() => location.state?.client || {}, [location.state?.client]);
+    const loadData = useMemo(() => location.state?.recordsEquipments || [], [location.state?.recordsEquipments]);
+    const initialSelection = useMemo(() => location.state?.selectedRowsEquipments || [], [location.state?.selectedRowsEquipments]);
     const [data, setData] = useState();
     const [selectedOption, setSelectedOption] = useState("Seleccione un rol");
     const [loading, setLoading] = useState(true);
@@ -27,6 +26,19 @@ function ListSelectEquipment() {
     const [selectedRows, setSelectedRows] = useState([]);
     const [idsEquipmentsSelection, setIdsEquipmentsSelection] = useState([]);       
 
+
+    const fetchData = useCallback(async () => {
+        try {
+            setLoading(true);
+            setTimeout(() => {
+                setData(loadData);
+                setRecords(loadData);
+                setLoading(false);
+            }, 300);
+        } catch (error) {
+            setLoading(false);
+        }
+    }, [loadData]);
 
     useEffect(() => {
             try {
@@ -48,7 +60,7 @@ function ListSelectEquipment() {
                window.location.href = '/login';
             }
 
-    }, []);
+    }, [client, fetchData, initialSelection, navigate]);
 
     const handleButtonClick = () => {
         navigate("/admin/requestMaintenance/clients/registerRequestMaintenance", { state: { from: location.pathname, selectedEqipments: selectedRows, client } });	
@@ -67,19 +79,6 @@ function ListSelectEquipment() {
     const handleDropdownToggle = () => {
         setIsOpen(!isOpen);
     };
-
-    const fetchData = async () => {
-        try {
-            setLoading(true);
-            setTimeout(() => {
-                setData(loadData);
-                setRecords(loadData);
-                setLoading(false);
-            }, 300);
-        } catch (error) {
-            setLoading(false);
-        }
-    }
 
     const columns = [
 
