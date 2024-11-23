@@ -142,6 +142,10 @@ function RegisterRequestMaintenance() {
     return (row) => idsTechniciansSelection.includes(row.id);
   }, [idsTechniciansSelection]);
 
+  const handleShowClient = () => {
+    navigate('/admin/requestMaintenance/clients/registerRequestMaintenance/showClient', { state: { client } });
+  }
+
   const selectionEquipments = () => {
     console.log('entrar')
     setIdsEquipmentsSelection(selectedRowsEquipments.map(item => item.id) || []);
@@ -173,7 +177,7 @@ function RegisterRequestMaintenance() {
     } else if (selectedRowsTechnicians.length !== 1) {
       setShowToast(true)
       setToastType('danger')
-      setToastMessage('Debes seleccionar un tecnico')
+      setToastMessage('Debes seleccionar un técnico')
       return
     }
     setModalType('register');
@@ -247,7 +251,8 @@ function RegisterRequestMaintenance() {
 
   const isListSelectEquipment = location.pathname === '/admin/requestMaintenance/clients/registerRequestMaintenance/listSelectEquipment';
   const isListSelectedTechnician = location.pathname === '/admin/requestMaintenance/clients/registerRequestMaintenance/listSelectedTechnician';
-  if (isListSelectEquipment || isListSelectedTechnician) {
+  const isShowClient = location.pathname === '/admin/requestMaintenance/clients/registerRequestMaintenance/showClient';
+  if (isListSelectEquipment || isListSelectedTechnician || isShowClient) {
     return <Outlet />;
   }
 
@@ -333,7 +338,7 @@ function RegisterRequestMaintenance() {
             <div className='row'>
               <div className='col-lg-6 col-12'> </div>
               <div className="col-lg-6 col-12 button-group">
-                <button type="button" className='button-confirmationn'>
+                <button type="button" className='button-confirmationn' onClick={handleShowClient} >
                   Detalles
                 </button>
               </div>
@@ -443,8 +448,6 @@ function RegisterRequestMaintenance() {
           </button>
 
         </div>
-
-
       </div>
       <ConfirmationModal 
         show={showModal}

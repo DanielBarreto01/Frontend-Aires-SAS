@@ -55,6 +55,7 @@ function AppRouter() {
             <Route path="registerRequestMaintenance" element={<RegisterRequestMaintenance />} >
               <Route path="listSelectEquipment" element={<ListSelectEquipment />} />
               <Route path="listSelectedTechnician" element={<ListSelectedTechnician />} />
+              <Route path="showClient" element={<UpdateClient />}/>
             </Route>
           </Route>
         </Route>

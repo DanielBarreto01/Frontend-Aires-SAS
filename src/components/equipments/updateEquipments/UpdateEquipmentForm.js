@@ -1,11 +1,12 @@
 
 import React, { useState } from "react";
-import { Form, Button, Row, Col, Spinner } from 'react-bootstrap';
+import { Form, Spinner } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import ConfirmationModal from "../../ConfirmationModal/ConfirmationModal";
 import ImageDropzone from '../../loadImage/ImageDropzone';
 import './UpdateEquipment.css';
+
 
 
 function UpdateEquipmentForm({

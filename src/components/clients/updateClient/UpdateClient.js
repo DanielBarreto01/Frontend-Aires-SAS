@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import CustomToast from '../../toastMessage/CustomToast';
 import { jwtDecode } from 'jwt-decode';
 import { useDropzone } from 'react-dropzone';
@@ -35,7 +35,7 @@ function UpdateClient () {
     const [selectionAvailableEquipment, setSelectionAvailableEquipment] = useState([]);
     const [selectionEqipmentsClient, setSelectionEqipmentsClient] = useState(false);
     const [selectNewEquipments, setSelectNewEquipments] = useState([]);
-    const defaultClientData = {
+    const defaultClientData = useMemo(() => ({
         name: '',
         typeIdentification: '',
         numberIdentification: '',
@@ -52,19 +52,29 @@ function UpdateClient () {
         nameLegalRepresentative: '',
         phoneNumberLegalRepresentative: '',
         emailLegalRepresentative: '',
-        clientType: '',
         idsEquipments: []
-    };
+    }), []);
 
-    const loadformData = () => {
+    const loadformData = useCallback(() => {
         const clientData = Object.assign({}, defaultClientData, {
             ...client,
             phoneNumber: client.phoneNumber?.toString() || ''
         });
         return clientData;
-    }
+    }, [client, defaultClientData]); 
 
     const [formData, setFormData] = useState(defaultClientData);
+
+    const fetchEquipments = useCallback(async () => {
+        let equipments = [];
+        try {
+            equipments = await getEquipmentsIdClient(client.id, localStorage.getItem('authToken'));
+            setSelectionAvailableEquipment(equipments);
+        } catch (error) {
+            console.error("Error fetching equipments:", error);
+        }
+    },  [client.id]);
+
 
     useEffect(() => {
         setTimeout(() => {
@@ -82,18 +92,9 @@ function UpdateClient () {
         
     }, 200);
     return () => clearTimeout();
-    }, [location.state]);
+    }, [client, fetchEquipments, location.state, loadformData, navigate]);
 
-    const fetchEquipments = async () => {
-        let equipments = [];
-        try {
-            equipments = await getEquipmentsIdClient(client.id, localStorage.getItem('authToken'));
-            setSelectionAvailableEquipment(equipments);
-        } catch (error) {
-            console.error("Error fetching equipments:", error);
-        }
-    };
-
+   
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         accept: 'image/*', 
         onDropAccepted: (acceptedFiles) => {
@@ -138,6 +139,10 @@ function UpdateClient () {
     };
 
     const handleShowListClients = () => {
+        if(location.pathname.includes('showClient')){
+            navigate(-1)
+            return;
+        }
        navigate('/admin/clients', { state: { key: Date.now() } });
     }
 
@@ -179,12 +184,6 @@ function UpdateClient () {
         setSelectionAvailableEquipment([]);
     };
 
-    const mergedList = [...selectionAvailableEquipment, ...selectNewEquipments].reduce((acc, current) => {
-        if (!acc.find(item => item.id === current.id)) {
-            acc.push(current);
-        }
-        return acc;
-    }, []);
 
     const uploadImage = async () => {
         let dataClient = formData;
@@ -352,6 +351,7 @@ function UpdateClient () {
                             handleSelectEquipmentaAviable={handleSelectEquipmentaAviable}
                             handleCleanSelectedEquipments={handleCleanSelectedEquipments}
                             handleShowListClients={handleShowListClients}
+                            location={location}
                         />
                     </div>
                     <CustomToast
