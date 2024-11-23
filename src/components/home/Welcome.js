@@ -1,14 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import './Welcome.css';
 import "../../components/general.css";
+import {getUsersWithoutAdminRole} from "../../api/UserService";
 
 const Welcome = () => {
     const [clientType, setClientType] = useState(false);
     const [clientTypeSelected, setClientTypeSelected] = useState('');
+    //varaibel donde se guarde un dato entero
+    const [UserActive, setVariable] = useState(0);
+
 
     const handleClientTypeSelection = (clientType) => {
         setClientType(true);
         setClientTypeSelected(clientType);
+    };
+
+    useEffect(() => {
+        fetchData();
+
+    }, []);
+
+    const fetchData = async () => {
+        try {
+            const response = await getUsersWithoutAdminRole(localStorage.getItem('authToken'));
+            console.log(response);
+            setVariable(response.data.length);
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     return (
@@ -36,7 +55,7 @@ const Welcome = () => {
                         <div className="col-md-6 col-lg-2">
                             <div className="card-summary" style={{paddingTop:''}}>
                                 <h5>Técnicos Activos</h5>
-                                <p>12</p>
+                                <p>{UserActive}</p>
                             </div>
                         </div>
                         <div className="col-md-6 col-lg-2 ">
