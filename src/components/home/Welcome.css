@@ -118,3 +118,10 @@
 .status.completed {
     background-color: #1dd1a1;
 }
+
+.spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto; /* Ajusta la altura según sea necesario */
+}
