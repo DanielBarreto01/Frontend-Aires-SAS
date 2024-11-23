@@ -30,7 +30,7 @@ function ListSelectEquipment() {
 
     useEffect(() => {
             try {
-                setLoading(false);
+                client? navigate('/admin/requestMaintenance'):setLoading(false);
                 const token = localStorage.getItem('authToken');
                 if (token !== null && jwtDecode(token).exp * 1000 > Date.now()) { // && jwtDecode(token).exp*1000 >  Date.now()
                     fetchData();                    

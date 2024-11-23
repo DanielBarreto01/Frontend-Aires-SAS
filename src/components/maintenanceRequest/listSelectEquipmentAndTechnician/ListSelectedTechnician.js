@@ -40,7 +40,7 @@ function ListSelectedTechnician() {
     useEffect(() => {
 
         try {
-            setLoading(false);
+            client? navigate('/admin/requestMaintenance'):setLoading(false);
             const token = localStorage.getItem('authToken');
             console.log("token", token);
             if (token !== null && jwtDecode(token).exp * 1000 > Date.now()) { // && jwtDecode(token).exp*1000 >  Date.now()

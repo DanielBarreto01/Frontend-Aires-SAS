@@ -8,11 +8,12 @@ import { getEquipmentsIdClientAviable } from '../../../api/EquipmentService';
 import { useNavigate, Outlet, useLocation } from 'react-router-dom';
 import { createRequestMaintenace } from '../../../api/MaintenanceService'
 import CustomToast from '../../toastMessage/CustomToast';
+import ConfirmationModal from "../../ConfirmationModal/ConfirmationModal";
 
 function RegisterRequestMaintenance() {
   const navigate = useNavigate();
   const location = useLocation();
-  const client = location.state?.client || [];
+  const client = location.state?.client;
   const from = location.state?.from || '';
   const [isTokenChecked, setIsTokenChecked] = useState(false);
   const [recordsTechnician, setRecordsTechnician] = useState([]);
@@ -26,10 +27,13 @@ function RegisterRequestMaintenance() {
   const [showToast, setShowToast] = useState(false);     // Estado para mostrar/ocultar el Toast
   const [toastMessage, setToastMessage] = useState('');  // Estado para el mensaje del Toast
   const [toastType, setToastType] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const [modalType, setModalType] = useState('');
+ 
 
   useEffect(() => {
     try {
-      setLoading(false);
+      typeof client === 'undefined'? navigate('/admin/requestMaintenance'):setLoading(false);
       const token = localStorage.getItem('authToken');
       if (token !== null && jwtDecode(token).exp * 1000 > Date.now()) { // && jwtDecode(token).exp*1000 >  Date.now()
         if (from.includes('listSelectEquipment')) {
@@ -138,61 +142,80 @@ function RegisterRequestMaintenance() {
   }, [idsTechniciansSelection]);
 
   const selectionEquipments = () => {
-    console.log("selectedRowsEquipments", selectedRowsEquipments)
     setIdsEquipmentsSelection(selectedRowsEquipments.map(item => item.id) || []);
     navigate('/admin/requestMaintenance/clients/registerRequestMaintenance/listSelectEquipment', { state: { selectedRowsEquipments, recordsEquipments, client } });
 
   }
   const selectionTechnician = () => {
-    console.log("selectedRowsTechnicians", selectedRowsTechnicians)
     setIdsTechniciansSelection(selectedRowsTechnicians.map(item => item.id) || []);
     navigate('/admin/requestMaintenance/clients/registerRequestMaintenance/listSelectedTechnician', { state: { selectedRowsTechnicians, recordsTechnician, client } });
   }
 
-  const handleSaveRegister = async () => {
-    const token = localStorage.getItem('authToken');
-    try {
-      if (selectedRowsEquipments.length < 1) {
-        setShowToast(true)
-        setToastType('danger')
-        setToastMessage('Debes seleccionar almenos un equipo')
-        return
+  const handleCloseModal = () => {
+    setShowModal(false); // Cerrar el modal sin realizar acción
+  };
 
-      } else if (selectedRowsTechnicians.length != 1) {
-        setShowToast(true)
-        setToastType('danger')
-        setToastMessage('Debes seleccionar un tecnico')
-        return
-      }
-      const sendData = {
-        client: client.id,
-        technician: (selectedRowsTechnicians.map(equip => equip.id))[0],
-        equipments: selectedRowsEquipments.map(tech => tech.id)
-      }
-      console.log(sendData)
-      setLoading(true)
-      const response = await createRequestMaintenace(sendData, token)
-      if (response.status === 200) {
-        setLoading(false)
-        setShowToast(true)
-        setToastType('success')
-        setToastMessage('La solicitud de mantenimiento se registro correctamente')
-        setIsEditingButtons(true)
-        setTimeout(() => {
-          navigate(-2)
-        }, 3000);
-      }
+  const handleCancelRegister = () => {
+    setModalType('cancel');
+    setShowModal(true);
+  }
 
-    } catch (error) {
-      const errorMessage =
-        error.response.data && error.response.data
-          ? error.response.data
-          : 'Error al registar la solicitud de mantenimiento. Inténtalo de nuevo.';
-      setToastMessage(errorMessage);
+  const handleSaveRegister = () => {
+    if (selectedRowsEquipments.length < 1) {
       setShowToast(true)
       setToastType('danger')
-    }
+      setToastMessage('Debes seleccionar almenos un equipo')
+      return
 
+    } else if (selectedRowsTechnicians.length !== 1) {
+      setShowToast(true)
+      setToastType('danger')
+      setToastMessage('Debes seleccionar un tecnico')
+      return
+    }
+    setModalType('register');
+    setShowModal(true);
+  }
+
+  const handleConfirmAction = async () => {
+    setShowModal(false);
+    if(modalType === 'cancel'){
+      setSelectedRowsEquipments([]);
+      setSelectedRowsTechnicians([]);
+      setIdsEquipmentsSelection([]);
+      setIdsTechniciansSelection([]);
+      navigate("/admin/requestMaintenance",{ state: { key: Date.now() } })
+    }else if (modalType === 'register') {
+      const token = localStorage.getItem('authToken');
+      try {
+        const sendData = {
+          client: client.id,
+          technician: (selectedRowsTechnicians.map(equip => equip.id))[0],
+          equipments: selectedRowsEquipments.map(tech => tech.id)
+        }
+        setLoading(true)
+        const response = await createRequestMaintenace(sendData, token)
+        if (response.status === 200) {
+          setLoading(false)
+          setShowToast(true)
+          setToastType('success')
+          setToastMessage('La solicitud de mantenimiento se registro correctamente')
+          setIsEditingButtons(true)
+          setTimeout(() => {
+            navigate("/admin/requestMaintenance", { state: { key: Date.now() } })
+          }, 3000);
+        }
+
+      } catch (error) {
+        const errorMessage =
+          error.response.data && error.response.data
+            ? error.response.data
+            : 'Error al registar la solicitud de mantenimiento. Inténtalo de nuevo.';
+        setToastMessage(errorMessage);
+        setShowToast(true)
+        setToastType('danger')
+      }
+    }
   }
 
   const cleanEquipments = () => {
@@ -224,9 +247,7 @@ function RegisterRequestMaintenance() {
     }
   };
 
-  const handleCancelRegister = () => {
-    navigate(-2)
-  }
+
 
 
   if (!isTokenChecked) {
@@ -400,6 +421,18 @@ function RegisterRequestMaintenance() {
 
 
       </div>
+      <ConfirmationModal 
+        show={showModal}
+        onHide={handleCloseModal}
+        onConfirm={handleConfirmAction}
+        title={modalType === 'cancel' ? "Cancelar registro" : "Confirmar registro"}
+        bodyText={modalType === 'cancel'
+          ? "¿Estás seguro de que deseas cancelar el registro? Se perderán todos los datos."
+          : "¿Estás seguro de que deseas registrar este equipo?"}
+        confirmText={modalType === 'cancel' ? "Sí" : "Sí"}
+        cancelText="No"
+        containerId="modal-container"
+      /> 
 
       {loading && (
         <div className="loading-overlay">
