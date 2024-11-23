@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import DataTable from 'react-data-table-component';
-import { Button, Dropdown, DropdownButton, Spinner } from 'react-bootstrap';
+import { Button, Spinner } from 'react-bootstrap';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -9,8 +9,7 @@ import { jwtDecode } from 'jwt-decode';
 import "../../general.css";
 import "../../user/listUsers/ListUsers.css";
 import { Form } from 'react-bootstrap';
-import { getRequestMaintenace } from "../../../api/MaintenanceService";
-import { useNavigate, Outlet, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 
 function ListSelectedTechnician() {
@@ -23,7 +22,6 @@ function ListSelectedTechnician() {
     const [records, setRecords] = useState([]);
     const [selectedOption, setSelectedOption] = useState("Seleccione un rol");
     const [loading, setLoading] = useState(true);
-    let url = "/users/getUsers";
     const [isTokenChecked, setIsTokenChecked] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const [idsTechniciansSelection, setIdsTechniciansSelection] = useState();

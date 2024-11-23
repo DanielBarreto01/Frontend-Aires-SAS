@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import DataTable from 'react-data-table-component';
-import { Button, Dropdown, DropdownButton, Spinner } from 'react-bootstrap';
+import { Button, Spinner } from 'react-bootstrap';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -14,26 +14,16 @@ import { useNavigate, Outlet, useLocation } from 'react-router-dom';
 
 
 function ListRequestMaintenace() {
-    const [data, setData] = useState([]);
-    const [selectedOption, setSelectedOption] = useState("Seleccione un rol");
-    const [loading, setLoading] = useState(true);
-    const [isNewComponentVisible, setIsNewComponentVisible] = useState(false);
-    const [records, setRecords] = useState([]);
-    const [selectedUser, setSelectedUser] = useState(null);
-    let url = "/users/getUsers";
-    const [isTokenChecked, setIsTokenChecked] = useState(false);
-    const [isUserDetailsVisible, setIsUserDetailsVisible] = useState(false);
-    const [search, setSearch] = useState("name");
     const navigate = useNavigate();
     const location = useLocation();
+    const [data, setData] = useState([]);
+    const key = location.state?.key;
+    const [selectedOption, setSelectedOption] = useState("Seleccione un rol");
+    const [loading, setLoading] = useState(true);
+    const [records, setRecords] = useState([]);
+    const [isTokenChecked, setIsTokenChecked] = useState(false);
+    
     const [isOpen, setIsOpen] = useState(false);
-
-
-    const roleMap = {
-        "ADMIN": "Administrador",
-        "INTERNAL_TECHNICIAN": "Técnico interno",
-        "EXTERNAL_TECHNICIAN": "Técnico externo"
-    };
 
 
     useEffect(() => {
@@ -60,10 +50,9 @@ function ListRequestMaintenace() {
         }, 200);
         return () => clearTimeout();
 
-    }, []);
+    }, [key]);
 
     const handleButtonClick = () => {
-        setIsNewComponentVisible(prevState => !prevState);
         navigate('/admin/requestMaintenance/clients');
         // Cambia el estado para mostrar el nuevo componente
     };
@@ -135,23 +124,20 @@ function ListRequestMaintenace() {
 
 
     const handleRoleChange = (event) => {
-        setLoading(true);
-        setSelectedOption(event.target.value);
-        console.log("eventKey", event.target.value);
-        setTimeout(() => {
-            if (event.target.value === "Seleccione un rol") {
-                url = "/users/getUsers";
-            } else {
-                url = `/users/ShowUserRoles/${event.target.value}`;
-            }
-            fetchData();
-        }, 200);
-        return () => clearTimeout();
+        // setLoading(true);
+        // setSelectedOption(event.target.value);
+        // console.log("eventKey", event.target.value);
+        // setTimeout(() => {
+        //     if (event.target.value === "Seleccione un rol") {
+        //         url = "/users/getUsers";
+        //     } else {
+        //         url = `/users/ShowUserRoles/${event.target.value}`;
+        //     }
+        //     fetchData();
+        // }, 200);
+        // return () => clearTimeout();
     };
 
-    const handleSearchInput = (event) => {
-        setSearch(event.target.value);
-    }
 
     const handleChange = (e) => {
         setRecords(data.filter(record => {
