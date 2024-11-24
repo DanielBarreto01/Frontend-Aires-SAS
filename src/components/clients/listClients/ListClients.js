@@ -104,7 +104,12 @@ const ListClients = () => {
     };
 
     const handleGoBack = () => {
-        navigate('/admin/requestMaintenance',{state:{key: new Date()}});
+        if (path.includes('requestMaintenance/requestMaintenance')) {
+            navigate('/admin/requestMaintenance',{state:{key: new Date()}});
+            return
+        }
+        navigate(-1);
+     
     }
 
     // console.log("locationxxxxx", location.pathname);
@@ -124,13 +129,17 @@ const ListClients = () => {
     }
 
     const handleItemClick = (client) => {
-        if (path.includes('requestMaintenance')) {
+        if (path.includes('/requestMaintenance')) {
             navigate('/admin/requestMaintenance/clients/registerRequestMaintenance', { state: { client } });
-        } else {
+            return
+        } else if (path.includes('/admin/clients')) {
             navigate('/admin/clients/update', {
                 state: { client }
             });
+            return;
         }
+        navigate('/admin/requestMaintenance/updateRequestMaintenance', { state: { newClient:client } });
+
 
 
     };
@@ -205,7 +214,7 @@ const ListClients = () => {
                     </Form>
 
                 </div>
-                {location.pathname.includes('requestMaintenance/clients') ? 
+                {location.pathname.includes('/requestMaintenance') ? 
                 ( <div className='col-12 col-sm-3 col-md-2' >
                     <Button className="button-Custom" onClick={handleGoBack}>Regresar</Button>
                 </div>)

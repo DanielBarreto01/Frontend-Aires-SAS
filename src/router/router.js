@@ -20,6 +20,7 @@ import Welcome from '../components/home/Welcome';
 import RegisterRequestMaintenance from '../components/maintenanceRequest/registerRequestMaintenance/RegisterRequestMaintenance';
 import ListSelectEquipment from '../components/maintenanceRequest/listSelectEquipmentAndTechnician/ListSelectedEquipment';
 import ListSelectedTechnician from '../components/maintenanceRequest/listSelectEquipmentAndTechnician/ListSelectedTechnician';
+import UpdateRequestMaintenance from '../components/maintenanceRequest/updateRequestMaintenance/UpdateRequestMaintenance';
 
 function AppRouter() {
   return (
@@ -50,13 +51,19 @@ function AppRouter() {
           </Route>
         </Route>
         
-        <Route path="requestMaintenance" element={<ListRequestMaintenance/>} >
+        <Route path="requestMaintenance" element={<ListRequestMaintenance />} >
           <Route path="clients" element={<ListClients />}>
             <Route path="registerRequestMaintenance" element={<RegisterRequestMaintenance />} >
               <Route path="listSelectEquipment" element={<ListSelectEquipment />} />
               <Route path="listSelectedTechnician" element={<ListSelectedTechnician />} />
-              <Route path="showClient" element={<UpdateClient />}/>
+              <Route path="showClient" element={<UpdateClient />} />
             </Route>
+          </Route>
+          <Route path="updateRequestMaintenance" element={<UpdateRequestMaintenance />} >
+            <Route path="selectionClient" element={<ListClients />} />
+            <Route path="listSelectEquipment" element={<ListSelectEquipment />} />
+            <Route path="listSelectedTechnician" element={<ListSelectedTechnician />} />
+            <Route path="showClient" element={<UpdateClient />} />
           </Route>
         </Route>
  

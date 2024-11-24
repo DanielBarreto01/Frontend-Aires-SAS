@@ -113,7 +113,8 @@ function ListRequestMaintenace() {
     ];
 
     const isUpdateClient = location.pathname.includes('/admin/requestMaintenance/clients') || location.pathname.includes('registerRequestMaintenance');
-    if(isUpdateClient){
+    const idUpdateRequestMaintenance = location.pathname.includes('updateRequestMaintenance');
+    if(isUpdateClient || idUpdateRequestMaintenance){
         return <Outlet />
     }
 
@@ -167,6 +168,7 @@ function ListRequestMaintenace() {
         //setLoading(true);
         //setSelectedUser(row);
         console.log(row);  // Guarda la información de la fila seleccionada
+        navigate('/admin/requestMaintenance/updateRequestMaintenance', { state: { requestMaintenance: row } });
         //setIsUserDetailsVisible(true);
     };
     const customPaginationOptions = {

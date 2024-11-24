@@ -18,6 +18,7 @@ function UpdateClient () {
     const location = useLocation();
     const navigate = useNavigate();
     const client = location.state?.client;
+    const requestMaintenance = location.state?.requestMaintenance;
     const [isNewComponentVisible, setIsNewComponentVisible] = useState(false);
     const [showModal, setShowModal] = useState(false);  // Estado para mostrar el modal
     const [modalType, setModalType] = useState('');     // Estado para controlar el tipo de acción (cancelar o registrar)
@@ -79,7 +80,8 @@ function UpdateClient () {
     useEffect(() => {
         setTimeout(() => {
         try {
-            !client ? navigate('/admin/clients', { state: { key: Date.now() } }) : setFormData(loadformData());
+           typeof client === 'undefined'? navigate('/admin/clients', { state: { key: Date.now() } }) :
+             setFormData(loadformData());
             fetchEquipments();
             if (localStorage.getItem('authToken') === null && jwtDecode(localStorage.getItem('authToken')).exp * 1000 < Date.now()) { // && jwtDecode(token).exp*1000 >  Date.now()
                 localStorage.removeItem('authToken');
