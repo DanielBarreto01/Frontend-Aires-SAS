@@ -13,12 +13,18 @@
     margin-top: 10px;
 }
 
+
+
+
+
 .button-group-list-equip {
     display: flex;
     justify-content: left;
     align-items: center;
     gap: 20px !important;
 }
+
+
 
 .title-equip {
     display: flex;
