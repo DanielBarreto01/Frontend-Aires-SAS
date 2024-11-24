@@ -19,6 +19,11 @@ label {
     margin: 2%; 
     border-radius: 4px; 
 }
+
+
+.data label{
+    color: rgb(0, 0, 0)!important;
+}
 .content{
     height: 100vh; 
     padding: 2%;

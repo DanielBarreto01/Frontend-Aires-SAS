@@ -1,0 +1,28 @@
+.table-container-maintenance{
+    border-radius: 18px !important;
+    border: 1px solid #dbd9d9;
+    padding: 0px;
+    margin-top: 10px;
+    height: 305px;
+    background-color: rgb(255, 255, 255);
+    display: flex; /* Flexbox para distribuir los elementos */
+    flex-direction: column; /* Coloca los elementos verticalmente */
+    overflow: hidden; /* Evita que el contenido desborde */
+}
+
+
+.table-container-maintenance> div:last-child {
+    margin-top: auto;
+} 
+
+.info-client-maintenance{
+    background-color: #F5F5F7;
+    padding: 10px;
+    margin: 2% 0.5% 1% ;
+    border-radius: 18px !important;
+    
+}
+
+.info-client-maintenance label{
+    color: rgb(0, 0, 0)!important;
+}
