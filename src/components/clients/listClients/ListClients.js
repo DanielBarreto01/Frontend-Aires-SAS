@@ -129,8 +129,9 @@ const ListClients = () => {
     }
 
     const handleItemClick = (client) => {
-        if (path.includes('/requestMaintenance')) {
-            navigate('/admin/requestMaintenance/clients/registerRequestMaintenance', { state: { client } });
+        if (path.includes('/requestMaintenance/updateRequestMaintenance')) {
+            navigate('/admin/requestMaintenance/updateRequestMaintenance', { state: { newClient:client } });
+
             return
         } else if (path.includes('/admin/clients')) {
             navigate('/admin/clients/update', {
@@ -138,8 +139,7 @@ const ListClients = () => {
             });
             return;
         }
-        navigate('/admin/requestMaintenance/updateRequestMaintenance', { state: { newClient:client } });
-
+        navigate('/admin/requestMaintenance/clients/registerRequestMaintenance', { state: { client } });
 
 
     };
