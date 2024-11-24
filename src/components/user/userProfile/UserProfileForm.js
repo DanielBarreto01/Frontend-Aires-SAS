@@ -181,7 +181,7 @@ function UserProfileForm({ formData,
 
                                 </div>
 
-                                <div className="col-12 col-lg-4"  >
+                                <div className="col-12 col-lg-6"  >
                                     <Form.Group controlId="typeIdentificationPro" className="typeIdentificationUser floating-label">
                                         <div className="icon-container">
                                             <Form.Control
@@ -213,7 +213,7 @@ function UserProfileForm({ formData,
 
 
 
-                                <div className="floating-label col-12 col-lg-8"  >
+                                <div className="floating-label col-12 col-lg-6"  >
                                     <Form.Group controlId="numberIdentificationPro" className="numberIdentification">
                                         <Form.Control
                                             type="number"

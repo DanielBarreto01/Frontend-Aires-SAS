@@ -12,7 +12,7 @@ import "./EquipmentClientList.css";
 import { useNavigate, Outlet } from 'react-router-dom';
 
 
-const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableEquipment, setIsNewComponentVisibleEquipClient, clientId}) => {
+const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableEquipment, setIsNewComponentVisibleEquipClient, client}) => {
     const [data, setData] = useState([]);
     const [selectedOption, setSelectedOption] = useState("All");
     const [searchText, setSearchText] = useState('');
@@ -59,11 +59,11 @@ const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableE
         const token = localStorage.getItem('authToken');
         try {
             const response = await getEquipmentsAvailable(token);
-            if (clientId == null) {
+            if (client == null) {
                 setData(response);
                 setRecords(response);
             } else {
-                const responseExistEquipments = await getEquipmentsIdClient(clientId, token);
+                const responseExistEquipments = await getEquipmentsIdClient(client.id, token);
                 setData(mergeUniqueLists(responseExistEquipments, response));
                 setRecords(mergeUniqueLists(responseExistEquipments, response));
                 setEquipmentsAsigned(responseExistEquipments)
@@ -178,7 +178,7 @@ const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableE
 
 
     const handleButtonSave = () => {
-        if(clientId == null){
+        if(client.id== null){
             setSelectionAvailableEquipment(selectedRows);
             setIsNewComponentVisibleEquipClient(prevState => !prevState);
         }else{
@@ -307,7 +307,7 @@ const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableE
 
             <div className='col-6 col-sm-3 col-md-3' >
                 <Form>
-                    {clientId == null ? (
+                    {client.id == null ? (
                         <Form.Group controlId="rolesPro" className="dropdown">
                             <div className="dropdown-container">
                                 <Form.Control
