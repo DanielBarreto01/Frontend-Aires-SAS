@@ -30,7 +30,7 @@ function RegisterRequestMaintenance() {
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState('');
   const [showModalClean, setShowModalClean] = useState(false);
- 
+
 
   const fetchData = useCallback(async () => {
     setLoading(true);
@@ -48,7 +48,7 @@ function RegisterRequestMaintenance() {
 
   useEffect(() => {
     try {
-      typeof client === 'undefined'? navigate('/admin/requestMaintenance'):setLoading(false);
+      typeof client === 'undefined' ? navigate('/admin/requestMaintenance') : setLoading(false);
       const token = localStorage.getItem('authToken');
       if (token !== null && jwtDecode(token).exp * 1000 > Date.now()) { // && jwtDecode(token).exp*1000 >  Date.now()
         if (from.includes('listSelectEquipment')) {
@@ -59,9 +59,9 @@ function RegisterRequestMaintenance() {
           setIdsTechniciansSelection(selectedTechnicians.map(item => item.id) || [])
         }
         fetchData();
-        
+
         setIsTokenChecked(true);
-      
+
       } else {
         localStorage.removeItem('authToken');
         setLoading(false);
@@ -186,13 +186,13 @@ function RegisterRequestMaintenance() {
 
   const handleConfirmAction = async () => {
     setShowModal(false);
-    if(modalType === 'cancel'){
+    if (modalType === 'cancel') {
       setSelectedRowsEquipments([]);
       setSelectedRowsTechnicians([]);
       setIdsEquipmentsSelection([]);
       setIdsTechniciansSelection([]);
-      navigate("/admin/requestMaintenance",{ state: { key: Date.now() } })
-    }else if (modalType === 'register') {
+      navigate("/admin/requestMaintenance", { state: { key: Date.now() } })
+    } else if (modalType === 'register') {
       const token = localStorage.getItem('authToken');
       try {
         const sendData = {
@@ -226,10 +226,10 @@ function RegisterRequestMaintenance() {
   }
 
 
-  const cleanTables  = (type) => {
-    if(selectedRowsEquipments.length ===0 && type === 'equipments'){
+  const cleanTables = (type) => {
+    if (selectedRowsEquipments.length === 0 && type === 'equipments') {
       return
-    }else if(selectedRowsTechnicians.length === 0 && type === 'technician'){
+    } else if (selectedRowsTechnicians.length === 0 && type === 'technician') {
       return
     }
     setModalType(type)
@@ -238,10 +238,10 @@ function RegisterRequestMaintenance() {
 
   const handleConfirmActionClean = () => {
     setShowModalClean(false)
-    if(modalType === 'equipments'){
+    if (modalType === 'equipments') {
       setSelectedRowsEquipments([]);
       setIdsEquipmentsSelection([]);
-    }else{
+    } else {
       setSelectedRowsTechnicians([]);
       setIdsTechniciansSelection([]);
     }
@@ -278,82 +278,83 @@ function RegisterRequestMaintenance() {
     return <div>Cargando...</div>; // O cualquier mensaje de carga que desees
   }
 
- 
+
 
   const customStyles = {
     tableWrapper: {
-        style: {
-            height: '209px', // Define la altura total deseada para la tabla
-        },
+      style: {
+        height: '209px', // Define la altura total deseada para la tabla
+      },
     },
-};
+  };
 
   return (
     <div className=' full-screen-scrollable row'>
-  
+
       <div className='col-12'>
         <h2 className="text-start title">Registrar Mantenimiento </h2>
       </div>
-  
-  
+
+
       <div className='col-12' style={{ backgroundColor: '' }}>
-        
+
         <div className=' row info-client-maintenance'>
-          <h2 className="text-start title">Información cliente</h2>
-  
+          <h3 className="text-start titleM" style={{ margin: '' }}>Información cliente</h3>
+
           <div className='col-lg-4 col-md-6 col-12' >
             <label>Cliente:</label>
             <span>{`${client.name || ''} ${client.lastName || ''}`.trim() || client.nameCompany}</span>
           </div>
-  
+
           <div className='col-12   col-md-6  col-lg-4 '>
             <label>Tipo de Identificación: </label>
             <span>{client.clientType === "NaturalPerson" ? client.typeIdentification : 'NIT'}</span>
           </div>
-  
+
           <div className='col-12   col-md-6  col-lg-4'>
             <label>Número de Identificación: </label>
             <span>{client.clientType === "NaturalPerson" ? client.numberIdentification : client.numberIdentificationCompany}</span>
           </div>
-  
+
           <div className='col-12   col-md-6  col-lg-4'>
             <label>Número de Teléfono:</label>
             <span>{client.phoneNumber}</span>
-  
+
           </div>
-  
+
           <div className='col-12   col-md-6  col-lg-4'>
             <label>Correo Electrónico:</label>
             <span>{client.email}</span>
-  
+
           </div>
-  
+
           <div className='col-12   col-md-6  col-lg-4'>
             <label>Dirección:</label>
             <span>{client.address}</span>
-  
+
           </div>
-  
-          <div className='col-lg-6 col-12' > </div>
-  
-          <div className='col-12   col-md-6  col-lg-4' >
-            <button type="button" className='button-confirmationn'>
+
+
+          <div className='col-12 col-lg-7' > </div>
+
+          <div className='col-12  col-lg-5 button-deta'>
+            <button type="button" className='button-confirmationn' onClick={handleShowClient} >
               Detalles
             </button>
           </div>
-  
-  
+
+
         </div>
-  
+
       </div>
-  
-  
+
+
       <div className='col-12 mt-3' >
-  
+
         <div className='row'>
-  
+
           <div className='col-12 col-lg-6'>
-  
+
             <div className='row table-container-update-client'>
               <div className='col-12 col-md-5 title-equip' ><h2>Equipos</h2></div>
               <div className='col-12 col-md-7 button-group-list-equip'>
@@ -361,12 +362,12 @@ function RegisterRequestMaintenance() {
                   Seleccionar
                 </button>
                 <button className='button-clean' onClick={() => cleanTables('equipments')} disabled={isEditingButtons}>
-                  Limpiar
+                  Deseleccionar
                 </button>
               </div>
-  
+
               <div className="table-container-client-list-quip">
-  
+
                 <DataTable
                   columns={columnsEquipments}
                   data={recordsEquipments || []}
@@ -389,27 +390,27 @@ function RegisterRequestMaintenance() {
                   )}
                 />
               </div>
-  
+
             </div>
           </div>
-  
-  
-  
+
+
+
           <div className='col-12 col-lg-6'>
-  
+
             <div className='row table-container-update-client'>
-  
+
               <div className='col-12 col-md-5 title-equip' ><h2>Técnico</h2></div>
-  
+
               <div className='col-12 col-md-7 button-group-list-equip'>
                 <button className='button-clean' onClick={selectionTechnician} disabled={isEditingButtons}>
                   Seleccionar
                 </button>
                 <button className='button-clean' onClick={() => cleanTables('technician')} disabled={isEditingButtons}>
-                  Limpiar
+                  Deseleccionar
                 </button>
               </div>
-  
+
               <div className="table-container-client-list-quip">
                 <DataTable
                   columns={columnsTechnical}
@@ -434,31 +435,31 @@ function RegisterRequestMaintenance() {
                   )}
                 />
               </div>
-  
+
             </div>
-  
+
           </div>
         </div>
       </div>
-  
+
       <div className="col-lg-6" ></div>
-  
+
       <div className='col-lg-6 button-group '>
-  
+
         <button type="submit" className='button-confirmationn' onClick={handleSaveRegister} disabled={isEditingButtons}>
           Registrar Mantenimiento
         </button>
-  
-  
+
+
         <button className='button-cancell' onClick={handleCancelRegister} disabled={isEditingButtons}>
           Cancelar Registro
         </button>
-  
+
       </div>
-  
-  
-  
-  
+
+
+
+
       <ConfirmationModal
         show={showModalClean}
         onConfirm={handleConfirmActionClean}
@@ -469,7 +470,7 @@ function RegisterRequestMaintenance() {
         cancelText="No"
         containerId="modal-container"
       />
-  
+
       <ConfirmationModal
         show={showModal}
         onHide={handleCloseModal}
@@ -482,8 +483,8 @@ function RegisterRequestMaintenance() {
         cancelText="No"
         containerId="modal-container"
       />
-  
-  
+
+
       {loading && (
         <div className="loading-overlay">
           <Spinner animation="border" role="status">
@@ -497,10 +498,10 @@ function RegisterRequestMaintenance() {
         toastMessage={toastMessage}
         toastType={toastType}
       />
-  
+
     </div >
-  
+
   );
-  }
-  
-  export default RegisterRequestMaintenance;
+}
+
+export default RegisterRequestMaintenance;

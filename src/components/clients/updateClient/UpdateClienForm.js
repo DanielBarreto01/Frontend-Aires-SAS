@@ -34,7 +34,8 @@ function UpdateClientForm({
     handleSelectEquipmentaAviable,
     handleCleanSelectedEquipments,
     clientType,
-    location // Añadir clientType como prop
+    location ,
+    client
 }) {
     const dropzoneClass = clientType === 'JuridicalPersons' ? 'image-client-update-juridica' : 'image-client-update-natural';
 
@@ -60,8 +61,8 @@ function UpdateClientForm({
     return (
         <div row>
 
-            <div className='col-12 col-lg-6 title1 ' style={{ marginBottom: '15px' }}>
-                <h2 className="text-start title">Información cliente</h2>
+            <div className='col-12 col-lg-12 title1 ' style={{ marginBottom: '15px' }}>
+                <h2 className="text-start title">Información del Cliente {`${client.name || ''} ${client.lastName || ''}`.trim() || client.nameCompany} </h2>
             </div>
 
             <div className='col-12'>
