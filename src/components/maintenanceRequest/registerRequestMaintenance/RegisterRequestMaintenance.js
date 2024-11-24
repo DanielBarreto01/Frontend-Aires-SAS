@@ -366,7 +366,7 @@ function RegisterRequestMaintenance() {
             <div className="table-container-client-list-quip">
               <DataTable
                 columns={columnsEquipments}
-                data={location.state?.selectedEqipments}
+                data={recordsEquipments || []}
                 pagination
                 paginationPerPage={1}
                 fixedHeader
@@ -405,7 +405,7 @@ function RegisterRequestMaintenance() {
             <div className="table-container-client-list-quip">
               <DataTable
                 columns={columnsTechnical}
-                data={location.state?.selectedTechnicians}
+                data={recordsTechnician || []}
                 pagination
                 paginationPerPage={1}
                 fixedHeader
