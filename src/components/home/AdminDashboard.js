@@ -24,19 +24,29 @@ function AdminDashboard() {
   const [isMenuVisible, setMenuVisible] = useState(true);
   const [isOverlayVisible, setOverlayVisible] = useState(false);
 
+  const loadInfoUser = async () => {
+    const token = localStorage.getItem('authToken');
+    let  response;
+    try {
+      response = await getUserById(jwtDecode(token).id, token);
+      setUserData({
+        name: response.name,
+        lastName: response.lastName,
+        email: response.email,
+        pathImage: response.pathImage
+      });
+      return response;
+    } catch (error) {
+      console.error("Error al cargar los datos del usuario", error);
+      return {};
+    }
+  }
 
   useEffect(() => {
     try {
       const token = localStorage.getItem('authToken');
-      if (token !== null && jwtDecode(token).exp * 1000 > Date.now()) { //&& jwtDecode(token).exp*1000 >  Date.now()
-        const decodedToken = jwtDecode(token);
-        console.log(token);
-        setUserData({
-          name: decodedToken.name,
-          lastName: decodedToken.lastName,
-          email: decodedToken.email,
-          pathImage: decodedToken.pathImage
-        });
+      if (token !== null && jwtDecode(token).exp * 1000 > Date.now()) {
+        loadInfoUser();
         setIsTokenChecked(true);
       } else {
         localStorage.removeItem('authToken');
@@ -85,12 +95,10 @@ function AdminDashboard() {
 
 
 
-
-
     if (logout) {
       handleLogout();
     }
-  }, [logout]);
+  }, [logout, navigate]);
 
 
 

@@ -232,6 +232,7 @@ function ListSelectedTechnician() {
         noRowsPerPage: false,
     };
 
+
     if (!isTokenChecked) {
         return null;
     }
@@ -315,6 +316,7 @@ function ListSelectedTechnician() {
                                     <Spinner animation="border" size="lg" />
                                 </div>
                             )}
+                          
                         />
                     </div>
 

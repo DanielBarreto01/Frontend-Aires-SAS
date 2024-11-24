@@ -42,17 +42,17 @@ function UpdateRequestMaintenance() {
       setRecordsTechnician(technician.data);
       setIdsEquipmentsSelection(requestMaintenance.equipments.map(equip => equip.id));
       setIdsTechniciansSelection([requestMaintenance.technician.id]);
-      const equipments = await getEquipmentsIdClientAviable(requestMaintenance.client.id, token);
+      const equipments = await getEquipmentsIdClientAviable(client.id, token);
       setRecordsEquipments(equipments);
     } catch (error) {
       console.error('Error al obtener los técnicos y equipos:', error);
     }
     setLoading(false);
-  }, [requestMaintenance]);
+  }, [client, requestMaintenance]);
 
   useEffect(() => {
     try {
-     // typeof client === 'undefined'? navigate('/admin/requestMaintenance'):setLoading(false);
+      typeof requestMaintenance === 'undefined'? navigate('/admin/requestMaintenance'):setLoading(false);
       const token = localStorage.getItem('authToken');
       if (token !== null && jwtDecode(token).exp * 1000 > Date.now()) { // && jwtDecode(token).exp*1000 >  Date.now()
         if (from.includes('listSelectEquipment')) {
