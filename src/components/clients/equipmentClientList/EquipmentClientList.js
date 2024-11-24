@@ -178,7 +178,9 @@ const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableE
 
 
     const handleButtonSave = () => {
+
         if(client == null){
+
             setSelectionAvailableEquipment(selectedRows);
             setIsNewComponentVisibleEquipClient(prevState => !prevState);
         }else{
@@ -324,7 +326,9 @@ const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableE
 
             <div className='col-6 col-sm-3 col-md-3' >
                 <Form>
+
                     {client == null ? (
+
                         <Form.Group controlId="rolesPro" className="dropdown">
                             <div className="dropdown-container">
                                 <Form.Control

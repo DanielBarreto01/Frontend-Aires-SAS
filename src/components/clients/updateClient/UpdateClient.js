@@ -18,7 +18,6 @@ function UpdateClient () {
     const location = useLocation();
     const navigate = useNavigate();
     const client = location.state?.client;
-    const requestMaintenance = location.state?.requestMaintenance;
     const [isNewComponentVisible, setIsNewComponentVisible] = useState(false);
     const [showModal, setShowModal] = useState(false);  // Estado para mostrar el modal
     const [modalType, setModalType] = useState('');     // Estado para controlar el tipo de acción (cancelar o registrar)
@@ -316,7 +315,9 @@ function UpdateClient () {
                     selectionAvailableEquipment={selectionAvailableEquipment}
                     setSelectionAvailableEquipment={setSelectionAvailableEquipment}
                     setIsNewComponentVisibleEquipClient={setIsNewComponentVisibleEquipClient}
+
                     client = {client}
+
                  />): selectionEqipmentsClient ? (<EquipmentClientSelection
                     // selectNewEquipments={selectNewEquipments}
                     // setSelectNewEquipments={setSelectNewEquipments}

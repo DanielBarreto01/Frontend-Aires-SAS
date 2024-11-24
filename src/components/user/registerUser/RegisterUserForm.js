@@ -151,7 +151,7 @@ function RegisterUserForm({ formData,
 
                                 </div>
 
-                                <div className="col-12 col-lg-4" >
+                                <div className="col-12 col-lg-5" >
                                     <Form.Group controlId="typeIdentificationUser" className="typeIdentificationUser floating-label">
                                         <div className="icon-container">
                                             <Form.Control
@@ -180,7 +180,7 @@ function RegisterUserForm({ formData,
 
                                 </div>
 
-                                <div className="floating-label col-12 col-lg-8" >
+                                <div className="floating-label col-12 col-lg-7" >
                                     <Form.Group controlId="numberIdentification" className="numberIdentification">
 
                                         <Form.Control
