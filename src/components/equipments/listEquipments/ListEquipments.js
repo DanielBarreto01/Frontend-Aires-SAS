@@ -181,6 +181,23 @@ const ListEquipments = () => {
     }
 
 
+    const customStyles = {
+        tableWrapper: {
+            style: {
+                height: '590px', // Define la altura total deseada para la tabla
+            },
+        },
+
+        pagination: {
+            style: {
+                marginTop: 'auto', // Empuja la paginación al final del contenedor
+                padding: '10px',
+                // backgroundColor: 'blue', 
+            },
+        },
+    };
+
+
     return (
         isEquipmentDetailsVisible ? (
             <UpdateEquipment equipment={selectedEquipment} />
@@ -256,11 +273,12 @@ const ListEquipments = () => {
                                 paginationPerPage={10}
                                 fixedHeader
                                 persistTableHead
-                                fixedHeaderScrollHeight="75vh"
+                                fixedHeaderScrollHeight="80vh"
                                 progressPending={loading}
                                 onRowClicked={handleRowClick}
                                 conditionalRowStyles={conditionalRowStyles}
                                 paginationComponentOptions={customPaginationOptions}
+                                customStyles={customStyles}
                                 noDataComponent="No hay datos disponibles"
                                 progressComponent={(
                                     <div className="loading-overlay">

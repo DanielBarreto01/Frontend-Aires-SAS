@@ -316,7 +316,7 @@ function UpdateClient () {
                     selectionAvailableEquipment={selectionAvailableEquipment}
                     setSelectionAvailableEquipment={setSelectionAvailableEquipment}
                     setIsNewComponentVisibleEquipClient={setIsNewComponentVisibleEquipClient}
-                    clientId = {client.id}
+                    client = {client}
                  />): selectionEqipmentsClient ? (<EquipmentClientSelection
                     // selectNewEquipments={selectNewEquipments}
                     // setSelectNewEquipments={setSelectNewEquipments}
@@ -354,6 +354,7 @@ function UpdateClient () {
                             handleCleanSelectedEquipments={handleCleanSelectedEquipments}
                             handleShowListClients={handleShowListClients}
                             location={location}
+                            client={client}
                         />
                     </div>
                     <CustomToast

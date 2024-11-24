@@ -48,3 +48,9 @@ label {
     border-radius: 5%; /* Redondea ligeramente los bordes */
     
 }
+
+.button-deta{
+    display: flex; /* Habilita el sistema de flexbox */
+    justify-content: flex-end; /* Empuja el botón hacia el final del contenedor */
+    padding: 1% 4.1% 1%; 
+}

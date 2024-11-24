@@ -274,8 +274,8 @@ function AdminDashboard() {
                 <FontAwesomeIcon className="icon-margin" icon={faBars} />
               </button>
             </div >
-            <div className='col-12 container-content-scrollable' style={{ backgroundColor: '' }}>
 
+            <div className='col-12 container-content-scrollable'>
               <Outlet />
             </div>
           </div>

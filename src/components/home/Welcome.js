@@ -56,7 +56,7 @@ const Welcome = () => {
     return (
         <div className="customer-selection-container ">
             <div className="customer-selection-container ">
-                <div className="content-wrapper">
+                <div className="content-wrapper" style={{backgroundColor:'blue'}}>
                     <h1 className="header ">Sistema de Gestión de Mantenimiento</h1>
                     <p className="text-muted">Bienvenido al panel de control</p>
 
@@ -123,11 +123,16 @@ const Welcome = () => {
                             </div> // Muestra el spinner mientras carga
                         ) : (
                             requests.sort((a, b) => new Date(b.requestDate) - new Date(a.requestDate))
-                                .slice(0, 7).map((record) => (
+                                .slice(0, 6).map((record) => (
+                                    
                                     <div key={record.id} className="request-item">
+
                                         <span>{record.requestNumber}</span>
+
                                         <span>{format(new Date(record.requestDate), 'dd/MM/yyyy hh:mm a')}</span>
+
                                         <span className={`status ${record.requestMaintenanceStatus.toLowerCase() === 'pendiente' ? 'pending' : 'completed'}`}>{record.requestMaintenanceStatus}</span>
+                                        
                                     </div>
                                 ))
                         )}

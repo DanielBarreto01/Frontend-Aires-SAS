@@ -26,3 +26,10 @@
 .info-client-maintenance label{
     color: rgb(0, 0, 0)!important;
 }
+
+.titleM{
+    margin: 0.1% 0% 1.5% ;
+    font-family: Arial, sans-serif ;
+    font-weight: 750 !important; 
+}
+
