@@ -30,7 +30,7 @@ function RegisterRequestMaintenance() {
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState('');
   const [showModalClean, setShowModalClean] = useState(false);
- 
+
 
   const fetchData = useCallback(async () => {
     setLoading(true);
@@ -48,7 +48,7 @@ function RegisterRequestMaintenance() {
 
   useEffect(() => {
     try {
-      typeof client === 'undefined'? navigate('/admin/requestMaintenance'):setLoading(false);
+      typeof client === 'undefined' ? navigate('/admin/requestMaintenance') : setLoading(false);
       const token = localStorage.getItem('authToken');
       if (token !== null && jwtDecode(token).exp * 1000 > Date.now()) { // && jwtDecode(token).exp*1000 >  Date.now()
         if (from.includes('listSelectEquipment')) {
@@ -59,9 +59,9 @@ function RegisterRequestMaintenance() {
           setIdsTechniciansSelection(selectedTechnicians.map(item => item.id) || [])
         }
         fetchData();
-        
+
         setIsTokenChecked(true);
-      
+
       } else {
         localStorage.removeItem('authToken');
         setLoading(false);
@@ -186,13 +186,13 @@ function RegisterRequestMaintenance() {
 
   const handleConfirmAction = async () => {
     setShowModal(false);
-    if(modalType === 'cancel'){
+    if (modalType === 'cancel') {
       setSelectedRowsEquipments([]);
       setSelectedRowsTechnicians([]);
       setIdsEquipmentsSelection([]);
       setIdsTechniciansSelection([]);
-      navigate("/admin/requestMaintenance",{ state: { key: Date.now() } })
-    }else if (modalType === 'register') {
+      navigate("/admin/requestMaintenance", { state: { key: Date.now() } })
+    } else if (modalType === 'register') {
       const token = localStorage.getItem('authToken');
       try {
         const sendData = {
@@ -226,10 +226,10 @@ function RegisterRequestMaintenance() {
   }
 
 
-  const cleanTables  = (type) => {
-    if(selectedRowsEquipments.length ===0 && type === 'equipments'){
+  const cleanTables = (type) => {
+    if (selectedRowsEquipments.length === 0 && type === 'equipments') {
       return
-    }else if(selectedRowsTechnicians.length === 0 && type === 'technician'){
+    } else if (selectedRowsTechnicians.length === 0 && type === 'technician') {
       return
     }
     setModalType(type)
@@ -238,10 +238,10 @@ function RegisterRequestMaintenance() {
 
   const handleConfirmActionClean = () => {
     setShowModalClean(false)
-    if(modalType === 'equipments'){
+    if (modalType === 'equipments') {
       setSelectedRowsEquipments([]);
       setIdsEquipmentsSelection([]);
-    }else{
+    } else {
       setSelectedRowsTechnicians([]);
       setIdsTechniciansSelection([]);
     }
@@ -279,6 +279,15 @@ function RegisterRequestMaintenance() {
   }
 
 
+
+  const customStyles = {
+    tableWrapper: {
+      style: {
+        height: '209px', // Define la altura total deseada para la tabla
+      },
+    },
+  };
+
   return (
     <div className=' full-screen-scrollable row'>
 
@@ -286,170 +295,183 @@ function RegisterRequestMaintenance() {
         <h2 className="text-start title">Registrar Mantenimiento </h2>
       </div>
 
-      <div className='content row '>
-        {/* 
-        <div className='container-image col-12 col-md-4'>
-          <img src={client.pathImage} alt="Imagen de perfil" className="profile-image" />
-        </div> */}
+
+      <div className='col-12' style={{ backgroundColor: '' }}>
+
+        <div className=' row info-client-maintenance'>
+          <h3 className="text-start titleM" style={{ margin: '' }}>Información cliente</h3>
+
+          <div className='col-lg-4 col-md-6 col-12' >
+            <label>Cliente:</label>
+            <span>{`${client.name || ''} ${client.lastName || ''}`.trim() || client.nameCompany}</span>
+          </div>
+
+          <div className='col-12   col-md-6  col-lg-4 '>
+            <label>Tipo de Identificación: </label>
+            <span>{client.clientType === "NaturalPerson" ? client.typeIdentification : 'NIT'}</span>
+          </div>
+
+          <div className='col-12   col-md-6  col-lg-4'>
+            <label>Número de Identificación: </label>
+            <span>{client.clientType === "NaturalPerson" ? client.numberIdentification : client.numberIdentificationCompany}</span>
+          </div>
+
+          <div className='col-12   col-md-6  col-lg-4'>
+            <label>Número de Teléfono:</label>
+            <span>{client.phoneNumber}</span>
+
+          </div>
+
+          <div className='col-12   col-md-6  col-lg-4'>
+            <label>Correo Electrónico:</label>
+            <span>{client.email}</span>
+
+          </div>
+
+          <div className='col-12   col-md-6  col-lg-4'>
+            <label>Dirección:</label>
+            <span>{client.address}</span>
+
+          </div>
 
 
-        <div className='col-md-12 '>
-          <div className='row data'>
-            <h2 className="text-start title">Información cliente</h2>
-            <div className='col-lg-4 col-md-6 col-12'>
-              <label>Cliente:</label>
-              <span>{`${client.name || ''} ${client.lastName || ''}`.trim() || client.nameCompany}</span>
-            </div>
-            {/* 
-            <div className='col-md-6'>
-              <label >Apellido:</label>
-              <span>{user.lastName}</span>
-            </div> */}
+          <div className='col-12 col-lg-7' > </div>
+
+          <div className='col-12  col-lg-5 button-deta'>
+            <button type="button" className='button-confirmationn' onClick={handleShowClient} >
+              Detalles
+            </button>
+          </div>
 
 
-            <div className='col-lg-4 col-md-6 col-12  '>
-              <label>Tipo de Identificación:</label>
-              <span>{client.clientType === "NaturalPerson" ? client.typeIdentification : 'NIT'}</span>
-            </div>
+        </div>
 
-            <div className='col-lg-4 col-md-6 col-12'>
-              <label>Número de Identificación:</label>
-              <span>{client.clientType === "NaturalPerson" ? client.numberIdentification : client.numberIdentificationCompany}</span>
-            </div>
+      </div>
 
-            <div className='col-lg-4 col-md-6 col-12'>
-              <label>Número de Teléfono:</label>
-              <span>{client.phoneNumber}</span>
 
-            </div>
+      <div className='col-12 mt-3' >
 
-            <div className='col-lg-4 col-md-6 col-12'>
-              <label>Correo Electrónico:</label>
-              <span>{client.email}</span>
+        <div className='row'>
 
-            </div>
+          <div className='col-12 col-lg-6'>
 
-            <div className='col-lg-4 col-md-6 col-12'>
-              <label>Dirección:</label>
-              <span>{client.address}</span>
-
-            </div>
-
-            <div className='row'>
-              <div className='col-lg-6 col-12'> </div>
-              <div className="col-lg-6 col-12 button-group">
-                <button type="button" className='button-confirmationn' onClick={handleShowClient} >
-                  Detalles
+            <div className='row table-container-update-client'>
+              <div className='col-12 col-md-5 title-equip' ><h2>Equipos</h2></div>
+              <div className='col-12 col-md-7 button-group-list-equip'>
+                <button className='button-clean' onClick={selectionEquipments} disabled={isEditingButtons}>
+                  Seleccionar
+                </button>
+                <button className='button-clean' onClick={() => cleanTables('equipments')} disabled={isEditingButtons}>
+                  Deseleccionar
                 </button>
               </div>
-            </div>
 
+              <div className="table-container-client-list-quip">
+
+                <DataTable
+                  columns={columnsEquipments}
+                  data={recordsEquipments || []}
+                  pagination
+                  paginationPerPage={10}
+                  fixedHeader
+                  persistTableHead
+                  fixedHeaderScrollHeight="28vh"
+                  selectableRows
+                  onSelectedRowsChange={handleRowSelectedEquipments}
+                  selectableRowSelected={selectableRowSelectedEquipments}
+                  // conditionalRowStyles={conditionalRowStyles}
+                  // paginationComponentOptions={customPaginationOptions}
+                  noDataComponent="No hay datos disponibles"
+                  customStyles={customStyles}
+                  progressComponent={(
+                    <div className="loading-overlay">
+                      <Spinner animation="border" size="lg" />
+                    </div>
+                  )}
+                />
+              </div>
+
+            </div>
           </div>
 
 
+
+          <div className='col-12 col-lg-6'>
+
+            <div className='row table-container-update-client'>
+
+              <div className='col-12 col-md-5 title-equip' ><h2>Técnico</h2></div>
+
+              <div className='col-12 col-md-7 button-group-list-equip'>
+                <button className='button-clean' onClick={selectionTechnician} disabled={isEditingButtons}>
+                  Seleccionar
+                </button>
+                <button className='button-clean' onClick={() => cleanTables('technician')} disabled={isEditingButtons}>
+                  Deseleccionar
+                </button>
+              </div>
+
+              <div className="table-container-client-list-quip">
+                <DataTable
+                  columns={columnsTechnical}
+                  data={recordsTechnician || []}
+                  pagination
+                  paginationPerPage={5}
+                  fixedHeader
+                  persistTableHead
+                  fixedHeaderScrollHeight="28vh"
+                  selectableRows
+                  selectableRowsSingle
+                  onSelectedRowsChange={handleRowSelectedTechnicians}
+                  selectableRowSelected={selectableRowSelectedTechnicians}
+                  // conditionalRowStyles={conditionalRowStyles}
+                  // paginationComponentOptions={customPaginationOptions}
+                  noDataComponent="No hay datos disponibles"
+                  customStyles={customStyles}
+                  progressComponent={(
+                    <div className="loading-overlay">
+                      <Spinner animation="border" size="lg" />
+                    </div>
+                  )}
+                />
+              </div>
+
+            </div>
+
+          </div>
         </div>
       </div>
-      <div className='row'>
-        <div className='col-lg-6 col-12'>
-          <div className='row table-container-update-client'>
 
-            <div className='col-12 col-md-5 title-equip' ><h2>Equipos</h2></div>
-            <div className='col-12 col-md-7 button-group-list-equip'>
-              <button className='button-clean' onClick={selectionEquipments} disabled={isEditingButtons}>
-                Seleccionar
-              </button>
-              <button className='button-clean'  onClick={() => cleanTables('equipments')} disabled={isEditingButtons}>
-                Limpiar
-              </button>
-            </div>
+      <div className="col-lg-6" ></div>
 
-            <div className="table-container-client-list-quip">
-              <DataTable
-                columns={columnsEquipments}
-                data={recordsEquipments || []}
-                pagination
-                paginationPerPage={1}
-                fixedHeader
-                persistTableHead
-                fixedHeaderScrollHeight="20vh"
-                selectableRows
-                onSelectedRowsChange={handleRowSelectedEquipments}
-                selectableRowSelected={selectableRowSelectedEquipments}
-                // conditionalRowStyles={conditionalRowStyles}
-                // paginationComponentOptions={customPaginationOptions}
-                noDataComponent="No hay datos disponibles"
-                progressComponent={(
-                  <div className="loading-overlay">
-                    <Spinner animation="border" size="lg" />
-                  </div>
-                )}
-              />
-            </div>
+      <div className='col-lg-6 button-group '>
 
-          </div>
-        </div>
+        <button type="submit" className='button-confirmationn' onClick={handleSaveRegister} disabled={isEditingButtons}>
+          Registrar Mantenimiento
+        </button>
 
-        <div className='col-lg-6 col-12'>
-          <div className='row table-container-update-client'>
 
-            <div className='col-12 col-md-5 title-equip' ><h2>Técnico</h2></div>
-            <div className='col-12 col-md-7 button-group-list-equip'>
-              <button className='button-clean' onClick={selectionTechnician} disabled={isEditingButtons}>
-                Seleccionar
-              </button>
-              <button className='button-clean' onClick={() => cleanTables('technician')} disabled={isEditingButtons}>
-                Limpiar
-              </button>
-            </div>
+        <button className='button-cancell' onClick={handleCancelRegister} disabled={isEditingButtons}>
+          Cancelar Registro
+        </button>
 
-            <div className="table-container-client-list-quip">
-              <DataTable
-                columns={columnsTechnical}
-                data={recordsTechnician || []}
-                pagination
-                paginationPerPage={1}
-                fixedHeader
-                persistTableHead
-                fixedHeaderScrollHeight="20vh"
-                selectableRows
-                selectableRowsSingle
-                onSelectedRowsChange={handleRowSelectedTechnicians}
-                selectableRowSelected={selectableRowSelectedTechnicians}
-                // conditionalRowStyles={conditionalRowStyles}
-                // paginationComponentOptions={customPaginationOptions}
-                noDataComponent="No hay datos disponibles"
-                progressComponent={(
-                  <div className="loading-overlay">
-                    <Spinner animation="border" size="lg" />
-                  </div>
-                )}
-              />
-            </div>
-            <ConfirmationModal
-              show={showModalClean}
-              onConfirm={handleConfirmActionClean}
-              onHide={handleCloseModal}
-              title= "Confirmar limpieza de selección"
-              bodyText="¿Estás seguro de que deseas limpiar la selección? Se eliminarán todas las selecciones actuales en la tabla."
-              confirmText= "Sí"
-              cancelText="No"
-              containerId="modal-container"
-            />
-
-          </div>
-        </div>
-        <div className="col-lg-6" ></div>
-        <div className="col-lg-6 button-group">
-          <button type="submit" className='button-confirmationn' onClick={handleSaveRegister} disabled={isEditingButtons}>
-            Registrar Mantenimiento
-          </button>
-          <button className='button-cancell' onClick={handleCancelRegister} disabled={isEditingButtons}>
-            Cancelar Registro
-          </button>
-
-        </div>
       </div>
-      <ConfirmationModal 
+
+
+
+
+      <ConfirmationModal
+        show={showModalClean}
+        onConfirm={handleConfirmActionClean}
+        onHide={handleCloseModal}
+        title="Confirmar limpieza de selección"
+        bodyText="¿Estás seguro de que deseas limpiar la selección? Se eliminarán todas las selecciones actuales en la tabla."
+        confirmText="Sí"
+        cancelText="No"
+        containerId="modal-container"
+      />
+
+      <ConfirmationModal
         show={showModal}
         onHide={handleCloseModal}
         onConfirm={handleConfirmAction}
@@ -460,7 +482,8 @@ function RegisterRequestMaintenance() {
         confirmText={modalType === 'cancel' ? "Sí" : "Sí"}
         cancelText="No"
         containerId="modal-container"
-      /> 
+      />
+
 
       {loading && (
         <div className="loading-overlay">

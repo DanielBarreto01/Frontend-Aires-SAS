@@ -19,6 +19,11 @@ label {
     margin: 2%; 
     border-radius: 4px; 
 }
+
+
+.data label{
+    color: rgb(0, 0, 0)!important;
+}
 .content{
     height: 100vh; 
     padding: 2%;
@@ -42,4 +47,10 @@ label {
     display: block; /* Elimina el espacio en blanco adicional */
     border-radius: 5%; /* Redondea ligeramente los bordes */
     
+}
+
+.button-deta{
+    display: flex; /* Habilita el sistema de flexbox */
+    justify-content: flex-end; /* Empuja el botón hacia el final del contenedor */
+    padding: 1% 4.1% 1%; 
 }

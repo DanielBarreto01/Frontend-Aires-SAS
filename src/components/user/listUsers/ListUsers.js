@@ -198,6 +198,22 @@ function ListUsers() {
         return null;
     }
 
+    const customStyles = {
+        tableWrapper: {
+          style: {
+            height: '590px', // Define la altura total deseada para la tabla
+          },
+        },
+
+        pagination: {
+            style: {
+                marginTop: 'auto', // Empuja la paginación al final del contenedor
+                padding: '10px',
+                // backgroundColor: 'blue', 
+            },
+        },
+    };
+
 
     return (
 
@@ -276,7 +292,9 @@ function ListUsers() {
                                 onRowClicked={handleRowClick}
                                 conditionalRowStyles={conditionalRowStyles}
                                 paginationComponentOptions={customPaginationOptions}
+                              
                                 noDataComponent="No hay datos disponibles"
+                                customStyles={customStyles}
                                 progressComponent={(
                                     <div className="loading-overlay">
                                         <Spinner animation="border" size="lg" />

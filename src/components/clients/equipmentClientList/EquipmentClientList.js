@@ -178,7 +178,9 @@ const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableE
 
 
     const handleButtonSave = () => {
-        if(client.id== null){
+
+        if(client == null){
+
             setSelectionAvailableEquipment(selectedRows);
             setIsNewComponentVisibleEquipClient(prevState => !prevState);
         }else{
@@ -282,11 +284,28 @@ const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableE
         return null;
     }
 
+    
+    const customStyles = {
+        tableWrapper: {
+          style: {
+            height: '590px', // Define la altura total deseada para la tabla
+          },
+        },
+
+        pagination: {
+            style: {
+                marginTop: 'auto', // Empuja la paginación al final del contenedor
+                padding: '10px',
+                // backgroundColor: 'blue', 
+            },
+        },
+    };
+
 
     return (
         <div className='row'>
             <div className='col-12 col-md-5 title1'>
-                <h2 className="text-start title">Equipos-Disponibles </h2>
+                <h2 className="text-start title">Equipos para {`${client.name || ''} ${client.lastName || ''}`.trim() || client.nameCompany} </h2>
             </div>
 
             <div className='col-6 col-sm-6 col-md-4 ' >
@@ -307,7 +326,9 @@ const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableE
 
             <div className='col-6 col-sm-3 col-md-3' >
                 <Form>
-                    {client.id == null ? (
+
+                    {client == null ? (
+
                         <Form.Group controlId="rolesPro" className="dropdown">
                             <div className="dropdown-container">
                                 <Form.Control
@@ -361,7 +382,7 @@ const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableE
                             paginationPerPage={10}
                             fixedHeader
                             persistTableHead
-                            fixedHeaderScrollHeight="80vh"
+                            fixedHeaderScrollHeight="69vh"
                             progressPending={loading}
                             selectableRows
                             onSelectedRowsChange={handleRowSelected}
@@ -369,6 +390,7 @@ const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableE
                             // selectableRowSelected={(row) => searchTerm.includes(row.id)}
                             conditionalRowStyles={conditionalRowStyles}
                             paginationComponentOptions={customPaginationOptions}
+                            customStyles={customStyles}
                             noDataComponent="No hay datos disponibles"
                             progressComponent={(
                                 <div className="loading-overlay">
