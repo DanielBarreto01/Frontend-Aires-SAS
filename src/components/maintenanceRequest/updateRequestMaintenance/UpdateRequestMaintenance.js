@@ -14,7 +14,7 @@ function UpdateRequestMaintenance() {
   const navigate = useNavigate();
   const location = useLocation();
   const requestMaintenance = location.state?.requestMaintenance;
-  const client = location.state?.newClient || requestMaintenance?.client ;
+  const client = useMemo(() => {return location.state?.newClient || requestMaintenance?.client || {};}, [location.state?.newClient, requestMaintenance?.client]);
   const from = location.state?.from || '';
   const [isTokenChecked, setIsTokenChecked] = useState(false);
   const [recordsTechnician, setRecordsTechnician] = useState([]);
@@ -39,23 +39,28 @@ function UpdateRequestMaintenance() {
     const token = localStorage.getItem('authToken');
     try {
       const technician = await getUsersWithoutAdminRole(token);
-      setRecordsTechnician(technician.data);
-      setIdsEquipmentsSelection(requestMaintenance.equipments.map(equip => equip.id));
-      setIdsTechniciansSelection([requestMaintenance.technician.id]);
+      setRecordsTechnician(technician.data || []);
+      setIdsEquipmentsSelection(requestMaintenance?.equipments.map(equip => equip.id) || []);
       const equipments = await getEquipmentsIdClientAviable(client.id, token);
       setRecordsEquipments(equipments);
+      setIdsTechniciansSelection([requestMaintenance?.technician.id] || []);
+      console.log('cliente', client)
+      console.log('cliente rquest', requestMaintenance?.client)
+    
     } catch (error) {
       console.error('Error al obtener los técnicos y equipos:', error);
     }
     setLoading(false);
-  }, [client, requestMaintenance]);
+  }, [ client, requestMaintenance]);
 
   useEffect(() => {
     try {
-      typeof requestMaintenance === 'undefined'? navigate('/admin/requestMaintenance'):setLoading(false);
+      typeof client === 'undefined'? navigate('/admin/requestMaintenance'):
+      setLoading(false);
       const token = localStorage.getItem('authToken');
       if (token !== null && jwtDecode(token).exp * 1000 > Date.now()) { // && jwtDecode(token).exp*1000 >  Date.now()
         if (from.includes('listSelectEquipment')) {
+          console.log('entraaa', from)
           const selectedEqipments = location.state?.selectedEqipments || [];
           setIdsEquipmentsSelection(selectedEqipments.map(item => item.id) || [])
         } else if (from.includes('listSelectedTechnician')) {
@@ -63,7 +68,7 @@ function UpdateRequestMaintenance() {
           setIdsTechniciansSelection(selectedTechnicians.map(item => item.id) || [])
         }
          fetchData()
-       
+     
         
         setIsTokenChecked(true);
       
@@ -74,10 +79,10 @@ function UpdateRequestMaintenance() {
       }
     } catch (error) {
       console.error('Error al verificar el token:', error);
-      localStorage.removeItem('authToken');
-      window.location.href = '/login';
+      //localStorage.removeItem('authToken');
+      //window.location.href = '/login';
     }
-  }, [fetchData, requestMaintenance, from, location.state?.selectedEqipments, location.state?.selectedTechnicians, navigate]);
+  }, [fetchData, from,requestMaintenance, location.state?.selectedEqipments, location.state?.selectedTechnicians, navigate, client]);
 
 
 

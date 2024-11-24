@@ -252,7 +252,7 @@ function RegisterClient() {  //{ clientType }
                     selectionAvailableEquipment={selectionAvailableEquipment}
                     setSelectionAvailableEquipment={setSelectionAvailableEquipment}
                     setIsNewComponentVisibleEquipClient={setIsNewComponentVisibleEquipClient}
-                    clientId = {null}
+                    client = {null}
                 />) : (
             <>
                 <div className='client-update-conatiner'>

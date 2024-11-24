@@ -13,14 +13,15 @@ import "../../general.css";
 import "../../user/listUsers/ListUsers.css";
 
 const ListClients = () => {
+    const navigate = useNavigate();
+    const location = useLocation();
+    const requestMaintenance = location.state?.requestMaintenance;
     const [data, setData] = useState([]);
     const [searchText, setSearchText] = useState('');
     const [selectedOption, setSelectedOption] = useState("Type person");
     const [loading, setLoading] = useState(false);
     const [records, setRecords] = useState([]);
     const [isTokenChecked, setIsTokenChecked] = useState(false);
-    const navigate = useNavigate();
-    const location = useLocation();
     const [selectedId, setSelectedId] = useState(null);
     const path = location.pathname
 
@@ -130,7 +131,7 @@ const ListClients = () => {
 
     const handleItemClick = (client) => {
         if (path.includes('/requestMaintenance/updateRequestMaintenance')) {
-            navigate('/admin/requestMaintenance/updateRequestMaintenance', { state: { newClient:client } });
+            navigate('/admin/requestMaintenance/updateRequestMaintenance', { state: { newClient:client, requestMaintenance } });
 
             return
         } else if (path.includes('/admin/clients')) {
