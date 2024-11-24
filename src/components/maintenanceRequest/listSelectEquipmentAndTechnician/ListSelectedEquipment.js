@@ -17,6 +17,7 @@ function ListSelectEquipment() {
     const client = useMemo(() => location.state?.client || {}, [location.state?.client]);
     const loadData = useMemo(() => location.state?.recordsEquipments || [], [location.state?.recordsEquipments]);
     const initialSelection = useMemo(() => location.state?.selectedRowsEquipments || [], [location.state?.selectedRowsEquipments]);
+    const requestMaintenance = location.state?.requestMaintenance;
     const [data, setData] = useState();
     const [selectedOption, setSelectedOption] = useState("Seleccione un rol");
     const [loading, setLoading] = useState(true);
@@ -63,11 +64,21 @@ function ListSelectEquipment() {
     }, [client, fetchData, initialSelection, navigate]);
 
     const handleButtonClick = () => {
-        navigate("/admin/requestMaintenance/clients/registerRequestMaintenance", { state: { from: location.pathname, selectedEqipments: selectedRows, client } });	
+        if (location.pathname.includes('registerRequestMaintenance')) {
+            navigate("/admin/requestMaintenance/clients/registerRequestMaintenance", { state: { from: location.pathname, selectedEqipments: selectedRows, client } });	
+            return;
+        }
+        navigate("/admin/requestMaintenance/updateRequestMaintenance", { state: { from: location.pathname, selectedEqipments: selectedRows, requestMaintenance } });	
+
     };
 
     const handleButtonCancel = () => {
-       navigate("/admin/requestMaintenance/clients/registerRequestMaintenance", { state: { from: undefined, client } });
+        if (location.pathname.includes('registerRequestMaintenance')) {
+            navigate("/admin/requestMaintenance/clients/registerRequestMaintenance", { state: { from: undefined, client } });
+            return;
+        }
+        navigate("/admin/requestMaintenance/updateRequestMaintenance", { state: { from: undefined, requestMaintenance } });
+
     }   
 
     // const validateCients = location.pathname === '/admin/requestMaintenance/clients';

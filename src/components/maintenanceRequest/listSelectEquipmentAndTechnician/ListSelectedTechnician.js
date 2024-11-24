@@ -18,7 +18,7 @@ function ListSelectedTechnician() {
     const client = useMemo(() => location.state?.client || {}, [location.state?.client]);
     const loadData = useMemo(() => location.state?.recordsTechnician || [], [location.state?.recordsTechnician]);
     const initialSelection = useMemo(() => location.state?.selectedRowsTechnicians || [], [location.state?.selectedRowsTechnicians]);
-
+    const requestMaintenance = location.state?.requestMaintenance;
     const [data, setData] = useState([]);
     const [records, setRecords] = useState([]);
     const [selectedOption, setSelectedOption] = useState("Seleccione un rol");
@@ -131,11 +131,19 @@ function ListSelectedTechnician() {
 
     
     const handleButtonClick = () => {
-        navigate("/admin/requestMaintenance/clients/registerRequestMaintenance", { state: { selectedTechnicians: selectedRows, from: location.pathname, client } });
+        if (location.pathname.includes('registerRequestMaintenance')) {
+            navigate("/admin/requestMaintenance/clients/registerRequestMaintenance", { state: { selectedTechnicians: selectedRows, from: location.pathname, client } });
+            return;
+        }
+        navigate("/admin/requestMaintenance/updateRequestMaintenance", { state: { selectedTechnicians: selectedRows, from: location.pathname, requestMaintenance } });
     };
     
     const handleButtonCancel = () => {
-          navigate("/admin/requestMaintenance/clients/registerRequestMaintenance", { state: { from: undefined, client } });
+        if (location.pathname.includes('registerRequestMaintenance')) {
+            navigate("/admin/requestMaintenance/clients/registerRequestMaintenance", { state: { from: undefined, client } });
+            return;
+        }
+        navigate("/admin/requestMaintenance/updateRequestMaintenance", { state: { from: undefined, requestMaintenance } });
     }
 
     function updateList3(list1, list2, list3) {

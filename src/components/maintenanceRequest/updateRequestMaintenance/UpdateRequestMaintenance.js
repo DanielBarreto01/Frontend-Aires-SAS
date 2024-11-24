@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
-import './RegisterRequestMaintenance.css';
+import './UpdateRequestMaintenance.css';
 import { Spinner } from 'react-bootstrap';
 import DataTable from 'react-data-table-component';
 import { jwtDecode } from 'jwt-decode';
@@ -10,10 +10,11 @@ import { createRequestMaintenace } from '../../../api/MaintenanceService'
 import CustomToast from '../../toastMessage/CustomToast';
 import ConfirmationModal from "../../ConfirmationModal/ConfirmationModal";
 
-function RegisterRequestMaintenance() {
+function UpdateRequestMaintenance() {
   const navigate = useNavigate();
   const location = useLocation();
-  const client = location.state?.client;
+  const requestMaintenance = location.state?.requestMaintenance;
+  const client = location.state?.newClient || requestMaintenance?.client ;
   const from = location.state?.from || '';
   const [isTokenChecked, setIsTokenChecked] = useState(false);
   const [recordsTechnician, setRecordsTechnician] = useState([]);
@@ -30,6 +31,7 @@ function RegisterRequestMaintenance() {
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState('');
   const [showModalClean, setShowModalClean] = useState(false);
+  const [isEditingFormulary, setIsEditingFormulary] = useState(false);
  
 
   const fetchData = useCallback(async () => {
@@ -38,17 +40,19 @@ function RegisterRequestMaintenance() {
     try {
       const technician = await getUsersWithoutAdminRole(token);
       setRecordsTechnician(technician.data);
-      const equipments = await getEquipmentsIdClientAviable(client.id, token);
+      setIdsEquipmentsSelection(requestMaintenance.equipments.map(equip => equip.id));
+      setIdsTechniciansSelection([requestMaintenance.technician.id]);
+      const equipments = await getEquipmentsIdClientAviable(requestMaintenance.client.id, token);
       setRecordsEquipments(equipments);
     } catch (error) {
       console.error('Error al obtener los técnicos y equipos:', error);
     }
     setLoading(false);
-  }, [client]);
+  }, [requestMaintenance]);
 
   useEffect(() => {
     try {
-      typeof client === 'undefined'? navigate('/admin/requestMaintenance'):setLoading(false);
+     // typeof client === 'undefined'? navigate('/admin/requestMaintenance'):setLoading(false);
       const token = localStorage.getItem('authToken');
       if (token !== null && jwtDecode(token).exp * 1000 > Date.now()) { // && jwtDecode(token).exp*1000 >  Date.now()
         if (from.includes('listSelectEquipment')) {
@@ -58,7 +62,8 @@ function RegisterRequestMaintenance() {
           const selectedTechnicians = location.state?.selectedTechnicians || [];
           setIdsTechniciansSelection(selectedTechnicians.map(item => item.id) || [])
         }
-        fetchData();
+         fetchData()
+       
         
         setIsTokenChecked(true);
       
@@ -72,7 +77,7 @@ function RegisterRequestMaintenance() {
       localStorage.removeItem('authToken');
       window.location.href = '/login';
     }
-  }, [fetchData, from, location.state?.selectedEqipments, location.state?.selectedTechnicians, navigate, client]);
+  }, [fetchData, requestMaintenance, from, location.state?.selectedEqipments, location.state?.selectedTechnicians, navigate]);
 
 
 
@@ -143,18 +148,21 @@ function RegisterRequestMaintenance() {
   }, [idsTechniciansSelection]);
 
   const handleShowClient = () => {
-    navigate('/admin/requestMaintenance/clients/registerRequestMaintenance/showClient', { state: { client } });
+    console.log('dhdhhdhd', client)
+    navigate('/admin/requestMaintenance/updateRequestMaintenance/showClient', { state: { client:client } });
+  }
+  const handleClientSelection = () => {
+    navigate('/admin/requestMaintenance/updateRequestMaintenance/selectionClient');
   }
 
   const selectionEquipments = () => {
-    console.log('entrar')
     setIdsEquipmentsSelection(selectedRowsEquipments.map(item => item.id) || []);
-    navigate('/admin/requestMaintenance/clients/registerRequestMaintenance/listSelectEquipment', { state: { selectedRowsEquipments, recordsEquipments, client } });
+    navigate('/admin/requestMaintenance/updateRequestMaintenance/listSelectEquipment', { state: { selectedRowsEquipments, recordsEquipments, requestMaintenance } });
 
   }
   const selectionTechnician = () => {
     setIdsTechniciansSelection(selectedRowsTechnicians.map(item => item.id) || []);
-    navigate('/admin/requestMaintenance/clients/registerRequestMaintenance/listSelectedTechnician', { state: { selectedRowsTechnicians, recordsTechnician, client } });
+    navigate('/admin/requestMaintenance/updateRequestMaintenance/listSelectedTechnician', { state: { selectedRowsTechnicians, recordsTechnician, requestMaintenance } });
   }
 
   const handleCloseModal = () => {
@@ -165,6 +173,14 @@ function RegisterRequestMaintenance() {
   const handleCancelRegister = () => {
     setModalType('cancel');
     setShowModal(true);
+  }
+
+  const handleEditingFormulary = () => {
+    setIsEditingFormulary(true);
+  }
+
+  const handleGoBack = () => {  
+    navigate('/admin/requestMaintenance', { state: { key: Date.now() } });
   }
 
   const handleSaveRegister = () => {
@@ -187,11 +203,12 @@ function RegisterRequestMaintenance() {
   const handleConfirmAction = async () => {
     setShowModal(false);
     if(modalType === 'cancel'){
-      setSelectedRowsEquipments([]);
-      setSelectedRowsTechnicians([]);
-      setIdsEquipmentsSelection([]);
-      setIdsTechniciansSelection([]);
-      navigate("/admin/requestMaintenance",{ state: { key: Date.now() } })
+      // setSelectedRowsEquipments([]);
+      // setSelectedRowsTechnicians([]);
+      // setIdsEquipmentsSelection([]);
+      // setIdsTechniciansSelection([]);
+      setIsEditingFormulary(false);
+     
     }else if (modalType === 'register') {
       const token = localStorage.getItem('authToken');
       try {
@@ -249,10 +266,11 @@ function RegisterRequestMaintenance() {
 
 
 
-  const isListSelectEquipment = location.pathname === '/admin/requestMaintenance/clients/registerRequestMaintenance/listSelectEquipment';
-  const isListSelectedTechnician = location.pathname === '/admin/requestMaintenance/clients/registerRequestMaintenance/listSelectedTechnician';
-  const isShowClient = location.pathname === '/admin/requestMaintenance/clients/registerRequestMaintenance/showClient';
-  if (isListSelectEquipment || isListSelectedTechnician || isShowClient) {
+  const isListSelectEquipment = location.pathname === '/admin/requestMaintenance/updateRequestMaintenance/listSelectEquipment';
+  const isListSelectedTechnician = location.pathname === '/admin/requestMaintenance/updateRequestMaintenance/listSelectedTechnician';
+  const isShowClient = location.pathname === '/admin/requestMaintenance/updateRequestMaintenance/showClient';
+  const isSelectionClient = location.pathname === '/admin/requestMaintenance/updateRequestMaintenance/selectionClient';
+  if (isListSelectEquipment || isListSelectedTechnician || isShowClient || isSelectionClient) {
     return <Outlet />;
   }
 
@@ -283,7 +301,7 @@ function RegisterRequestMaintenance() {
     <div className=' full-screen-scrollable row'>
 
       <div className='col-12'>
-        <h2 className="text-start title">Registrar Mantenimiento </h2>
+        <h2 className="text-start title">Información Mantenimiento </h2>
       </div>
 
       <div className='content row '>
@@ -338,9 +356,19 @@ function RegisterRequestMaintenance() {
             <div className='row'>
               <div className='col-lg-6 col-12'> </div>
               <div className="col-lg-6 col-12 button-group">
-                <button type="button" className='button-confirmationn' onClick={handleShowClient} >
-                  Detalles
-                </button>
+                {isEditingFormulary ? (
+                  <>
+                    <button type="button" className='button-confirmationn' onClick={handleClientSelection} disabled={isEditingButtons}>
+                      Seleccionar
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button type="button" className='button-confirmationn' onClick={handleShowClient} >
+                      Detalles
+                    </button>
+                  </>
+                )}
               </div>
             </div>
 
@@ -355,26 +383,30 @@ function RegisterRequestMaintenance() {
 
             <div className='col-12 col-md-5 title-equip' ><h2>Equipos</h2></div>
             <div className='col-12 col-md-7 button-group-list-equip'>
-              <button className='button-clean' onClick={selectionEquipments} disabled={isEditingButtons}>
-                Seleccionar
-              </button>
-              <button className='button-clean'  onClick={() => cleanTables('equipments')} disabled={isEditingButtons}>
-                Limpiar
-              </button>
+              {isEditingFormulary && (
+                <>
+                  <button className='button-clean' onClick={selectionEquipments} >
+                    Seleccionar
+                  </button>
+                  <button className='button-clean' onClick={() => cleanTables('equipments')} >
+                    Limpiar
+                  </button>
+                </>)}
             </div>
 
             <div className="table-container-client-list-quip">
               <DataTable
                 columns={columnsEquipments}
-                data={location.state?.selectedEqipments}
+                data={recordsEquipments || []}
                 pagination
                 paginationPerPage={1}
                 fixedHeader
                 persistTableHead
                 fixedHeaderScrollHeight="20vh"
-                selectableRows
-                onSelectedRowsChange={handleRowSelectedEquipments}
-                selectableRowSelected={selectableRowSelectedEquipments}
+                selectableRows={isEditingFormulary}
+                selectableRowsSingle={isEditingFormulary}
+                onSelectedRowsChange={isEditingFormulary ? handleRowSelectedEquipments : undefined}
+                selectableRowSelected={isEditingFormulary ? selectableRowSelectedEquipments : undefined}
                 // conditionalRowStyles={conditionalRowStyles}
                 // paginationComponentOptions={customPaginationOptions}
                 noDataComponent="No hay datos disponibles"
@@ -394,27 +426,31 @@ function RegisterRequestMaintenance() {
 
             <div className='col-12 col-md-5 title-equip' ><h2>Técnico</h2></div>
             <div className='col-12 col-md-7 button-group-list-equip'>
-              <button className='button-clean' onClick={selectionTechnician} disabled={isEditingButtons}>
-                Seleccionar
-              </button>
-              <button className='button-clean' onClick={() => cleanTables('technician')} disabled={isEditingButtons}>
-                Limpiar
-              </button>
+              {isEditingFormulary && (
+                <>
+                  <button className='button-clean' onClick={selectionTechnician} >
+                    Seleccionar
+                  </button>
+                  <button className='button-clean' onClick={() => cleanTables('technician')}>
+                    Limpiar
+                  </button>
+                </>
+              )}
             </div>
 
             <div className="table-container-client-list-quip">
               <DataTable
                 columns={columnsTechnical}
-                data={location.state?.selectedTechnicians}
+                data={recordsTechnician || []}
                 pagination
                 paginationPerPage={1}
                 fixedHeader
                 persistTableHead
                 fixedHeaderScrollHeight="20vh"
-                selectableRows
-                selectableRowsSingle
-                onSelectedRowsChange={handleRowSelectedTechnicians}
-                selectableRowSelected={selectableRowSelectedTechnicians}
+                selectableRows={isEditingFormulary}
+                selectableRowsSingle={isEditingFormulary}
+                onSelectedRowsChange={isEditingFormulary ? handleRowSelectedTechnicians : undefined}
+                selectableRowSelected={isEditingFormulary ? selectableRowSelectedTechnicians : undefined}
                 // conditionalRowStyles={conditionalRowStyles}
                 // paginationComponentOptions={customPaginationOptions}
                 noDataComponent="No hay datos disponibles"
@@ -440,13 +476,25 @@ function RegisterRequestMaintenance() {
         </div>
         <div className="col-lg-6" ></div>
         <div className="col-lg-6 button-group">
-          <button type="submit" className='button-confirmationn' onClick={handleSaveRegister} disabled={isEditingButtons}>
-            Registrar Mantenimiento
-          </button>
-          <button className='button-cancell' onClick={handleCancelRegister} disabled={isEditingButtons}>
-            Cancelar Registro
-          </button>
+          {isEditingFormulary ? (
+            <>
+              <button type="submit" className='button-confirmationn' onClick={handleSaveRegister} >
+                Gardar cambios
+              </button>
+              <button className='button-cancell' onClick={handleCancelRegister}>
+                Cancelar edición
+              </button>
+            </>
+          ) : (
+            <>
+              <button type="submit" className='button-confirmationn' onClick={handleEditingFormulary} disabled={isEditingButtons}>
+                Editar
+              </button>
+              <button className='button-cancell' onClick={handleGoBack} disabled={isEditingButtons}>
+                Regresar
+              </button>
 
+            </>)}
         </div>
       </div>
       <ConfirmationModal 
@@ -481,4 +529,4 @@ function RegisterRequestMaintenance() {
   );
 }
 
-export default RegisterRequestMaintenance;
+export default UpdateRequestMaintenance;
