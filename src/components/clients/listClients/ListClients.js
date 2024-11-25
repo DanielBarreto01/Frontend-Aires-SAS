@@ -29,7 +29,7 @@ const ListClients = () => {
         const token = localStorage.getItem('authToken');
         let response = [];
         try {
-            if(location.pathname.includes('/admin/requestMaintenance/clients')) {
+            if(location.pathname.includes('/admin/requestMaintenance/clients') || location.pathname.includes('/admin/requestMaintenance/updateRequestMaintenance')) {
                 response = await getClientsActive(token);
             } else {
                 response = await getClients(token);

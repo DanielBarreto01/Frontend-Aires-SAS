@@ -78,8 +78,8 @@ function ListSelectEquipment() {
             navigate("/admin/requestMaintenance/clients/registerRequestMaintenance", { state: { from: undefined, client } });
             return;
         }
-        console.log("sale cliente", requestMaintenance);
-        navigate("/admin/requestMaintenance/updateRequestMaintenance", { state: { from: undefined, requestMaintenance } });
+        console.log("sale cliente", client);
+        navigate("/admin/requestMaintenance/updateRequestMaintenance", { state: { from: "null", requestMaintenance } });
 
     }   
 

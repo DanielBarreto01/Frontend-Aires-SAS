@@ -143,7 +143,7 @@ function ListSelectedTechnician() {
             navigate("/admin/requestMaintenance/clients/registerRequestMaintenance", { state: { from: undefined, client } });
             return;
         }
-        navigate("/admin/requestMaintenance/updateRequestMaintenance", { state: { from: undefined, requestMaintenance } });
+        navigate("/admin/requestMaintenance/updateRequestMaintenance", { state: { from: "null", requestMaintenance } });
     }
 
     function updateList3(list1, list2, list3) {
