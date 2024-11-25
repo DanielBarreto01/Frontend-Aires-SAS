@@ -33,3 +33,9 @@
     font-weight: 750 !important; 
 }
 
+.button-deta{
+    display: flex; /* Habilita el sistema de flexbox */
+    justify-content: flex-end; /* Empuja el botón hacia el final del contenedor */
+    padding: 1% 4.1% 1%; 
+    
+}

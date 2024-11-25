@@ -5,26 +5,26 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #f9f9f9; 
+    /* background-color: #1dd1a1; */
 }
 
 /* Estilo para el contenedor interno */
 .content-wrapper {
-    width: 98%;
-    background-color: #ffffff;
-    margin-top: 10px;
-    min-height: 97vh; 
+    padding-bottom: 2%;
+
 }
 
 /* Estilo para el encabezado */
 .header {
     font-size: 30px;
-    margin-bottom: 10px;
     color: #000000;
     text-align: center;
     font-family: Arial, sans-serif ;
     font-weight: 900 !important; 
-    background-color: #ffffff;
+    background-color: #ffffff!important;
+    padding-bottom: 1%;
+    padding-top: 1%;
+  
 }
 
 /* Estilo para el subtítulo */

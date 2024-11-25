@@ -54,15 +54,17 @@ const Welcome = () => {
     };
 
     return (
-        <div className="customer-selection-container ">
-            <div className="customer-selection-container ">
-                <div className="content-wrapper" style={{backgroundColor:'blue'}}>
-                    <h1 className="header ">Sistema de Gestión de Mantenimiento</h1>
-                    <p className="text-muted">Bienvenido al panel de control</p>
+        <div className='row'>
 
-                    <div className="row my-4" >
+            <div className='col-12 mb-2'>
+                <h1 className="header ">Sistema de Gestión de Mantenimiento</h1>
+                <p className="text-muted">Bienvenido al panel de control</p>
+            </div>
+
+            <div className='col-12'>
+                <div className="content-wrapper" >
+                    <div className="row  mb-4"  >
                         <div className="col-lg-1"> </div>
-
                         <div className=" col-md-6 col-lg-2 ">
                             <div className="card-summary">
                                 <h5>Solicitudes Totales</h5>
@@ -113,8 +115,8 @@ const Welcome = () => {
                                 )}
                             </div>
                         </div>
-
                     </div>
+
                     <h2 className="text-muted">Solicitudes de Mantenimiento Recientes</h2>
                     <div className="requests-list">
                         {loading ? (
@@ -123,8 +125,8 @@ const Welcome = () => {
                             </div> // Muestra el spinner mientras carga
                         ) : (
                             requests.sort((a, b) => new Date(b.requestDate) - new Date(a.requestDate))
-                                .slice(0, 6).map((record) => (
-                                    
+                                .slice(0, 7).map((record) => (
+
                                     <div key={record.id} className="request-item">
 
                                         <span>{record.requestNumber}</span>
@@ -132,14 +134,22 @@ const Welcome = () => {
                                         <span>{format(new Date(record.requestDate), 'dd/MM/yyyy hh:mm a')}</span>
 
                                         <span className={`status ${record.requestMaintenanceStatus.toLowerCase() === 'pendiente' ? 'pending' : 'completed'}`}>{record.requestMaintenanceStatus}</span>
-                                        
+
                                     </div>
                                 ))
                         )}
                     </div>
                 </div>
             </div>
+
         </div>
+
+
+
+
+
+
+
     );
 }
 
