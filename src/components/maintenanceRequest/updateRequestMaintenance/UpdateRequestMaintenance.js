@@ -38,6 +38,7 @@ function UpdateRequestMaintenance() {
   const [isEditingFormulary, setIsEditingFormulary] = useState(false);
 
   const [client, setClient] = useState(requestMaintenance?.client || [])
+
   const fetchData = useCallback(async () => {
     setLoading(true);
     const token = localStorage.getItem('authToken');
@@ -61,14 +62,16 @@ function UpdateRequestMaintenance() {
           setIdsTechniciansSelection([])
         }
       }
+      setTimeout(() => {
+        setLoading(false);
+  
+      }, 10000);
 
     } catch (error) {
       console.error('Error al obtener los técnicos y equipos:', error);
-    }
-    setTimeout(() => {
       setLoading(false);
+    }
 
-    }, 6000);
   }, [client, location.state?.from, location.state?.selectedTechnicians, newClient]);
 
   useEffect(() => {
@@ -121,8 +124,8 @@ function UpdateRequestMaintenance() {
       console.error('Error al obtener los técnicos y equipos:', error);
     }
     setTimeout(() => {
-    setLoading(false);
-    }, 400);
+      setLoading(false);
+    }, 4000);
   }, [client, requestMaintenance]);
 
 
