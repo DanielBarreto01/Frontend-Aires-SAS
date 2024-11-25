@@ -208,7 +208,12 @@ const ListClients = () => {
                 </div>)}
 
 
-            <div className='col-12 gallery-scroll-container'>
+            <div
+                className={`col-12 ${location.pathname.includes('/requestMaintenance')
+                        ? 'gallery-scroll-container-mante'
+                        : 'gallery-scroll-container'
+                    }`}
+            >
                 <div className="space-y-4">
                     <div className="gallery-container">
                         {records.map((records) => (
@@ -252,12 +257,12 @@ const ListClients = () => {
 
             </div> */}
 
-            <div className="col-lg-10"></div>
+            <div className="col-lg-10" style={{ backgroundColor: 'red' }}></div>
 
 
             {location.pathname.includes('/requestMaintenance') ?
                 (
-                    <div className='col-lg-2 button-group  '>
+                    <div className='col-lg-12 button-group  '>
                         <button className="button-Custom" onClick={handleGoBack}>
                             Regresar
                         </button>
