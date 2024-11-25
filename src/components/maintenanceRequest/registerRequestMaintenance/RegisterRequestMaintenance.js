@@ -222,6 +222,7 @@ function RegisterRequestMaintenance() {
         setShowToast(true)
         setToastType('danger')
       }
+      setLoading(false)
     }
   }
 

@@ -6,15 +6,18 @@ import { jwtDecode } from 'jwt-decode';
 import { getUsersWithoutAdminRole } from '../../../api/UserService';
 import { getEquipmentsIdClientAviable } from '../../../api/EquipmentService';
 import { useNavigate, Outlet, useLocation } from 'react-router-dom';
-import { createRequestMaintenace } from '../../../api/MaintenanceService'
+import { updateRequestMaintenace } from '../../../api/MaintenanceService'
 import CustomToast from '../../toastMessage/CustomToast';
 import ConfirmationModal from "../../ConfirmationModal/ConfirmationModal";
+import { set } from 'date-fns';
+
 
 function UpdateRequestMaintenance() {
   const navigate = useNavigate();
   const location = useLocation();
   const requestMaintenance = location.state?.requestMaintenance;
-  const client = useMemo(() => { return typeof location.state?.newClient === 'undefined' ? requestMaintenance?.client : location.state?.newClient }, [requestMaintenance, location.state?.newClient]);
+  //const client = useMemo(() => { return  typeof location.state?.newClient === 'undefined'? requestMaintenance?.client : location.state?.newClient}, [requestMaintenance, location.state?.newClient]);
+  const newClient = location.state?.newClient;
   const from = location.state?.from || '';
   const [isTokenChecked, setIsTokenChecked] = useState(false);
   const [recordsTechnician, setRecordsTechnician] = useState([]);
@@ -33,42 +36,50 @@ function UpdateRequestMaintenance() {
   const [showModalClean, setShowModalClean] = useState(false);
   const [isEditingFormulary, setIsEditingFormulary] = useState(false);
 
-
+  const [client, setClient] = useState(requestMaintenance?.client || [])
   const fetchData = useCallback(async () => {
     setLoading(true);
     const token = localStorage.getItem('authToken');
     try {
-      const technician = await getUsersWithoutAdminRole(token);
-      setRecordsTechnician(technician.data || []);
-      setIdsEquipmentsSelection(requestMaintenance?.equipments.map(equip => equip.id) || []);
-      const equipments = await getEquipmentsIdClientAviable(client?.id, token);
-      setRecordsEquipments(equipments);
-      setIdsTechniciansSelection([requestMaintenance?.technician.id] || []);
-      console.log('cliente', client)
-      console.log('cliente rquest', requestMaintenance?.client)
+      if (typeof location.state?.from !== 'undefined' || typeof newClient !== "undefined") {
+        const technician = await getUsersWithoutAdminRole(token);
+        const sortedData = [
+          ...location.state?.selectedTechnicians || [],
+          ...location.state?.selectedTechnicians ? (technician?.data).filter(tech => tech.id !== location.state?.selectedTechnicians.id) : technician?.data]
+        const equipments = await getEquipmentsIdClientAviable(client?.id, token);
+        setRecordsEquipments(equipments);
+        setRecordsTechnician(sortedData);
+        if (typeof newClient !== "undefined") {
+          setIdsTechniciansSelection([])
+        }
+      }
 
     } catch (error) {
       console.error('Error al obtener los técnicos y equipos:', error);
     }
+    setTimeout(() => {
     setLoading(false);
-  }, [client, requestMaintenance]);
+
+    }, 300);
+  }, [ client, location.state?.from, location.state?.selectedTechnicians, newClient]);
 
   useEffect(() => {
     try {
-      // typeof client === 'undefined'? navigate('/admin/requestMaintenance'):
-      setLoading(false);
+      typeof requestMaintenance === 'undefined'? navigate('/admin/requestMaintenance'):setLoading(false);
+      if(typeof newClient !== 'undefined' && isEditingFormulary){
+        setClient(newClient)
+      } 
       const token = localStorage.getItem('authToken');
       if (token !== null && jwtDecode(token).exp * 1000 > Date.now()) { // && jwtDecode(token).exp*1000 >  Date.now()
+       
         if (from.includes('listSelectEquipment')) {
-          console.log('entraaa', from)
           const selectedEqipments = location.state?.selectedEqipments || [];
           setIdsEquipmentsSelection(selectedEqipments.map(item => item.id) || [])
         } else if (from.includes('listSelectedTechnician')) {
           const selectedTechnicians = location.state?.selectedTechnicians || [];
           setIdsTechniciansSelection(selectedTechnicians.map(item => item.id) || [])
-        }
-        fetchData()
-
+        }   
+        fetchData();
 
         setIsTokenChecked(true);
 
@@ -79,14 +90,36 @@ function UpdateRequestMaintenance() {
       }
     } catch (error) {
       console.error('Error al verificar el token:', error);
-      //localStorage.removeItem('authToken');
-      //window.location.href = '/login';
+      localStorage.removeItem('authToken');
+      window.location.href = '/login';
     }
-  }, [fetchData, requestMaintenance, from, location.state?.selectedEqipments, location.state?.selectedTechnicians, navigate]);
+  }, [fetchData, client, requestMaintenance, from, location.state?.selectedEqipments, location.state?.selectedTechnicians, navigate]);
 
 
+  const fetchDataInitial = useCallback(async () => {
+    setLoading(true);
+    const token = localStorage.getItem('authToken');
+    try {
+      const technician = await getUsersWithoutAdminRole(token);
+      const sortedData = [
+        ...requestMaintenance?.technician ? [requestMaintenance?.technician] : [],
+        ...(technician?.data).filter(tech => tech.id !== requestMaintenance?.technician.id) || []]
+      const equipments = await getEquipmentsIdClientAviable(client?.id, token);
+      setRecordsEquipments(equipments);
+      setIdsEquipmentsSelection(requestMaintenance?.equipments.map(equip => equip.id) || []);
+      setRecordsTechnician(sortedData);
+      setIdsTechniciansSelection([requestMaintenance?.technician.id]|| []);
+    } catch (error) {
+      console.error('Error al obtener los técnicos y equipos:', error);
+    }
+    setLoading(false);
+  }, [client, requestMaintenance]);
 
 
+  useEffect(() => {
+    setLoading(true)
+    fetchDataInitial()
+  }, [])
 
   const columnsEquipments = [
 
@@ -153,22 +186,21 @@ function UpdateRequestMaintenance() {
   }, [idsTechniciansSelection]);
 
   const handleShowClient = () => {
-    console.log('dhdhhdhd', client)
-    navigate('/admin/requestMaintenance/updateRequestMaintenance/showClient', { state: { client: client } });
+    navigate('/admin/requestMaintenance/updateRequestMaintenance/showClient', { state: { client:client } });
+
   }
   const handleClientSelection = () => {
-    navigate('/admin/requestMaintenance/updateRequestMaintenance/selectionClient');
+    navigate('/admin/requestMaintenance/updateRequestMaintenance/selectionClient', {state:{requestMaintenance}});
   }
 
   const selectionEquipments = () => {
     setIdsEquipmentsSelection(selectedRowsEquipments.map(item => item.id) || []);
-    console.log('request mante', requestMaintenance.client)
     navigate('/admin/requestMaintenance/updateRequestMaintenance/listSelectEquipment', { state: { selectedRowsEquipments, recordsEquipments, requestMaintenance, client: requestMaintenance?.client } });
 
   }
   const selectionTechnician = () => {
     setIdsTechniciansSelection(selectedRowsTechnicians.map(item => item.id) || []);
-    navigate('/admin/requestMaintenance/updateRequestMaintenance/listSelectedTechnician', { state: { selectedRowsTechnicians, recordsTechnician, client } });
+    navigate('/admin/requestMaintenance/updateRequestMaintenance/listSelectedTechnician', { state: { selectedRowsTechnicians, recordsTechnician, requestMaintenance, client: requestMaintenance?.client } });
   }
 
   const handleCloseModal = () => {
@@ -208,43 +240,57 @@ function UpdateRequestMaintenance() {
 
   const handleConfirmAction = async () => {
     setShowModal(false);
-    if (modalType === 'cancel') {
-      // setSelectedRowsEquipments([]);
-      // setSelectedRowsTechnicians([]);
-      // setIdsEquipmentsSelection([]);
-      // setIdsTechniciansSelection([]);
+    if(modalType === 'cancel'){
       setIsEditingFormulary(false);
+      setClient(requestMaintenance.client)
+      fetchDataInitial();
+      //setTimeout(() => {
+     
+     // const token = localStorage.getItem('authToken');
+      
+      //setRecordsEquipments( );
+      //setRecordsTechnician([requestMaintenance?.technician])
+      //setIdsEquipmentsSelection(requestMaintenance?.equipments.map(equip => equip.id) || []);
+      //setSelectedRowsTechnicians([requestMaintenance?.technician] || []);
+    //}, 300);
+    }else if (modalType === 'register') {
 
-    } else if (modalType === 'register') {
       const token = localStorage.getItem('authToken');
-      try {
-        const sendData = {
-          client: client.id,
-          technician: (selectedRowsTechnicians.map(equip => equip.id))[0],
-          equipments: selectedRowsEquipments.map(tech => tech.id)
-        }
-        setLoading(true)
-        const response = await createRequestMaintenace(sendData, token)
-        if (response.status === 200) {
-          setLoading(false)
-          setShowToast(true)
-          setToastType('success')
-          setToastMessage('La solicitud de mantenimiento se registro correctamente')
-          setIsEditingButtons(true)
-          setTimeout(() => {
-            navigate("/admin/requestMaintenance", { state: { key: Date.now() } })
-          }, 3000);
-        }
+      const sendData = {
+            client: client?.id,
+            technician: (selectedRowsTechnicians.map(equip => equip.id))[0],
+            equipments: selectedRowsEquipments.map(tech => tech.id)
+          }
+          console.log('sendData',sendData)
+      // try {
+      //   const sendData = {
+      //     client: client?.id,
+      //     technician: (selectedRowsTechnicians.map(equip => equip.id))[0],
+      //     equipments: selectedRowsEquipments.map(tech => tech.id)
+      //   }
+      //   setLoading(true)
+      //   const response = await updateRequestMaintenace(requestMaintenance?.id, sendData, token)
+      //   if (response.status === 200) {
+      //     setLoading(false)
+      //     setShowToast(true)
+      //     setToastType('success')
+      //     setToastMessage('La solicitud de mantenimiento se registro correctamente')
+      //     setIsEditingButtons(true)
+      //     setTimeout(() => {
+      //       navigate("/admin/requestMaintenance", { state: { key: Date.now() } })
+      //     }, 3000);
+      //   }
 
-      } catch (error) {
-        const errorMessage =
-          error.response.data && error.response.data
-            ? error.response.data
-            : 'Error al registar la solicitud de mantenimiento. Inténtalo de nuevo.';
-        setToastMessage(errorMessage);
-        setShowToast(true)
-        setToastType('danger')
-      }
+      // } catch (error) {
+      //   const errorMessage =
+      //     error.response.data && error.response.data
+      //       ? error.response.data
+      //       : 'Error al registar la solicitud de mantenimiento. Inténtalo de nuevo.';
+      //   setToastMessage(errorMessage);
+      //   setShowToast(true)
+      //   setToastType('danger')
+      // }
+      setLoading(false)
     }
   }
 
@@ -398,36 +444,38 @@ function UpdateRequestMaintenance() {
                   </>)}
 
               </div>
+             
 
-              <div className="table-container-client-list-quip">
-                <DataTable
-                  columns={columnsEquipments}
-                  data={recordsEquipments || []}
-                  pagination
-                  paginationPerPage={1}
-                  fixedHeader
-                  persistTableHead
-                  fixedHeaderScrollHeight="28vh"
-                  selectableRows={isEditingFormulary}
-                  selectableRowsSingle={isEditingFormulary}
-                  onSelectedRowsChange={isEditingFormulary ? handleRowSelectedEquipments : undefined}
-                  selectableRowSelected={isEditingFormulary ? selectableRowSelectedEquipments : undefined}
-                  // conditionalRowStyles={conditionalRowStyles}
-                  // paginationComponentOptions={customPaginationOptions}
-                  noDataComponent="No hay datos disponibles"
-                  customStyles={customStyles}
-                  progressComponent={(
-                    <div className="loading-overlay">
-                      <Spinner animation="border" size="lg" />
-                    </div>
-                  )}
-                />
-              </div>
-
-
+            <div className="table-container-client-list-quip">
+              <DataTable
+                columns={columnsEquipments}
+                data={recordsEquipments || []}
+                pagination
+                paginationPerPage={1}
+                fixedHeader
+                persistTableHead
+                //progressPending={loading}
+                fixedHeaderScrollHeight="20vh"
+                selectableRows 
+              
+                onSelectedRowsChange={ handleRowSelectedEquipments}
+                selectableRowSelected={selectableRowSelectedEquipments}
+                selectableRowsComponentProps={{
+                  disabled: !isEditingFormulary // Desactiva el checkbox general si no estamos en edición
+                }}
+                //selectableRowDisabled={!isEditingFormulary ? selectableRowSelectedEquipments : undefined}
+           
+                // paginationComponentOptions={customPaginationOptions}
+                noDataComponent="No hay datos disponibles"
+                progressComponent={(
+                  <div className="loading-overlay">
+                  <Spinner animation="border" role="status">
+                    <span className="visually-hidden">Cargando...</span>
+                  </Spinner>
+                </div>
+                )}
+              />
             </div>
-          </div>
-
 
           <div className='col-12 col-lg-6'>
             <div className='row table-container-update-client'>
@@ -442,37 +490,41 @@ function UpdateRequestMaintenance() {
                     <button className='button-clean' onClick={() => cleanTables('technician')} disabled={isEditingButtons}>
                       Deseleccionar
                     </button>
-
-                  </>
+            <div className="table-container-client-list-quip">
+              <DataTable
+                columns={columnsTechnical}
+                data={recordsTechnician || []}
+                pagination
+                paginationPerPage={1}
+                //progressPending={loading}
+                fixedHeader
+                persistTableHead
+                fixedHeaderScrollHeight="20vh"
+                selectableRows
+                selectableRowsSingle
+                onSelectedRowsChange={ handleRowSelectedTechnicians}
+                selectableRowSelected={ selectableRowSelectedTechnicians}
+                conditionalRowStyles={isEditingFormulary ? [] : [
+                  {
+                    when: row => true, // Deshabilitar el checkbox si no estamos en edición
+                    style: {
+                      pointerEvents: 'none', // Esto desactiva la interacción con los checkboxes
+                    }
+                  }
+                ]}
+                // paginationComponentOptions={customPaginationOptions}
+                noDataComponent="No hay datos disponibles"
+                progressComponent={(
+                  <div className="loading-overlay">
+                    <Spinner animation="border" role="status">
+                      <span className="visually-hidden">Cargando...</span>
+                    </Spinner>
+                  </div>
                 )}
               </div>
 
 
-              <div className="table-container-client-list-quip">
-
-                <DataTable
-                  columns={columnsTechnical}
-                  data={recordsTechnician || []}
-                  pagination
-                  paginationPerPage={1}
-                  fixedHeader
-                  persistTableHead
-                  fixedHeaderScrollHeight="28vh"
-                  selectableRows={isEditingFormulary}
-                  selectableRowsSingle={isEditingFormulary}
-                  onSelectedRowsChange={isEditingFormulary ? handleRowSelectedTechnicians : undefined}
-                  selectableRowSelected={isEditingFormulary ? selectableRowSelectedTechnicians : undefined}
-                  // conditionalRowStyles={conditionalRowStyles}
-                  // paginationComponentOptions={customPaginationOptions}
-                  noDataComponent="No hay datos disponibles"
-                  customStyles={customStyles}
-                  progressComponent={(
-                    <div className="loading-overlay">
-                      <Spinner animation="border" size="lg" />
-                    </div>
-                  )}
-                />
-              </div>
+              
             </div>
           </div>
         </div>
