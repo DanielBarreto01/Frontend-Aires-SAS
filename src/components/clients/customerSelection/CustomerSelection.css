@@ -1,43 +1,55 @@
-/* Contenedor principal centrado en la pantalla */
-.customer-selection-container {
-    min-height: 100vh;
+.customer-selection-container-client {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #f4f4f4; /* Color de fondo opcional */
+    min-height: 100vh;
+
 }
 
 /* Contenedor interno para el contenido */ 
-.content-wrapper {
-    width: 80%;
-  
+.content-wrapper-client {
+    width: 100%;
     padding: 20px;
-    background-color: rgb(234, 234, 234);
+    background-color: #F5F5F7;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 0% 5%;
 }
+
 
 
 /* Estilo para el título */
-.header  {
+.header-client  {
     font-family: Arial, sans-serif ;
     font-weight: 500 !important; 
-   
+    font-size: 30px;
+    color: #000000;
+    text-align: center;
+    font-family: Arial, sans-serif ;
+    font-weight: 900 !important; 
+    background-color: #F5F5F7;
+    padding-bottom: 1%;
+    padding-top: 1%;
    
 }
 
 
-/* Estilos para cada opción (cuadro de cliente) */
+
+
 .customer-option {
-    padding: 20px;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
+    min-height: 350px; 
+    min-width: 350px; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    overflow: hidden; 
+    text-align: center; 
     transition: transform 0.3s ease-in-out;
-    margin-top: 5%;
-    min-height: 200px; /* Altura mínima fija */
-    min-width: 200px; /* Ancho mínimo fijo */
+    margin-top: 1.5%;
 }
 
 .customer-option:hover {
@@ -46,12 +58,10 @@
 
 /* Imagen dentro de cada cuadro */
 .customer-image {
-    width: 60%;
-    height: auto;
-    min-width: 120px; /* Ancho mínimo para evitar que cambie */
-    min-height: 120px; /* Altura mínima para evitar que cambie */
-    border-radius: 8px;
-    margin-bottom: 15px;
+    width: 100%; 
+    height: auto; 
+    max-height: 255px;
+    object-fit: contain;
 }
 
 /* Estilo para el texto debajo de las imágenes */

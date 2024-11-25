@@ -264,11 +264,10 @@ function RegisterUserForm({ formData,
                                     </Form.Group>
                                 </div>
 
-
-
                             </div>
 
-                            <div className=" col-12 button-group">
+                            <div className=" col-12 button-group" style={{backgroundColor:'red'}}>
+
                                 <button type="submit" className='button-confirmationn' disabled={isEditingButtons} onClick={handleRegister}>
                                     Registrar Usuarios
                                 </button>

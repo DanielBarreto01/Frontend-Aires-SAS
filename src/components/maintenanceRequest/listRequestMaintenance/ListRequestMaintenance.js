@@ -22,7 +22,7 @@ function ListRequestMaintenace() {
     const [loading, setLoading] = useState(true);
     const [records, setRecords] = useState([]);
     const [isTokenChecked, setIsTokenChecked] = useState(false);
-    
+
     const [isOpen, setIsOpen] = useState(false);
 
 
@@ -114,7 +114,7 @@ function ListRequestMaintenace() {
 
     const isUpdateClient = location.pathname.includes('/admin/requestMaintenance/clients') || location.pathname.includes('registerRequestMaintenance');
     const idUpdateRequestMaintenance = location.pathname.includes('updateRequestMaintenance');
-    if(isUpdateClient || idUpdateRequestMaintenance){
+    if (isUpdateClient || idUpdateRequestMaintenance) {
         return <Outlet />
     }
 
@@ -181,93 +181,110 @@ function ListRequestMaintenace() {
         return null;
     }
 
+    const customStyles = {
+        tableWrapper: {
+            style: {
+                height: '590px', // Define la altura total deseada para la tabla
+            },
+        },
+
+        pagination: {
+            style: {
+                marginTop: 'auto', // Empuja la paginación al final del contenedor
+                padding: '10px',
+                // backgroundColor: 'blue', 
+            },
+        },
+    };
+
 
     return (
 
-       
-            <div className='row'  >
 
-                <div className='col-12 col-md-4 title1' >
-                    <h2 className="text-start title">Mantenimientos </h2>
-                </div>
+        <div className='row'  >
 
-                <div className='col-6 col-sm-6 col-md-4' >
-                    <form >
-                        <div className='input-container'  >
-                            <FontAwesomeIcon icon={faSearch} className="icon" />
-                            <input className="form-control input-style"
-                                placeholder="Buscar por: Nombre, Documento, Teléfono o Correo"
-                                type="search"
-                                onChange={handleChange}
-                            />
-                        </div>
-                    </form>
-                </div>
+            <div className='col-12 col-md-4 title1' >
+                <h2 className="text-start title">Mantenimientos </h2>
+            </div>
 
-                <div className='col-6 col-sm-3 col-md-2' >
-                    <Form>
-                        <Form.Group controlId="rolesPro" className="dropdown">
-                            <div className="dropdown-container">
-                                <Form.Control
-                                    as="select"
-                                    name="roles"
-                                    value={selectedOption} // Valor actual del select
-                                    onChange={handleRoleChange}
-                                    required
-                                    onClick={handleDropdownToggle}
-                                    style={{ border: 'none' }}
-                                >
-                                    <option value="Seleccione un rol">Seleccione un rol</option>
-                                    <option value="Administrador">Administrador</option>
-                                    <option value="Tecnico interno">Tecnico interno</option>
-                                    <option value="Tecnico externo">Tecnico externo</option>
-                                </Form.Control>
-                                {/* <FontAwesomeIcon icon={faChevronDown} className="dropdown-icon" /> */}
-
-                                <FontAwesomeIcon
-                                    icon={isOpen ? faChevronUp : faChevronDown}
-                                    className="icon "
-                                />
-                            </div>
-                        </Form.Group>
-
-                    </Form>
-
-                </div>
-
-                <div className='col-12 col-sm-3 col-md-2' >
-                    <Button className="button-Custom" onClick={handleButtonClick}>Agregar Mantenimiento </Button>
-                </div>
-
-
-                <div className='col-12' >
-                    <div className="space-y-4">
-                        <div className="table-container" >
-                            <DataTable
-                                columns={columns}
-                                data={records}
-                                pagination
-                                paginationPerPage={10}
-                                fixedHeader
-                                persistTableHead
-                                fixedHeaderScrollHeight="80vh"
-                                progressPending={loading}
-                                onRowClicked={handleRowClick}
-                                conditionalRowStyles={conditionalRowStyles}
-                                paginationComponentOptions={customPaginationOptions}
-                                noDataComponent="No hay datos disponibles"
-                                progressComponent={(
-                                    <div className="loading-overlay">
-                                        <Spinner animation="border" size="lg" />
-                                    </div>
-                                )}
-                            />
-                        </div>
-
+            <div className='col-6 col-sm-6 col-md-4' >
+                <form >
+                    <div className='input-container'  >
+                        <FontAwesomeIcon icon={faSearch} className="icon" />
+                        <input className="form-control input-style"
+                            placeholder="Buscar por: Nombre, Documento, Teléfono o Correo"
+                            type="search"
+                            onChange={handleChange}
+                        />
                     </div>
+                </form>
+            </div>
+
+            <div className='col-6 col-sm-3 col-md-2' >
+                <Form>
+                    <Form.Group controlId="rolesPro" className="dropdown">
+                        <div className="dropdown-container">
+                            <Form.Control
+                                as="select"
+                                name="roles"
+                                value={selectedOption} // Valor actual del select
+                                onChange={handleRoleChange}
+                                required
+                                onClick={handleDropdownToggle}
+                                style={{ border: 'none' }}
+                            >
+                                <option value="Seleccione un rol">Seleccione un rol</option>
+                                <option value="Administrador">Administrador</option>
+                                <option value="Tecnico interno">Tecnico interno</option>
+                                <option value="Tecnico externo">Tecnico externo</option>
+                            </Form.Control>
+                            {/* <FontAwesomeIcon icon={faChevronDown} className="dropdown-icon" /> */}
+
+                            <FontAwesomeIcon
+                                icon={isOpen ? faChevronUp : faChevronDown}
+                                className="icon "
+                            />
+                        </div>
+                    </Form.Group>
+
+                </Form>
+
+            </div>
+
+            <div className='col-12 col-sm-3 col-md-2' >
+                <Button className="button-Custom" onClick={handleButtonClick}>Agregar Mantenimiento </Button>
+            </div>
+
+
+            <div className='col-12' >
+                <div className="space-y-4">
+                    <div className="table-container" >
+                        <DataTable
+                            columns={columns}
+                            data={records}
+                            pagination
+                            paginationPerPage={10}
+                            fixedHeader
+                            persistTableHead
+                            fixedHeaderScrollHeight="77vh"
+                            progressPending={loading}
+                            onRowClicked={handleRowClick}
+                            conditionalRowStyles={conditionalRowStyles}
+                            paginationComponentOptions={customPaginationOptions}
+                            customStyles={customStyles}
+                            noDataComponent="No hay datos disponibles"
+                            progressComponent={(
+                                <div className="loading-overlay">
+                                    <Spinner animation="border" size="lg" />
+                                </div>
+                            )}
+                        />
+                    </div>
+
                 </div>
             </div>
-       
+        </div>
+
     )
 
 }
