@@ -287,7 +287,7 @@ function ListUsers() {
                                 paginationPerPage={10}
                                 fixedHeader
                                 persistTableHead
-                                fixedHeaderScrollHeight="80vh"
+                                fixedHeaderScrollHeight="77vh"
                                 progressPending={loading}
                                 onRowClicked={handleRowClick}
                                 conditionalRowStyles={conditionalRowStyles}

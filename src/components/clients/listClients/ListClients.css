@@ -1,16 +1,35 @@
 
 .gallery-scroll-container {
-    height: auto !important; /* Ocupa el 100% de la altura de su contenedor padre */
-    overflow-y: auto !important; /* Habilita el scroll vertical */
+    height: auto !important; 
+    overflow-y: auto !important; 
     padding: 10px;
-    box-sizing: border-box;/* Espacio entre el borde y los elementos de la galería */
+    box-sizing: border-box;
 }
+
+.gallery-scroll-container-mante {
+    margin-top: 10px;
+    height: 78vh; 
+    overflow-y: auto; 
+    padding: 10px;
+    box-sizing: border-box; 
+    min-height: 400px; 
+  
+}
+
+.clients-l{
+    padding-bottom: 15px;
+}
+
+
 .gallery-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); /* Ajusta automáticamente el número de columnas */
+    /* Ajusta automáticamente el número de columnas */
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); 
     gap: 20px; /* Espacio entre elementos */
-    max-width: 100%; /* Ajusta esto según el ancho máximo deseado */
+    max-width: 100%;
     margin: 0 auto;/* Centra el contenedor en la página */
+    /* background-color: red; */
+    /* margin-right: 20px; */
    
 }
 
@@ -21,6 +40,7 @@
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     overflow: hidden;
+  
 }
 
 .gallery-item img,
@@ -56,4 +76,5 @@
     border: 1px solid rgb(38, 38, 41); /* Puedes mantener esto si deseas un borde también */
     background-color: rgba(173, 216, 230, 0.5); /* Opcional: fondo ligero para el seleccionado */
 }
+
 

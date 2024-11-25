@@ -33,10 +33,10 @@ const CustomerSelection = () => {
         clientType ? (
             <RegisterClient clientType={clientTypeSelected} />
         ) : (
-            <div className="customer-selection-container d-flex align-items-center justify-content-center">
-                <div className="content-wrapper text-center">
-                    <div className="col-12">
-                        <h1 className="header">Elige el tipo de cliente que vas a registrar</h1>
+            <div className="customer-selection-container-client d-flex align-items-center justify-content-center">
+                <div className="content-wrapper-client text-center">
+                    <div className="col-12 ">
+                        <h1 className="header-client ">Elige el tipo de cliente que vas a registrar</h1>
                     </div>
                     <div className="row justify-content-around mt-4">
                         <div className="col-md-5 customer-option" onClick={() => handleClientTypeSelection('natural')}>

@@ -305,7 +305,7 @@ const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableE
     return (
         <div className='row'>
             {client ? (
-                <div className='col-12 col-md-5 title1'>
+                <div className='col-12 col-lg-5 title1' >
                     <h2 className="text-start title">Equipos para {`${client?.name || ''} ${client?.lastName || ''}`.trim() || client?.nameCompany} </h2>
                 </div>
             ) : (
@@ -313,7 +313,8 @@ const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableE
                     <h2 className="text-start title">Asignar equipos</h2>
                 </div>
             )}
-            <div className='col-6 col-sm-6 col-md-4 ' >
+
+            <div className='col-12 col-md-7 col-lg-4 '   >
                 <form >
                     <div className='input-container'>
                         <FontAwesomeIcon icon={faSearch} className="icon" />
@@ -329,7 +330,7 @@ const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableE
 
             </div>
 
-            <div className='col-6 col-sm-3 col-md-3' >
+            <div className='col-12 col-md-5 col-lg-3'  >
                 <Form>
 
                     {client == null ? (
@@ -407,10 +408,15 @@ const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableE
 
                 </div>
             </div>
+  <div className="col-lg-6" ></div>
+            <div className='col-lg-6 button-group' >
+                <button className='button-confirmationn' onClick={handleButtonSave}>
+                    Guarda
+                </button>
 
-            <div className='buttons-equipments-clients' >
-                <Button className="button-save" onClick={handleButtonSave}>Guardar</Button>
-                <Button className="button-exit" onClick={handleButtonClick} >salir</Button>
+                <button className='button-confirmationn' onClick={handleButtonClick}>
+                    salir
+                </button>
             </div>
 
         </div>

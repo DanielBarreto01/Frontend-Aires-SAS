@@ -1,4 +1,4 @@
-import React, { useEffect, useState,useCallback } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { Form } from 'react-bootstrap';
 import { jwtDecode } from 'jwt-decode';
 import "./ListClients.css"; // Archivo CSS para estilos
@@ -68,7 +68,7 @@ const ListClients = () => {
 
     }, [location.state, fetchData]);
 
-   
+
 
 
 
@@ -106,11 +106,11 @@ const ListClients = () => {
 
     const handleGoBack = () => {
         if (path.includes('requestMaintenance/requestMaintenance')) {
-            navigate('/admin/requestMaintenance',{state:{key: new Date()}});
+            navigate('/admin/requestMaintenance', { state: { key: new Date() } });
             return
         }
         navigate(-1);
-     
+
     }
 
     // console.log("locationxxxxx", location.pathname);
@@ -125,13 +125,13 @@ const ListClients = () => {
     //     return <Outlet />;
     // }
 
-    if(isUpdateClient){
+    if (isUpdateClient) {
         return <Outlet />;
     }
 
     const handleItemClick = (client) => {
         if (path.includes('/requestMaintenance/updateRequestMaintenance')) {
-            navigate('/admin/requestMaintenance/updateRequestMaintenance', { state: { newClient:client, requestMaintenance } });
+            navigate('/admin/requestMaintenance/updateRequestMaintenance', { state: { newClient: client, requestMaintenance } });
 
             return
         } else if (path.includes('/admin/clients')) {
@@ -152,112 +152,142 @@ const ListClients = () => {
     }
 
 
-
-
-
     return (
+        <div className='row clients-l' >
+            <div
+                className={`col-12 ${location.pathname.includes('/requestMaintenance') ? 'col-lg-6' : 'col-lg-4'} title1`}>
 
-     
-            <div className='row'>
-                
-                <div className='col-12 col-md-4 title1'>
-                    {(path.includes('requestMaintenance') ?
-                        <h2 className="text-start title">Seleccion-Cliente </h2>
-                        : <h2 className="text-start title">Clientes </h2>)}
+                {(path.includes('requestMaintenance') ?
+                    <h2 className="text-start title">Seleccionar Cliente</h2>
+                    : <h2 className="text-start title">Clientes</h2>)}
+            </div>
 
-                </div>
+            <div className='  col-md-6 col-lg-4 ' >
+                <form >
+                    <div className='input-container'>
+                        <FontAwesomeIcon icon={faSearch} className="icon" />
+                        <input className="form-control input-style"
+                            placeholder="Buscar por nombre o identificación"
+                            type="search"
+                            value={searchText}
+                            onChange={handleChange}
+                        />
+                    </div>
+                </form>
 
-                <div className='col-6 col-sm-6 col-md-4 ' >
-                    <form >
-                        <div className='input-container'>
-                            <FontAwesomeIcon icon={faSearch} className="icon" />
-                            <input className="form-control input-style"
-                                placeholder="Buscar por nombre o identificación"
-                                type="search"
-                                value={searchText}
-                                onChange={handleChange}
-                            />
+
+            </div>
+
+            <div className=' col-md-6 col-lg-2' >
+                <Form>
+                    <Form.Group controlId="rolesPro" className="dropdown">
+                        <div className="dropdown-container">
+                            <Form.Control
+                                as="select"
+                                name="roles"
+                                value={selectedOption} // Valor actual del select
+                                onChange={handleRoleChange}
+                                required
+                                style={{ border: 'none' }}
+                            >
+                                <option value="Type person">Tipo persona</option>
+                                <option value="natural">Natural</option>
+                                <option value="juridical">Jurídica</option>
+                            </Form.Control>
+                            <FontAwesomeIcon icon={faChevronDown} className="dropdown-icon" />
                         </div>
-                    </form>
+                    </Form.Group>
+                </Form>
 
+            </div>
 
-                </div>
-
-                <div className='col-6 col-sm-3 col-md-2' >
-
-
-                    {/* <div className="desplegable">
-                        <DropdownButton title={selectedOption} onSelect={handleSelect}>
-                            <Dropdown.Item eventKey="Seleccione un rol" className="dropdown-item-light">Seleccionee un rol</Dropdown.Item>
-                            <Dropdown.Item eventKey="Administrador">Administrador</Dropdown.Item>
-                            <Dropdown.Item eventKey="Tecnico interno">Tecnico interno</Dropdown.Item>
-                            <Dropdown.Item eventKey="Tecnico externo">Tecnico externo</Dropdown.Item>
-                        </DropdownButton>
-                    </div> */}
-                    <Form>
-                        <Form.Group controlId="rolesPro" className="dropdown">
-                            <div className="dropdown-container">
-                                <Form.Control
-                                    as="select"
-                                    name="roles"
-                                    value={selectedOption} // Valor actual del select
-                                    onChange={handleRoleChange}
-                                    required
-                                    style={{ border: 'none' }}
-                                >
-                                    <option value="Type person">Tipo persona</option>
-                                    <option value="natural">Natural</option>
-                                    <option value="juridical">Jurídica</option>
-                                </Form.Control>
-                                <FontAwesomeIcon icon={faChevronDown} className="dropdown-icon" />
-                            </div>
-                        </Form.Group>
-                    </Form>
-
-                </div>
-                {location.pathname.includes('/requestMaintenance') ? 
-                ( <div className='col-12 col-sm-3 col-md-2' >
-                    <Button className="button-Custom" onClick={handleGoBack}>Regresar</Button>
-                </div>)
-                :(<div className='col-12 col-sm-3 col-md-2' >
+            {location.pathname.includes('/requestMaintenance') ?
+                (<div > </div>)
+                : (<div className='col-12 col-lg-2' >
                     <Button className="button-Custom" onClick={handleNavigateToCustomerSelection}>Agregar Cliente</Button>
                 </div>)}
 
-                
-                <div className='col-12 gallery-scroll-container'>
-                    <div className="space-y-4">
-                        <div className="gallery-container">
-                            {records.map((records) => (
-                                <div key={records.id} className="gallery-item">
-                                    <div
-                                        key={records.id}
-                                        className={`gallery-item ${selectedId === records.id ? 'selected' : ''}`}
-                                        onClick={() => handleItemClick(records)}
-                                    >
-                                        {records.pathImage ? (
-                                            <img src={records.pathImage} alt={records.name} />
-                                        ) : (
-                                            <div className="placeholder">No Image Available</div>
-                                        )}
-                                        <p>{`${records.name || ''} ${records.lastName || ''}`.trim() || records.nameCompany}</p>
-                                        {/* <p>{records.name || records.nameCompany}</p> */}
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
 
+            <div
+                className={`col-12 ${location.pathname.includes('/requestMaintenance')
+                        ? 'gallery-scroll-container-mante'
+                        : 'gallery-scroll-container'
+                    }`}
+            >
+                <div className="space-y-4">
+                    <div className="gallery-container">
+                        {records.map((records) => (
+                            <div key={records.id} className="gallery-item">
+                                <div
+                                    key={records.id}
+                                    className={`gallery-item ${selectedId === records.id ? 'selected' : ''}`}
+                                    onClick={() => handleItemClick(records)}
+                                >
+                                    {records.pathImage ? (
+                                        <img src={records.pathImage} alt={records.name} />
+                                    ) : (
+                                        <div className="placeholder">No Image Available</div>
+                                    )}
+                                    <p>{`${records.name || ''} ${records.lastName || ''}`.trim() || records.nameCompany}</p>
+                                    {/* <p>{records.name || records.nameCompany}</p> */}
+                                </div>
+                            </div>
+                        ))}
                     </div>
+
                 </div>
-                {loading && (
-                    <div className="loading-overlay">
-                        <Spinner animation="border" role="status">
-                            <span className="visually-hidden">Cargando...</span>
-                        </Spinner>
-                    </div>
-                )}
             </div>
 
-     
+
+            {/* <div className="col-lg-6"  style={{backgroundColor:'red'}}></div> */}
+            {/* <div  ></div> */}
+
+            {/* <div className='col-12 col-sm-3 col-md-2' style={{ backgroundColor: 'yellow' }}>
+                {location.pathname.includes('/requestMaintenance') ?
+                    (
+
+                        <button className="button-confirmationn" onClick={handleGoBack}>
+                            Regresar
+                        </button>)
+
+                    : (<button className="button-confirmationn" onClick={handleNavigateToCustomerSelection}>
+                        Agregar Cliente
+                    </button>)}
+
+
+            </div> */}
+
+            <div className="col-lg-10" style={{ backgroundColor: 'red' }}></div>
+
+
+            {location.pathname.includes('/requestMaintenance') ?
+                (
+                    <div className='col-lg-12 button-group  '>
+                        <button className="button-Custom" onClick={handleGoBack}>
+                            Regresar
+                        </button>
+                    </div>
+                )
+                : (
+                    <div></div>
+
+                )}
+
+
+
+
+            {loading && (
+                <div className="loading-overlay">
+                    <Spinner animation="border" role="status">
+                        <span className="visually-hidden">Cargando...</span>
+                    </Spinner>
+                </div>
+            )}
+
+        </div>
+
+
+
     );
 };
 
