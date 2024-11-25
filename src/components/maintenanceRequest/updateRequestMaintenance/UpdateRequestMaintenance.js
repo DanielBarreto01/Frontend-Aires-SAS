@@ -14,7 +14,7 @@ function UpdateRequestMaintenance() {
   const navigate = useNavigate();
   const location = useLocation();
   const requestMaintenance = location.state?.requestMaintenance;
-  const client = useMemo(() => {return location.state?.newClient || requestMaintenance?.client || {};}, [location.state?.newClient, requestMaintenance?.client]);
+  const client = useMemo(() => { return  typeof location.state?.newClient === 'undefined'? requestMaintenance?.client : location.state?.newClient}, [requestMaintenance, location.state?.newClient]);
   const from = location.state?.from || '';
   const [isTokenChecked, setIsTokenChecked] = useState(false);
   const [recordsTechnician, setRecordsTechnician] = useState([]);
@@ -41,7 +41,7 @@ function UpdateRequestMaintenance() {
       const technician = await getUsersWithoutAdminRole(token);
       setRecordsTechnician(technician.data || []);
       setIdsEquipmentsSelection(requestMaintenance?.equipments.map(equip => equip.id) || []);
-      const equipments = await getEquipmentsIdClientAviable(client.id, token);
+      const equipments = await getEquipmentsIdClientAviable(client?.id, token);
       setRecordsEquipments(equipments);
       setIdsTechniciansSelection([requestMaintenance?.technician.id] || []);
       console.log('cliente', client)
@@ -55,7 +55,7 @@ function UpdateRequestMaintenance() {
 
   useEffect(() => {
     try {
-      typeof client === 'undefined'? navigate('/admin/requestMaintenance'):
+     // typeof client === 'undefined'? navigate('/admin/requestMaintenance'):
       setLoading(false);
       const token = localStorage.getItem('authToken');
       if (token !== null && jwtDecode(token).exp * 1000 > Date.now()) { // && jwtDecode(token).exp*1000 >  Date.now()
@@ -82,7 +82,7 @@ function UpdateRequestMaintenance() {
       //localStorage.removeItem('authToken');
       //window.location.href = '/login';
     }
-  }, [fetchData, from,requestMaintenance, location.state?.selectedEqipments, location.state?.selectedTechnicians, navigate, client]);
+  }, [fetchData, requestMaintenance, from, location.state?.selectedEqipments, location.state?.selectedTechnicians, navigate]);
 
 
 
@@ -162,12 +162,13 @@ function UpdateRequestMaintenance() {
 
   const selectionEquipments = () => {
     setIdsEquipmentsSelection(selectedRowsEquipments.map(item => item.id) || []);
-    navigate('/admin/requestMaintenance/updateRequestMaintenance/listSelectEquipment', { state: { selectedRowsEquipments, recordsEquipments, requestMaintenance } });
+    console.log('request mante', requestMaintenance.client)
+    navigate('/admin/requestMaintenance/updateRequestMaintenance/listSelectEquipment', { state: { selectedRowsEquipments, recordsEquipments, requestMaintenance, client: requestMaintenance?.client } });
 
   }
   const selectionTechnician = () => {
     setIdsTechniciansSelection(selectedRowsTechnicians.map(item => item.id) || []);
-    navigate('/admin/requestMaintenance/updateRequestMaintenance/listSelectedTechnician', { state: { selectedRowsTechnicians, recordsTechnician, requestMaintenance } });
+    navigate('/admin/requestMaintenance/updateRequestMaintenance/listSelectedTechnician', { state: { selectedRowsTechnicians, recordsTechnician, client } });
   }
 
   const handleCloseModal = () => {

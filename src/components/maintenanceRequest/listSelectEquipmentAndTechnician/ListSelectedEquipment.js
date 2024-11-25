@@ -14,10 +14,10 @@ import { useNavigate, useLocation } from 'react-router-dom';
 function ListSelectEquipment() {
     const navigate = useNavigate();
     const location = useLocation();
-    const client = useMemo(() => location.state?.client || {}, [location.state?.client]);
+    const client = useMemo(() => location.state?.client , [location.state?.client]);
     const loadData = useMemo(() => location.state?.recordsEquipments || [], [location.state?.recordsEquipments]);
     const initialSelection = useMemo(() => location.state?.selectedRowsEquipments || [], [location.state?.selectedRowsEquipments]);
-    const requestMaintenance = location.state?.requestMaintenance;
+    const requestMaintenance = location.state?.requestMaintenance;   
     const [data, setData] = useState();
     const [selectedOption, setSelectedOption] = useState("Seleccione un rol");
     const [loading, setLoading] = useState(true);
@@ -47,6 +47,7 @@ function ListSelectEquipment() {
                 setLoading(false);
                 const token = localStorage.getItem('authToken');
                 if (token !== null && jwtDecode(token).exp * 1000 > Date.now()) { // && jwtDecode(token).exp*1000 >  Date.now()
+                    console.log('entra cliente', client);
                     fetchData();                    
                     setIdsEquipmentsSelection(initialSelection.map(row => row.id));
                     setIsTokenChecked(true);
@@ -68,7 +69,7 @@ function ListSelectEquipment() {
             navigate("/admin/requestMaintenance/clients/registerRequestMaintenance", { state: { from: location.pathname, selectedEqipments: selectedRows, client } });	
             return;
         }
-        navigate("/admin/requestMaintenance/updateRequestMaintenance", { state: { from: location.pathname, selectedEqipments: selectedRows, requestMaintenance } });	
+        navigate("/admin/requestMaintenance/updateRequestMaintenance", { state: { from: location.pathname, selectedEqipments: selectedRows , requestMaintenance } });	
 
     };
 
@@ -77,6 +78,7 @@ function ListSelectEquipment() {
             navigate("/admin/requestMaintenance/clients/registerRequestMaintenance", { state: { from: undefined, client } });
             return;
         }
+        console.log("sale cliente", requestMaintenance);
         navigate("/admin/requestMaintenance/updateRequestMaintenance", { state: { from: undefined, requestMaintenance } });
 
     }   
