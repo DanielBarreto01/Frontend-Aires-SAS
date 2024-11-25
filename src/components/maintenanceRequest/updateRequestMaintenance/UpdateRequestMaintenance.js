@@ -186,7 +186,7 @@ function UpdateRequestMaintenance() {
   }, [idsTechniciansSelection]);
 
   const handleShowClient = () => {
-    navigate('/admin/requestMaintenance/updateRequestMaintenance/showClient', { state: { client: client } });
+    navigate('/admin/requestMaintenance/updateRequestMaintenance/showClient', { state: { client: client, requestMaintenance } });
 
   }
   const handleClientSelection = () => {

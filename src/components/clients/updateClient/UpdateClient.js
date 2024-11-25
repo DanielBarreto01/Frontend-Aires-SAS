@@ -18,6 +18,7 @@ function UpdateClient () {
     const location = useLocation();
     const navigate = useNavigate();
     const client = location.state?.client;
+    const requestMaintenance = location.state?.requestMaintenance;
     const [isNewComponentVisible, setIsNewComponentVisible] = useState(false);
     const [showModal, setShowModal] = useState(false);  // Estado para mostrar el modal
     const [modalType, setModalType] = useState('');     // Estado para controlar el tipo de acción (cancelar o registrar)
@@ -140,8 +141,12 @@ function UpdateClient () {
     };
 
     const handleShowListClients = () => {
-        if(location.pathname.includes('showClient')){
+        if(location.pathname.includes('/registerRequestMaintenance/showClient')){
             navigate(-1)
+            return;
+        }
+        if(location.pathname.includes('/updateRequestMaintenance/showClient')){
+            navigate('/admin/requestMaintenance/updateRequestMaintenance', { state: {requestMaintenance} });
             return;
         }
        navigate('/admin/clients', { state: { key: Date.now() } });
