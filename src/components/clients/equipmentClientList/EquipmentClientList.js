@@ -12,7 +12,7 @@ import "./EquipmentClientList.css";
 import { useNavigate, Outlet } from 'react-router-dom';
 
 
-const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableEquipment, setIsNewComponentVisibleEquipClient, client}) => {
+const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableEquipment, setIsNewComponentVisibleEquipClient, client }) => {
     const [data, setData] = useState([]);
     const [selectedOption, setSelectedOption] = useState("All");
     const [searchText, setSearchText] = useState('');
@@ -37,7 +37,7 @@ const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableE
                     setIdsEquipmentsSelection(selectionAvailableEquipment.map(equipment => equipment.id));
                     setIsTokenChecked(true);
                     setLoading(true);
-                   
+
                 } else {
                     localStorage.removeItem('authToken');
                     setLoading(false);
@@ -55,7 +55,7 @@ const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableE
     }, []);
 
     const fetchData = async () => {
-        
+
         const token = localStorage.getItem('authToken');
         try {
             const response = await getEquipmentsAvailable(token);
@@ -104,7 +104,7 @@ const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableE
     };
 
     const columns = [
-      
+
         {
             name: 'Equipo',
             selector: row => row.pathImage, // Suponiendo que 'image' es el campo que contiene la URL de la imagen
@@ -166,7 +166,7 @@ const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableE
                 record.serialNumber.toLowerCase().includes(e.target.value) ||
                 record.iventoryNumber.toString().includes(e.target.value.toLowerCase())
         });
-        if(listSearch.length > 0){
+        if (listSearch.length > 0) {
             updateEquipmentSelectionIds(selectedOption);
         }
         setRecords(listSearch)
@@ -179,21 +179,21 @@ const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableE
 
     const handleButtonSave = () => {
 
-        if(client == null){
+        if (client == null) {
 
             setSelectionAvailableEquipment(selectedRows);
             setIsNewComponentVisibleEquipClient(prevState => !prevState);
-        }else{
+        } else {
             setValidateScreenChange(true);
             updateEquipmentSelectionIds(selectedOption);
             setTimeout(() => {
-              setIsNewComponentVisibleEquipClient(prevState => !prevState);
-            }, 500);     
-            
+                setIsNewComponentVisibleEquipClient(prevState => !prevState);
+            }, 500);
+
         }
     };
 
-    if(validateScreenChange){
+    if (validateScreenChange) {
         setSelectionAvailableEquipment((mergeUniqueLists(equipmentsAsigned, equipmentsAvailable).filter(item => idsEquipmentsSelection.includes(item.id))));
         setValidateScreenChange(false);
     }
@@ -211,18 +211,18 @@ const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableE
     ];
 
     function updateList3(list1, list2, list3) {
-         const idsList2 = new Set(list1.map(item => item.id));
-         list3 = list3.filter(item => !(list2.some(el => el.id === item.id) && !idsList2.has(item.id)));
-         list1.forEach(item => {
-             if (idsList2.has(item.id) && !list3.some(existingItem => existingItem.id === item.id)) {
-                 list3.push(item);
-             }
-         });  
-         return list3;
+        const idsList2 = new Set(list1.map(item => item.id));
+        list3 = list3.filter(item => !(list2.some(el => el.id === item.id) && !idsList2.has(item.id)));
+        list1.forEach(item => {
+            if (idsList2.has(item.id) && !list3.some(existingItem => existingItem.id === item.id)) {
+                list3.push(item);
+            }
+        });
+        return list3;
     }
 
     const handleRowSelected = (state) => {
-        if(records.length > 0){
+        if (records.length > 0) {
             setSelectedRows(updateList3(state.selectedRows, records, selectedRows))
         }
     };
@@ -241,12 +241,12 @@ const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableE
 
         const filteredList1 = idsEquipmentsSelection.filter(item => referenceList.includes(item));
         const updatedList2 = updateLists(referenceList, comparisonList);
-        
+
         setIdsEquipmentsSelection([...new Set([...filteredList1, ...updatedList2])]);
     };
 
     const handleRoleChange = (newSelectedOption) => {
-        setSearchText(''); 
+        setSearchText('');
         setSelectedOption(newSelectedOption);
         if (newSelectedOption === "All") {
             setLoading(true);
@@ -254,7 +254,7 @@ const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableE
                 fetchData();
                 setData(mergeUniqueLists(equipmentsAsigned, equipmentsAvailable))
                 setRecords(mergeUniqueLists(equipmentsAsigned, equipmentsAvailable));
-            }, 200);     
+            }, 200);
         } else if (newSelectedOption === "Asigned") {
             setData(equipmentsAsigned);
             setRecords(equipmentsAsigned);
@@ -262,11 +262,11 @@ const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableE
         } else if (newSelectedOption === "Available") {
             setData(equipmentsAvailable);
             setRecords(equipmentsAvailable);
-        } 
+        }
 
 
         updateEquipmentSelectionIds(selectedOption);
-        
+
     };
 
     const selectableRowSelected = useMemo(() => {
@@ -284,12 +284,12 @@ const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableE
         return null;
     }
 
-    
+
     const customStyles = {
         tableWrapper: {
-          style: {
-            height: '590px', // Define la altura total deseada para la tabla
-          },
+            style: {
+                height: '590px', // Define la altura total deseada para la tabla
+            },
         },
 
         pagination: {
@@ -304,10 +304,15 @@ const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableE
 
     return (
         <div className='row'>
-            <div className='col-12 col-md-5 title1'>
-                <h2 className="text-start title">Equipos para {`${client.name || ''} ${client.lastName || ''}`.trim() || client.nameCompany} </h2>
-            </div>
-
+            {client ? (
+                <div className='col-12 col-md-5 title1'>
+                    <h2 className="text-start title">Equipos para {`${client?.name || ''} ${client?.lastName || ''}`.trim() || client?.nameCompany} </h2>
+                </div>
+            ) : (
+                <div className='col-12 col-md-5 title1'>
+                    <h2 className="text-start title">Asignar equipos</h2>
+                </div>
+            )}
             <div className='col-6 col-sm-6 col-md-4 ' >
                 <form >
                     <div className='input-container'>
@@ -315,7 +320,7 @@ const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableE
                         <input className="form-control input-style"
                             placeholder="Buscar por: Id, Marca, Modelo, No. serie o No. inventario"
                             type="search"
-                            value={searchText} 
+                            value={searchText}
                             onChange={handleChange}
                         />
                     </div>
