@@ -1,10 +1,20 @@
 
 .gallery-scroll-container {
-    height: auto !important; /* Ocupa el 100% de la altura de su contenedor padre */
-    overflow-y: auto !important; /* Habilita el scroll vertical */
+    height: auto !important; 
+    overflow-y: auto !important; 
     padding: 10px;
-    box-sizing: border-box;/* Espacio entre el borde y los elementos de la galería */
+    box-sizing: border-box;
 }
+
+.gallery-scroll-container-mante {
+    height: 78vh; 
+    overflow-y: auto; 
+    padding: 10px;
+    box-sizing: border-box; 
+    min-height: 400px; 
+  
+}
+
 .clients-l{
     padding-bottom: 15px;
 }

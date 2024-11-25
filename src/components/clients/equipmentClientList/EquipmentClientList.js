@@ -305,7 +305,7 @@ const EquipmentUserList = ({ selectionAvailableEquipment, setSelectionAvailableE
     return (
         <div className='row'>
             {client ? (
-                <div className='col-12 col-md-5 title1'>
+                <div className='col-12 col-lg-5 title1'>
                     <h2 className="text-start title">Equipos para {`${client?.name || ''} ${client?.lastName || ''}`.trim() || client?.nameCompany} </h2>
                 </div>
             ) : (
