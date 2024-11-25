@@ -296,9 +296,10 @@ function RegisterRequestMaintenance() {
       </div>
 
 
-      <div className='col-12' style={{ backgroundColor: '' }}>
+      <div className='col-12' >
 
         <div className=' row info-client-maintenance'>
+
           <h3 className="text-start titleM" style={{ margin: '' }}>Información cliente</h3>
 
           <div className='col-lg-4 col-md-6 col-12' >
@@ -357,6 +358,7 @@ function RegisterRequestMaintenance() {
 
             <div className='row table-container-update-client'>
               <div className='col-12 col-md-5 title-equip' ><h2>Equipos</h2></div>
+
               <div className='col-12 col-md-7 button-group-list-equip'>
                 <button className='button-clean' onClick={selectionEquipments} disabled={isEditingButtons}>
                   Seleccionar
@@ -435,12 +437,12 @@ function RegisterRequestMaintenance() {
                   )}
                 />
               </div>
-
             </div>
-
           </div>
         </div>
       </div>
+
+
 
       <div className="col-lg-6" ></div>
 

@@ -14,7 +14,7 @@ function UpdateRequestMaintenance() {
   const navigate = useNavigate();
   const location = useLocation();
   const requestMaintenance = location.state?.requestMaintenance;
-  const client = useMemo(() => { return  typeof location.state?.newClient === 'undefined'? requestMaintenance?.client : location.state?.newClient}, [requestMaintenance, location.state?.newClient]);
+  const client = useMemo(() => { return typeof location.state?.newClient === 'undefined' ? requestMaintenance?.client : location.state?.newClient }, [requestMaintenance, location.state?.newClient]);
   const from = location.state?.from || '';
   const [isTokenChecked, setIsTokenChecked] = useState(false);
   const [recordsTechnician, setRecordsTechnician] = useState([]);
@@ -32,7 +32,7 @@ function UpdateRequestMaintenance() {
   const [modalType, setModalType] = useState('');
   const [showModalClean, setShowModalClean] = useState(false);
   const [isEditingFormulary, setIsEditingFormulary] = useState(false);
- 
+
 
   const fetchData = useCallback(async () => {
     setLoading(true);
@@ -46,16 +46,16 @@ function UpdateRequestMaintenance() {
       setIdsTechniciansSelection([requestMaintenance?.technician.id] || []);
       console.log('cliente', client)
       console.log('cliente rquest', requestMaintenance?.client)
-    
+
     } catch (error) {
       console.error('Error al obtener los técnicos y equipos:', error);
     }
     setLoading(false);
-  }, [ client, requestMaintenance]);
+  }, [client, requestMaintenance]);
 
   useEffect(() => {
     try {
-     // typeof client === 'undefined'? navigate('/admin/requestMaintenance'):
+      // typeof client === 'undefined'? navigate('/admin/requestMaintenance'):
       setLoading(false);
       const token = localStorage.getItem('authToken');
       if (token !== null && jwtDecode(token).exp * 1000 > Date.now()) { // && jwtDecode(token).exp*1000 >  Date.now()
@@ -67,11 +67,11 @@ function UpdateRequestMaintenance() {
           const selectedTechnicians = location.state?.selectedTechnicians || [];
           setIdsTechniciansSelection(selectedTechnicians.map(item => item.id) || [])
         }
-         fetchData()
-     
-        
+        fetchData()
+
+
         setIsTokenChecked(true);
-      
+
       } else {
         localStorage.removeItem('authToken');
         setLoading(false);
@@ -154,7 +154,7 @@ function UpdateRequestMaintenance() {
 
   const handleShowClient = () => {
     console.log('dhdhhdhd', client)
-    navigate('/admin/requestMaintenance/updateRequestMaintenance/showClient', { state: { client:client } });
+    navigate('/admin/requestMaintenance/updateRequestMaintenance/showClient', { state: { client: client } });
   }
   const handleClientSelection = () => {
     navigate('/admin/requestMaintenance/updateRequestMaintenance/selectionClient');
@@ -185,7 +185,7 @@ function UpdateRequestMaintenance() {
     setIsEditingFormulary(true);
   }
 
-  const handleGoBack = () => {  
+  const handleGoBack = () => {
     navigate('/admin/requestMaintenance', { state: { key: Date.now() } });
   }
 
@@ -208,14 +208,14 @@ function UpdateRequestMaintenance() {
 
   const handleConfirmAction = async () => {
     setShowModal(false);
-    if(modalType === 'cancel'){
+    if (modalType === 'cancel') {
       // setSelectedRowsEquipments([]);
       // setSelectedRowsTechnicians([]);
       // setIdsEquipmentsSelection([]);
       // setIdsTechniciansSelection([]);
       setIsEditingFormulary(false);
-     
-    }else if (modalType === 'register') {
+
+    } else if (modalType === 'register') {
       const token = localStorage.getItem('authToken');
       try {
         const sendData = {
@@ -249,10 +249,10 @@ function UpdateRequestMaintenance() {
   }
 
 
-  const cleanTables  = (type) => {
-    if(selectedRowsEquipments.length ===0 && type === 'equipments'){
+  const cleanTables = (type) => {
+    if (selectedRowsEquipments.length === 0 && type === 'equipments') {
       return
-    }else if(selectedRowsTechnicians.length === 0 && type === 'technician'){
+    } else if (selectedRowsTechnicians.length === 0 && type === 'technician') {
       return
     }
     setModalType(type)
@@ -261,10 +261,10 @@ function UpdateRequestMaintenance() {
 
   const handleConfirmActionClean = () => {
     setShowModalClean(false)
-    if(modalType === 'equipments'){
+    if (modalType === 'equipments') {
       setSelectedRowsEquipments([]);
       setIdsEquipmentsSelection([]);
-    }else{
+    } else {
       setSelectedRowsTechnicians([]);
       setIdsTechniciansSelection([]);
     }
@@ -302,6 +302,15 @@ function UpdateRequestMaintenance() {
     return <div>Cargando...</div>; // O cualquier mensaje de carga que desees
   }
 
+  const customStyles = {
+    tableWrapper: {
+      style: {
+        height: '209px', // Define la altura total deseada para la tabla
+      },
+    },
+  };
+
+
 
   return (
     <div className=' full-screen-scrollable row'>
@@ -310,200 +319,207 @@ function UpdateRequestMaintenance() {
         <h2 className="text-start title">Información Mantenimiento </h2>
       </div>
 
-      <div className='content row '>
-        {/* 
-        <div className='container-image col-12 col-md-4'>
-          <img src={client.pathImage} alt="Imagen de perfil" className="profile-image" />
-        </div> */}
+      <div className='col-12' >
+        <div className=' row info-client-maintenance'>
+
+          <h3 className="text-start titleM">Información cliente</h3>
+
+          <div className='col-lg-4 col-md-6 col-12' >
+            <label>Cliente:</label>
+            <span>{`${client.name || ''} ${client.lastName || ''}`.trim() || client.nameCompany}</span>
+          </div>
+
+          <div className='col-12   col-md-6  col-lg-4 '>
+            <label>Tipo de Identificación: </label>
+            <span>{client.clientType === "NaturalPerson" ? client.typeIdentification : 'NIT'}</span>
+          </div>
+
+          <div className='col-12   col-md-6  col-lg-4'>
+            <label>Número de Identificación: </label>
+            <span>{client.clientType === "NaturalPerson" ? client.numberIdentification : client.numberIdentificationCompany}</span>
+          </div>
+
+          <div className='col-12   col-md-6  col-lg-4'>
+            <label>Número de Teléfono:</label>
+            <span>{client.phoneNumber}</span>
+
+          </div>
+
+          <div className='col-12   col-md-6  col-lg-4'>
+            <label>Correo Electrónico:</label>
+            <span>{client.email}</span>
+
+          </div>
+
+          <div className='col-12   col-md-6  col-lg-4'>
+            <label>Dirección:</label>
+            <span>{client.address}</span>
+
+          </div>
 
 
-        <div className='col-md-12 '>
-          <div className='row data'>
-            <h2 className="text-start title">Información cliente</h2>
-            <div className='col-lg-4 col-md-6 col-12'>
-              <label>Cliente:</label>
-              <span>{`${client.name || ''} ${client.lastName || ''}`.trim() || client.nameCompany}</span>
-            </div>
-            {/* 
-            <div className='col-md-6'>
-              <label >Apellido:</label>
-              <span>{user.lastName}</span>
-            </div> */}
+          <div className='col-12 col-lg-7' > </div>
+
+          <div className='col-12  col-lg-5 button-deta'>
+
+            {isEditingFormulary ? (
+              <>
+                <button type="button" className='button-confirmationn' onClick={handleClientSelection} disabled={isEditingButtons} >
+                  Seleccionar
+                </button>
+
+              </>) : (
+              <>
+                <button type="button" className='button-confirmationn' onClick={handleShowClient} >
+                  Detalles
+                </button>
+              </>)}
+          </div>
+        </div>
+      </div>
 
 
-            <div className='col-lg-4 col-md-6 col-12  '>
-              <label>Tipo de Identificación:</label>
-              <span>{client.clientType === "NaturalPerson" ? client.typeIdentification : 'NIT'}</span>
-            </div>
-
-            <div className='col-lg-4 col-md-6 col-12'>
-              <label>Número de Identificación:</label>
-              <span>{client.clientType === "NaturalPerson" ? client.numberIdentification : client.numberIdentificationCompany}</span>
-            </div>
-
-            <div className='col-lg-4 col-md-6 col-12'>
-              <label>Número de Teléfono:</label>
-              <span>{client.phoneNumber}</span>
-
-            </div>
-
-            <div className='col-lg-4 col-md-6 col-12'>
-              <label>Correo Electrónico:</label>
-              <span>{client.email}</span>
-
-            </div>
-
-            <div className='col-lg-4 col-md-6 col-12'>
-              <label>Dirección:</label>
-              <span>{client.address}</span>
-
-            </div>
-
-            <div className='row'>
-              <div className='col-lg-6 col-12'> </div>
-              <div className="col-lg-6 col-12 button-group">
-                {isEditingFormulary ? (
+      <div className='col-12 mt-3' >
+        <div className='row'>
+          <div className='col-12 col-lg-6'>
+            <div className='row table-container-update-client'>
+              <div className='col-12 col-md-5 title-equip' ><h2>Equipos</h2></div>
+              <div className='col-12 col-md-7 button-group-list-equip'>
+                {isEditingFormulary && (
                   <>
-                    <button type="button" className='button-confirmationn' onClick={handleClientSelection} disabled={isEditingButtons}>
+                    <button className='button-clean' onClick={selectionEquipments} disabled={isEditingButtons}>
                       Seleccionar
                     </button>
-                  </>
-                ) : (
-                  <>
-                    <button type="button" className='button-confirmationn' onClick={handleShowClient} >
-                      Detalles
+
+                    <button className='button-clean' onClick={() => cleanTables('equipments')} disabled={isEditingButtons}>
+                      Deseleccionar
                     </button>
+
+                  </>)}
+
+              </div>
+
+              <div className="table-container-client-list-quip">
+                <DataTable
+                  columns={columnsEquipments}
+                  data={recordsEquipments || []}
+                  pagination
+                  paginationPerPage={1}
+                  fixedHeader
+                  persistTableHead
+                  fixedHeaderScrollHeight="28vh"
+                  selectableRows={isEditingFormulary}
+                  selectableRowsSingle={isEditingFormulary}
+                  onSelectedRowsChange={isEditingFormulary ? handleRowSelectedEquipments : undefined}
+                  selectableRowSelected={isEditingFormulary ? selectableRowSelectedEquipments : undefined}
+                  // conditionalRowStyles={conditionalRowStyles}
+                  // paginationComponentOptions={customPaginationOptions}
+                  noDataComponent="No hay datos disponibles"
+                  customStyles={customStyles}
+                  progressComponent={(
+                    <div className="loading-overlay">
+                      <Spinner animation="border" size="lg" />
+                    </div>
+                  )}
+                />
+              </div>
+
+
+            </div>
+          </div>
+
+
+          <div className='col-12 col-lg-6'>
+            <div className='row table-container-update-client'>
+              <div className='col-12 col-md-5 title-equip' ><h2>Técnico</h2></div>
+              <div className='col-12 col-md-7 button-group-list-equip'>
+                {isEditingFormulary && (
+                  <>
+                    <button className='button-clean' onClick={selectionTechnician} disabled={isEditingButtons}>
+                      Seleccionar
+                    </button>
+
+                    <button className='button-clean' onClick={() => cleanTables('technician')} disabled={isEditingButtons}>
+                      Deseleccionar
+                    </button>
+
                   </>
                 )}
               </div>
+
+
+              <div className="table-container-client-list-quip">
+
+                <DataTable
+                  columns={columnsTechnical}
+                  data={recordsTechnician || []}
+                  pagination
+                  paginationPerPage={1}
+                  fixedHeader
+                  persistTableHead
+                  fixedHeaderScrollHeight="28vh"
+                  selectableRows={isEditingFormulary}
+                  selectableRowsSingle={isEditingFormulary}
+                  onSelectedRowsChange={isEditingFormulary ? handleRowSelectedTechnicians : undefined}
+                  selectableRowSelected={isEditingFormulary ? selectableRowSelectedTechnicians : undefined}
+                  // conditionalRowStyles={conditionalRowStyles}
+                  // paginationComponentOptions={customPaginationOptions}
+                  noDataComponent="No hay datos disponibles"
+                  customStyles={customStyles}
+                  progressComponent={(
+                    <div className="loading-overlay">
+                      <Spinner animation="border" size="lg" />
+                    </div>
+                  )}
+                />
+              </div>
             </div>
-
           </div>
-
-
         </div>
       </div>
-      <div className='row'>
-        <div className='col-lg-6 col-12'>
-          <div className='row table-container-update-client'>
 
-            <div className='col-12 col-md-5 title-equip' ><h2>Equipos</h2></div>
-            <div className='col-12 col-md-7 button-group-list-equip'>
-              {isEditingFormulary && (
-                <>
-                  <button className='button-clean' onClick={selectionEquipments} >
-                    Seleccionar
-                  </button>
-                  <button className='button-clean' onClick={() => cleanTables('equipments')} >
-                    Limpiar
-                  </button>
-                </>)}
-            </div>
 
-            <div className="table-container-client-list-quip">
-              <DataTable
-                columns={columnsEquipments}
-                data={recordsEquipments || []}
-                pagination
-                paginationPerPage={1}
-                fixedHeader
-                persistTableHead
-                fixedHeaderScrollHeight="20vh"
-                selectableRows={isEditingFormulary}
-                selectableRowsSingle={isEditingFormulary}
-                onSelectedRowsChange={isEditingFormulary ? handleRowSelectedEquipments : undefined}
-                selectableRowSelected={isEditingFormulary ? selectableRowSelectedEquipments : undefined}
-                // conditionalRowStyles={conditionalRowStyles}
-                // paginationComponentOptions={customPaginationOptions}
-                noDataComponent="No hay datos disponibles"
-                progressComponent={(
-                  <div className="loading-overlay">
-                    <Spinner animation="border" size="lg" />
-                  </div>
-                )}
-              />
-            </div>
+      <div className="col-lg-6" ></div>
+      <div className='col-lg-6 button-group '>
+        {isEditingFormulary ? (
+          <>
 
-          </div>
-        </div>
+            <button type="submit" className='button-confirmationn' onClick={handleSaveRegister} >
+              Gardar cambios
+            </button>
+            <button className='button-cancell' onClick={handleCancelRegister}>
+              Cancelar edición
+            </button>
 
-        <div className='col-lg-6 col-12'>
-          <div className='row table-container-update-client'>
 
-            <div className='col-12 col-md-5 title-equip' ><h2>Técnico</h2></div>
-            <div className='col-12 col-md-7 button-group-list-equip'>
-              {isEditingFormulary && (
-                <>
-                  <button className='button-clean' onClick={selectionTechnician} >
-                    Seleccionar
-                  </button>
-                  <button className='button-clean' onClick={() => cleanTables('technician')}>
-                    Limpiar
-                  </button>
-                </>
-              )}
-            </div>
+          </>
+        ) : (
+          <>
 
-            <div className="table-container-client-list-quip">
-              <DataTable
-                columns={columnsTechnical}
-                data={recordsTechnician || []}
-                pagination
-                paginationPerPage={1}
-                fixedHeader
-                persistTableHead
-                fixedHeaderScrollHeight="20vh"
-                selectableRows={isEditingFormulary}
-                selectableRowsSingle={isEditingFormulary}
-                onSelectedRowsChange={isEditingFormulary ? handleRowSelectedTechnicians : undefined}
-                selectableRowSelected={isEditingFormulary ? selectableRowSelectedTechnicians : undefined}
-                // conditionalRowStyles={conditionalRowStyles}
-                // paginationComponentOptions={customPaginationOptions}
-                noDataComponent="No hay datos disponibles"
-                progressComponent={(
-                  <div className="loading-overlay">
-                    <Spinner animation="border" size="lg" />
-                  </div>
-                )}
-              />
-            </div>
-            <ConfirmationModal
-              show={showModalClean}
-              onConfirm={handleConfirmActionClean}
-              onHide={handleCloseModal}
-              title= "Confirmar limpieza de selección"
-              bodyText="¿Estás seguro de que deseas limpiar la selección? Se eliminarán todas las selecciones actuales en la tabla."
-              confirmText= "Sí"
-              cancelText="No"
-              containerId="modal-container"
-            />
+            <button type="submit" className='button-confirmationn' onClick={handleEditingFormulary} disabled={isEditingButtons}>
+              Editar
+            </button>
+            <button className='button-cancell' onClick={handleGoBack} disabled={isEditingButtons}>
+              Regresar
+            </button>
 
-          </div>
-        </div>
-        <div className="col-lg-6" ></div>
-        <div className="col-lg-6 button-group">
-          {isEditingFormulary ? (
-            <>
-              <button type="submit" className='button-confirmationn' onClick={handleSaveRegister} >
-                Gardar cambios
-              </button>
-              <button className='button-cancell' onClick={handleCancelRegister}>
-                Cancelar edición
-              </button>
-            </>
-          ) : (
-            <>
-              <button type="submit" className='button-confirmationn' onClick={handleEditingFormulary} disabled={isEditingButtons}>
-                Editar
-              </button>
-              <button className='button-cancell' onClick={handleGoBack} disabled={isEditingButtons}>
-                Regresar
-              </button>
-
-            </>)}
-        </div>
+          </>)}
       </div>
-      <ConfirmationModal 
+
+
+      <ConfirmationModal
+        show={showModalClean}
+        onConfirm={handleConfirmActionClean}
+        onHide={handleCloseModal}
+        title="Confirmar limpieza de selección"
+        bodyText="¿Estás seguro de que deseas limpiar la selección? Se eliminarán todas las selecciones actuales en la tabla."
+        confirmText="Sí"
+        cancelText="No"
+        containerId="modal-container"
+      />
+
+
+      <ConfirmationModal
         show={showModal}
         onHide={handleCloseModal}
         onConfirm={handleConfirmAction}
@@ -514,7 +530,7 @@ function UpdateRequestMaintenance() {
         confirmText={modalType === 'cancel' ? "Sí" : "Sí"}
         cancelText="No"
         containerId="modal-container"
-      /> 
+      />
 
       {loading && (
         <div className="loading-overlay">
@@ -529,9 +545,7 @@ function UpdateRequestMaintenance() {
         toastMessage={toastMessage}
         toastType={toastType}
       />
-
-    </div >
-
+    </div>
   );
 }
 
