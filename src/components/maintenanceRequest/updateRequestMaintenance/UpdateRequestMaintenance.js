@@ -10,6 +10,7 @@ import { updateRequestMaintenace } from '../../../api/MaintenanceService'
 import CustomToast from '../../toastMessage/CustomToast';
 import ConfirmationModal from "../../ConfirmationModal/ConfirmationModal";
 import { set } from 'date-fns';
+import { se } from 'date-fns/locale';
 
 
 function UpdateRequestMaintenance() {
@@ -41,11 +42,18 @@ function UpdateRequestMaintenance() {
     setLoading(true);
     const token = localStorage.getItem('authToken');
     try {
+      console.log('entraaa', location.state?.from)
       if (typeof location.state?.from !== 'undefined' || typeof newClient !== "undefined") {
         const technician = await getUsersWithoutAdminRole(token);
-        const sortedData = [
-          ...location.state?.selectedTechnicians || [],
-          ...location.state?.selectedTechnicians ? (technician?.data).filter(tech => tech.id !== location.state?.selectedTechnicians.id) : technician?.data]
+        const selectedTechnicians = location.state?.selectedTechnicians || selectedRowsTechnicians;
+        const remainingTechnicians = (technician?.data || []).filter(
+          tech => !selectedTechnicians.some(selected => selected.id === tech.id)
+        );
+
+        const sortedData = [...selectedTechnicians, ...remainingTechnicians];
+        // const sortedData = [
+        //   ...location.state?.selectedTechnicians || [],
+        //   ...location.state?.selectedTechnicians ? (technician?.data).filter(tech => tech.id !== location.state?.selectedTechnicians.id) : technician.data]
         const equipments = await getEquipmentsIdClientAviable(client?.id, token);
         setRecordsEquipments(equipments);
         setRecordsTechnician(sortedData);
@@ -60,7 +68,7 @@ function UpdateRequestMaintenance() {
     setTimeout(() => {
       setLoading(false);
 
-    }, 300);
+    }, 6000);
   }, [client, location.state?.from, location.state?.selectedTechnicians, newClient]);
 
   useEffect(() => {
@@ -112,7 +120,9 @@ function UpdateRequestMaintenance() {
     } catch (error) {
       console.error('Error al obtener los técnicos y equipos:', error);
     }
+    setTimeout(() => {
     setLoading(false);
+    }, 400);
   }, [client, requestMaintenance]);
 
 
@@ -479,7 +489,7 @@ function UpdateRequestMaintenance() {
               <div className='col-12 col-md-7 button-group-list-equip'>
                 {isEditingFormulary && (
                   <>
-                    <button className='button-clean' onClick={selectionEquipments} >
+                    <button className='button-clean' onClick={selectionTechnician} >
                       Seleccionar
                     </button>
                     <button className='button-clean' onClick={() => cleanTables('equipments')} >
@@ -501,14 +511,9 @@ function UpdateRequestMaintenance() {
                   selectableRowsSingle
                   onSelectedRowsChange={handleRowSelectedTechnicians}
                   selectableRowSelected={selectableRowSelectedTechnicians}
-                  conditionalRowStyles={isEditingFormulary ? [] : [
-                    {
-                      when: row => true, // Deshabilitar el checkbox si no estamos en edición
-                      style: {
-                        pointerEvents: 'none', // Esto desactiva la interacción con los checkboxes
-                      }
-                    }
-                  ]}
+                  selectableRowsComponentProps={{
+                    disabled: !isEditingFormulary // Desactiva el checkbox general si no estamos en edición
+                  }}
                   // paginationComponentOptions={customPaginationOptions}
                   noDataComponent="No hay datos disponibles"
                   progressComponent={(
