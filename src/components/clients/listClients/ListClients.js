@@ -162,7 +162,7 @@ const ListClients = () => {
                     : <h2 className="text-start title">Clientes</h2>)}
             </div>
 
-            <div className='col-6 col-lg-4 ' >
+            <div className='  col-md-6 col-lg-4 ' >
                 <form >
                     <div className='input-container'>
                         <FontAwesomeIcon icon={faSearch} className="icon" />
@@ -178,7 +178,7 @@ const ListClients = () => {
 
             </div>
 
-            <div className='col-6 col-md-2' >
+            <div className=' col-md-6 col-lg-2' >
                 <Form>
                     <Form.Group controlId="rolesPro" className="dropdown">
                         <div className="dropdown-container">
