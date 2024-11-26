@@ -201,7 +201,7 @@ const EquipmentClientSelectionList = () => { //{client, setSelectionEqipmentsCli
     return (
         
         <div className='row'>
-            <div className='col-12 col-md- title1' style={{backgroundColor:'blue'}}>
+            <div className='col-12 col-md- title1'>
                 <h2 className="text-start title">Equipos {`${client.name || ''} ${client.lastName || ''}`.trim() || client.nameCompany}</h2>
             </div>
 
