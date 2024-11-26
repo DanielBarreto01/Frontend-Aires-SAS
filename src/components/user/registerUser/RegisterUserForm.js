@@ -266,7 +266,7 @@ function RegisterUserForm({ formData,
 
                             </div>
 
-                            <div className=" col-12 button-group" style={{backgroundColor:'red'}}>
+                            <div className=" col-12 button-group" >
 
                                 <button type="submit" className='button-confirmationn' disabled={isEditingButtons} onClick={handleRegister}>
                                     Registrar Usuarios
