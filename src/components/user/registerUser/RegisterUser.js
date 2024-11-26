@@ -149,34 +149,34 @@ function RegisterUser() {
             const dataUser = await uploadImage();
             console.log('Data User:', dataUser);
             setLoading(false);
-            // axios.post('/users/create', dataUser, config) // Usa la ruta relativa
-            //     .then(response => {
-            //         setLoading(false);
-            //         setToastMessage(response.data || 'Usuario registrado con éxito');
-            //         setToastType('success');
-            //         setShowToast(true);
-            //         setIsEditingButtons(true);
-            //         setTimeout(() => {
-            //             setFormData(defaultUserData);
-            //             setIsNewComponentVisible(true);
-            //         }, 3000);
-            //     })
-            //     .catch(error => {
-            //         console.error('Error registering user:', error);
-            //         if (!error.response) {
-            //             setToastMessage('No se puede conectar al servidor. Verifica tu conexión o intenta más tarde.');
-            //             setToastType('danger');
-            //         } else {
-            //             const errorMessage =
-            //                 error.response.data && error.response.data
-            //                     ? error.response.data
-            //                     : 'Error al registrar el usuario. Inténtalo de nuevo.';
-            //             setToastMessage(errorMessage);  // Mostrar el mensaje de error del backend
-            //             setToastType('danger');  // Tipo de mensaje (error)
-            //         }
-            //         setLoading(false);
-            //         setShowToast(true);
-            //     });
+            axios.post('/users/create', dataUser, config) // Usa la ruta relativa
+                .then(response => {
+                    setLoading(false);
+                    setToastMessage(response.data || 'Usuario registrado con éxito');
+                    setToastType('success');
+                    setShowToast(true);
+                    setIsEditingButtons(true);
+                    setTimeout(() => {
+                        setFormData(defaultUserData);
+                        setIsNewComponentVisible(true);
+                    }, 3000);
+                })
+                .catch(error => {
+                    console.error('Error registering user:', error);
+                    if (!error.response) {
+                        setToastMessage('No se puede conectar al servidor. Verifica tu conexión o intenta más tarde.');
+                        setToastType('danger');
+                    } else {
+                        const errorMessage =
+                            error.response.data && error.response.data
+                                ? error.response.data
+                                : 'Error al registrar el usuario. Inténtalo de nuevo.';
+                        setToastMessage(errorMessage);  // Mostrar el mensaje de error del backend
+                        setToastType('danger');  // Tipo de mensaje (error)
+                    }
+                    setLoading(false);
+                    setShowToast(true);
+                });
         }
     };
 
